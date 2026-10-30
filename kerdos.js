@@ -109,6 +109,46 @@
   };
   K.scan();
   let mt; new MutationObserver(() => { clearTimeout(mt); mt = setTimeout(K.scan, 30); }).observe(d.body, { childList: true, subtree: true });
+
+  /* ---------- line charts draw themselves in as they scroll into view ----------
+     Every stroked, unfilled path inside a .chart svg starts hidden and is traced left to right the first time
+     the chart is a third on screen. A chart redrawn by a tap (ticker or range toggle) traces again; one redrawn
+     by a resize or by the phone's address bar showing/hiding stays as it is. */
+  if (!reduce && 'IntersectionObserver' in window) {
+    let tap = -1e9; const DUR = 1500;
+    const mark = () => { tap = performance.now(); };
+    d.addEventListener('pointerdown', mark, true); d.addEventListener('keydown', mark, true);
+    const strokes = svg => [...svg.querySelectorAll('path')].filter(p => p.getAttribute('fill') === 'none' && (p.getAttribute('stroke') || 'none') !== 'none');
+    const dots = svg => svg.querySelectorAll('circle:not(.hd)');
+    const prep = svg => {
+      const ps = strokes(svg); if (!ps.length) return false;
+      ps.forEach(p => { let L = 0; try { L = p.getTotalLength(); } catch (e) {} if (!L) return;
+        p.style.transition = 'none'; p.style.strokeDasharray = L + ' ' + L; p.style.strokeDashoffset = L; });
+      dots(svg).forEach(c => { c.style.transition = 'none'; c.style.opacity = 0; });
+      return true;
+    };
+    const play = svg => {
+      const ps = strokes(svg);
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        ps.forEach((p, i) => { p.style.transition = `stroke-dashoffset ${DUR}ms cubic-bezier(.33,.0,.15,1) ${200 + i * 140}ms`; p.style.strokeDashoffset = 0; });
+        dots(svg).forEach(c => { c.style.transition = `opacity .4s ease ${DUR + 50}ms`; c.style.opacity = ''; });
+        setTimeout(() => ps.forEach(p => { p.style.transition = ''; p.style.strokeDasharray = ''; p.style.strokeDashoffset = ''; }), DUR + 300 + ps.length * 140);
+      }));
+    };
+    const lio = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return; lio.unobserve(e.target); play(e.target);
+    }), { threshold: 0.33, rootMargin: '0px 0px -6% 0px' });
+    const seen = new WeakSet();
+    const drawScan = () => d.querySelectorAll('.chart svg').forEach(svg => {
+      if (seen.has(svg)) return; seen.add(svg);
+      const host = svg.closest('.chart');
+      if (host.dataset.kd && performance.now() - tap > 1200) return;
+      host.dataset.kd = '1';
+      if (prep(svg)) lio.observe(svg);
+    });
+    drawScan();
+    new MutationObserver(drawScan).observe(d.body, { childList: true, subtree: true });
+  }
   };
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', boot); else boot();
   /* ================= shared chart kit ================= */
