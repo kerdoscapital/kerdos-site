@@ -1,6 +1,6 @@
 {
  "asof": "2026-10-29",
- "generated": "2026-10-30 14:08 UTC",
+ "generated": "2026-10-30 15:43 UTC",
  "spy": 769.36,
  "qqq": 715.34,
  "spy_chg": {
@@ -990,6 +990,140 @@
     "bh_sharpe": 0.76
    }
   ]
+ },
+ "crash_watch": {
+  "status": "Watch",
+  "on": 6,
+  "total": 10,
+  "items": [
+   {
+    "key": "late",
+    "label": "VIX lifting off its low while SPY is near its high after a strong year",
+    "seen": 8,
+    "on": true,
+    "reading": "VIX 17.2 vs 3-month low 14.2 (+21%); last fired 2026-10-21"
+   },
+   {
+    "key": "run",
+    "label": "12-month gain of 12% or more",
+    "seen": 10,
+    "on": true,
+    "reading": "SPY +12.0% over 12 months"
+   },
+   {
+    "key": "ext",
+    "label": "SPY 6% or more above its 200-day average",
+    "seen": 9,
+    "on": false,
+    "reading": "+5.6% vs the 200-day"
+   },
+   {
+    "key": "b50",
+    "label": "Close below the 50-day average in the last 10 sessions",
+    "seen": 10,
+    "on": true,
+    "reading": "5 of the last 10 closes below the 50-day"
+   },
+   {
+    "key": "b200",
+    "label": "Close below the 200-day average",
+    "seen": 9,
+    "on": false,
+    "reading": "+5.6% vs the 200-day"
+   },
+   {
+    "key": "fed",
+    "label": "Fed tightening: 3-month bill up 0.25 pt or more in 6 months",
+    "seen": 8,
+    "on": true,
+    "reading": "3-month bill +0.33 pt in 6 months"
+   },
+   {
+    "key": "y10",
+    "label": "10-year yield up 0.5 pt or more in 6 months",
+    "seen": 5,
+    "on": true,
+    "reading": "10-year 4.99% (+0.74 pt in 6 months)"
+   },
+   {
+    "key": "narrow",
+    "label": "Narrow leadership: equal-weight trailing by 2% or more over 3 months",
+    "seen": 6,
+    "on": false,
+    "reading": "RSP/SPY \u22120.6% in 3 months"
+   },
+   {
+    "key": "curve",
+    "label": "Yield curve inverted within the last 2 years",
+    "seen": 4,
+    "on": true,
+    "reading": "10y\u20133m +1.05 pt (un-inverted within 2 years)"
+   },
+   {
+    "key": "credit",
+    "label": "Credit spreads widening: Baa\u201310y up 0.2 pt or more in 3 months",
+    "seen": 3,
+    "on": false,
+    "reading": "Baa\u201310y 1.48 pt (\u22120.05 in 3 months)"
+   }
+  ],
+  "warn_today": false,
+  "last_fired": "2026-10-21",
+  "below50": false,
+  "params": {
+   "near": -0.02,
+   "vix": 1.2,
+   "run": 0.15,
+   "memory": 30
+  },
+  "odds": {
+   "base": 18.0,
+   "base_days": 2893,
+   "warn": 33.0,
+   "warn_days": 363,
+   "alarm": 36.0,
+   "alarm_days": 501
+  },
+  "tested": {
+   "spy": {
+    "cagr": [
+     14.0,
+     13.8
+    ],
+    "maxdd": [
+     -19.4,
+     -18.1
+    ],
+    "sharpe": [
+     0.9,
+     0.94
+    ],
+    "late_cagr": [
+     15.1,
+     13.8
+    ]
+   },
+   "qqq": {
+    "cagr": [
+     18.4,
+     18.0
+    ],
+    "maxdd": [
+     -24.0,
+     -21.7
+    ],
+    "sharpe": [
+     0.97,
+     1.0
+    ],
+    "late_cagr": [
+     20.4,
+     18.6
+    ]
+   }
+  },
+  "episodes": 10,
+  "study": "S&P 500 declines of 10%+ since Oct 2006"
  },
  "freshness": {
   "SPY": "2026-10-29",

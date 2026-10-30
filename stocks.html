@@ -527,6 +527,23 @@ function render(R,S,H,EQ){
     <div class="k-drivers">${ORDER.map(g=>{const v=G[g];const s=v>.1?'pos':v<-.1?'neg':'flat';
       return `<div class="k-drv" data-s="${s}"><div class="nm"><i></i>${g[0].toUpperCase()+g.slice(1)}<span class="mono muted" style="font-size:11px;font-weight:400">${Math.round(R.group_weights[g]*100)}% wt</span></div><div class="val">${kn(v,2)}</div><div class="tx"><b>${word2(v)}.</b> ${det(g)}</div></div>`}).join('')}</div>
     <div class="k-flip"><div class="label" style="padding-top:7px">What flips it</div><div style="display:grid;gap:10px"><div class="k-dist">${chip(T.bull,'Bullish',true)}${chip(T.bear,'Bearish signal',false)}<span>Macro gate ${kn(MG.threshold,2)} · now <b>${kn(MG.value,2)}</b></span></div><p>${flipText}</p></div></div>`));
+  if(R.crash_watch){const W=R.crash_watch,O=W.odds,E=Kerdos.esc,TS=W.tested;
+    const PC={Quiet:'Bullish',Watch:'Correction',Warning:'Bearish'}[W.status]||'Neutral';
+    const why=W.status==='Warning'?`The late-cycle warning fired on ${fmtD(W.last_fired)} and SPY has since closed below its 50-day average. Historically that pairing was followed by a 10%+ drop within 6 months ${O.alarm}% of the time, against ${O.base}% on an ordinary day near a high.`:
+      W.status==='Watch'?`The late-cycle warning (VIX 20%+ above its 3-month low while SPY was within 2% of its high after a 12-month gain over 15%) last fired on ${fmtD(W.last_fired)}. SPY is ${W.below50?'below':'still above'} its 50-day average; a close below it while the warning is live moves this to Warning.`:
+      `The late-cycle warning has not fired in the last ${W.params.memory} sessions${W.last_fired?` (last on ${fmtD(W.last_fired)})`:''}.`;
+    const rows=W.items.map(i=>`<tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px;background:${i.on?'var(--c-bear)':'var(--stroke)'}" aria-hidden="true"></span>${E(i.label)}<div class="muted" style="font-size:.76rem;margin-left:16px">${E(i.reading)}</div></td><td class="n">${i.on?'<b>Yes</b>':'<span class="muted">No</span>'}</td><td class="n">${i.seen}/${W.episodes}</td></tr>`).join('');
+    M.append(h('section',{class:'panel','aria-label':'Crash watch'},`<div class="phead"><h2>Crash watch</h2><span class="label">context · does not change exposure</span></div>
+     <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px"><span class="pill ${PC}">${W.status}</span><span><b>${W.on} of ${W.total}</b> conditions seen before past 10%+ declines are present today.</span></div>
+     <p class="note" style="margin:0 0 12px">${why}</p>
+     <div class="k-stats" style="margin-bottom:14px">
+       <div class="k-stat"><b>${O.base}%</b><span>10% drop within 6M · any day near a high</span></div>
+       <div class="k-stat"><b>${O.warn}%</b><span>… on a day the warning fired</span></div>
+       <div class="k-stat"><b>${O.alarm}%</b><span>… warning live and SPY below its 50-day</span></div>
+       <div class="k-stat"><b>${W.on}/${W.total}</b><span>Checklist conditions on now</span></div>
+     </div>
+     <div class="tblwrap"><table><thead><tr><th>Condition · reading</th><th class="n">Now</th><th class="n" title="How many of the past 10%+ declines had this condition beforehand">Seen before</th></tr></thead><tbody>${rows}</tbody></table></div>
+     <p class="note" style="margin-top:8px">From a study of the ${W.episodes} S&amp;P 500 declines of 10% or more since Oct 2006. Odds use SPY daily data since 2003. No condition predicted a decline on its own; even the best combination was right about a third of the time. Tested as a rule that cuts exposure to 50%, the Warning state lowered SPY’s worst drawdown from ${(+TS.spy.maxdd[0]).toFixed(1)}% to ${(+TS.spy.maxdd[1]).toFixed(1)}% and QQQ’s from ${(+TS.qqq.maxdd[0]).toFixed(1)}% to ${(+TS.qqq.maxdd[1]).toFixed(1)}%, but cost returns in 2015–2026 (SPY ${(+TS.spy.late_cagr[0]).toFixed(1)}% to ${(+TS.spy.late_cagr[1]).toFixed(1)}% a year, QQQ ${(+TS.qqq.late_cagr[0]).toFixed(1)}% to ${(+TS.qqq.late_cagr[1]).toFixed(1)}%), so the model shows it as a watch rather than trading on it.</p>`))}
   if(R.notes&&R.notes.length){const E=Kerdos.esc;const safe=u=>/^https:\/\//.test(u||'')?u:'';
     const arrow='<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.5 8.5l5-5M4.5 3.5h4v4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     const when=t=>{const m=String(t).match(/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.? \d{1,2}(, \d{4})?/);return m?m[0]:''};
@@ -730,6 +747,7 @@ function recov(el,R,S){
    <li>Not cutting to half when the market is already oversold (RSI below 30): helped in 2003–26, hurt in 1954–79.</li>
    <li>An unemployment (Sahm) filter on rebounds: it would have skipped the March 2009 bottom.</li>
    <li>Rallies scaled to volatility, 5–7% rallies, and Fed-hiking or credit-spread filters: no consistent edge across periods.</li>
+   <li>Pre-crash signals from the Oct 2026 study of every 10%+ S&P decline since 2006 (Oct 2026): scoring Fed hikes as negative, a 10-year yield-jump factor, and a late-cycle factor each lowered returns slightly. A 50% cut when the late-cycle warning was live and SPY closed below its 50-day lifted Sharpe and cut drawdowns, but cost 1–2 points a year in 2015–26, so it runs as the Crash watch panel instead.</li>
    <li>New data tried: sector ETFs, homebuilders, retail, regional banks, junk bonds, TIPS, momentum vs low-volatility, ARKK and VIX futures ETFs. None gave a timing signal that held in both halves of 2003–26, so the daily data feed is unchanged.</li></ul>`));
 }
 function method(el,R,S){
