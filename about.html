@@ -165,6 +165,30 @@ td.hl{color:var(--white);font-weight:600}
 .ox .err{color:var(--bear)}
 .ox a.oxl{color:var(--accent);text-decoration:none;font-weight:600} .ox a.oxl:hover{text-decoration:underline}
 </style>
+<style id="feat-css">
+.feat-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 16px}
+.feat-head h2{font-size:1.5rem!important;font-weight:700;font-stretch:112%;letter-spacing:-.01em}
+.feat-link{color:var(--accent);text-decoration:none;font-weight:600;font-size:.9rem}.feat-link:hover{text-decoration:underline}
+.feat-card{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:26px!important;padding:24px!important;border-color:var(--line2)!important}
+@media (max-width:860px){.feat-card{grid-template-columns:minmax(0,1fr)}}
+.feat-card .col{display:grid;gap:14px;align-content:start;min-width:0}
+.feat-card .mix{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.feat-card .big{font-family:var(--f-display);font-weight:800;font-stretch:122%;font-size:clamp(2.2rem,6vw,3rem);line-height:1;letter-spacing:-.03em;color:var(--bull)}
+.feat-card .abar{display:flex;height:14px;border-radius:7px;overflow:hidden;background:var(--sunk)}
+.feat-card .abar i{display:block;height:100%}
+.feat-card .leg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.82rem;color:var(--ink2)}
+.feat-card .leg i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:5px}
+.feat-card .sub{font-size:.85rem;color:var(--ink2)}
+.feat-card .kv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 16px}
+.feat-card .kv div{border-top:1px solid var(--line);padding-top:8px;min-width:0}
+.feat-card .kv span{display:block;font-size:.76rem;color:var(--muted)}
+.feat-card .kv b{display:block;font-family:var(--f-mono);font-size:1.35rem;font-weight:600;color:var(--white);font-variant-numeric:tabular-nums}
+.feat-card .kv em{font-style:normal;font-size:.75rem;color:var(--ink2)}
+.feat-card .up{color:var(--bull)!important}.feat-card .dn{color:var(--bear)!important}
+.feat-card .mini svg{display:block;width:100%;height:auto}
+.feat-card .mini .ax{font-family:var(--f-mono);font-size:10px;fill:var(--muted)}
+.feat-card .mini .grid{stroke:var(--line);stroke-width:1}
+</style>
 <link rel="stylesheet" href="kerdos.css">
 <style>.about .prose{display:grid;gap:12px;max-width:72ch;color:var(--ink2,#a9adb8);font-size:.98rem;line-height:1.6}.about .prose p{margin:0}.about .prose a{color:var(--accent,#a58ee4)}</style>
 <!--kerdos-head-->
@@ -190,7 +214,7 @@ td.hl{color:var(--white);font-weight:600}
 <body>
 <script src="kerdos.js"></script>
 <div class="wrap">
-  <header class="k-nav"><div class="k-bar"><a class="k-word" href="index.html" aria-label="Kerdos Capital, overview"><b>Kerdos</b><span>Capital</span></a><button class="k-menu-btn" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 6h12M3 12h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button><nav class="k-links" aria-label="Site"><span class="k-ind" aria-hidden="true"></span><a href="index.html">Overview</a><a href="flagship.html">Flagship</a><a href="portfolio.html">Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a><a href="about.html" aria-current="page">About</a></nav></div></header>
+  <header class="k-nav"><div class="k-bar"><a class="k-word" href="index.html" aria-label="Kerdos Capital, overview"><b>Kerdos</b><span>Capital</span></a><button class="k-menu-btn" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 6h12M3 12h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button><nav class="k-links" aria-label="Site"><span class="k-ind" aria-hidden="true"></span><a href="index.html">Overview</a><a href="flagship.html">Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a><a href="about.html" aria-current="page">About</a></nav></div></header>
   <section class="intro">
     <div class="label">About</div>
     <h1>About Kerdos Capital</h1>
@@ -231,7 +255,7 @@ td.hl{color:var(--white);font-weight:600}
   </section>
 
   <footer class="foot pub">
-    <div class="ft"><a class="wordmark" href="index.html">Kerdos <span>Capital</span></a><nav class="fl" aria-label="Footer"><a href="index.html">Overview</a><a href="flagship.html">Flagship</a><a href="portfolio.html">Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a><a href="about.html">About</a></nav></div>
+    <div class="ft"><a class="wordmark" href="index.html">Kerdos <span>Capital</span></a><nav class="fl" aria-label="Footer"><a href="index.html">Overview</a><a href="flagship.html">Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a><a href="about.html">About</a></nav></div>
     <div class="disc">
       <p><b>Important information.</b> Kerdos Capital is an independent research project that publishes rules-based market models for education and discussion. Nothing on this site is investment, tax or legal advice, or a recommendation to buy or sell any security or digital asset. The model portfolio is hypothetical: it manages no money, and its daily changes are not instructions to trade.</p>
       <p>Backtested results are hypothetical. They were computed with hindsight, from rules chosen with that history in view, and they leave out taxes and most real-world trading frictions. Past and backtested performance does not guarantee future results. Bitcoin and high-beta stocks are highly volatile, and any investment can lose money. Do your own research, or speak with a licensed professional, before investing.</p>

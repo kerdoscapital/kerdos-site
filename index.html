@@ -18,7 +18,7 @@
 .hyp{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);border:1px solid var(--line2);border-radius:999px;padding:3px 9px;white-space:nowrap}
 </style>
 <title>Kerdos Capital · Independent Quantitative Investment Research</title>
-<meta name="description" content="Systematic strategies, market regime analysis and multi-asset portfolio construction. Rules-based models for US stocks, Bitcoin and high-beta tech, updated after every close, with their rules, backtests and limits published.">
+<meta name="description" content="The Kerdos flagship model portfolio of US stocks, Bitcoin and gold, tracked live against the S&amp;P 500, and the rules-based regime models behind it, updated after every close.">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -165,6 +165,30 @@ td.hl{color:var(--white);font-weight:600}
 .ox .err{color:var(--bear)}
 .ox a.oxl{color:var(--accent);text-decoration:none;font-weight:600} .ox a.oxl:hover{text-decoration:underline}
 </style>
+<style id="feat-css">
+.feat-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 16px}
+.feat-head h2{font-size:1.5rem!important;font-weight:700;font-stretch:112%;letter-spacing:-.01em}
+.feat-link{color:var(--accent);text-decoration:none;font-weight:600;font-size:.9rem}.feat-link:hover{text-decoration:underline}
+.feat-card{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:26px!important;padding:24px!important;border-color:var(--line2)!important}
+@media (max-width:860px){.feat-card{grid-template-columns:minmax(0,1fr)}}
+.feat-card .col{display:grid;gap:14px;align-content:start;min-width:0}
+.feat-card .mix{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.feat-card .big{font-family:var(--f-display);font-weight:800;font-stretch:122%;font-size:clamp(2.2rem,6vw,3rem);line-height:1;letter-spacing:-.03em;color:var(--bull)}
+.feat-card .abar{display:flex;height:14px;border-radius:7px;overflow:hidden;background:var(--sunk)}
+.feat-card .abar i{display:block;height:100%}
+.feat-card .leg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.82rem;color:var(--ink2)}
+.feat-card .leg i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:5px}
+.feat-card .sub{font-size:.85rem;color:var(--ink2)}
+.feat-card .kv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 16px}
+.feat-card .kv div{border-top:1px solid var(--line);padding-top:8px;min-width:0}
+.feat-card .kv span{display:block;font-size:.76rem;color:var(--muted)}
+.feat-card .kv b{display:block;font-family:var(--f-mono);font-size:1.35rem;font-weight:600;color:var(--white);font-variant-numeric:tabular-nums}
+.feat-card .kv em{font-style:normal;font-size:.75rem;color:var(--ink2)}
+.feat-card .up{color:var(--bull)!important}.feat-card .dn{color:var(--bear)!important}
+.feat-card .mini svg{display:block;width:100%;height:auto}
+.feat-card .mini .ax{font-family:var(--f-mono);font-size:10px;fill:var(--muted)}
+.feat-card .mini .grid{stroke:var(--line);stroke-width:1}
+</style>
 <link rel="stylesheet" href="kerdos.css">
 <!--kerdos-head-->
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -175,28 +199,32 @@ td.hl{color:var(--white);font-weight:600}
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Kerdos Capital">
 <meta property="og:title" content="Kerdos Capital · Independent Quantitative Investment Research">
-<meta property="og:description" content="Systematic strategies, market regime analysis and multi-asset portfolio construction. Rules-based models for US stocks, Bitcoin and high-beta tech, updated after every close, with their rules, backtests and limits published.">
+<meta property="og:description" content="The Kerdos flagship model portfolio of US stocks, Bitcoin and gold, tracked live against the S&amp;P 500, and the rules-based regime models behind it, updated after every close.">
 <meta property="og:url" content="https://kerdoscapital.xyz/">
 <meta property="og:image" content="https://kerdoscapital.xyz/og.png?v=20261029">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Kerdos Capital · Independent Quantitative Investment Research">
-<meta name="twitter:description" content="Systematic strategies, market regime analysis and multi-asset portfolio construction. Rules-based models for US stocks, Bitcoin and high-beta tech, updated after every close, with their rules, backtests and limits published.">
+<meta name="twitter:description" content="The Kerdos flagship model portfolio of US stocks, Bitcoin and gold, tracked live against the S&amp;P 500, and the rules-based regime models behind it, updated after every close.">
 <meta name="twitter:image" content="https://kerdoscapital.xyz/og.png?v=20261029">
 <!--/kerdos-head-->
 </head>
 <body>
 <script src="kerdos.js"></script>
 <div class="wrap">
-  <header class="k-nav"><div class="k-bar"><a class="k-word" href="index.html" aria-label="Kerdos Capital, overview"><b>Kerdos</b><span>Capital</span></a><button class="k-menu-btn" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 6h12M3 12h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button><nav class="k-links" aria-label="Site"><span class="k-ind" aria-hidden="true"></span><a href="index.html" aria-current="page">Overview</a><a href="flagship.html">Flagship</a><a href="portfolio.html">Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a><a href="about.html">About</a></nav></div></header>
+  <header class="k-nav"><div class="k-bar"><a class="k-word" href="index.html" aria-label="Kerdos Capital, overview"><b>Kerdos</b><span>Capital</span></a><button class="k-menu-btn" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 6h12M3 12h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button><nav class="k-links" aria-label="Site"><span class="k-ind" aria-hidden="true"></span><a href="index.html" aria-current="page">Overview</a><a href="flagship.html">Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a><a href="about.html">About</a></nav></div></header>
   <section class="intro">
     <div class="label" id="asof">Stocks and high beta as of Oct 29, 2026 close · Bitcoin as of Oct 29, 2026 close</div>
     <h1>Independent Quantitative Investment Research</h1>
-    <p>Systematic strategies, market regime analysis and multi-asset portfolio construction. Rules-based models set exposure to US stocks, Bitcoin and high-beta tech after every close, and every call is published with its rules, its backtest and its limits.</p>
+    <p>Our flagship model portfolio holds US stocks, Bitcoin and gold, with the stock and Bitcoin sleeves sized every day by our regime models. It is tracked live against the S&amp;P 500, and every call is published with its rules, its backtest and its limits.</p>
     <div><span class="hyp">Hypothetical models · not investment advice</span></div>
   </section>
-  <section class="sec" id="flag" hidden aria-label="Flagship model"></section>
+  <section class="sec feat" id="flag" aria-label="Flagship portfolio">
+    <div class="feat-head"><h2>Flagship portfolio</h2><a class="feat-link" href="flagship.html">Rules, backtest and live record <span aria-hidden="true">→</span></a></div>
+    <article class="desk feat-card" id="flagcard"><!--pre:flagcard--><div class="col"><div class="mix">60% stocks · 30% Bitcoin · 10% gold</div><div class="big">85% invested</div><div class="leg"><span>SPY 35%</span><span>QQQ 25%</span><span>Bitcoin 15%</span><span>Gold 10%</span><span>T-bills 15%</span></div><div class="sub">Stocks desk <b>Bullish</b> · Bitcoin desk <b>Neutral</b> · as of the Oct 29, 2026 close</div><a class="go" href="flagship.html">Open the flagship portfolio <span aria-hidden="true">→</span></a></div><div class="col"><div class="kv"><div><span>Since inception · Flagship</span><b>+0.29%</b><em>from the Oct 26, 2026 open</em></div><div><span>Since inception · S&amp;P 500</span><b>+0.96%</b><em>to the Oct 29, 2026 close</em></div><div><span>Backtest 2005–26 · per year</span><b>26.0%</b><em>S&amp;P 500 10.8%</em></div><div><span>Backtest · worst drop</span><b>−24%</b><em>S&amp;P 500 −55%</em></div></div></div><!--/pre:flagcard--><p class="note">Loading the flagship portfolio…</p></article>
+  </section>
+  <section class="sec" aria-label="The models"><h2>The models behind it</h2><p class="note" style="margin:0">Each desk publishes a call after every close. The stocks and Bitcoin desks size the flagship’s two sleeves; the high-beta desk is a separate, higher-risk satellite model.</p></section>
   <section class="desks" id="desks" aria-label="Today’s calls"><!--pre:desks--><article class="desk"><div class="top"><h2>US stocks · SPY &amp; QQQ</h2></div><div><div class="call c-Bullish">Bullish</div></div><div class="expo"><span>Exposure</span><b>100%</b><span>since Apr 15, 2026</span></div><div class="meter" aria-hidden="true"><i style="width:100%"></i></div><div class="quotes"><div class="q"><div class="tk">SPY</div><div class="px">$769.36</div><div class="ch"><span>−0.4% 1d</span></div></div><div class="q"><div class="tk">QQQ</div><div class="px">$715.34</div><div class="ch"><span>−1.4% 1d</span></div></div></div><a class="go" href="stocks.html">Open the stocks desk <span aria-hidden="true">→</span></a></article><article class="desk"><div class="top"><h2>Bitcoin</h2></div><div><div class="call c-Neutral">Neutral</div></div><div class="expo"><span>Exposure</span><b>50%</b><span>since Oct 16, 2026</span></div><div class="meter" aria-hidden="true"><i style="width:50%"></i></div><div class="quotes"><div class="q"><div class="tk">BTC</div><div class="px">$77,762</div><div class="ch"><span>−4.3% 1d</span></div></div></div><a class="go" href="bitcoin.html">Open the Bitcoin desk <span aria-hidden="true">→</span></a></article><article class="desk"><div class="top"><h2>High beta · satellite sleeve</h2></div><div><div class="call c-Lagging">Lagging</div></div><div class="expo"><span>Exposure</span><b>50%</b><span>since Oct 27, 2026</span></div><div class="meter" aria-hidden="true"><i style="width:50%"></i></div><div class="quotes"><div class="q"><div class="tk">Basket</div><div class="px">31.16</div><div class="ch"><span>−1.7% 1d</span></div></div></div><a class="go" href="highbeta.html">Open the high-beta desk <span aria-hidden="true">→</span></a></article><!--/pre:desks--></section>
   <section class="sec">
     <details class="gloss"><summary>What the numbers on these cards mean</summary><dl>
@@ -207,10 +235,6 @@ td.hl{color:var(--white);font-weight:600}
       <dt>Strength vs S&amp;P 500</dt><dd>Whether the high-beta basket is keeping up with the S&amp;P. Clearly lagging cuts that desk to half.</dd>
       <dt>Put wall, call wall, dealer gamma</dt><dd>Where the most put and call open interest sits below and above the price, and an estimate of whether options dealers’ hedging tends to calm moves (positive) or amplify them (negative). Context only.</dd>
     </dl></details>
-  </section>
-  <section class="sec">
-    <h2>Hypothetical model portfolio</h2>
-    <div id="mport"><!--pre:mport--><div class="tblwrap"><table><thead><tr><th>Slice</th><th class="n">Weight</th><th>Desk call</th><th class="n">Target now</th></tr></thead><tbody><tr><td>US stocks</td><td class="n">60%</td><td class="c-Bullish" style="font-weight:600">Bullish</td><td class="n hl">60%</td></tr><tr><td>Bitcoin</td><td class="n">40%</td><td class="c-Neutral" style="font-weight:600">Neutral</td><td class="n hl">20%</td></tr><tr><td>Cash (T-bills)</td><td class="n">—</td><td class="muted">what is left</td><td class="n hl">20%</td></tr></tbody></table></div><!--/pre:mport--></div>
   </section>
   <section class="sec">
     <h2>Recent signal changes</h2>
@@ -361,7 +385,7 @@ function summary(R,have){
     </div>
   </section>
   <footer class="foot pub">
-    <div class="ft"><a class="wordmark" href="index.html">Kerdos <span>Capital</span></a><nav class="fl" aria-label="Footer"><a href="index.html">Overview</a><a href="flagship.html">Flagship</a><a href="portfolio.html">Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a><a href="about.html">About</a></nav></div>
+    <div class="ft"><a class="wordmark" href="index.html">Kerdos <span>Capital</span></a><nav class="fl" aria-label="Footer"><a href="index.html">Overview</a><a href="flagship.html">Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a><a href="about.html">About</a></nav></div>
     <div class="disc">
       <p><b>Important information.</b> Kerdos Capital is an independent research project that publishes rules-based market models for education and discussion. Nothing on this site is investment, tax or legal advice, or a recommendation to buy or sell any security or digital asset. The model portfolio is hypothetical: it manages no money, and its daily changes are not instructions to trade.</p>
       <p>Backtested results are hypothetical. They were computed with hindsight, from rules chosen with that history in view, and they leave out taxes and most real-world trading frictions. Past and backtested performance does not guarantee future results. Bitcoin and high-beta stocks are highly volatile, and any investment can lose money. Do your own research, or speak with a licensed professional, before investing.</p>
@@ -391,18 +415,34 @@ function card(o){return `<article class="desk"><div class="top"><h2>${o.name}</h
   <dl class="facts">${o.facts.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join('')}</dl>
   ${o.strip}
   <a class="go" href="${o.href}">Open the ${o.short} desk <span aria-hidden="true">→</span></a></article>`}
-fetch('flagship/report.json').then(r=>{if(!r.ok)throw 0;return r.json()}).then(F=>{
-  const el=document.getElementById('flag');if(!el)return;const w=F.weights,A=['SPY','QQQ','IEF','GLD','BTC','CASH'];
-  const C={SPY:'#a58ee4',QQQ:'#8d72c8',IEF:'#5cc8f0',GLD:'#e0b44a',BTC:'#f39b4b',CASH:'#5c6272'},L={SPY:'SPY',QQQ:'QQQ',IEF:'Treasuries',GLD:'Gold',BTC:'Bitcoin',CASH:'T-bills'};
-  const b=F.backtest.flagship['2005–26'],s=F.backtest.spy['2005–26'];
-  el.innerHTML=`<h2>Flagship model</h2><article class="desk" style="gap:14px"><div class="top"><h2>Multi-asset · stocks, Bitcoin, gold, T-bills</h2></div>
-   <div><div class="call c-${F.regime==='Risk-On'?'Bullish':F.regime==='Risk-Off'?'Bearish':'Neutral'}">${F.regime}</div></div>
-   <div style="display:flex;height:14px;border-radius:7px;overflow:hidden" role="img" aria-label="Allocation: ${A.map(k=>L[k]+' '+Math.round(w[k]*100)+'%').join(', ')}">${A.filter(k=>w[k]>0).map(k=>`<i style="flex:${w[k]};background:${C[k]}"></i>`).join('')}</div>
-   <div style="display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.82rem;color:var(--ink-2,#a9adb8)">${A.filter(k=>w[k]>0).map(k=>`<span><i style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${C[k]};margin-right:5px"></i>${L[k]} ${Math.round(w[k]*100)}%</span>`).join('')}</div>
-   <dl class="facts"><dt>Backtest since 2005, per year</dt><dd>${(b.cagr*100).toFixed(1)}% vs ${(s.cagr*100).toFixed(1)}% SPY</dd><dt>Worst drop</dt><dd>−${Math.abs(b.maxdd*100).toFixed(0)}% vs −${Math.abs(s.maxdd*100).toFixed(0)}% SPY</dd><dt>Live record</dt><dd>${F.live&&F.live.flagship?((F.live.flagship.total>=0?'+':'−')+Math.abs(F.live.flagship.total*100).toFixed(1)+'% since '+fmtD(F.live_since)):'starts '+fmtD(F.live_since)}</dd></dl>
-   <a class="go" href="flagship.html">Open the flagship model <span aria-hidden="true">→</span></a></article>`;
-  el.hidden=false;
-}).catch(()=>{});
+Promise.all([fetch('flagship/report.json').then(r=>{if(!r.ok)throw 0;return r.json()}),fetch('flagship/equity.csv').then(r=>r.ok?r.text():'')]).then(([F,eqt])=>{
+  const el=document.getElementById('flagcard');if(!el)return;const w=F.weights,A=['SPY','QQQ','BTC','GLD','CASH'],RU=F.rules;
+  const C={SPY:'#a58ee4',QQQ:'#8d72c8',BTC:'#f39b4b',GLD:'#e0b44a',CASH:'#5c6272'},L={SPY:'SPY',QQQ:'QQQ',BTC:'Bitcoin',GLD:'Gold',CASH:'T-bills'};
+  const p1=(v,d=1)=>(v>0?'+':v<0?'−':'')+Math.abs(v*100).toFixed(d)+'%',ud=v=>v>0?'up':v<0?'dn':'';
+  const b=F.backtest.flagship['2005–26'],s=F.backtest.spy['2005–26'],Lv=F.live;
+  const mix=`${Math.round((RU.stocks.SPY+RU.stocks.QQQ)*100)}% stocks · ${Math.round(RU.btc*100)}% Bitcoin · ${Math.round(RU.gold*100)}% gold`;
+  const live=Lv?`<div><span>Since inception · Flagship</span><b class="${ud(Lv.flagship.total)}">${p1(Lv.flagship.total,2)}</b><em>from the ${fmtD(Lv.since)} open</em></div><div><span>Since inception · S&amp;P 500</span><b>${p1(Lv.spy.total,2)}</b><em>${Lv.sessions} session${Lv.sessions===1?'':'s'}, to the ${fmtD(Lv.asof)} close</em></div>`
+    :`<div><span>Live record</span><b>—</b><em>starts ${fmtD(F.live_since)}</em></div><div></div>`;
+  el.innerHTML=`<div class="col"><div class="mix">${mix}</div><div class="big">${Math.round((1-w.CASH)*100)}% invested</div>
+     <div class="abar" role="img" aria-label="Allocation now: ${A.map(k=>L[k]+' '+Math.round(w[k]*100)+'%').join(', ')}">${A.filter(k=>w[k]>0).map(k=>`<i style="flex:${w[k]};background:${C[k]}"></i>`).join('')}</div>
+     <div class="leg">${A.filter(k=>w[k]>0).map(k=>`<span><i style="background:${C[k]}"></i>${L[k]} ${Math.round(w[k]*100)}%</span>`).join('')}</div>
+     <div class="sub">Stocks desk <b>${F.stocks_regime}</b> · Bitcoin desk <b>${F.btc_regime||'—'}</b> · as of the ${fmtD(F.asof)} close</div>
+     <a class="go" href="flagship.html">Open the flagship portfolio <span aria-hidden="true">→</span></a></div>
+   <div class="col"><div class="kv">${live}
+     <div><span>Backtest 2005–26 · per year</span><b>${(b.cagr*100).toFixed(1)}%</b><em>S&amp;P 500 ${(s.cagr*100).toFixed(1)}%</em></div>
+     <div><span>Backtest · worst drop</span><b>−${Math.abs(b.maxdd*100).toFixed(0)}%</b><em>S&amp;P 500 −${Math.abs(s.maxdd*100).toFixed(0)}%</em></div></div>
+     <div class="mini chart" id="flmini"></div><p class="note" style="margin:0">Backtest growth of $1 since 2005, log scale: <span style="color:#a58ee4">flagship</span> vs <span style="color:#d1d4dc">S&amp;P 500</span>. Hypothetical; nobody held this portfolio before Oct 26, 2026.</p></div>`;
+  const rows=(eqt||'').trim().split(/\r?\n/).slice(1).map(l=>l.split(',')).map(c=>({t:Date.parse(c[0]+'T00:00:00Z'),f:+c[1],s:+c[2]})).filter(r=>r.f>0&&r.s>0);
+  const host=document.getElementById('flmini');
+  const draw=()=>{if(!rows.length||!host)return;const W=Math.max(280,host.clientWidth||520),H=W<500?140:160,m={t:8,r:40,b:18,l:4};
+    const x0=rows[0].t,x1=rows[rows.length-1].t,vs=rows.flatMap(r=>[r.f,r.s]),y0=Math.min(...vs)*.92,y1=Math.max(...vs)*1.08;
+    const X=v=>m.l+(v-x0)/(x1-x0)*(W-m.l-m.r),Y=v=>m.t+(Math.log(y1)-Math.log(v))/(Math.log(y1)-Math.log(y0))*(H-m.t-m.b);let g='';
+    [1,10,100].filter(v=>v>=y0&&v<=y1).forEach(v=>{g+=`<line class="grid" x1="${m.l}" x2="${W-m.r}" y1="${Y(v)}" y2="${Y(v)}"/><text class="ax" x="${W-m.r+5}" y="${Y(v)+3.5}">$${v}</text>`});
+    [2005,2010,2015,2020,2025].forEach(y=>{const x=X(Date.UTC(y,0,1));if(x>m.l+10&&x<W-m.r-10)g+=`<text class="ax" x="${x}" y="${H-4}" text-anchor="middle">${y}</text>`});
+    [['s','#d1d4dc',1.4],['f','#a58ee4',2]].forEach(([k,c,wd])=>{let d='';rows.forEach((r,i)=>{d+=(i?'L':'M')+X(r.t).toFixed(1)+','+Y(r[k]).toFixed(1)});g+=`<path d="${d}" fill="none" stroke="${c}" stroke-width="${wd}" stroke-linejoin="round"/>`});
+    host.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Backtest growth of one dollar since 2005">${g}</svg>`};
+  draw();let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(draw,150)});
+}).catch(()=>{const el=document.getElementById('flagcard');if(el)el.innerHTML='<p class="note" style="margin:0">The flagship portfolio is published at <a href="https://kerdoscapital.xyz/flagship.html">kerdoscapital.xyz</a>.</p>'});
 Promise.all(['stocks/report.json','bitcoin/report.json','highbeta/report.json'].map(u=>fetch(u).then(r=>r.json())).concat(['stocks/history.csv','bitcoin/history.csv','highbeta/history.csv'].map(u=>fetch(u).then(r=>r.text()))))
 .then(([M,B,G,mh,bh,gh])=>{
   const hbh=csv(gh).filter(r=>r.regime);
@@ -417,17 +457,13 @@ Promise.all(['stocks/report.json','bitcoin/report.json','highbeta/report.json'].
   $('#desks').innerHTML=card({name:'US stocks · SPY & QQQ',asof:fmtD(M.asof),reg:M.regime,exp:M.exposure,since:M.regime_since,quotes:q('SPY',M.spy,M.spy_chg)+q('QQQ',M.qqq,M.qqq_chg),facts:mf,strip:strip(csv(mh),M.exposure_map),href:'stocks.html',short:'stocks'})
    +card({name:'Bitcoin',asof:fmtD(B.asof),reg:B.regime,exp:B.exposure,since:B.regime_since,quotes:`<div class="q"><div class="tk">BTC</div><div class="px">${usd(B.price,0)}</div><div class="ch"><span class="${cls(B.chg1)}">${sgn(B.chg1)} 1d</span><span class="${cls(B.chg7)}">${sgn(B.chg7)} 7d</span><span class="${cls(B.ytd)}">${sgn(B.ytd)} YTD</span></div></div>`,facts:bf,strip:strip(csv(bh),B.exposure_map),href:'bitcoin.html',short:'Bitcoin'})
    +card({name:'High beta · satellite sleeve',asof:fmtD(G.asof),reg:G.regime,exp:G.exposure,since:G.regime_since,quotes:`<div class="q"><div class="tk">Basket</div><div class="px">${G.level.toFixed(2)}</div><div class="ch"><span class="${cls(G.chg.d1)}">${sgn(G.chg.d1*100)} 1d</span><span class="${cls(G.chg.ytd)}">${sgn(G.chg.ytd*100,0)} YTD</span></div></div>`,facts:[['Strength vs S&P 500',(G.strength||{}).state+' · '+(((G.strength||{}).score||0)<0?'−':'+')+Math.abs((G.strength||{}).score||0).toFixed(2)],['Basket vs its 200-day average',sgn(G.trend.vs200*100)],['Basket, last 10 sessions (cut at −12%)',sgn(((G.crash||{}).r10||0)*100)]],strip:strip(hbh,G.exposure_map),href:'highbeta.html',short:'high-beta'});
-  {const W={stocks:.6,btc:.4};const SL=[['US stocks','stocks',M,mh],['Bitcoin','btc',B,bh]];
-   const lc=(H,map)=>{const R=csv(H);let i=R.length-1;const c=R[i].regime;while(i>0&&R[i-1].regime===c)i--;return {today:i===R.length-1,from:i>0?R[i-1].regime:null,to:c,a:i>0?map[R[i-1].regime]:null,b:map[c]}};
-   const rows=SL.map(([n,k,R,H])=>{const t=W[k]*R.exposure;const ch=lc(H,R.exposure_map);const act=ch.today&&ch.a!==ch.b?(ch.b<ch.a?(ch.b===0?'Moves to cash':'Reduces by '+Math.round((1-ch.b/ch.a)*100)+'%'):'Raises to '+(t*100).toFixed(1).replace(/\.0$/,'')+'%'):'No change';
-     return `<tr><td>${n}</td><td class="n">${Math.round(W[k]*100)}%</td><td class="c-${R.regime}" style="font-weight:600">${R.regime}</td><td class="n hl">${(t*100).toFixed(1).replace(/\.0$/,'')}%</td><td>${act}</td></tr>`}).join('');
-   const cash=1-SL.reduce((a,[n,k,R])=>a+W[k]*R.exposure,0);
+  {
    {const MAPS={stocks:M.exposure_map,btc:B.exposure_map,hb:G.exposure_map};const ch=[];
     [['US stocks','stocks',csv(mh)],['Bitcoin','btc',csv(bh)],['High beta','hb',hbh]].forEach(([n,k,R])=>{let prev=null;R.forEach(r=>{if(!r.regime)return;if(prev&&r.regime!==prev.regime)ch.push({date:r.date,desk:n,k,from:prev.regime,to:r.regime});prev=r})});
     ch.sort((a,b)=>a.date<b.date?1:-1);
     const px=v=>v==null?'—':Math.round(v*100)+'%';
     $('#changes').innerHTML=`<div class="tblwrap"><table><thead><tr><th>Date</th><th>Desk</th><th>Change</th><th class="n">Exposure</th></tr></thead><tbody>${ch.slice(0,6).map(c=>`<tr><td class="mono">${fmtD(c.date)}</td><td>${c.desk}</td><td><span class="c-${c.from}">${c.from}</span> → <b class="c-${c.to}">${c.to}</b></td><td class="n">${px(MAPS[c.k][c.from])} → ${px(MAPS[c.k][c.to])}</td></tr>`).join('')}</tbody></table></div>`;}
-   $('#mport').innerHTML=`<div class="tblwrap"><table><thead><tr><th>Slice</th><th class="n">Weight</th><th>Desk call</th><th class="n">Target now</th><th>Model change today</th></tr></thead><tbody>${rows}<tr><td>Cash (T-bills)</td><td class="n">—</td><td class="muted">what is left</td><td class="n hl">${(cash*100).toFixed(1).replace(/\.0$/,'')}%</td><td class="muted">—</td></tr></tbody></table></div><p class="note" style="margin-top:8px">Hypothetical allocation: 60% stocks and 40% Bitcoin, each slice scaled by its desk’s exposure, with the rest in T-bills. It manages no money and is not a recommendation to trade. <a href="portfolio.html">See the rules, calculator and backtest →</a></p>`;}
+  }
   const row=(n,s,b)=>`<tr><td>${n}</td><td class="n hl">${pc(s.cagr)}</td><td class="n">${pc(b.cagr)}</td><td class="n hl">${pcs(s.maxdd)}</td><td class="n">${pcs(b.maxdd)}</td><td class="n">${s.sharpe.toFixed(2)} / ${b.sharpe.toFixed(2)}</td></tr>`;
   $('#record').innerHTML=`<table><thead><tr><th>Asset</th><th class="n">Model / yr</th><th class="n">Buy & hold / yr</th><th class="n">Model worst drop</th><th class="n">Buy & hold worst</th><th class="n">Sharpe</th></tr></thead><tbody>
    ${row('SPY since 2003',M.backtest.SPY.strategy,M.backtest.SPY.buyhold)}${row('QQQ since 2003',M.backtest.QQQ.strategy,M.backtest.QQQ.buyhold)}${row('Bitcoin since 2015',B.backtest.strategy,B.backtest.buyhold)}${row('High-beta basket since 2018*',G.backtest.basket.strategy,G.backtest.basket.buyhold)}</tbody></table>`;

@@ -23,11 +23,9 @@ NAME = 'Kerdos Capital'
 TAG = 'Independent Quantitative Investment Research'
 PAGES = {   # file: (title, description, nav label)
     'index.html': (f'{NAME} · {TAG}',
-                   'Systematic strategies, market regime analysis and multi-asset portfolio construction. Rules-based models for US stocks, Bitcoin and high-beta tech, updated after every close, with their rules, backtests and limits published.', 'Overview'),
-    'flagship.html': (f'Flagship Model · {NAME}',
-                      'The Kerdos flagship multi-asset model: US stocks, Bitcoin, gold and T-bills, sized daily by the Kerdos regime desks and compared with SPY and a 60/40 portfolio.', 'Flagship'),
-    'portfolio.html': (f'Model Portfolio · {NAME}',
-                       'A hypothetical 60/40 stocks and Bitcoin portfolio that follows the Kerdos desks, with its rules, an allocation calculator and a backtest.', 'Portfolio'),
+                   'The Kerdos flagship model portfolio of US stocks, Bitcoin and gold, tracked live against the S&P 500, and the rules-based regime models behind it, updated after every close.', 'Overview'),
+    'flagship.html': (f'Flagship Portfolio · {NAME}',
+                      'The Kerdos flagship model portfolio: 60% US stocks, 30% Bitcoin and 10% gold, sized daily by the Kerdos regime desks, with a live record since Oct 26, 2026 and a backtest against the S&P 500.', 'Portfolio'),
     'stocks.html': (f'US Stocks Desk · {NAME}',
                     'Daily regime model for US stocks (SPY and QQQ): trend, momentum, internals, macro and volatility, with a backtest since 2003.', 'Stocks'),
     'bitcoin.html': (f'Bitcoin Desk · {NAME}',
@@ -37,7 +35,8 @@ PAGES = {   # file: (title, description, nav label)
     'about.html': (f'About · {NAME}',
                    'What Kerdos Capital is, how its models are built and run, and what it is not.', 'About'),
 }
-NAV_ORDER = ['index.html', 'flagship.html', 'portfolio.html', 'stocks.html', 'bitcoin.html', 'highbeta.html', 'about.html']
+NAV_ORDER = ['index.html', 'flagship.html', 'stocks.html', 'bitcoin.html', 'highbeta.html', 'about.html']
+RETIRED = {'portfolio.html': 'flagship.html'}   # old pages kept as redirects so outside links still work
 MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 E = lambda s: html.escape(str(s), quote=True)
 
@@ -149,7 +148,22 @@ def put_inside(s, open_tag_re, id_, inner):
     return s[:start] + pre_block(id_, inner) + s[end:]
 
 
-def prerender_index(s, M, B, G, PF):
+def flag_card(F):
+    w, RU, b, sp, L = F['weights'], F['rules'], F['backtest']['flagship']['2005–26'], F['backtest']['spy']['2005–26'], F.get('live')
+    p1 = lambda v, d=1: ('+' if v > 0 else '−' if v < 0 else '') + f'{abs(v) * 100:.{d}f}%'
+    mix = f"{round((RU['stocks']['SPY'] + RU['stocks']['QQQ']) * 100)}% stocks · {round(RU['btc'] * 100)}% Bitcoin · {round(RU['gold'] * 100)}% gold"
+    names = dict(SPY='SPY', QQQ='QQQ', BTC='Bitcoin', GLD='Gold', CASH='T-bills')
+    leg = ''.join(f'<span>{names[k]} {round(w[k] * 100)}%</span>' for k in ['SPY', 'QQQ', 'BTC', 'GLD', 'CASH'] if w.get(k, 0) > 0)
+    live = (f'<div><span>Since inception · Flagship</span><b>{p1(L["flagship"]["total"], 2)}</b><em>from the {E(fmt_d(L["since"]))} open</em></div>'
+            f'<div><span>Since inception · S&amp;P 500</span><b>{p1(L["spy"]["total"], 2)}</b><em>to the {E(fmt_d(L["asof"]))} close</em></div>') if L else ''
+    return (f'<div class="col"><div class="mix">{mix}</div><div class="big">{round((1 - w["CASH"]) * 100)}% invested</div><div class="leg">{leg}</div>'
+            f'<div class="sub">Stocks desk <b>{E(F["stocks_regime"])}</b> · Bitcoin desk <b>{E(F.get("btc_regime") or "—")}</b> · as of the {E(fmt_d(F["asof"]))} close</div>'
+            f'<a class="go" href="flagship.html">Open the flagship portfolio <span aria-hidden="true">→</span></a></div>'
+            f'<div class="col"><div class="kv">{live}<div><span>Backtest 2005–26 · per year</span><b>{b["cagr"] * 100:.1f}%</b><em>S&amp;P 500 {sp["cagr"] * 100:.1f}%</em></div>'
+            f'<div><span>Backtest · worst drop</span><b>−{abs(b["maxdd"]) * 100:.0f}%</b><em>S&amp;P 500 −{abs(sp["maxdd"]) * 100:.0f}%</em></div></div></div>')
+
+
+def prerender_index(s, M, B, G, FL):
     if M and B:
         s = re.sub(r'(<div class="label" id="asof">)[^<]*(</div>)',
                    lambda m: m.group(1) + E(f'Stocks and high beta as of {fmt_d(M["asof"])} close · Bitcoin as of {fmt_d(B["asof"])} close') + m.group(2), s, count=1)
@@ -164,14 +178,9 @@ def prerender_index(s, M, B, G, PF):
     if B: cards.append(card('Bitcoin', B['regime'], B['exposure'], B['regime_since'], q('BTC', usd(B.get('price'), 0), B.get('chg1')), 'bitcoin.html', 'Bitcoin'))
     if G: cards.append(card('High beta · satellite sleeve', G['regime'], G['exposure'], G['regime_since'], q('Basket', f"{G['level']:.2f}", (G.get('chg') or {}).get('d1', 0) * 100), 'highbeta.html', 'high-beta'))
     if cards: s = put_inside(s, r'<section class="desks" id="desks"[^>]*>', 'desks', ''.join(cards))
+    if FL:
+        s = put_inside(s, r'<article class="desk feat-card" id="flagcard">', 'flagcard', flag_card(FL))
     if M and B:
-        ts, tb = .6 * M['exposure'], .4 * B['exposure']; cash = 1 - ts - tb
-        f1 = lambda v: f'{v * 100:.1f}'.rstrip('0').rstrip('.') + '%'
-        tbl = ('<div class="tblwrap"><table><thead><tr><th>Slice</th><th class="n">Weight</th><th>Desk call</th><th class="n">Target now</th></tr></thead><tbody>'
-               f'<tr><td>US stocks</td><td class="n">60%</td><td class="c-{E(M["regime"])}" style="font-weight:600">{E(M["regime"])}</td><td class="n hl">{f1(ts)}</td></tr>'
-               f'<tr><td>Bitcoin</td><td class="n">40%</td><td class="c-{E(B["regime"])}" style="font-weight:600">{E(B["regime"])}</td><td class="n hl">{f1(tb)}</td></tr>'
-               f'<tr><td>Cash (T-bills)</td><td class="n">—</td><td class="muted">what is left</td><td class="n hl">{f1(cash)}</td></tr></tbody></table></div>')
-        s = put_inside(s, r'<div id="mport">', 'mport', tbl)
         pc = lambda v: f'{v * 100:.1f}%'
         pcs = lambda v: ('−' if v < 0 else '') + f'{abs(v) * 100:.0f}%'
         row = lambda n, a, b: f'<tr><td>{n}</td><td class="n hl">{pc(a["cagr"])}</td><td class="n">{pc(b["cagr"])}</td><td class="n hl">{pcs(a["maxdd"])}</td><td class="n">{pcs(b["maxdd"])}</td><td class="n">{a["sharpe"]:.2f} / {b["sharpe"]:.2f}</td></tr>'
@@ -238,7 +247,7 @@ def make_og(M, B, G, FL):
     d.text((72, 128), 'Independent Quantitative', font=font(SANS_B, 58), fill='#ffffff')
     d.text((72, 196), 'Investment Research', font=font(SANS_B, 58), fill='#ffffff')
     rows = []
-    if FL: rows.append(('Flagship model', FL.get('regime', '—'), f"{round(FL.get('equity_weight', 0) * 100)}% stocks"))
+    if FL: rows.append(('Flagship portfolio', FL.get('regime', '—'), f"{round((1 - FL.get('weights', {}).get('CASH', 0)) * 100)}% invested"))
     if M: rows.append(('US stocks', M['regime'], f"{round(M['exposure'] * 100)}% invested"))
     if B: rows.append(('Bitcoin', B['regime'], f"{round(B['exposure'] * 100)}% invested"))
     if G: rows.append(('High beta', G['regime'], f"{round(G['exposure'] * 100)}% invested"))
@@ -292,18 +301,23 @@ def main():
     for f in PAGES:
         if not exists(f): continue
         s = fix_page(f, rd(f), img_v)
-        if f == 'index.html': s = prerender_index(s, M, B, G, PF)
+        if f == 'index.html': s = prerender_index(s, M, B, G, FL)
         elif f == 'stocks.html' and M:
             s = prerender_loading(s, summary_line('US stocks', M['regime'], M['exposure'], f"SPY {usd(M['spy'])} ({sg(M['spy_chg']['d1'])}) · QQQ {usd(M['qqq'])}", M['asof']))
         elif f == 'bitcoin.html' and B:
             s = prerender_loading(s, summary_line('Bitcoin', B['regime'], B['exposure'], f"BTC {usd(B.get('price'), 0)}", B['asof']))
         elif f == 'highbeta.html' and G:
             s = prerender_loading(s, summary_line('High beta', G['regime'], G['exposure'], f"basket {G['level']:.2f}", G['asof']))
-        elif f == 'portfolio.html' and M and B:
-            s = prerender_loading(s, summary_line('Model portfolio', f"stocks {M['regime']}, Bitcoin {B['regime']}", .6 * M['exposure'] + .4 * B['exposure'], 'of a 60% stocks / 40% Bitcoin target', M['asof']))
         elif f == 'flagship.html' and FL:
-            s = prerender_loading(s, summary_line('Flagship model', FL['regime'], 1 - FL.get('weights', {}).get('CASH', 0), 'across stocks, Bitcoin and gold', FL['asof']))
+            s = prerender_loading(s, summary_line('Flagship portfolio', f"stocks desk {FL['stocks_regime']}, Bitcoin desk {FL.get('btc_regime')}", 1 - FL.get('weights', {}).get('CASH', 0), '60% stocks / 30% Bitcoin / 10% gold target', FL['asof']))
         wr(f, s)
+    for old, new in RETIRED.items():
+        title = PAGES[new][0]
+        wr(old, f'<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<title>{E(title)}</title>\n'
+                f'<meta http-equiv="refresh" content="0; url={new}">\n<link rel="canonical" href="{SITE}/{new}">\n<meta name="robots" content="noindex">\n'
+                f'</head>\n<body style="background:#131621;color:#d1d4dc;font-family:sans-serif;padding:24px">'
+                f'<p>This page has moved to the <a style="color:#a58ee4" href="{new}">Kerdos Flagship Portfolio</a>.</p>\n'
+                f'<script>location.replace({json.dumps(new)})</script>\n</body>\n</html>\n')
     today = dt.date.today().isoformat()
     wr('robots.txt', f'User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n')
     urls = ''.join(f'  <url><loc>{SITE}/{"" if f == "index.html" else f}</loc><lastmod>{today}</lastmod><changefreq>daily</changefreq></url>\n'
