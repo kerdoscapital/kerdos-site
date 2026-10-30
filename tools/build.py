@@ -25,7 +25,7 @@ PAGES = {   # file: (title, description, nav label)
     'index.html': (f'{NAME} · {TAG}',
                    'Systematic strategies, market regime analysis and multi-asset portfolio construction. Rules-based models for US stocks, Bitcoin and high-beta tech, updated after every close, with their rules, backtests and limits published.', 'Overview'),
     'flagship.html': (f'Flagship Model · {NAME}',
-                      'The Kerdos flagship multi-asset model: stocks, Treasuries, gold, Bitcoin and cash, allocated by market regime, compared with SPY and a 60/40 portfolio.', 'Flagship'),
+                      'The Kerdos flagship multi-asset model: US stocks, Bitcoin, gold and T-bills, sized daily by the Kerdos regime desks and compared with SPY and a 60/40 portfolio.', 'Flagship'),
     'portfolio.html': (f'Model Portfolio · {NAME}',
                        'A hypothetical 60/40 stocks and Bitcoin portfolio that follows the Kerdos desks, with its rules, an allocation calculator and a backtest.', 'Portfolio'),
     'stocks.html': (f'US Stocks Desk · {NAME}',
@@ -302,7 +302,7 @@ def main():
         elif f == 'portfolio.html' and M and B:
             s = prerender_loading(s, summary_line('Model portfolio', f"stocks {M['regime']}, Bitcoin {B['regime']}", .6 * M['exposure'] + .4 * B['exposure'], 'of a 60% stocks / 40% Bitcoin target', M['asof']))
         elif f == 'flagship.html' and FL:
-            s = prerender_loading(s, summary_line('Flagship model', FL['regime'], 1 - FL.get('weights', {}).get('cash', 0), 'multi-asset allocation', FL['asof']))
+            s = prerender_loading(s, summary_line('Flagship model', FL['regime'], 1 - FL.get('weights', {}).get('CASH', 0), 'across stocks, Bitcoin and gold', FL['asof']))
         wr(f, s)
     today = dt.date.today().isoformat()
     wr('robots.txt', f'User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n')

@@ -393,9 +393,9 @@ function card(o){return `<article class="desk"><div class="top"><h2>${o.name}</h
   <a class="go" href="${o.href}">Open the ${o.short} desk <span aria-hidden="true">→</span></a></article>`}
 fetch('flagship/report.json').then(r=>{if(!r.ok)throw 0;return r.json()}).then(F=>{
   const el=document.getElementById('flag');if(!el)return;const w=F.weights,A=['SPY','QQQ','IEF','GLD','BTC','CASH'];
-  const C={SPY:'#a58ee4',QQQ:'#8d72c8',IEF:'#5cc8f0',GLD:'#e0b44a',BTC:'#f39b4b',CASH:'#5c6272'},L={SPY:'SPY',QQQ:'QQQ',IEF:'Treasuries',GLD:'Gold',BTC:'Bitcoin',CASH:'Cash'};
+  const C={SPY:'#a58ee4',QQQ:'#8d72c8',IEF:'#5cc8f0',GLD:'#e0b44a',BTC:'#f39b4b',CASH:'#5c6272'},L={SPY:'SPY',QQQ:'QQQ',IEF:'Treasuries',GLD:'Gold',BTC:'Bitcoin',CASH:'T-bills'};
   const b=F.backtest.flagship['2005–26'],s=F.backtest.spy['2005–26'];
-  el.innerHTML=`<h2>Flagship model</h2><article class="desk" style="gap:14px"><div class="top"><h2>Multi-asset · stocks, Treasuries, gold, Bitcoin, cash</h2></div>
+  el.innerHTML=`<h2>Flagship model</h2><article class="desk" style="gap:14px"><div class="top"><h2>Multi-asset · stocks, Bitcoin, gold, T-bills</h2></div>
    <div><div class="call c-${F.regime==='Risk-On'?'Bullish':F.regime==='Risk-Off'?'Bearish':'Neutral'}">${F.regime}</div></div>
    <div style="display:flex;height:14px;border-radius:7px;overflow:hidden" role="img" aria-label="Allocation: ${A.map(k=>L[k]+' '+Math.round(w[k]*100)+'%').join(', ')}">${A.filter(k=>w[k]>0).map(k=>`<i style="flex:${w[k]};background:${C[k]}"></i>`).join('')}</div>
    <div style="display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.82rem;color:var(--ink-2,#a9adb8)">${A.filter(k=>w[k]>0).map(k=>`<span><i style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${C[k]};margin-right:5px"></i>${L[k]} ${Math.round(w[k]*100)}%</span>`).join('')}</div>

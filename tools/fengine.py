@@ -4,29 +4,28 @@
 Usage: python3 tools/fengine.py --store store_daily.csv --macro macro_monthly.csv \
            --stocks stocks/history.csv --btc bitcoin/history.csv --out flagship
 
-Rules (fixed in Oct 2026, before any live tracking):
-  Regime from the US stocks desk:  Risk-On = Bullish / Neutral / Recovery;  Neutral = Correction;  Risk-Off = Bearish.
-  Weights by regime (cash = the remainder, earning the 3-month T-bill):
-      Risk-On   SPY 35%  QQQ 25%  Treasuries (IEF) 15%  Gold (GLD) 10%  Bitcoin 10%
-      Neutral   SPY 20%  QQQ 10%  Treasuries 30%        Gold 15%        Bitcoin 5%
-      Risk-Off  SPY 0    QQQ 0    Treasuries 45%        Gold 20%        Bitcoin 0
-  The Bitcoin sleeve is scaled by the Bitcoin desk's exposure (100% / 50% / 0); before 2014, when the Bitcoin desk has no
-  history, the Bitcoin sleeve is held in SPY. Positions follow the previous close's signals; the portfolio is rebalanced
-  whenever a target changes and at each month start, at 0.05% per unit of turnover. Dividends and Treasury coupons are
-  approximated (SPY 1.7%/yr, QQQ 0.7%/yr, IEF the 10-year yield less 0.2 pt).
-Tested and rejected: holding Treasuries and gold only above their 200-day averages (more than twice the turnover and a lower
-return for a 2-point smaller worst drawdown).
+Rules (version 2, fixed Oct 30 2026, before live tracking starts):
+  Stocks sleeve 70%  = SPY 35% + QQQ 35%, scaled by the US stocks desk: 100% when Bullish / Neutral / Recovery,
+                       50% in a Correction, 0 when Bearish.
+  Bitcoin sleeve 20% = scaled by the Bitcoin desk: 100% when Bullish / Recovery, 50% when Neutral / Correction, 0 when Bearish.
+                       Before 2014 (no Bitcoin desk history) it is added to the stocks sleeve.
+  Gold 10%           = held at all times.
+  Anything not invested sits in 3-month T-bills.
+  Positions follow the previous close's signals; rebalance whenever a target changes and at each month start, at 0.05%
+  per unit of turnover. Dividends are approximated (SPY 1.7%/yr, QQQ 0.7%/yr); IEF (60/40 benchmark only) earns the
+  10-year yield less 0.2 pt.
+Chosen from a 150+ portfolio study (Oct 2026) of index, sector, factor, international, leveraged, bond, commodity and
+gold ETFs plus Bitcoin, timed by the same desks; see the flagship page's "How the mix was chosen".
+Version 1 (Oct 2026, never tracked live) used regime weight tables with Treasuries, more cash and a 10% Bitcoin cap.
 """
 import argparse, json, os
 import numpy as np, pandas as pd
 
-W = {
-    'Risk-On':  dict(SPY=.35, QQQ=.25, IEF=.15, GLD=.10, BTC=.10),
-    'Neutral':  dict(SPY=.20, QQQ=.10, IEF=.30, GLD=.15, BTC=.05),
-    'Risk-Off': dict(SPY=.00, QQQ=.00, IEF=.45, GLD=.20, BTC=.00),
-}
-REG = {'Bullish': 'Risk-On', 'Neutral': 'Risk-On', 'Recovery': 'Risk-On', 'Correction': 'Neutral', 'Bearish': 'Risk-Off'}
+STOCKS = dict(SPY=.35, QQQ=.35)
+BTC_W, GLD_W = .20, .10
+STK_E = {'Bullish': 1.0, 'Neutral': 1.0, 'Recovery': 1.0, 'Correction': .5, 'Bearish': 0.0}
 BTC_E = {'Bullish': 1.0, 'Neutral': .5, 'Recovery': 1.0, 'Correction': .5, 'Bearish': 0.0}
+REG = {'Bullish': 'Risk-On', 'Neutral': 'Risk-On', 'Recovery': 'Risk-On', 'Correction': 'Neutral', 'Bearish': 'Risk-Off'}
 ASSETS = ['SPY', 'QQQ', 'IEF', 'GLD', 'BTC', 'CASH']
 DIV = dict(SPY=.017, QQQ=.007)
 COST, START, LIVE = .0005, '2005-01-01', '2026-11-02'
@@ -57,16 +56,21 @@ def returns(X):
 
 
 def targets(X, btc=True):
+    """Daily target weights. btc=False puts the Bitcoin sleeve into the stocks sleeve throughout (the no-Bitcoin variant)."""
     reg = X.stk_reg.map(REG)
-    rows = []
-    for t in X.index:
-        r = reg[t]
-        if pd.isna(r): rows.append(dict(CASH=1.0)); continue
-        w = dict(W[r]); b = X.btc_reg[t]
-        if not btc or pd.isna(b) or pd.isna(X.BTC[t]): w['SPY'] += w['BTC']; w['BTC'] = 0.0
-        else: w['BTC'] *= BTC_E.get(b, 0)
-        w['CASH'] = max(0.0, 1 - sum(w.values())); rows.append(w)
-    return pd.DataFrame(rows, index=X.index).reindex(columns=ASSETS).fillna(0.0), reg
+    se = X.stk_reg.map(STK_E)
+    have = X.btc_reg.notna() & X.BTC.notna()
+    be = X.btc_reg.map(BTC_E).where(have, 0.0).fillna(0.0)
+    extra = (~have | (not btc)).astype(float) * BTC_W          # Bitcoin weight routed to stocks when unavailable
+    sw = sum(STOCKS.values())
+    T = pd.DataFrame(0.0, index=X.index, columns=ASSETS)
+    for a, w in STOCKS.items():
+        T[a] = (w + extra * w / sw) * se
+    T['BTC'] = (BTC_W * be) if btc else 0.0
+    T['GLD'] = GLD_W
+    T['CASH'] = 1 - T.drop(columns='CASH').sum(axis=1)
+    T[se.isna()] = 0.0; T.loc[se.isna(), 'CASH'] = 1.0
+    return T.clip(lower=0.0), reg
 
 
 def simulate(T, R, start, end=None):
@@ -133,7 +137,7 @@ def main():
     out = dict(asof=str(t.date()), generated=pd.Timestamp.now('UTC').strftime('%Y-%m-%d %H:%M UTC'),
                regime=reg[t], regime_since=str(since.date()), stocks_regime=X.stk_reg[t], btc_regime=X.btc_reg[t],
                weights={k: round(float(T.loc[t, k]), 4) for k in ASSETS}, equity_weight=round(float(T.loc[t, 'SPY'] + T.loc[t, 'QQQ']), 4),
-               weight_map=W, regime_map=REG, backtest=bt, yearly=yearly, turnover=turnover, live_since=LIVE, live=live,
+               rules=dict(stocks=STOCKS, btc=BTC_W, gold=GLD_W, stocks_exposure=STK_E, btc_exposure=BTC_E), regime_map=REG, version=2, backtest=bt, yearly=yearly, turnover=turnover, live_since=LIVE, live=live,
                changes=changes, days={k: int(v) for k, v in reg.loc[START:].value_counts().items()},
                prices={k: round(float(X[k].iloc[-1]), 2) for k in ['SPY', 'QQQ', 'IEF', 'GLD', 'BTC']})
     json.dump(out, open(os.path.join(a.out, 'report.json'), 'w'), indent=1, allow_nan=False, default=str)

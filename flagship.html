@@ -18,7 +18,7 @@
 .hyp{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);border:1px solid var(--line2);border-radius:999px;padding:3px 9px;white-space:nowrap}
 </style>
 <title>Flagship Model · Kerdos Capital</title>
-<meta name="description" content="The Kerdos flagship multi-asset model: stocks, Treasuries, gold, Bitcoin and cash, allocated by market regime, compared with SPY and a 60/40 portfolio.">
+<meta name="description" content="The Kerdos flagship multi-asset model: US stocks, Bitcoin, gold and T-bills, sized daily by the Kerdos regime desks and compared with SPY and a 60/40 portfolio.">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -175,14 +175,14 @@ td.hl{color:var(--white);font-weight:600}
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Kerdos Capital">
 <meta property="og:title" content="Flagship Model · Kerdos Capital">
-<meta property="og:description" content="The Kerdos flagship multi-asset model: stocks, Treasuries, gold, Bitcoin and cash, allocated by market regime, compared with SPY and a 60/40 portfolio.">
+<meta property="og:description" content="The Kerdos flagship multi-asset model: US stocks, Bitcoin, gold and T-bills, sized daily by the Kerdos regime desks and compared with SPY and a 60/40 portfolio.">
 <meta property="og:url" content="https://kerdoscapital.xyz/flagship.html">
 <meta property="og:image" content="https://kerdoscapital.xyz/og.png?v=20261029">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Flagship Model · Kerdos Capital">
-<meta name="twitter:description" content="The Kerdos flagship multi-asset model: stocks, Treasuries, gold, Bitcoin and cash, allocated by market regime, compared with SPY and a 60/40 portfolio.">
+<meta name="twitter:description" content="The Kerdos flagship multi-asset model: US stocks, Bitcoin, gold and T-bills, sized daily by the Kerdos regime desks and compared with SPY and a 60/40 portfolio.">
 <meta name="twitter:image" content="https://kerdoscapital.xyz/og.png?v=20261029">
 <!--/kerdos-head-->
 </head>
@@ -193,10 +193,10 @@ td.hl{color:var(--white);font-weight:600}
   <section class="intro">
     <div class="label" id="fasof">Flagship model</div>
     <h1>Kerdos Flagship</h1>
-    <p>One multi-asset portfolio across US stocks, Treasuries, gold, Bitcoin and cash. The market regime from the stocks desk sets the mix, the Bitcoin desk sizes the Bitcoin sleeve, and the rules are fixed in advance and published below.</p>
+    <p>One portfolio across US stocks, Bitcoin, gold and T-bills. The stocks desk sizes the stock sleeve, the Bitcoin desk sizes the Bitcoin sleeve, gold is always held, and the rules are fixed in advance and published below.</p>
     <div><span class="hyp">Hypothetical model · not investment advice</span></div>
   </section>
-  <div class="loading" id="loading"><!--pre:loading--><span style="display:block;font-size:1.05rem;color:var(--ink,#d1d4dc)"><b>Flagship model: Risk-On</b> · 100% invested · multi-asset allocation</span><span style="display:block;margin-top:6px">As of the Oct 29, 2026 close. Loading the full report…</span><!--/pre:loading--></div>
+  <div class="loading" id="loading"><!--pre:loading--><span style="display:block;font-size:1.05rem;color:var(--ink,#d1d4dc)"><b>Flagship model: Risk-On</b> · 90% invested · across stocks, Bitcoin and gold</span><span style="display:block;margin-top:6px">As of the Oct 29, 2026 close. Loading the full report…</span><!--/pre:loading--></div>
   <div id="fmain" hidden style="display:grid;gap:28px"></div>
 <style>
 .fl-now{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:24px;align-items:start}
@@ -230,7 +230,8 @@ const fmtD=d=>{const t=new Date(d+'T00:00:00Z');return MON[t.getUTCMonth()]+' '+
 const pc=(v,d=1)=>v==null?'—':(v<0?'−':'')+Math.abs(v*100).toFixed(d)+'%';
 const pcs=(v,d=1)=>v==null?'—':(v>0?'+':v<0?'−':'')+Math.abs(v*100).toFixed(d)+'%';
 const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-const NAMES={SPY:'S&P 500 (SPY)',QQQ:'Nasdaq-100 (QQQ)',IEF:'Treasuries (IEF)',GLD:'Gold (GLD)',BTC:'Bitcoin',CASH:'Cash (T-bills)'};
+const NAMES={SPY:'S&P 500 (SPY)',QQQ:'Nasdaq-100 (QQQ)',IEF:'Treasuries (IEF)',GLD:'Gold (GLD)',BTC:'Bitcoin',CASH:'T-bills'};
+const STUDY={"chosen":{"b":[0.324,1.66,-0.22],"b2":[0.226,1.2,-0.185],"h1":[0.124,0.85,-0.158]},"btc10":{"b":[0.248,1.46,-0.2],"b2":[0.205,1.18,-0.163],"h1":[0.127,0.88,-0.158]},"btc30":{"b":[0.399,1.7,-0.239],"b2":[0.246,1.16,-0.207],"h1":[0.12,0.82,-0.158]},"nogold":{"b":[0.33,1.6,-0.233],"b2":[0.23,1.16,-0.199],"h1":[0.124,0.8,-0.176]},"gold20":{"b":[0.317,1.7,-0.207],"b2":[0.222,1.22,-0.172],"h1":[0.122,0.88,-0.141]},"qqq":{"b":[0.345,1.64,-0.218],"b2":[0.236,1.15,-0.218],"h1":[0.137,0.88,-0.16]},"tech":{"b":[0.376,1.66,-0.224],"b2":[0.282,1.24,-0.198],"h1":[0.125,0.79,-0.165]},"defeq":{"b":[0.313,1.7,-0.2],"b2":[0.207,1.2,-0.159],"h1":[0.128,0.96,-0.133]},"qld":{"b":[0.377,1.58,-0.252],"b2":[0.262,1.12,-0.252],"h1":[0.192,1.02,-0.195]},"old6040":{"b":[0.476,1.66,-0.271],"b2":[0.265,1.09,-0.236],"h1":[0.113,0.73,-0.177]},"out_ief":{"b":[0.318,1.62,-0.269],"b2":[0.207,1.07,-0.269],"h1":[0.137,0.92,-0.16]},"out_tlt":{"b":[0.308,1.53,-0.36],"b2":[0.181,0.88,-0.36],"h1":[0.141,0.89,-0.142]},"spy":{"b":[0.138,0.7,-0.34],"b2":[0.155,0.75,-0.244],"h1":[0.073,0.38,-0.554]}};
 const COLS={SPY:'#a58ee4',QQQ:'#8d72c8',IEF:'#5cc8f0',GLD:'#e0b44a',BTC:'#f39b4b',CASH:'#5c6272'};
 const parse=t=>{const[h,...r]=t.trim().split(/\r?\n/);const k=h.split(',');return r.map(x=>{const c=x.split(',');const o={};k.forEach((kk,i)=>o[kk]=c[i]);return o})};
 Promise.all([fetch('flagship/report.json').then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}),fetch('flagship/equity.csv').then(r=>r.text())])
@@ -238,13 +239,13 @@ Promise.all([fetch('flagship/report.json').then(r=>{if(!r.ok)throw new Error(r.s
 function render(R,EQ){
   $('#loading').hidden=true;const M=$('#fmain');M.hidden=false;
   $('#fasof').textContent=`Flagship model · as of the ${fmtD(R.asof)} close`;
-  const w=R.weights,A=['SPY','QQQ','IEF','GLD','BTC','CASH'];
+  const w=R.weights,A=['SPY','QQQ','BTC','GLD','CASH'];
   const bar=k=>`<div class="fl-row"><span>${NAMES[k]}</span><span class="t"><i style="width:${(w[k]*100).toFixed(1)}%;background:${COLS[k]}"></i></span><span class="v">${Math.round(w[k]*100)}%</span></div>`;
   const live=R.live&&R.live.flagship;
   M.insertAdjacentHTML('beforeend',`<section class="panel" aria-label="Current allocation"><div class="fl-now">
     <div><div class="label">Market regime</div><div class="fl-call ${R.regime}" style="margin-top:8px">${R.regime}</div>
       <div class="fl-sub">Since ${fmtD(R.regime_since)} · stocks desk <b>${R.stocks_regime}</b> · Bitcoin desk <b>${R.btc_regime||'—'}</b></div>
-      <div class="fl-sub">Stocks ${Math.round(R.equity_weight*100)}% · defensive assets ${Math.round((w.IEF+w.GLD)*100)}% · Bitcoin ${Math.round(w.BTC*100)}% · cash ${Math.round(w.CASH*100)}%</div></div>
+      <div class="fl-sub">Stocks ${Math.round(R.equity_weight*100)}% · Bitcoin ${Math.round(w.BTC*100)}% · gold ${Math.round(w.GLD*100)}% · T-bills ${Math.round(w.CASH*100)}%</div></div>
     <div><div class="label" style="margin-bottom:10px">Allocation now</div><div class="fl-alloc">${A.map(bar).join('')}</div></div></div></section>`);
   const B=R.backtest,P=['2005–26','2005–14','2015–26'],N={flagship:'Flagship',no_btc:'Flagship without Bitcoin',spy:'S&P 500 (SPY)',sixty40:'60/40 (SPY / IEF)'};
   const rows=Object.keys(N).map(k=>`<tr${k==='flagship'?' style="font-weight:600"':''}><td>${N[k]}</td>${P.map(p=>{const s=B[k][p];return `<td class="n">${pc(s.cagr)}</td><td class="n">${pc(s.maxdd,0)}</td><td class="n">${s.sharpe.toFixed(2)}</td>`}).join('')}</tr>`).join('');
@@ -254,26 +255,46 @@ function render(R,EQ){
     <div class="panel"><div class="fl-legend"><span><i style="background:#a58ee4"></i>Flagship</span><span><i style="background:#d1d4dc"></i>S&amp;P 500</span><span><i style="background:#5c6272"></i>60/40</span></div><div class="fl-chart chart" id="flchart"></div>
     <p class="note" style="margin-top:8px">Backtest, growth of $1 since January 2005, log scale. Hypothetical and in-sample: the desk rules that drive it were chosen with this history in view.</p></div>
     <div class="tblwrap"><table><thead><tr><th rowspan="2">Backtest</th>${P.map(p=>`<th class="n" colspan="3">${p}</th>`).join('')}</tr><tr>${P.map(()=>'<th class="n">Per year</th><th class="n">Worst drop</th><th class="n">Sharpe</th>').join('')}</tr></thead><tbody>${rows}</tbody></table></div>
-    <p class="note">Turnover about ${Math.round(R.turnover*100)}% a year. Bitcoin's sleeve added most of the 2015–26 gap over the version without it, mainly in 2017 and 2020; the version without Bitcoin still beat SPY with less than a third of its worst drop.</p></section>`);
+    <p class="note">Turnover about ${Math.round(R.turnover*100)}% a year. Bitcoin's sleeve added most of the 2015–26 gap over the version without it; without Bitcoin the model returned ${pc(B.no_btc['2005–26'].cagr)} a year from 2005 to 2026 against ${pc(B.spy['2005–26'].cagr)} for SPY, with a worst drop of ${pc(B.no_btc['2005–26'].maxdd,0)} against ${pc(B.spy['2005–26'].maxdd,0)}.</p></section>`);
   drawChart($('#flchart'),EQ);
-  const WM=R.weight_map;
+  const RU=R.rules,ex=m=>Object.entries(m),who=(m,v)=>ex(m).filter(([,x])=>x===v).map(([k])=>k).join(', ')||'—';
+  const rrow=(n,wt,by,m)=>`<tr><td>${n}</td><td class="n">${wt}</td><td>${by}</td><td>${m?who(m,1):'Always'}</td><td>${m?who(m,.5):'—'}</td><td>${m?who(m,0):'—'}</td></tr>`;
   M.insertAdjacentHTML('beforeend',`<section class="sec"><h2>The rules</h2>
-    <div class="tblwrap"><table><thead><tr><th>Regime</th><th>When</th>${A.map(k=>`<th class="n">${k==='CASH'?'Cash':k}</th>`).join('')}</tr></thead><tbody>
-    ${['Risk-On','Neutral','Risk-Off'].map(r=>{const x=WM[r];const cash=1-Object.values(x).reduce((a,b)=>a+b,0);return `<tr><td class="fl-call ${r}" style="font-size:1rem;letter-spacing:0">${r}</td><td>${r==='Risk-On'?'Stocks desk Bullish, Neutral or Recovery':r==='Neutral'?'Stocks desk Correction':'Stocks desk Bearish'}</td>${A.map(k=>`<td class="n">${Math.round((k==='CASH'?cash:x[k])*100)}%</td>`).join('')}</tr>`}).join('')}
+    <div class="tblwrap"><table><thead><tr><th>Sleeve</th><th class="n">Target</th><th>Sized by</th><th>Full</th><th>Half</th><th>None</th></tr></thead><tbody>
+    ${rrow(`Stocks: SPY ${Math.round(RU.stocks.SPY*100)}% + QQQ ${Math.round(RU.stocks.QQQ*100)}%`,Math.round((RU.stocks.SPY+RU.stocks.QQQ)*100)+'%','<a href="stocks.html">Stocks desk</a>',RU.stocks_exposure)}
+    ${rrow('Bitcoin',Math.round(RU.btc*100)+'%','<a href="bitcoin.html">Bitcoin desk</a>',RU.btc_exposure)}
+    ${rrow('Gold (GLD)',Math.round(RU.gold*100)+'%','Fixed',null)}
+    <tr><td>T-bills</td><td class="n">Rest</td><td colspan="4">Whatever the sleeves above don't hold</td></tr>
     </tbody></table></div>
-    <p class="note">The Bitcoin sleeve is scaled by the Bitcoin desk: full when it is Bullish or Recovery, half when Neutral or Correction, none when Bearish; the rest goes to cash. Before 2014 the Bitcoin sleeve is held in SPY.</p></section>`);
+    <p class="note">Before 2014, when the Bitcoin desk has no history, the Bitcoin sleeve is added to the stocks sleeve. Today: stocks desk <b>${R.stocks_regime}</b>, Bitcoin desk <b>${R.btc_regime||'—'}</b>.</p></section>`);
+  const SD=STUDY,sr=(k,n,b)=>{const x=SD[k];const c=v=>`<td class="n">${pc(v[0])}</td><td class="n">${v[1].toFixed(2)}</td><td class="n">${pc(v[2],0)}</td>`;return `<tr${b?' style="font-weight:600"':''}><td>${n}</td>${c(x.b)}<td class="n">${x.b2[1].toFixed(2)}</td><td class="n">${x.h1[1].toFixed(2)}</td></tr>`};
+  M.insertAdjacentHTML('beforeend',`<section class="sec"><h2>How the mix was chosen</h2>
+    <p class="fl-sub" style="margin:0 0 12px;max-width:78ch">On Oct 30, 2026, before live tracking, we ran more than 150 portfolios through the same two desks: index, sector, factor, international, real-estate, commodity and leveraged ETFs, Treasuries of several maturities, gold and Bitcoin. Each was judged on 2015–26 and, separately, on 2021–26 and the pre-Bitcoin 2005–14 period. The aim was the best return per unit of risk that still beat the S&amp;P 500 in every window, using the simplest mix that held up.</p>
+    <div class="tblwrap"><table><thead><tr><th rowspan="2">Variant</th><th class="n" colspan="3">2015–26</th><th class="n">2021–26</th><th class="n">2005–14</th></tr><tr><th class="n">Per year</th><th class="n">Sharpe</th><th class="n">Worst drop</th><th class="n">Sharpe</th><th class="n">Sharpe</th></tr></thead><tbody>
+    ${sr('chosen','Flagship: SPY 35 · QQQ 35 · Bitcoin 20 · gold 10',1)}
+    ${sr('btc10','Bitcoin 10%, stocks 80%')}${sr('btc30','Bitcoin 30%, stocks 60%')}
+    ${sr('nogold','No gold, stocks 80%')}${sr('gold20','Gold 20%, stocks 60%')}
+    ${sr('qqq','Nasdaq-100 only for stocks')}${sr('tech','Tech tilt: QQQ + semis (SMH) + tech (XLK)')}
+    ${sr('defeq','Defensive tilt: QQQ + health care + staples')}${sr('qld','A quarter of stocks in 2× Nasdaq (QLD)*')}
+    ${sr('out_ief','Treasuries (IEF) instead of T-bills when out')}${sr('out_tlt','Long Treasuries (TLT) instead of T-bills when out')}
+    ${sr('old6040','Kerdos Portfolio: 60% stocks / 40% Bitcoin')}${sr('spy','S&amp;P 500, buy and hold')}
+    </tbody></table></div>
+    <p class="note">Sharpe uses daily returns over T-bills. *QLD began trading in June 2006, so its 2005–14 column starts then.</p>
+    <div class="fl-method" style="margin-top:12px">
+    <p>What the study found. Bitcoin, timed by its desk, was the largest source of extra return per unit of risk. Sharpe ratios flattened between 15% and 30% in Bitcoin and fell after that, so 20% sits in the middle of the flat zone. A fixed gold slice smoothed the ride. At 10% it cost almost nothing even when gold's return was set to zero, while larger slices depended on gold's 2024–26 rally. Treasuries were a better place to wait than T-bills in 2005–14, but since 2015 T-bills did better, mainly because bonds fell with stocks in 2022. The tech tilt looked best since 2015 but lagged in 2005–14. Leverage raised returns, but since 2015 it lowered return per unit of risk and deepened the worst drop. A defensive tilt (health care and staples) matched the flagship's risk-adjusted results with less return; it is the closest alternative. Factor, international, emerging-market, real-estate and energy sleeves did not improve on SPY and QQQ. A basket of today's mega-cap stocks tested best of all, but only because it was picked with hindsight, so it was excluded.</p>
+    <p>Stress test: with Bitcoin's and gold's 2015–26 returns both cut to zero, and only the desks' timing left, the flagship still returned 22.5% a year at a Sharpe of 1.20, against 13.8% and 0.70 for SPY.</p></div></section>`);
   const ch=R.changes||[];const f=v=>Math.round(v*100)+'%';
-  const diff=c=>A.filter(k=>Math.abs(c.weights[k]-c.before[k])>1e-6).map(k=>`${k==='CASH'?'Cash':k} ${f(c.before[k])} → ${f(c.weights[k])}`).join(', ');
+  const diff=c=>A.filter(k=>Math.abs(c.weights[k]-c.before[k])>1e-6).map(k=>`${k==='CASH'?'T-bills':k} ${f(c.before[k])} → ${f(c.weights[k])}`).join(', ');
   M.insertAdjacentHTML('beforeend',`<section class="sec"><h2>Recent allocation changes</h2><div class="tblwrap"><table><thead><tr><th>Date</th><th>Regime</th><th>What changed</th></tr></thead><tbody>
     ${ch.map(c=>`<tr><td class="mono" style="white-space:nowrap">${fmtD(c.date)}</td><td>${c.regime}</td><td>${diff(c)}</td></tr>`).join('')}</tbody></table></div></section>`);
   const Y=R.yearly;
   M.insertAdjacentHTML('beforeend',`<section class="sec"><h2>Year by year</h2><div class="tblwrap"><table><thead><tr><th>Year</th><th class="n">Flagship</th><th class="n">Without Bitcoin</th><th class="n">SPY</th><th class="n">60/40</th></tr></thead><tbody>
     ${Y.slice().reverse().map(y=>`<tr><td class="mono">${y.year}${y.year===+R.asof.slice(0,4)?' YTD':''}</td><td class="n">${pcs(y.flagship/100,0)}</td><td class="n">${pcs(y.no_btc/100,0)}</td><td class="n">${pcs(y.spy/100,0)}</td><td class="n">${pcs(y.sixty40/100,0)}</td></tr>`).join('')}</tbody></table></div></section>`);
   M.insertAdjacentHTML('beforeend',`<section class="sec"><h2>Method and limits</h2><div class="fl-method">
-    <p>The flagship adds no new forecasting signals. It reuses the two published desks: the US stocks desk's regime decides how much sits in stocks versus Treasuries, gold and cash, and the Bitcoin desk sizes a Bitcoin sleeve of at most 10%. The weights were set from simple principles (stocks as the growth engine, Treasuries and gold as diversifiers that rise in weight when stocks are cut) and were not optimized. Nearby weight sets gave similar results: Sharpe ratios between 1.2 and 1.4 from 2005 to 2026.</p>
+    <p>The flagship adds no new forecasting signals. It reuses the two published desks: the US stocks desk sizes a 70% stock sleeve and the Bitcoin desk sizes a 20% Bitcoin sleeve, a 10% gold slice is always held, and the rest waits in T-bills. Nearby mixes gave similar results (see the table above), so the result doesn't depend on these exact weights.</p>
     <p>Positions follow the previous close's signals. The portfolio rebalances whenever a target changes and at each month start, at 0.05% per unit traded. Cash earns the 3-month T-bill; dividends and Treasury coupons are approximated. Benchmarks: SPY, and 60% SPY / 40% IEF rebalanced monthly.</p>
-    <p>Tested and not used: holding Treasuries and gold only when they trade above their own 200-day averages. It more than doubled turnover and lowered returns for a 2-point smaller worst drawdown.</p>
-    <p>Limits: the regime rules were chosen with the 2003–2026 history in view, and the Bitcoin desk with 2014–2026, so the backtest is optimistic. Bitcoin's early gains are unlikely to repeat. The 2022 inflation shock, when stocks and Treasuries fell together, was the model's worst calendar year. This is a hypothetical model, not investment advice.</p></div></section>`);
+    <p>Version history: version 1 (Oct 2026, never tracked live) held Treasuries and more cash and capped Bitcoin at 10%. It returned 16.6% a year from 2005 to 2026 with a worst drop of −18%, against 22.8% and −22% for version 2, at about the same Sharpe (1.30 vs 1.32). Version 2 replaced it before live tracking began. Further changes will be dated here and will not rewrite the live record.</p>
+    <p>Limits: the regime rules were chosen with the 2003–2026 history in view, and the Bitcoin desk with 2014–2026, so the backtest is optimistic. Bitcoin's early gains are unlikely to repeat, and gold's 2024–26 rally flatters the gold slice. 2022, when stocks, bonds and Bitcoin all fell, was the model's worst calendar year. This is a hypothetical model, not investment advice.</p></div></section>`);
 }
 function drawChart(host,EQ){
   const S=[['flagship','#a58ee4',2.2],['spy','#d1d4dc',1.5],['sixty40','#5c6272',1.5]];
