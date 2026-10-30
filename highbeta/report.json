@@ -1,0 +1,526 @@
+{
+ "asof": "2026-10-28",
+ "generated": "2026-10-29T14:33:47Z",
+ "level": 31.6933,
+ "chg": {
+  "d1": 0.0233,
+  "d5": 0.0225,
+  "d21": -0.0932,
+  "d63": 0.0596,
+  "ytd": 0.8576
+ },
+ "qqq": 725.61,
+ "qqq_chg": {
+  "d1": 0.006,
+  "d5": 0.0006,
+  "d21": -0.0167,
+  "d63": 0.0615,
+  "ytd": 0.1812
+ },
+ "sphb": 144.55,
+ "sphb_chg": {
+  "d1": 0.0158,
+  "d5": 0.0039,
+  "d21": -0.0479,
+  "d63": 0.0341,
+  "ytd": 0.2358
+ },
+ "regime": "Lagging",
+ "regime_since": "2026-10-27",
+ "regime_days": 1,
+ "prev_regime": "Crash",
+ "market_regime": "Bullish",
+ "exposure": 0.5,
+ "exposure_map": {
+  "Bullish": 1.0,
+  "Neutral": 1.0,
+  "Recovery": 1.0,
+  "Correction": 0.5,
+  "Lagging": 0.5,
+  "Crash": 0.5,
+  "Bearish": 0.0,
+  "Breakdown": 0.0
+ },
+ "break_states": [
+  "Neutral",
+  "Correction"
+ ],
+ "trend": {
+  "ma200": 27.8216,
+  "vs200": 0.1392,
+  "below": false,
+  "hi52": -0.1628,
+  "days_below": 0
+ },
+ "strength": {
+  "score": -0.317,
+  "state": "Lagging",
+  "since": "2026-10-16",
+  "vs_ma": -0.0561,
+  "rel_3m": 0.0176,
+  "basket_3m": 0.0596,
+  "spy_3m": 0.0413,
+  "threshold": 0.2,
+  "confirm": 5,
+  "days_below": 4,
+  "days_above": 1
+ },
+ "crash": {
+  "active": false,
+  "r10": 0.0058,
+  "r5": 0.0225,
+  "trigger_below": 27.7058,
+  "exit_above": 29.0661,
+  "n": 10,
+  "drop": -0.12,
+  "off_n": 5
+ },
+ "members": [
+  {
+   "symbol": "APP",
+   "beta": 2.587,
+   "weight": 0.0395,
+   "ret": -0.1049,
+   "close": 259.97
+  },
+  {
+   "symbol": "NBIS",
+   "beta": 2.568,
+   "weight": 0.0341,
+   "ret": -0.227,
+   "close": 182.34
+  },
+  {
+   "symbol": "ALAB",
+   "beta": 2.399,
+   "weight": 0.0368,
+   "ret": -0.1651,
+   "close": 297.2
+  },
+  {
+   "symbol": "SNDK",
+   "beta": 2.377,
+   "weight": 0.0356,
+   "ret": -0.1926,
+   "close": 1404.77
+  },
+  {
+   "symbol": "MU",
+   "beta": 2.18,
+   "weight": 0.0407,
+   "ret": -0.0769,
+   "close": 983.23
+  },
+  {
+   "symbol": "RKLB",
+   "beta": 2.164,
+   "weight": 0.0371,
+   "ret": -0.159,
+   "close": 58.6
+  },
+  {
+   "symbol": "ARM",
+   "beta": 2.068,
+   "weight": 0.0359,
+   "ret": -0.1856,
+   "close": 235.9
+  },
+  {
+   "symbol": "PLTR",
+   "beta": 1.989,
+   "weight": 0.0464,
+   "ret": 0.0522,
+   "close": 196.81
+  },
+  {
+   "symbol": "AVGO",
+   "beta": 1.848,
+   "weight": 0.0442,
+   "ret": 0.0018,
+   "close": 351.81
+  },
+  {
+   "symbol": "WDC",
+   "beta": 1.772,
+   "weight": 0.0385,
+   "ret": -0.1277,
+   "close": 396.42
+  },
+  {
+   "symbol": "MRVL",
+   "beta": 1.746,
+   "weight": 0.042,
+   "ret": -0.0475,
+   "close": 251.65
+  },
+  {
+   "symbol": "INTC",
+   "beta": 1.746,
+   "weight": 0.0351,
+   "ret": -0.2054,
+   "close": 95.53
+  },
+  {
+   "symbol": "CRWV",
+   "beta": 1.733,
+   "weight": 0.0324,
+   "ret": -0.2662,
+   "close": 63.93
+  },
+  {
+   "symbol": "STX",
+   "beta": 1.714,
+   "weight": 0.0334,
+   "ret": -0.2433,
+   "close": 697.97
+  },
+  {
+   "symbol": "SHOP",
+   "beta": 1.701,
+   "weight": 0.05,
+   "ret": 0.1343,
+   "close": 168.22
+  },
+  {
+   "symbol": "AMD",
+   "beta": 1.695,
+   "weight": 0.0417,
+   "ret": -0.0545,
+   "close": 578.44
+  },
+  {
+   "symbol": "LRCX",
+   "beta": 1.649,
+   "weight": 0.0341,
+   "ret": -0.2274,
+   "close": 253.82
+  },
+  {
+   "symbol": "MCHP",
+   "beta": 1.633,
+   "weight": 0.0452,
+   "ret": 0.0239,
+   "close": 79.63
+  },
+  {
+   "symbol": "TSLA",
+   "beta": 1.542,
+   "weight": 0.0503,
+   "ret": 0.1393,
+   "close": 404.22
+  },
+  {
+   "symbol": "QCOM",
+   "beta": 1.536,
+   "weight": 0.0439,
+   "ret": -0.0058,
+   "close": 182.97
+  },
+  {
+   "symbol": "MPWR",
+   "beta": 1.513,
+   "weight": 0.0397,
+   "ret": -0.1009,
+   "close": 1211.22
+  },
+  {
+   "symbol": "NVDA",
+   "beta": 1.46,
+   "weight": 0.0416,
+   "ret": -0.0569,
+   "close": 215.38
+  },
+  {
+   "symbol": "KLAC",
+   "beta": 1.425,
+   "weight": 0.0359,
+   "ret": -0.1855,
+   "close": 158.77
+  },
+  {
+   "symbol": "LITE",
+   "beta": 1.398,
+   "weight": 0.0415,
+   "ret": -0.059,
+   "close": 913.95
+  },
+  {
+   "symbol": "CRWD",
+   "beta": 1.325,
+   "weight": 0.0444,
+   "ret": 0.0072,
+   "close": 266.66
+  }
+ ],
+ "n": 25,
+ "rank_date": "2026-09-30",
+ "rank_quarter": "2026Q4",
+ "rerank_due": false,
+ "last_rerank": {
+  "date": "2026-09-30",
+  "added": [],
+  "removed": [],
+  "missing": []
+ },
+ "backtest": {
+  "basket": {
+   "strategy": {
+    "cagr": 0.5019,
+    "vol": 0.2793,
+    "sharpe": 1.504,
+    "maxdd": -0.2953,
+    "multiple": 35.877
+   },
+   "buyhold": {
+    "cagr": 0.4809,
+    "vol": 0.3667,
+    "sharpe": 1.184,
+    "maxdd": -0.4803,
+    "multiple": 31.693
+   },
+   "exposure": 0.802,
+   "trades": 34,
+   "start": "2017-12-29",
+   "years": 8.81
+  },
+  "sphb": {
+   "strategy": {
+    "cagr": 0.1109,
+    "vol": 0.1837,
+    "sharpe": 0.578,
+    "maxdd": -0.2344,
+    "multiple": 5.026
+   },
+   "buyhold": {
+    "cagr": 0.1251,
+    "vol": 0.2746,
+    "sharpe": 0.509,
+    "maxdd": -0.4778,
+    "multiple": 6.109
+   },
+   "exposure": 0.71,
+   "trades": 119,
+   "start": "2011-06-01",
+   "years": 15.36
+  },
+  "halves": {
+   "2018-2021": {
+    "strategy": {
+     "cagr": 0.4871,
+     "vol": 0.2575,
+     "sharpe": 1.628,
+     "maxdd": -0.1978,
+     "multiple": 4.883
+    },
+    "buyhold": {
+     "cagr": 0.4532,
+     "vol": 0.309,
+     "sharpe": 1.33,
+     "maxdd": -0.3059,
+     "multiple": 4.452
+    },
+    "exposure": 0.896,
+    "trades": 12,
+    "start": "2018-01-02",
+    "years": 4.0
+   },
+   "2022-now": {
+    "strategy": {
+     "cagr": 0.5024,
+     "vol": 0.2963,
+     "sharpe": 1.392,
+     "maxdd": -0.2953,
+     "multiple": 7.05
+    },
+    "buyhold": {
+     "cagr": 0.4927,
+     "vol": 0.4087,
+     "sharpe": 1.09,
+     "maxdd": -0.4617,
+     "multiple": 6.833
+    },
+    "exposure": 0.722,
+    "trades": 23,
+    "start": "2022-01-03",
+    "years": 4.8
+   },
+   "sphb-2011-2018": {
+    "strategy": {
+     "cagr": 0.0763,
+     "vol": 0.1607,
+     "sharpe": 0.51,
+     "maxdd": -0.2344,
+     "multiple": 1.743
+    },
+    "buyhold": {
+     "cagr": 0.0544,
+     "vol": 0.2304,
+     "sharpe": 0.326,
+     "maxdd": -0.3658,
+     "multiple": 1.492
+    },
+    "exposure": 0.733,
+    "trades": 49,
+    "start": "2011-06-01",
+    "years": 7.56
+   },
+   "sphb-2019-now": {
+    "strategy": {
+     "cagr": 0.1454,
+     "vol": 0.2035,
+     "sharpe": 0.636,
+     "maxdd": -0.2285,
+     "multiple": 2.884
+    },
+    "buyhold": {
+     "cagr": 0.197,
+     "vol": 0.3116,
+     "sharpe": 0.646,
+     "maxdd": -0.4778,
+     "multiple": 4.066
+    },
+    "exposure": 0.687,
+    "trades": 70,
+    "start": "2019-01-02",
+    "years": 7.81
+   }
+  }
+ },
+ "yearly": {
+  "basket": [
+   {
+    "year": 2018,
+    "strategy": 12.7,
+    "buyhold": -0.2
+   },
+   {
+    "year": 2019,
+    "strategy": 57.2,
+    "buyhold": 69.6
+   },
+   {
+    "year": 2020,
+    "strategy": 101.0,
+    "buyhold": 90.5
+   },
+   {
+    "year": 2021,
+    "strategy": 41.3,
+    "buyhold": 42.1
+   },
+   {
+    "year": 2022,
+    "strategy": -9.0,
+    "buyhold": -41.6
+   },
+   {
+    "year": 2023,
+    "strategy": 69.1,
+    "buyhold": 102.4
+   },
+   {
+    "year": 2024,
+    "strategy": 64.0,
+    "buyhold": 70.8
+   },
+   {
+    "year": 2025,
+    "strategy": 73.1,
+    "buyhold": 84.3
+   },
+   {
+    "year": 2026,
+    "strategy": 63.4,
+    "buyhold": 85.8
+   }
+  ],
+  "sphb": [
+   {
+    "year": 2011,
+    "strategy": -17.9,
+    "buyhold": -20.7
+   },
+   {
+    "year": 2012,
+    "strategy": 13.4,
+    "buyhold": 16.8
+   },
+   {
+    "year": 2013,
+    "strategy": 33.9,
+    "buyhold": 39.6
+   },
+   {
+    "year": 2014,
+    "strategy": 6.0,
+    "buyhold": 11.5
+   },
+   {
+    "year": 2015,
+    "strategy": -8.9,
+    "buyhold": -14.2
+   },
+   {
+    "year": 2016,
+    "strategy": 26.2,
+    "buyhold": 24.9
+   },
+   {
+    "year": 2017,
+    "strategy": 13.1,
+    "buyhold": 16.1
+   },
+   {
+    "year": 2018,
+    "strategy": 1.3,
+    "buyhold": -16.9
+   },
+   {
+    "year": 2019,
+    "strategy": 6.6,
+    "buyhold": 32.2
+   },
+   {
+    "year": 2020,
+    "strategy": 26.3,
+    "buyhold": 21.7
+   },
+   {
+    "year": 2021,
+    "strategy": 36.2,
+    "buyhold": 39.2
+   },
+   {
+    "year": 2022,
+    "strategy": -16.6,
+    "buyhold": -21.1
+   },
+   {
+    "year": 2023,
+    "strategy": 17.4,
+    "buyhold": 32.2
+   },
+   {
+    "year": 2024,
+    "strategy": 0.4,
+    "buyhold": 7.6
+   },
+   {
+    "year": 2025,
+    "strategy": 38.7,
+    "buyhold": 31.9
+   },
+   {
+    "year": 2026,
+    "strategy": 15.5,
+    "buyhold": 23.6
+   }
+  ]
+ },
+ "qqq_bt": {
+  "cagr": 0.1909,
+  "vol": 0.2374,
+  "maxdd": -0.3562
+ },
+ "new_days": 1
+}

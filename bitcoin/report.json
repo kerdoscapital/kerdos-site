@@ -1,0 +1,701 @@
+{
+ "asof": "2026-10-28",
+ "generated": "2026-10-29 13:54 UTC",
+ "price": 81259.0,
+ "chg1": 0.6,
+ "chg7": -3.3,
+ "chg30": -2.7,
+ "mtd": -4.2,
+ "ytd": -7.2,
+ "regime": "Neutral",
+ "regime_since": "2026-10-16",
+ "regime_days": 13,
+ "prev_regime": "Bullish",
+ "signal": "Neutral",
+ "exposure": 0.5,
+ "exposure_map": {
+  "Bullish": 1.0,
+  "Neutral": 0.5,
+  "Recovery": 1.0,
+  "Correction": 0.5,
+  "Bearish": 0.0
+ },
+ "v2": {
+  "deep_dd": -0.5,
+  "deep_off": -0.45,
+  "bottom_macro": -0.2,
+  "dd": -34.9,
+  "deep": false,
+  "macro": -0.486,
+  "above_20w": true,
+  "m20w": 72371.0
+ },
+ "v3": {
+  "floor": {
+   "active": false,
+   "m200w": 67151.0,
+   "below_200w": false,
+   "ratio": 1.21,
+   "stop": 0.25
+  },
+  "pi": {
+   "active": false,
+   "days": 120,
+   "m111": 74762.0,
+   "m350x2": 152344.0,
+   "gap": -50.9,
+   "last_cross": "2021-04-12"
+  }
+ },
+ "turns": [
+  {
+   "kind": "bottom",
+   "date": "2015-01-14",
+   "price": 176.0,
+   "new": [
+    0.0,
+    43.0
+   ],
+   "old": [
+    38.0,
+    65.0
+   ]
+  },
+  {
+   "kind": "top",
+   "date": "2017-12-16",
+   "price": 19641.0,
+   "new": [
+    0.0,
+    -65.0
+   ],
+   "old": [
+    -55.0,
+    -60.0
+   ]
+  },
+  {
+   "kind": "bottom",
+   "date": "2018-12-15",
+   "price": 3185.0,
+   "new": [
+    22.0,
+    25.0
+   ],
+   "old": [
+    24.0,
+    66.0
+   ]
+  },
+  {
+   "kind": "top",
+   "date": "2019-06-26",
+   "price": 12863.0,
+   "new": [
+    -35.0,
+    179.0
+   ],
+   "old": [
+    -35.0,
+    -44.0
+   ]
+  },
+  {
+   "kind": "bottom",
+   "date": "2020-03-12",
+   "price": 4959.0,
+   "new": [
+    0.0,
+    77.0
+   ],
+   "old": [
+    0.0,
+    79.0
+   ]
+  },
+  {
+   "kind": "top",
+   "date": "2021-04-13",
+   "price": 63446.0,
+   "new": [
+    0.0,
+    -43.0
+   ],
+   "old": [
+    -36.0,
+    -45.0
+   ]
+  },
+  {
+   "kind": "bottom",
+   "date": "2021-07-20",
+   "price": 29767.0,
+   "new": [
+    0.0,
+    67.0
+   ],
+   "old": [
+    40.0,
+    67.0
+   ]
+  },
+  {
+   "kind": "top",
+   "date": "2021-11-08",
+   "price": 67542.0,
+   "new": [
+    -15.0,
+    -39.0
+   ],
+   "old": [
+    -15.0,
+    -39.0
+   ]
+  },
+  {
+   "kind": "bottom",
+   "date": "2022-11-09",
+   "price": 15758.0,
+   "new": [
+    0.0,
+    20.0
+   ],
+   "old": [
+    7.0,
+    34.0
+   ]
+  },
+  {
+   "kind": "top",
+   "date": "2025-10-06",
+   "price": 124824.0,
+   "new": [
+    -13.0,
+    -23.0
+   ],
+   "old": [
+    -13.0,
+    -23.0
+   ]
+  }
+ ],
+ "yearly": [
+  {
+   "year": 2015,
+   "strategy": 91.5,
+   "buyhold": 34.0,
+   "old": 54.0
+  },
+  {
+   "year": 2016,
+   "strategy": 125.5,
+   "buyhold": 125.5,
+   "old": 125.5
+  },
+  {
+   "year": 2017,
+   "strategy": 1619.9,
+   "buyhold": 1336.7,
+   "old": 1336.7
+  },
+  {
+   "year": 2018,
+   "strategy": -31.6,
+   "buyhold": -73.5,
+   "old": -41.5
+  },
+  {
+   "year": 2019,
+   "strategy": 104.2,
+   "buyhold": 94.4,
+   "old": 66.6
+  },
+  {
+   "year": 2020,
+   "strategy": 267.2,
+   "buyhold": 304.9,
+   "old": 215.7
+  },
+  {
+   "year": 2021,
+   "strategy": 83.4,
+   "buyhold": 59.7,
+   "old": 39.4
+  },
+  {
+   "year": 2022,
+   "strategy": -12.6,
+   "buyhold": -64.4,
+   "old": -4.8
+  },
+  {
+   "year": 2023,
+   "strategy": 127.8,
+   "buyhold": 155.5,
+   "old": 80.0
+  },
+  {
+   "year": 2024,
+   "strategy": 97.4,
+   "buyhold": 121.2,
+   "old": 97.4
+  },
+  {
+   "year": 2025,
+   "strategy": -6.9,
+   "buyhold": -6.3,
+   "old": -6.9
+  },
+  {
+   "year": 2026,
+   "strategy": -10.6,
+   "buyhold": -7.2,
+   "old": -14.7
+  }
+ ],
+ "start_years": [
+  {
+   "start": "2015",
+   "cagr": 92.2,
+   "bh": 59.6,
+   "maxdd": -50.0,
+   "bh_dd": -84.0,
+   "sharpe": 1.49,
+   "bh_sharpe": 1.01
+  },
+  {
+   "start": "2018",
+   "cagr": 47.4,
+   "bh": 22.1,
+   "maxdd": -50.0,
+   "bh_dd": -81.0,
+   "sharpe": 1.03,
+   "bh_sharpe": 0.59
+  },
+  {
+   "start": "2021",
+   "cagr": 36.0,
+   "bh": 19.3,
+   "maxdd": -36.0,
+   "bh_dd": -77.0,
+   "sharpe": 0.88,
+   "bh_sharpe": 0.54
+  },
+  {
+   "start": "2023",
+   "cagr": 41.2,
+   "bh": 51.6,
+   "maxdd": -36.0,
+   "bh_dd": -53.0,
+   "sharpe": 0.98,
+   "bh_sharpe": 1.04
+  }
+ ],
+ "score": 0.142,
+ "score_raw": 0.153,
+ "score_5d_ago": 0.171,
+ "score_30d_ago": 0.285,
+ "score_pctile": 42,
+ "thresholds": {
+  "bull": 0.2,
+  "bear": -0.15
+ },
+ "need_bull": 0.058,
+ "need_bear": -0.292,
+ "groups": {
+  "trend": 0.736,
+  "momentum": 0.145,
+  "macro": -0.486,
+  "valuation": 0.275,
+  "cycle": 0.148
+ },
+ "group_weights": {
+  "trend": 0.3,
+  "momentum": 0.15,
+  "macro": 0.3,
+  "valuation": 0.15,
+  "cycle": 0.1
+ },
+ "factors": [
+  {
+   "key": "f_vs200",
+   "group": "trend",
+   "label": "Price vs 200-day MA",
+   "weight": 0.09,
+   "signal": 0.81,
+   "reading": "+11.2% vs $73,069",
+   "contribution": 0.073
+  },
+  {
+   "key": "f_vs20w",
+   "group": "trend",
+   "label": "Price vs 20-week MA",
+   "weight": 0.06,
+   "signal": 0.84,
+   "reading": "+12.3% vs $72,371",
+   "contribution": 0.051
+  },
+  {
+   "key": "f_vs50w",
+   "group": "trend",
+   "label": "Price vs 50-week MA",
+   "weight": 0.075,
+   "signal": 0.58,
+   "reading": "+6.7% vs $76,172",
+   "contribution": 0.044
+  },
+  {
+   "key": "f_slope200",
+   "group": "trend",
+   "label": "200-day MA slope",
+   "weight": 0.045,
+   "signal": 0.53,
+   "reading": "+1.77% over 20 days",
+   "contribution": 0.024
+  },
+  {
+   "key": "f_cross",
+   "group": "trend",
+   "label": "50/200-day cross",
+   "weight": 0.03,
+   "signal": 1.0,
+   "reading": "50-day above 200-day",
+   "contribution": 0.03
+  },
+  {
+   "key": "f_mom30",
+   "group": "momentum",
+   "label": "30-day return",
+   "weight": 0.0525,
+   "signal": -0.18,
+   "reading": "\u22122.7%",
+   "contribution": -0.009
+  },
+  {
+   "key": "f_mom90",
+   "group": "momentum",
+   "label": "90-day return",
+   "weight": 0.0525,
+   "signal": 0.69,
+   "reading": "+25.5%",
+   "contribution": 0.036
+  },
+  {
+   "key": "f_rsi",
+   "group": "momentum",
+   "label": "RSI (14-day)",
+   "weight": 0.045,
+   "signal": -0.12,
+   "reading": "RSI 47.6",
+   "contribution": -0.005
+  },
+  {
+   "key": "f_dollar",
+   "group": "macro",
+   "label": "US dollar trend (inverted)",
+   "weight": 0.084,
+   "signal": -0.84,
+   "reading": "UUP +3.7% in 3 months",
+   "contribution": -0.071
+  },
+  {
+   "key": "f_credit",
+   "group": "macro",
+   "label": "High-yield credit trend",
+   "weight": 0.072,
+   "signal": -0.75,
+   "reading": "HYG \u22122.9% in 3 months",
+   "contribution": -0.054
+  },
+  {
+   "key": "f_rates",
+   "group": "macro",
+   "label": "Long Treasury trend",
+   "weight": 0.042,
+   "signal": -0.43,
+   "reading": "TLT \u22122.8% in 3 months",
+   "contribution": -0.018
+  },
+  {
+   "key": "f_liq",
+   "group": "macro",
+   "label": "Fed net liquidity",
+   "weight": 0.042,
+   "signal": -0.41,
+   "reading": "\u22121.8% in 13 weeks ($5.47T)",
+   "contribution": -0.017
+  },
+  {
+   "key": "f_gm2",
+   "group": "macro",
+   "label": "Global M2 in USD",
+   "weight": 0.03,
+   "signal": 0.48,
+   "reading": "+1.6% in 3 months ($105.2T, 4-economy proxy)",
+   "contribution": 0.014
+  },
+  {
+   "key": "f_vix",
+   "group": "macro",
+   "label": "VIX panic (contrarian)",
+   "weight": 0.03,
+   "signal": 0.0,
+   "reading": "VIX 16.9",
+   "contribution": 0.0
+  },
+  {
+   "key": "f_200w",
+   "group": "valuation",
+   "label": "Price vs 200-week MA",
+   "weight": 0.0825,
+   "signal": 0.5,
+   "reading": "1.21x the 200-week MA (67,151)",
+   "contribution": 0.041
+  },
+  {
+   "key": "f_mayer",
+   "group": "valuation",
+   "label": "Mayer multiple extremes",
+   "weight": 0.0675,
+   "signal": 0.0,
+   "reading": "Mayer multiple 1.11",
+   "contribution": 0.0
+  },
+  {
+   "key": "f_cyclephase",
+   "group": "cycle",
+   "label": "4-year cycle phase",
+   "weight": 0.065,
+   "signal": -0.25,
+   "reading": "387 days since ATH, 34.9% below it",
+   "contribution": -0.016
+  },
+  {
+   "key": "f_season",
+   "group": "cycle",
+   "label": "Month-of-year seasonality",
+   "weight": 0.035,
+   "signal": 0.89,
+   "reading": "October historical tilt",
+   "contribution": 0.031
+  }
+ ],
+ "analog": {
+  "n": 480,
+  "med30": 4.2,
+  "pos30": 57.0,
+  "q10_30": -20.3,
+  "q90_30": 25.8,
+  "med90": 11.0,
+  "pos90": 63.0
+ },
+ "by_regime": {
+  "Bearish": {
+   "days": 670,
+   "med30": -1.9,
+   "pos30": 44.0,
+   "med90": -12.6,
+   "pos90": 27.0
+  },
+  "Bullish": {
+   "days": 2237,
+   "med30": 5.4,
+   "pos30": 62.0,
+   "med90": 19.8,
+   "pos90": 71.0
+  },
+  "Correction": {
+   "days": 455,
+   "med30": 4.0,
+   "pos30": 63.0,
+   "med90": 11.0,
+   "pos90": 60.0
+  },
+  "Neutral": {
+   "days": 830,
+   "med30": 1.6,
+   "pos30": 54.0,
+   "med90": 10.3,
+   "pos90": 58.0
+  },
+  "Recovery": {
+   "days": 127,
+   "med30": 9.2,
+   "pos30": 61.0,
+   "med90": 11.5,
+   "pos90": 57.0
+  }
+ },
+ "levels": {
+  "ath": 124824.0,
+  "ath_date": "2025-10-06",
+  "cycle_low": 58563.0,
+  "cycle_low_date": "2026-06-30",
+  "m20": 81835.0,
+  "m50": 81890.0,
+  "m100": 75925.0,
+  "m200": 73069.0,
+  "m365": 77377.0,
+  "m20w": 72371.0,
+  "m50w": 76172.0,
+  "m200w": 67151.0
+ },
+ "vol30": 25.2,
+ "move7": 3.5,
+ "move30": 7.2,
+ "cycle": {
+  "days_since_ath": 387,
+  "dd": -34.9,
+  "days_since_low": 120,
+  "rally_from_low": 38.8,
+  "days_since_halving": 922,
+  "next_halving": "2028-04-15",
+  "days_to_halving": 535,
+  "cycle_year": 2
+ },
+ "season": {
+  "this": {
+   "month": "October",
+   "n": 15,
+   "med": 11.2,
+   "pos": 67.0,
+   "med_2017": 11.2,
+   "same_cycle_year_mean": -4.2,
+   "same_cycle_year_n": 3,
+   "same_cycle_year": [
+    {
+     "y": 2014,
+     "r": -13.4
+    },
+    {
+     "y": 2018,
+     "r": -4.5
+    },
+    {
+     "y": 2022,
+     "r": 5.4
+    }
+   ]
+  },
+  "next": {
+   "month": "November",
+   "n": 15,
+   "med": 8.9,
+   "pos": 60.0,
+   "med_2017": -7.1,
+   "same_cycle_year_mean": -13.6,
+   "same_cycle_year_n": 3,
+   "same_cycle_year": [
+    {
+     "y": 2014,
+     "r": 12.3
+    },
+    {
+     "y": 2018,
+     "r": -37.0
+    },
+    {
+     "y": 2022,
+     "r": -16.2
+    }
+   ]
+  }
+ },
+ "corr": {
+  "ndx": {
+   "w13": -0.12,
+   "w52": 0.39
+  },
+  "spx": {
+   "w13": -0.19,
+   "w52": 0.34
+  },
+  "gld": {
+   "w13": 0.53,
+   "w52": 0.18
+  },
+  "uup": {
+   "w13": -0.37,
+   "w52": -0.15
+  },
+  "tlt": {
+   "w13": -0.03,
+   "w52": -0.08
+  },
+  "hyg": {
+   "w13": -0.05,
+   "w52": 0.2
+  }
+ },
+ "macro": {
+  "uup": 29.06,
+  "hyg": 77.59,
+  "tlt": 80.99,
+  "vix": 16.9,
+  "net_liq": 5.468,
+  "gm2_usd": 105.2,
+  "spx": 7744.0,
+  "ndx": 29813.0,
+  "gld": 373.51,
+  "us10y": 4.99,
+  "real10y": 2.64,
+  "wti": 103.4,
+  "dxy": 101.76
+ },
+ "backtest": {
+  "strategy": {
+   "cagr": 0.922,
+   "vol": 0.51,
+   "sharpe": 1.494,
+   "maxdd": -0.498,
+   "multiple": 2283.125
+  },
+  "old": {
+   "cagr": 0.711,
+   "vol": 0.508,
+   "sharpe": 1.27,
+   "maxdd": -0.603,
+   "multiple": 574.106
+  },
+  "buyhold": {
+   "cagr": 0.596,
+   "vol": 0.663,
+   "sharpe": 1.009,
+   "maxdd": -0.838,
+   "multiple": 253.413
+  },
+  "exposure": 0.696,
+  "old_exposure": 0.637,
+  "trades": 103,
+  "old_trades": 71,
+  "cash": "3-month T-bill"
+ },
+ "data_freshness": {
+  "btc": "2026-10-28",
+  "uup": "2026-10-28",
+  "hyg": "2026-10-28",
+  "tlt": "2026-10-28",
+  "vix": "2026-10-28",
+  "spx": "2026-10-28",
+  "net_liq": "2026-10-22",
+  "us_m2": "2026-09-01",
+  "fx": "2026-10-23"
+ },
+ "notes": [
+  {
+   "text": "On Oct 28, 2026, the Fed held its policy rate at 3.75%-4.00% in a 10-2 vote, with Lisa Cook and Beth Hammack dissenting in favor of a 25 basis point hike.",
+   "source": "Admiral Markets",
+   "url": "https://admiralmarkets.com/analytics/traders-blog/fed-rate-decision-october-28-2026-hawkish-hold"
+  },
+  {
+   "text": "US spot Bitcoin ETFs took in $137.3 million of net inflows on Oct 28, 2026, a third straight day of inflows, with BlackRock's IBIT accounting for $136 million.",
+   "source": "KuCoin News",
+   "url": "https://www.kucoin.com/news/flash/u-s-bitcoin-spot-etfs-see-137-3m-net-inflow-ethereum-etfs-record-21-4m-net-outflow-on-october-28"
+  },
+  {
+   "text": "The October jobs report is scheduled for Friday, Nov 6, 2026 at 8:30 AM ET, after JOLTS job openings on Tuesday, Nov 3; October CPI follows on Nov 10.",
+   "source": "FedRateCalc",
+   "url": "https://fedratecalc.com/us-economic-calendar/november-2026/"
+  }
+ ]
+}

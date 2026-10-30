@@ -239,6 +239,16 @@ tr.adopt td:first-child{font-weight:600} tr.rej td{color:var(--muted)} tr.sens t
 .mast.sub h1{font-size:1.5rem;font-weight:700;font-stretch:112%;letter-spacing:-.01em;color:var(--white)}
 </style>
 
+<style id="wide-css">
+/* Wide screens: let the layout use the window instead of a fixed 1180px column. */
+@media (min-width:1400px){
+  html body .wrap{max-width:min(1760px,94vw);padding-left:clamp(24px,3vw,64px);padding-right:clamp(24px,3vw,64px)}
+  html body{font-size:16px}
+  html body .intro{max-width:none}
+  html body .intro>p{max-width:86ch}
+}
+@media (min-width:1800px){html body{font-size:17px}}
+</style>
 </head>
 <body>
 <div class="wrap" id="app">

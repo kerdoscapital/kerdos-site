@@ -1,0 +1,1034 @@
+{
+ "asof": "2026-10-28",
+ "generated": "2026-10-29 14:32 UTC",
+ "spy": 772.31,
+ "qqq": 725.61,
+ "spy_chg": {
+  "d1": 0.3,
+  "d5": -0.1,
+  "d21": 1.1,
+  "ytd": 13.3
+ },
+ "qqq_chg": {
+  "d1": 0.6,
+  "d5": 0.1,
+  "d21": -1.7,
+  "ytd": 18.1
+ },
+ "regime": "Bullish",
+ "regime_since": "2026-04-15",
+ "regime_days": 197,
+ "prev_regime": "Neutral",
+ "signal": "Bullish",
+ "exposure": 1.0,
+ "exposure_enhanced": 1.25,
+ "exposure_map": {
+  "Bullish": 1.0,
+  "Neutral": 1.0,
+  "Recovery": 1.0,
+  "Correction": 0.5,
+  "Bearish": 0.0
+ },
+ "enhanced_map": {
+  "Bullish": 1.25,
+  "Neutral": 1.0,
+  "Recovery": 1.0,
+  "Correction": 0.5,
+  "Bearish": 0.0
+ },
+ "macro_gate": {
+  "value": -0.232,
+  "threshold": -0.25,
+  "confirmed": false
+ },
+ "recovery": {
+  "threshold": -0.2,
+  "dd": -0.9,
+  "above_m50": true,
+  "m50_rising": false,
+  "active": false,
+  "route": null
+ },
+ "rebound": {
+  "rally": 0.1,
+  "window": 20,
+  "cpi_max": 0.04,
+  "stop": 0.07,
+  "low20": 759.97,
+  "off_low": 1.6,
+  "cpi": 3.7,
+  "cpi_ok": true,
+  "active": false,
+  "since": null,
+  "stop_level": null,
+  "last": {
+   "date": "2025-04-09",
+   "close": 548.62
+  }
+ },
+ "turns": [
+  {
+   "kind": "top",
+   "date": "2007-10-09",
+   "price": 156.48,
+   "new": [
+    -8.0,
+    -8.0
+   ],
+   "old": [
+    0.0,
+    -8.0
+   ]
+  },
+  {
+   "kind": "bottom",
+   "date": "2009-03-09",
+   "price": 68.11,
+   "new": [
+    11.0,
+    11.0
+   ],
+   "old": [
+    33.0,
+    39.0
+   ]
+  },
+  {
+   "kind": "top",
+   "date": "2018-09-20",
+   "price": 293.58,
+   "new": [
+    -10.0,
+    -18.0
+   ],
+   "old": [
+    -7.0,
+    -10.0
+   ]
+  },
+  {
+   "kind": "bottom",
+   "date": "2018-12-24",
+   "price": 234.34,
+   "new": [
+    0.0,
+    10.0
+   ],
+   "old": [
+    17.0,
+    19.0
+   ]
+  },
+  {
+   "kind": "top",
+   "date": "2020-02-19",
+   "price": 338.34,
+   "new": [
+    -8.0,
+    -29.0
+   ],
+   "old": [
+    -12.0,
+    -8.0
+   ]
+  },
+  {
+   "kind": "bottom",
+   "date": "2020-03-23",
+   "price": 222.95,
+   "new": [
+    0.0,
+    11.0
+   ],
+   "old": [
+    44.0,
+    42.0
+   ]
+  },
+  {
+   "kind": "top",
+   "date": "2022-01-03",
+   "price": 477.71,
+   "new": [
+    -10.0,
+    -10.0
+   ],
+   "old": [
+    -8.0,
+    -10.0
+   ]
+  },
+  {
+   "kind": "bottom",
+   "date": "2022-10-12",
+   "price": 356.56,
+   "new": [
+    7.0,
+    11.0
+   ],
+   "old": [
+    11.0,
+    16.0
+   ]
+  }
+ ],
+ "score": 0.266,
+ "score_5d": 0.228,
+ "score_21d": 0.189,
+ "score_pctile": 47,
+ "thresholds": {
+  "bull": 0.15,
+  "bear": -0.1,
+  "gate": -0.25
+ },
+ "groups": {
+  "trend": 0.764,
+  "momentum": 0.692,
+  "internals": -0.194,
+  "macro": -0.232,
+  "volatility": 0.569,
+  "calendar": 0.728
+ },
+ "group_weights": {
+  "trend": 0.3,
+  "momentum": 0.1,
+  "internals": 0.2,
+  "macro": 0.25,
+  "volatility": 0.1,
+  "calendar": 0.05
+ },
+ "factors": [
+  {
+   "key": "f_vs200",
+   "group": "trend",
+   "label": "SPY vs 200-day MA",
+   "weight": 0.105,
+   "signal": 0.91,
+   "reading": "+6.1% vs $728.15",
+   "contribution": 0.095
+  },
+  {
+   "key": "f_vs50",
+   "group": "trend",
+   "label": "SPY vs 50-day MA",
+   "weight": 0.06,
+   "signal": 0.24,
+   "reading": "+0.6% vs $767.63",
+   "contribution": 0.014
+  },
+  {
+   "key": "f_slope",
+   "group": "trend",
+   "label": "200-day MA slope",
+   "weight": 0.045,
+   "signal": 0.84,
+   "reading": "+1.24% over a month",
+   "contribution": 0.038
+  },
+  {
+   "key": "f_cross",
+   "group": "trend",
+   "label": "50/200-day cross",
+   "weight": 0.03,
+   "signal": 1.0,
+   "reading": "50-day above 200-day",
+   "contribution": 0.03
+  },
+  {
+   "key": "f_high",
+   "group": "trend",
+   "label": "Distance from 52-week high",
+   "weight": 0.06,
+   "signal": 0.86,
+   "reading": "\u22120.9% from the 52-week high",
+   "contribution": 0.051
+  },
+  {
+   "key": "f_mom63",
+   "group": "momentum",
+   "label": "3-month return",
+   "weight": 0.05,
+   "signal": 0.6,
+   "reading": "+4.1%",
+   "contribution": 0.03
+  },
+  {
+   "key": "f_mom126",
+   "group": "momentum",
+   "label": "6-month return",
+   "weight": 0.05,
+   "signal": 0.79,
+   "reading": "+8.5%",
+   "contribution": 0.039
+  },
+  {
+   "key": "f_semis",
+   "group": "internals",
+   "label": "Semiconductors vs S&P (SMH/SPY)",
+   "weight": 0.05,
+   "signal": 0.19,
+   "reading": "SMH/SPY +1.2% in 3 months",
+   "contribution": 0.01
+  },
+  {
+   "key": "f_breadth",
+   "group": "internals",
+   "label": "Equal-weight vs cap-weight (RSP/SPY)",
+   "weight": 0.04,
+   "signal": -0.84,
+   "reading": "RSP/SPY \u22123.1% in 3 months",
+   "contribution": -0.034
+  },
+  {
+   "key": "f_credit",
+   "group": "internals",
+   "label": "High-yield vs Treasuries (HYG/IEF)",
+   "weight": 0.04,
+   "signal": 0.07,
+   "reading": "HYG/IEF +0.2% in 3 months",
+   "contribution": 0.003
+  },
+  {
+   "key": "f_cyclic",
+   "group": "internals",
+   "label": "Discretionary vs staples (XLY/XLP)",
+   "weight": 0.03,
+   "signal": 0.2,
+   "reading": "XLY/XLP +1.0% in 3 months",
+   "contribution": 0.006
+  },
+  {
+   "key": "f_global",
+   "group": "internals",
+   "label": "Emerging markets vs S&P (EEM/SPY)",
+   "weight": 0.02,
+   "signal": -0.67,
+   "reading": "EEM/SPY \u22124.1% in 3 months",
+   "contribution": -0.013
+  },
+  {
+   "key": "f_distr",
+   "group": "internals",
+   "label": "Distribution days (25 sessions)",
+   "weight": 0.02,
+   "signal": -0.5,
+   "reading": "6 in the last 25 sessions",
+   "contribution": -0.01
+  },
+  {
+   "key": "f_fed",
+   "group": "macro",
+   "label": "Fed easing cycle (3-month bill, 6-mo change)",
+   "weight": 0.055,
+   "signal": 0.0,
+   "reading": "3-month bill 3.94% (+0.33 pt in 6 months)",
+   "contribution": 0.0
+  },
+  {
+   "key": "f_curve",
+   "group": "macro",
+   "label": "Yield curve un-inversion",
+   "weight": 0.045,
+   "signal": -1.0,
+   "reading": "10y\u20133m +1.05 pt (un-inverted within 2 years)",
+   "contribution": -0.045
+  },
+  {
+   "key": "f_spread",
+   "group": "macro",
+   "label": "Corporate credit spread trend (Baa \u2013 10y)",
+   "weight": 0.045,
+   "signal": 0.2,
+   "reading": "Baa\u201310y 1.48 pt (\u22120.05 in 3 months)",
+   "contribution": 0.009
+  },
+  {
+   "key": "f_labor",
+   "group": "macro",
+   "label": "Unemployment trend (Sahm-style)",
+   "weight": 0.0425,
+   "signal": 0.0,
+   "reading": "Unemployment 4.2%, Sahm gap 0.00",
+   "contribution": 0.0
+  },
+  {
+   "key": "f_dollar",
+   "group": "macro",
+   "label": "US dollar trend (UUP, inverted)",
+   "weight": 0.0325,
+   "signal": -0.67,
+   "reading": "UUP +3.3% in 3 months",
+   "contribution": -0.022
+  },
+  {
+   "key": "f_infl",
+   "group": "macro",
+   "label": "Inflation (CPI YoY above 4%)",
+   "weight": 0.03,
+   "signal": 0.0,
+   "reading": "CPI +3.7% year over year",
+   "contribution": 0.0
+  },
+  {
+   "key": "f_rvol",
+   "group": "volatility",
+   "label": "Realized volatility (21-day)",
+   "weight": 0.045,
+   "signal": 0.72,
+   "reading": "9.8% annualized",
+   "contribution": 0.032
+  },
+  {
+   "key": "f_vix",
+   "group": "volatility",
+   "label": "VIX capitulation (contrarian)",
+   "weight": 0.03,
+   "signal": 0.0,
+   "reading": "VIX 16.9",
+   "contribution": 0.0
+  },
+  {
+   "key": "f_sent",
+   "group": "volatility",
+   "label": "Consumer sentiment (contrarian)",
+   "weight": 0.025,
+   "signal": 0.99,
+   "reading": "UMich sentiment 48.1",
+   "contribution": 0.025
+  },
+  {
+   "key": "f_pres",
+   "group": "calendar",
+   "label": "Presidential cycle \u00d7 month",
+   "weight": 0.03,
+   "signal": 0.69,
+   "reading": "Year 2 of the presidential cycle, October",
+   "contribution": 0.021
+  },
+  {
+   "key": "f_month",
+   "group": "calendar",
+   "label": "Month-of-year",
+   "weight": 0.02,
+   "signal": 0.78,
+   "reading": "October since 2000",
+   "contribution": 0.016
+  }
+ ],
+ "analog": {
+  "n": 1362,
+  "med21": 1.4,
+  "med63": 3.0,
+  "pos63": 71.0,
+  "q10_63": -5.5,
+  "q90_63": 8.8,
+  "dd10": 20.0
+ },
+ "by_regime": {
+  "Bearish": {
+   "days": 538,
+   "med63": -3.4,
+   "pos63": 42.0,
+   "med126": -4.6,
+   "dd10": 70.0
+  },
+  "Bullish": {
+   "days": 3960,
+   "med63": 3.2,
+   "pos63": 74.0,
+   "med126": 6.1,
+   "dd10": 15.0
+  },
+  "Correction": {
+   "days": 406,
+   "med63": 6.7,
+   "pos63": 86.0,
+   "med126": 12.0,
+   "dd10": 15.0
+  },
+  "Neutral": {
+   "days": 885,
+   "med63": 5.3,
+   "pos63": 76.0,
+   "med126": 6.7,
+   "dd10": 24.0
+  },
+  "Recovery": {
+   "days": 202,
+   "med63": 11.3,
+   "pos63": 80.0,
+   "med126": 18.1,
+   "dd10": 20.0
+  }
+ },
+ "levels": {
+  "ath": 779.09,
+  "ath_date": "2026-10-06",
+  "dd": -0.9,
+  "m20": 770.9,
+  "m50": 767.63,
+  "m100": 758.73,
+  "m200": 728.15,
+  "q_m50": 725.42,
+  "q_m200": 678.72,
+  "q_dd": -4.5
+ },
+ "vol": {
+  "rv21": 9.8,
+  "vix": 16.9,
+  "move21": 4.9
+ },
+ "macro": {
+  "tb3": 3.94,
+  "gs10": 4.99,
+  "gs2": 4.65,
+  "curve": 1.05,
+  "spread": 1.48,
+  "unrate": 4.2,
+  "sahm": 0.0,
+  "cpi": 3.7,
+  "sent": 48.1,
+  "cape": 40.8,
+  "real10y": 2.64
+ },
+ "cycle": {
+  "pres_year": 2,
+  "bull_start": "2022-10-12",
+  "bull_days": 1477,
+  "bull_gain": 116.6
+ },
+ "backtest": {
+  "SPY": {
+   "strategy": {
+    "cagr": 0.1406,
+    "vol": 0.137,
+    "sharpe": 0.9032,
+    "maxdd": -0.1941,
+    "multiple": 22.828
+   },
+   "enhanced": {
+    "cagr": 0.1546,
+    "vol": 0.1556,
+    "sharpe": 0.8913,
+    "maxdd": -0.2211,
+    "multiple": 30.5059
+   },
+   "old": {
+    "cagr": 0.0898,
+    "vol": 0.1038,
+    "sharpe": 0.7145,
+    "maxdd": -0.1441,
+    "multiple": 7.7278
+   },
+   "buyhold": {
+    "cagr": 0.1143,
+    "vol": 0.1861,
+    "sharpe": 0.5821,
+    "maxdd": -0.5542,
+    "multiple": 13.1111
+   },
+   "exposure": 0.876,
+   "enh_exposure": 1.041,
+   "old_exposure": 0.735,
+   "trades": 90,
+   "old_trades": 130,
+   "years": 23.774
+  },
+  "QQQ": {
+   "strategy": {
+    "cagr": 0.1845,
+    "vol": 0.1708,
+    "sharpe": 0.9763,
+    "maxdd": -0.2403,
+    "multiple": 56.0167
+   },
+   "enhanced": {
+    "cagr": 0.2012,
+    "vol": 0.1973,
+    "sharpe": 0.9406,
+    "maxdd": -0.2673,
+    "multiple": 78.0597
+   },
+   "old": {
+    "cagr": 0.113,
+    "vol": 0.138,
+    "sharpe": 0.7202,
+    "maxdd": -0.1893,
+    "multiple": 12.7457
+   },
+   "buyhold": {
+    "cagr": 0.1615,
+    "vol": 0.2153,
+    "sharpe": 0.7233,
+    "maxdd": -0.5321,
+    "multiple": 35.163
+   },
+   "exposure": 0.876,
+   "enh_exposure": 1.041,
+   "old_exposure": 0.735,
+   "trades": 90,
+   "old_trades": 130,
+   "years": 23.774
+  }
+ },
+ "yearly": {
+  "SPY": [
+   {
+    "year": 2003,
+    "strategy": 25.1,
+    "enhanced": 31.6,
+    "old": 24.2,
+    "buyhold": 28.3
+   },
+   {
+    "year": 2004,
+    "strategy": 9.1,
+    "enhanced": 9.1,
+    "old": 4.9,
+    "buyhold": 10.5
+   },
+   {
+    "year": 2005,
+    "strategy": 4.8,
+    "enhanced": 3.0,
+    "old": 0.8,
+    "buyhold": 4.8
+   },
+   {
+    "year": 2006,
+    "strategy": 14.2,
+    "enhanced": 15.8,
+    "old": 12.2,
+    "buyhold": 15.7
+   },
+   {
+    "year": 2007,
+    "strategy": 1.0,
+    "enhanced": 1.0,
+    "old": 2.0,
+    "buyhold": 5.8
+   },
+   {
+    "year": 2008,
+    "strategy": 4.5,
+    "enhanced": 4.5,
+    "old": 0.0,
+    "buyhold": -37.7
+   },
+   {
+    "year": 2009,
+    "strategy": 47.7,
+    "enhanced": 50.6,
+    "old": 16.9,
+    "buyhold": 25.6
+   },
+   {
+    "year": 2010,
+    "strategy": 9.5,
+    "enhanced": 9.6,
+    "old": 4.6,
+    "buyhold": 14.8
+   },
+   {
+    "year": 2011,
+    "strategy": -4.6,
+    "enhanced": -5.4,
+    "old": -6.3,
+    "buyhold": 1.5
+   },
+   {
+    "year": 2012,
+    "strategy": 12.5,
+    "enhanced": 12.4,
+    "old": 5.1,
+    "buyhold": 15.4
+   },
+   {
+    "year": 2013,
+    "strategy": 31.9,
+    "enhanced": 40.9,
+    "old": 31.9,
+    "buyhold": 31.9
+   },
+   {
+    "year": 2014,
+    "strategy": 10.2,
+    "enhanced": 12.6,
+    "old": 8.8,
+    "buyhold": 13.2
+   },
+   {
+    "year": 2015,
+    "strategy": -3.7,
+    "enhanced": -4.5,
+    "old": -5.6,
+    "buyhold": 1.9
+   },
+   {
+    "year": 2016,
+    "strategy": 7.8,
+    "enhanced": 10.0,
+    "old": 7.4,
+    "buyhold": 10.4
+   },
+   {
+    "year": 2017,
+    "strategy": 21.4,
+    "enhanced": 26.9,
+    "old": 21.4,
+    "buyhold": 21.4
+   },
+   {
+    "year": 2018,
+    "strategy": -1.7,
+    "enhanced": -2.8,
+    "old": 0.0,
+    "buyhold": -4.7
+   },
+   {
+    "year": 2019,
+    "strategy": 28.9,
+    "enhanced": 30.1,
+    "old": 13.2,
+    "buyhold": 31.0
+   },
+   {
+    "year": 2020,
+    "strategy": 37.2,
+    "enhanced": 39.7,
+    "old": 12.3,
+    "buyhold": 18.2
+   },
+   {
+    "year": 2021,
+    "strategy": 29.2,
+    "enhanced": 37.1,
+    "old": 29.1,
+    "buyhold": 29.2
+   },
+   {
+    "year": 2022,
+    "strategy": -12.1,
+    "enhanced": -13.9,
+    "old": -9.8,
+    "buyhold": -18.1
+   },
+   {
+    "year": 2023,
+    "strategy": 21.4,
+    "enhanced": 21.2,
+    "old": 10.9,
+    "buyhold": 26.4
+   },
+   {
+    "year": 2024,
+    "strategy": 25.4,
+    "enhanced": 27.4,
+    "old": 19.3,
+    "buyhold": 25.4
+   },
+   {
+    "year": 2025,
+    "strategy": 20.7,
+    "enhanced": 22.2,
+    "old": 11.5,
+    "buyhold": 18.3
+   },
+   {
+    "year": 2026,
+    "strategy": 14.8,
+    "enhanced": 15.5,
+    "old": 10.6,
+    "buyhold": 14.8
+   }
+  ],
+  "QQQ": [
+   {
+    "year": 2003,
+    "strategy": 40.6,
+    "enhanced": 50.6,
+    "old": 33.1,
+    "buyhold": 50.7
+   },
+   {
+    "year": 2004,
+    "strategy": 9.2,
+    "enhanced": 8.5,
+    "old": 4.1,
+    "buyhold": 10.2
+   },
+   {
+    "year": 2005,
+    "strategy": 2.0,
+    "enhanced": -2.3,
+    "old": -5.3,
+    "buyhold": 2.0
+   },
+   {
+    "year": 2006,
+    "strategy": 7.9,
+    "enhanced": 7.8,
+    "old": 6.9,
+    "buyhold": 7.5
+   },
+   {
+    "year": 2007,
+    "strategy": 11.0,
+    "enhanced": 12.7,
+    "old": 9.7,
+    "buyhold": 21.0
+   },
+   {
+    "year": 2008,
+    "strategy": 5.4,
+    "enhanced": 5.4,
+    "old": 1.0,
+    "buyhold": -42.2
+   },
+   {
+    "year": 2009,
+    "strategy": 62.2,
+    "enhanced": 66.4,
+    "old": 21.6,
+    "buyhold": 54.9
+   },
+   {
+    "year": 2010,
+    "strategy": 14.3,
+    "enhanced": 14.5,
+    "old": 6.1,
+    "buyhold": 19.9
+   },
+   {
+    "year": 2011,
+    "strategy": -5.3,
+    "enhanced": -5.9,
+    "old": -5.0,
+    "buyhold": 3.2
+   },
+   {
+    "year": 2012,
+    "strategy": 14.5,
+    "enhanced": 14.0,
+    "old": 5.4,
+    "buyhold": 17.5
+   },
+   {
+    "year": 2013,
+    "strategy": 36.0,
+    "enhanced": 46.3,
+    "old": 36.0,
+    "buyhold": 36.0
+   },
+   {
+    "year": 2014,
+    "strategy": 14.0,
+    "enhanced": 17.4,
+    "old": 12.1,
+    "buyhold": 18.2
+   },
+   {
+    "year": 2015,
+    "strategy": 2.7,
+    "enhanced": 2.6,
+    "old": -2.2,
+    "buyhold": 10.5
+   },
+   {
+    "year": 2016,
+    "strategy": 4.0,
+    "enhanced": 5.7,
+    "old": 5.3,
+    "buyhold": 5.3
+   },
+   {
+    "year": 2017,
+    "strategy": 32.4,
+    "enhanced": 41.3,
+    "old": 32.4,
+    "buyhold": 32.4
+   },
+   {
+    "year": 2018,
+    "strategy": 4.0,
+    "enhanced": 3.6,
+    "old": 5.2,
+    "buyhold": -0.3
+   },
+   {
+    "year": 2019,
+    "strategy": 36.0,
+    "enhanced": 38.2,
+    "old": 17.7,
+    "buyhold": 38.8
+   },
+   {
+    "year": 2020,
+    "strategy": 66.9,
+    "enhanced": 71.7,
+    "old": 24.3,
+    "buyhold": 48.6
+   },
+   {
+    "year": 2021,
+    "strategy": 27.7,
+    "enhanced": 35.0,
+    "old": 28.0,
+    "buyhold": 27.7
+   },
+   {
+    "year": 2022,
+    "strategy": -22.0,
+    "enhanced": -24.4,
+    "old": -16.5,
+    "buyhold": -32.6
+   },
+   {
+    "year": 2023,
+    "strategy": 47.6,
+    "enhanced": 49.8,
+    "old": 26.2,
+    "buyhold": 54.9
+   },
+   {
+    "year": 2024,
+    "strategy": 25.7,
+    "enhanced": 26.5,
+    "old": 17.8,
+    "buyhold": 25.7
+   },
+   {
+    "year": 2025,
+    "strategy": 24.1,
+    "enhanced": 24.7,
+    "old": 9.9,
+    "buyhold": 21.0
+   },
+   {
+    "year": 2026,
+    "strategy": 18.8,
+    "enhanced": 19.7,
+    "old": 13.6,
+    "buyhold": 18.8
+   }
+  ]
+ },
+ "start_years": {
+  "SPY": [
+   {
+    "start": "2003",
+    "cagr": 14.1,
+    "bh": 11.4,
+    "maxdd": -19.0,
+    "bh_dd": -55.0,
+    "sharpe": 0.9,
+    "bh_sharpe": 0.58
+   },
+   {
+    "start": "2010",
+    "cagr": 14.0,
+    "bh": 14.2,
+    "maxdd": -19.0,
+    "bh_dd": -34.0,
+    "sharpe": 0.91,
+    "bh_sharpe": 0.77
+   },
+   {
+    "start": "2016",
+    "cagr": 17.0,
+    "bh": 15.0,
+    "maxdd": -19.0,
+    "bh_dd": -34.0,
+    "sharpe": 1.03,
+    "bh_sharpe": 0.75
+   },
+   {
+    "start": "2020",
+    "cagr": 19.1,
+    "bh": 15.7,
+    "maxdd": -19.0,
+    "bh_dd": -34.0,
+    "sharpe": 1.03,
+    "bh_sharpe": 0.69
+   }
+  ],
+  "QQQ": [
+   {
+    "start": "2003",
+    "cagr": 18.5,
+    "bh": 16.2,
+    "maxdd": -24.0,
+    "bh_dd": -53.0,
+    "sharpe": 0.98,
+    "bh_sharpe": 0.72
+   },
+   {
+    "start": "2010",
+    "cagr": 18.6,
+    "bh": 18.7,
+    "maxdd": -24.0,
+    "bh_dd": -35.0,
+    "sharpe": 0.99,
+    "bh_sharpe": 0.86
+   },
+   {
+    "start": "2016",
+    "cagr": 22.4,
+    "bh": 19.6,
+    "maxdd": -24.0,
+    "bh_dd": -35.0,
+    "sharpe": 1.08,
+    "bh_sharpe": 0.82
+   },
+   {
+    "start": "2020",
+    "cagr": 24.9,
+    "bh": 20.6,
+    "maxdd": -24.0,
+    "bh_dd": -35.0,
+    "sharpe": 1.08,
+    "bh_sharpe": 0.77
+   }
+  ]
+ },
+ "freshness": {
+  "SPY": "2026-10-28",
+  "QQQ": "2026-10-28",
+  "SMH": "2026-10-28",
+  "HYG": "2026-10-28",
+  "VIX": "2026-10-28",
+  "TB3MS": "2026-09",
+  "GS10": "2026-09",
+  "BAA": "2026-09",
+  "UNRATE": "2026-09",
+  "CPI": "2026-09",
+  "UMCSENT": "2026-09"
+ },
+ "notes": [
+  {
+   "text": "On Wednesday, Oct 28, the Fed held its benchmark rate at 3.75%-4% in a split vote, with Cleveland Fed President Beth Hammack and Governor Lisa Cook dissenting in favor of a quarter-point hike (Xinhua, Oct 29).",
+   "source": "Xinhua",
+   "url": "https://english.news.cn/20261029/f80380f9d16c4f11887371493d2b3211/c.html"
+  },
+  {
+   "text": "US stocks closed higher on Oct 28 after the Fed decision: the S&P 500 rose 0.28% to 7,743.98 and the Nasdaq Composite gained 0.27% to 26,549.85 (Xinhua, Oct 29).",
+   "source": "Xinhua",
+   "url": "https://english.news.cn/20261029/f80380f9d16c4f11887371493d2b3211/c.html"
+  },
+  {
+   "text": "Before Thursday's open, Nasdaq-100 futures were down about 1.2% and S&P 500 futures about 0.4% after Alphabet's third-quarter sales missed expectations, while Microsoft beat on revenue and earnings (Yahoo Finance, Oct 29).",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/markets/live/stock-market-today-thursday-october-29-dow-sp-500-nasdaq-alphabet-microsoft-081708101.html"
+  },
+  {
+   "text": "Thursday, Oct 29 brings the September PCE price index and the first estimate of third-quarter GDP, and Amazon reports after the close (Yahoo Finance, Oct 29).",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/markets/live/stock-market-today-thursday-october-29-dow-sp-500-nasdaq-alphabet-microsoft-081708101.html"
+  },
+  {
+   "text": "The October jobs report (nonfarm payrolls) is scheduled for Friday, Nov 6, 2026 at 8:30 AM ET.",
+   "source": "Thrive in Markets",
+   "url": "https://thriveinmarkets.com/calendar/dates/nfp-2026/"
+  }
+ ]
+}
