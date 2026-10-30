@@ -1,0 +1,189 @@
+/* Kerdos Capital — shared interaction layer.
+   Ambient background, floating nav with a sliding active pill, scroll reveals,
+   count-up numbers, plus the shared chart kit (gauge, sparkline, regime track). No dependencies; safe to load with defer. */
+(() => {
+  const d = document, root = d.documentElement;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  root.classList.add('k-js');
+  const K = (window.Kerdos = window.Kerdos || {});
+  const boot = () => {
+
+  /* ---------- ambient background ---------- */
+  if (!d.querySelector('.k-bg')) {
+    const bg = d.createElement('div');
+    bg.className = 'k-bg'; bg.setAttribute('aria-hidden', 'true');
+    bg.innerHTML = '<i class="o1"></i><i class="o2"></i><i class="o3"></i><span class="k-grain"></span>';
+    d.body.prepend(bg);
+  }
+
+  /* ---------- nav ---------- */
+  const nav = d.querySelector('.k-nav');
+  if (nav) {
+    const links = [...nav.querySelectorAll('.k-links a')];
+    const ind = nav.querySelector('.k-ind');
+    const cur = links.find(a => a.getAttribute('aria-current') === 'page');
+    const place = (a, animate) => {
+      if (!ind || !a || getComputedStyle(ind).display === 'none') return;
+      const r = a.getBoundingClientRect(), pr = a.parentElement.getBoundingClientRect();
+      if (!animate) ind.style.transition = 'none';
+      ind.style.width = r.width + 'px';
+      ind.style.transform = `translate3d(${r.left - pr.left}px,0,0)`;
+      ind.style.opacity = 1;
+      if (!animate) { void ind.offsetWidth; ind.style.transition = ''; }
+    };
+    let from = null;
+    try { from = sessionStorage.getItem('k-nav-from'); sessionStorage.removeItem('k-nav-from'); } catch (e) {}
+    const prev = links.find(a => a.getAttribute('href') === from);
+    const init = () => {
+      if (prev && cur && prev !== cur && !reduce) {
+        place(prev, false);
+        requestAnimationFrame(() => requestAnimationFrame(() => place(cur, true)));
+      } else place(cur, false);
+    };
+    init();
+    (d.fonts && d.fonts.ready ? d.fonts.ready : Promise.resolve()).then(() => place(cur, false));
+    addEventListener('resize', () => place(cur, false));
+    links.forEach(a => a.addEventListener('click', e => {
+      try { if (cur) sessionStorage.setItem('k-nav-from', cur.getAttribute('href')); } catch (_) {}
+      if (reduce || a === cur || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+      if (getComputedStyle(ind).display === 'none') return;
+      e.preventDefault(); place(a, true);
+      setTimeout(() => { location.href = a.href; }, 240);
+    }));
+    const onScroll = () => nav.classList.toggle('is-scrolled', scrollY > 8);
+    onScroll(); addEventListener('scroll', onScroll, { passive: true });
+    const btn = nav.querySelector('.k-menu-btn');
+    if (btn) {
+      btn.addEventListener('click', () => { const o = nav.classList.toggle('is-open'); btn.setAttribute('aria-expanded', o); });
+      d.addEventListener('keydown', e => { if (e.key === 'Escape') { nav.classList.remove('is-open'); btn.setAttribute('aria-expanded', false); } });
+      d.addEventListener('click', e => { if (!nav.contains(e.target)) { nav.classList.remove('is-open'); btn.setAttribute('aria-expanded', false); } });
+    }
+  }
+
+  /* ---------- number formats for count-up ---------- */
+  const sign = v => (v > 0 ? '+' : v < 0 ? '−' : '');
+  const FMT = {
+    usd: (v, n) => '$' + v.toLocaleString('en-US', { minimumFractionDigits: n, maximumFractionDigits: n }),
+    pct: (v, n) => v.toFixed(n) + '%',
+    spct: (v, n) => sign(+v.toFixed(n)) + Math.abs(v).toFixed(n) + '%',
+    snum: (v, n) => sign(+v.toFixed(n)) + Math.abs(v).toFixed(n),
+    num: (v, n) => v.toLocaleString('en-US', { minimumFractionDigits: n, maximumFractionDigits: n }),
+    pm: (v, n) => '±' + v.toFixed(n) + '%'
+  };
+  const count = el => {
+    const to = parseFloat(el.dataset.cu), n = +(el.dataset.dec || 0), f = FMT[el.dataset.fmt || 'num'];
+    const final = el.textContent;
+    if (reduce || !isFinite(to) || !f) return;
+    const from = el.dataset.from != null ? parseFloat(el.dataset.from) : 0;
+    const t0 = performance.now(), dur = parseFloat(getComputedStyle(root).getPropertyValue('--dur-count')) || 950;
+    const step = t => {
+      const p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+      el.textContent = f(from + (to - from) * e, n);
+      if (p < 1) requestAnimationFrame(step); else el.textContent = final;
+    };
+    requestAnimationFrame(step);
+  };
+
+  /* ---------- reveals ---------- */
+  const SEL = '.panel,.desk,.ox .oxp,.k-reveal,.sec>h2,.mast.sub';
+  const done = el => setTimeout(() => el.classList.add('k-done'), 1400);
+  const io = ('IntersectionObserver' in window && !reduce) ? new IntersectionObserver(es => {
+    let i = 0;
+    es.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      el.style.setProperty('--k-i', i++);
+      el.classList.add('k-in'); done(el); io.unobserve(el);
+      el.querySelectorAll('[data-cu]').forEach(count);
+      el.querySelectorAll('.k-gauge .mk').forEach(m => m.classList.add('k-go'));
+    });
+  }, { rootMargin: '0px 0px -6% 0px', threshold: 0.04 }) : null;
+  K.scan = () => {
+    d.querySelectorAll(SEL).forEach(el => {
+      if (el.dataset.kr) return; el.dataset.kr = '1';
+      if (el.parentElement && el.parentElement.closest('.k-rv')) { el.classList.add('k-nested'); return; }
+      el.classList.add('k-rv');
+      if (io) io.observe(el); else { el.classList.add('k-in', 'k-done'); el.querySelectorAll('.k-gauge .mk').forEach(m => m.classList.add('k-go')); }
+    });
+  };
+  K.scan();
+  let mt; new MutationObserver(() => { clearTimeout(mt); mt = setTimeout(K.scan, 30); }).observe(d.body, { childList: true, subtree: true });
+  };
+  if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', boot); else boot();
+  /* ================= shared chart kit ================= */
+  const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const ds = s => { const t = new Date(s + 'T00:00:00Z'); return MON[t.getUTCMonth()] + ' ' + t.getUTCDate(); };
+  const dy = s => ds(s) + ' ’' + s.slice(2, 4);
+  const cssv = n => getComputedStyle(root).getPropertyValue(n).trim();
+  const sn = (v, n) => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v).toFixed(n);
+  K.esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  K.sn = sn;
+  const redraws = new Set(); let rt;
+  addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => redraws.forEach(f => f()), 150); });
+
+  /* Gauge on a −1…+1 (or custom) scale.
+     o = {value, min, max, ghost, ticks:[{v,label,side:'l'|'r'}], label} */
+  K.gauge = (host, o) => {
+    const min = o.min ?? -1, max = o.max ?? 1;
+    const P = v => ((Math.max(min, Math.min(max, v)) - min) / (max - min) * 100).toFixed(2) + '%';
+    host.classList.add('k-gauge'); host.setAttribute('role', 'img');
+    host.setAttribute('aria-label', o.label || `Score ${sn(o.value, 2)}`);
+    host.innerHTML = `<div class="trk"><span class="fill"${o.fill ? ` style="background:${o.fill}"` : ''}></span>
+      ${(o.ticks || []).map(t => `<span class="tick" style="left:${P(t.v)}"></span><span class="tlab${t.side === 'l' ? ' l' : ''}" style="left:${P(t.v)}">${t.label}</span>`).join('')}
+      <span class="ax l">${o.minLabel ?? sn(min, 0)}</span><span class="ax r">${o.maxLabel ?? sn(max, 0)}</span>
+      ${o.ghost != null ? `<span class="mk ghost" style="--p:${P(o.ghost)}"><i></i></span>` : ''}
+      <span class="mk" style="--p:${P(o.value)}"><i></i><em>${o.valueLabel ?? sn(o.value, 2)}</em></span></div>`;
+    const panel = host.closest('.k-rv');
+    if (!panel || panel.classList.contains('k-in') || reduce) host.querySelectorAll('.mk').forEach(m => m.classList.add('k-go'));
+  };
+
+  /* Sparkline with threshold lines. pts = [{date, v}] */
+  K.spark = (host, pts, o = {}) => {
+    const draw = () => {
+      if (pts.length < 2) { host.remove(); return; }
+      const ys = pts.map(p => p.v), lines = o.lines || [];
+      const W = Math.max(240, (host.clientWidth || 520) - 32), H = o.h || 104, m = { t: 10, b: 10, l: 0, r: 50 };
+      let lo = Math.min(...ys, ...lines.map(l => l.v)), hi = Math.max(...ys, ...lines.map(l => l.v));
+      const pad = (hi - lo) * .08 || .05; lo -= pad; hi += pad;
+      const X = i => m.l + i / (ys.length - 1) * (W - m.l - m.r), Y = v => m.t + (hi - v) / (hi - lo) * (H - m.t - m.b);
+      const line = 'M' + ys.map((v, i) => X(i).toFixed(1) + ',' + Y(v).toFixed(1)).join('L');
+      const area = line + `L${X(ys.length - 1).toFixed(1)},${H - m.b}L${X(0)},${H - m.b}Z`;
+      const ac = o.color || cssv('--accent') || '#3DD68C', last = ys[ys.length - 1], id = 'k' + Math.random().toString(36).slice(2, 7);
+      const fmt = o.fmt || (v => sn(v, 2));
+      host.classList.add('k-spark');
+      host.innerHTML = `<div class="hd"><span class="label">${o.title || ''}</span><span class="mono" style="font-size:12px;color:var(--ink-2)">${ds(pts[0].date)} – ${ds(pts[pts.length - 1].date)}</span></div>
+        <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${K.esc(o.title || 'Trend')}: from ${fmt(ys[0])} to ${fmt(last)}">
+        <defs><linearGradient id="${id}a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${ac}" stop-opacity=".26"/><stop offset="1" stop-color="${ac}" stop-opacity="0"/></linearGradient>
+        <linearGradient id="${id}l" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${ac}" stop-opacity=".35"/><stop offset="1" stop-color="${ac}"/></linearGradient></defs>
+        ${lines.map(l => `<line class="thr" x1="0" x2="${W - m.r}" y1="${Y(l.v).toFixed(1)}" y2="${Y(l.v).toFixed(1)}" stroke="${l.color}" opacity=".6"/><text class="tx" x="${W - m.r + 8}" y="${(Y(l.v) + 3.5).toFixed(1)}">${l.label ?? fmt(l.v)}</text>`).join('')}
+        <path class="area" d="${area}" fill="url(#${id}a)"/><path class="ln" d="${line}" stroke="url(#${id}l)" pathLength="1"/>
+        <circle cx="${X(ys.length - 1).toFixed(1)}" cy="${Y(last).toFixed(1)}" r="4" fill="#fff" style="filter:drop-shadow(0 0 6px ${ac})"/></svg>`;
+    };
+    draw(); redraws.add(() => host.isConnected && draw());
+  };
+
+  /* Regime history as one continuous glass track. rows = [{date, regime}] */
+  const RC = { Bullish: 'var(--c-bull)', Recovery: 'var(--c-rec)', Neutral: '#8E97AB', Correction: 'var(--c-corr)', Lagging: 'var(--c-corr)', Crash: '#E0904A', Bearish: 'var(--c-bear)', Breakdown: 'var(--c-bear)' };
+  K.hist = (rows, o = {}) => {
+    rows = rows.filter(r => r.regime);
+    if (!rows.length) return '';
+    const end = Date.parse(rows[rows.length - 1].date);
+    rows = rows.filter(r => Date.parse(r.date) > end - (o.days || 365) * 864e5);
+    const segs = []; let c = null;
+    rows.forEach(r => { if (!c || c.g !== r.regime) { c = { g: r.regime, n: 0, from: r.date }; segs.push(c); } c.n++; c.to = r.date; });
+    const n = rows.length, b = .35; let pos = 0; const stops = [];
+    segs.forEach((s, i) => {
+      const a = pos / n * 100, e = (pos + s.n) / n * 100, col = RC[s.g] || '#5C6272';
+      stops.push(`${col} ${(i ? Math.min(a + b, (a + e) / 2) : 0).toFixed(2)}%`, `${col} ${(i < segs.length - 1 ? Math.max(e - b, (a + e) / 2) : 100).toFixed(2)}%`);
+      pos += s.n;
+    });
+    const days = {}; segs.forEach(s => days[s.g] = (days[s.g] || 0) + s.n);
+    const top = Object.entries(days).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([g, k]) => `${g} ${Math.round(k / n * 100)}%`).join(' · ');
+    return `<div class="k-hist"><div class="hd"><span class="label">${o.title || 'Regime · last 12 months'}</span><span class="mono">${top}</span></div>
+      <div class="trk" role="img" aria-label="Regime over the last 12 months: ${top}"><span class="fill" style="background:linear-gradient(90deg,${stops.join(',')})"></span>
+      <span class="hits">${segs.map(s => `<i style="flex:${s.n}" title="${s.g} · ${ds(s.from)} – ${ds(s.to)} (${s.n} ${o.unit || 'days'})"></i>`).join('')}</span><span class="end"></span></div>
+      <div class="ax"><span>${dy(rows[0].date)}</span><span>${dy(rows[n - 1].date)}</span></div></div>`;
+  };
+
+})();
