@@ -1,33 +1,33 @@
 {
- "asof": "2026-10-28",
- "generated": "2026-10-29T14:33:47Z",
- "level": 31.6933,
+ "asof": "2026-10-29",
+ "generated": "2026-10-30T14:09:21Z",
+ "level": 31.157,
  "chg": {
-  "d1": 0.0233,
-  "d5": 0.0225,
-  "d21": -0.0932,
-  "d63": 0.0596,
-  "ytd": 0.8576
+  "d1": -0.0169,
+  "d5": 0.0719,
+  "d21": -0.1086,
+  "d63": 0.0384,
+  "ytd": 0.8261
  },
- "qqq": 725.61,
+ "qqq": 715.34,
  "qqq_chg": {
-  "d1": 0.006,
-  "d5": 0.0006,
-  "d21": -0.0167,
-  "d63": 0.0615,
-  "ytd": 0.1812
+  "d1": -0.0142,
+  "d5": 0.0154,
+  "d21": -0.033,
+  "d63": 0.0398,
+  "ytd": 0.1645
  },
- "sphb": 144.55,
+ "sphb": 144.53,
  "sphb_chg": {
-  "d1": 0.0158,
-  "d5": 0.0039,
-  "d21": -0.0479,
-  "d63": 0.0341,
-  "ytd": 0.2358
+  "d1": -0.0001,
+  "d5": 0.0558,
+  "d21": -0.0411,
+  "d63": 0.0335,
+  "ytd": 0.2356
  },
  "regime": "Lagging",
  "regime_since": "2026-10-27",
- "regime_days": 1,
+ "regime_days": 2,
  "prev_regime": "Crash",
  "market_regime": "Bullish",
  "exposure": 0.5,
@@ -46,20 +46,20 @@
   "Correction"
  ],
  "trend": {
-  "ma200": 27.8216,
-  "vs200": 0.1392,
+  "ma200": 27.884,
+  "vs200": 0.1174,
   "below": false,
-  "hi52": -0.1628,
+  "hi52": -0.1769,
   "days_below": 0
  },
  "strength": {
-  "score": -0.317,
+  "score": -0.396,
   "state": "Lagging",
   "since": "2026-10-16",
-  "vs_ma": -0.0561,
-  "rel_3m": 0.0176,
-  "basket_3m": 0.0596,
-  "spy_3m": 0.0413,
+  "vs_ma": -0.0676,
+  "rel_3m": 0.0082,
+  "basket_3m": 0.0384,
+  "spy_3m": 0.0299,
   "threshold": 0.2,
   "confirm": 5,
   "days_below": 4,
@@ -67,10 +67,10 @@
  },
  "crash": {
   "active": false,
-  "r10": 0.0058,
-  "r5": 0.0225,
-  "trigger_below": 27.7058,
-  "exit_above": 29.0661,
+  "r10": -0.0104,
+  "r5": 0.0719,
+  "trigger_below": 26.1663,
+  "exit_above": 29.1303,
   "n": 10,
   "drop": -0.12,
   "off_n": 5
@@ -79,177 +79,177 @@
   {
    "symbol": "APP",
    "beta": 2.587,
-   "weight": 0.0395,
-   "ret": -0.1049,
-   "close": 259.97
+   "weight": 0.0394,
+   "ret": -0.1223,
+   "close": 254.91
   },
   {
    "symbol": "NBIS",
    "beta": 2.568,
-   "weight": 0.0341,
-   "ret": -0.227,
-   "close": 182.34
+   "weight": 0.0327,
+   "ret": -0.2709,
+   "close": 171.99
   },
   {
    "symbol": "ALAB",
    "beta": 2.399,
-   "weight": 0.0368,
-   "ret": -0.1651,
-   "close": 297.2
+   "weight": 0.0366,
+   "ret": -0.1841,
+   "close": 290.43
   },
   {
    "symbol": "SNDK",
    "beta": 2.377,
-   "weight": 0.0356,
-   "ret": -0.1926,
-   "close": 1404.77
+   "weight": 0.0343,
+   "ret": -0.2356,
+   "close": 1330.05
   },
   {
    "symbol": "MU",
    "beta": 2.18,
-   "weight": 0.0407,
-   "ret": -0.0769,
-   "close": 983.23
+   "weight": 0.0394,
+   "ret": -0.1228,
+   "close": 934.27
   },
   {
    "symbol": "RKLB",
    "beta": 2.164,
-   "weight": 0.0371,
-   "ret": -0.159,
-   "close": 58.6
+   "weight": 0.0381,
+   "ret": -0.1518,
+   "close": 59.1
   },
   {
    "symbol": "ARM",
    "beta": 2.068,
-   "weight": 0.0359,
-   "ret": -0.1856,
-   "close": 235.9
+   "weight": 0.0354,
+   "ret": -0.2102,
+   "close": 228.77
   },
   {
    "symbol": "PLTR",
    "beta": 1.989,
-   "weight": 0.0464,
-   "ret": 0.0522,
-   "close": 196.81
+   "weight": 0.0471,
+   "ret": 0.0501,
+   "close": 196.42
   },
   {
    "symbol": "AVGO",
    "beta": 1.848,
-   "weight": 0.0442,
-   "ret": 0.0018,
-   "close": 351.81
+   "weight": 0.0441,
+   "ret": -0.0176,
+   "close": 345.0
   },
   {
    "symbol": "WDC",
    "beta": 1.772,
-   "weight": 0.0385,
-   "ret": -0.1277,
-   "close": 396.42
+   "weight": 0.039,
+   "ret": -0.1299,
+   "close": 395.41
   },
   {
    "symbol": "MRVL",
    "beta": 1.746,
-   "weight": 0.042,
-   "ret": -0.0475,
-   "close": 251.65
+   "weight": 0.0371,
+   "ret": -0.1736,
+   "close": 218.34
   },
   {
    "symbol": "INTC",
    "beta": 1.746,
-   "weight": 0.0351,
-   "ret": -0.2054,
-   "close": 95.53
+   "weight": 0.0344,
+   "ret": -0.2342,
+   "close": 92.07
   },
   {
    "symbol": "CRWV",
    "beta": 1.733,
-   "weight": 0.0324,
-   "ret": -0.2662,
-   "close": 63.93
+   "weight": 0.0313,
+   "ret": -0.3028,
+   "close": 60.74
   },
   {
    "symbol": "STX",
    "beta": 1.714,
-   "weight": 0.0334,
-   "ret": -0.2433,
-   "close": 697.97
+   "weight": 0.0341,
+   "ret": -0.2406,
+   "close": 700.47
   },
   {
    "symbol": "SHOP",
    "beta": 1.701,
-   "weight": 0.05,
-   "ret": 0.1343,
-   "close": 168.22
+   "weight": 0.0505,
+   "ret": 0.1254,
+   "close": 166.89
   },
   {
    "symbol": "AMD",
    "beta": 1.695,
-   "weight": 0.0417,
-   "ret": -0.0545,
-   "close": 578.44
+   "weight": 0.0415,
+   "ret": -0.0741,
+   "close": 566.42
   },
   {
    "symbol": "LRCX",
    "beta": 1.649,
-   "weight": 0.0341,
-   "ret": -0.2274,
-   "close": 253.82
+   "weight": 0.0348,
+   "ret": -0.2256,
+   "close": 254.39
   },
   {
    "symbol": "MCHP",
    "beta": 1.633,
-   "weight": 0.0452,
-   "ret": 0.0239,
-   "close": 79.63
+   "weight": 0.0468,
+   "ret": 0.0431,
+   "close": 81.12
   },
   {
    "symbol": "TSLA",
    "beta": 1.542,
-   "weight": 0.0503,
-   "ret": 0.1393,
-   "close": 404.22
+   "weight": 0.051,
+   "ret": 0.1367,
+   "close": 403.3
   },
   {
    "symbol": "QCOM",
    "beta": 1.536,
-   "weight": 0.0439,
-   "ret": -0.0058,
-   "close": 182.97
+   "weight": 0.0452,
+   "ret": 0.0074,
+   "close": 185.41
   },
   {
    "symbol": "MPWR",
    "beta": 1.513,
-   "weight": 0.0397,
-   "ret": -0.1009,
-   "close": 1211.22
+   "weight": 0.0399,
+   "ret": -0.1102,
+   "close": 1198.81
   },
   {
    "symbol": "NVDA",
    "beta": 1.46,
-   "weight": 0.0416,
-   "ret": -0.0569,
-   "close": 215.38
+   "weight": 0.042,
+   "ret": -0.0645,
+   "close": 213.66
   },
   {
    "symbol": "KLAC",
    "beta": 1.425,
-   "weight": 0.0359,
-   "ret": -0.1855,
-   "close": 158.77
+   "weight": 0.0385,
+   "ret": -0.1411,
+   "close": 167.43
   },
   {
    "symbol": "LITE",
    "beta": 1.398,
-   "weight": 0.0415,
-   "ret": -0.059,
-   "close": 913.95
+   "weight": 0.0425,
+   "ret": -0.0533,
+   "close": 919.53
   },
   {
    "symbol": "CRWD",
    "beta": 1.325,
-   "weight": 0.0444,
-   "ret": 0.0072,
-   "close": 266.66
+   "weight": 0.0443,
+   "ret": -0.0136,
+   "close": 261.15
   }
  ],
  "n": 25,
@@ -265,18 +265,18 @@
  "backtest": {
   "basket": {
    "strategy": {
-    "cagr": 0.5019,
+    "cagr": 0.5002,
     "vol": 0.2793,
-    "sharpe": 1.504,
+    "sharpe": 1.5,
     "maxdd": -0.2953,
-    "multiple": 35.877
+    "multiple": 35.576
    },
    "buyhold": {
-    "cagr": 0.4809,
-    "vol": 0.3667,
-    "sharpe": 1.184,
+    "cagr": 0.4778,
+    "vol": 0.3666,
+    "sharpe": 1.178,
     "maxdd": -0.4803,
-    "multiple": 31.693
+    "multiple": 31.157
    },
    "exposure": 0.802,
    "trades": 34,
@@ -285,23 +285,23 @@
   },
   "sphb": {
    "strategy": {
-    "cagr": 0.1109,
-    "vol": 0.1837,
+    "cagr": 0.1108,
+    "vol": 0.1836,
     "sharpe": 0.578,
     "maxdd": -0.2344,
     "multiple": 5.026
    },
    "buyhold": {
-    "cagr": 0.1251,
+    "cagr": 0.125,
     "vol": 0.2746,
     "sharpe": 0.509,
     "maxdd": -0.4778,
     "multiple": 6.109
    },
-   "exposure": 0.71,
+   "exposure": 0.709,
    "trades": 119,
    "start": "2011-06-01",
-   "years": 15.36
+   "years": 15.37
   },
   "halves": {
    "2018-2021": {
@@ -326,23 +326,23 @@
    },
    "2022-now": {
     "strategy": {
-     "cagr": 0.5024,
-     "vol": 0.2963,
-     "sharpe": 1.392,
+     "cagr": 0.4993,
+     "vol": 0.2962,
+     "sharpe": 1.385,
      "maxdd": -0.2953,
-     "multiple": 7.05
+     "multiple": 6.99
     },
     "buyhold": {
-     "cagr": 0.4927,
-     "vol": 0.4087,
-     "sharpe": 1.09,
+     "cagr": 0.4869,
+     "vol": 0.4086,
+     "sharpe": 1.08,
      "maxdd": -0.4617,
-     "multiple": 6.833
+     "multiple": 6.718
     },
     "exposure": 0.722,
     "trades": 23,
     "start": "2022-01-03",
-    "years": 4.8
+    "years": 4.81
    },
    "sphb-2011-2018": {
     "strategy": {
@@ -366,15 +366,15 @@
    },
    "sphb-2019-now": {
     "strategy": {
-     "cagr": 0.1454,
+     "cagr": 0.1453,
      "vol": 0.2035,
      "sharpe": 0.636,
      "maxdd": -0.2285,
      "multiple": 2.884
     },
     "buyhold": {
-     "cagr": 0.197,
-     "vol": 0.3116,
+     "cagr": 0.1968,
+     "vol": 0.3115,
      "sharpe": 0.646,
      "maxdd": -0.4778,
      "multiple": 4.066
@@ -430,8 +430,8 @@
    },
    {
     "year": 2026,
-    "strategy": 63.4,
-    "buyhold": 85.8
+    "strategy": 62.0,
+    "buyhold": 82.6
    }
   ],
   "sphb": [
@@ -518,7 +518,7 @@
   ]
  },
  "qqq_bt": {
-  "cagr": 0.1909,
+  "cagr": 0.1889,
   "vol": 0.2374,
   "maxdd": -0.3562
  },

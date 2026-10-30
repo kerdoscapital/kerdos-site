@@ -1,15 +1,15 @@
 {
- "asof": "2026-10-28",
- "generated": "2026-10-29 13:54 UTC",
- "price": 81259.0,
- "chg1": 0.6,
- "chg7": -3.3,
- "chg30": -2.7,
- "mtd": -4.2,
- "ytd": -7.2,
+ "asof": "2026-10-29",
+ "generated": "2026-10-30 13:41 UTC",
+ "price": 77762.0,
+ "chg1": -4.3,
+ "chg7": -4.4,
+ "chg30": -7.0,
+ "mtd": -8.4,
+ "ytd": -11.1,
  "regime": "Neutral",
  "regime_since": "2026-10-16",
- "regime_days": 13,
+ "regime_days": 14,
  "prev_regime": "Bullish",
  "signal": "Neutral",
  "exposure": 0.5,
@@ -24,9 +24,9 @@
   "deep_dd": -0.5,
   "deep_off": -0.45,
   "bottom_macro": -0.2,
-  "dd": -34.9,
+  "dd": -37.7,
   "deep": false,
-  "macro": -0.486,
+  "macro": -0.452,
   "above_20w": true,
   "m20w": 72371.0
  },
@@ -35,15 +35,15 @@
    "active": false,
    "m200w": 67151.0,
    "below_200w": false,
-   "ratio": 1.21,
+   "ratio": 1.16,
    "stop": 0.25
   },
   "pi": {
    "active": false,
    "days": 120,
-   "m111": 74762.0,
-   "m350x2": 152344.0,
-   "gap": -50.9,
+   "m111": 74885.0,
+   "m350x2": 152217.0,
+   "gap": -50.8,
    "last_cross": "2021-04-12"
   }
  },
@@ -248,64 +248,64 @@
   },
   {
    "year": 2026,
-   "strategy": -10.6,
-   "buyhold": -7.2,
-   "old": -14.7
+   "strategy": -12.5,
+   "buyhold": -11.1,
+   "old": -16.6
   }
  ],
  "start_years": [
   {
    "start": "2015",
-   "cagr": 92.2,
-   "bh": 59.6,
+   "cagr": 91.9,
+   "bh": 59.0,
    "maxdd": -50.0,
    "bh_dd": -84.0,
    "sharpe": 1.49,
-   "bh_sharpe": 1.01
+   "bh_sharpe": 1.0
   },
   {
    "start": "2018",
-   "cagr": 47.4,
-   "bh": 22.1,
+   "cagr": 47.0,
+   "bh": 21.5,
    "maxdd": -50.0,
    "bh_dd": -81.0,
-   "sharpe": 1.03,
+   "sharpe": 1.02,
    "bh_sharpe": 0.59
   },
   {
    "start": "2021",
-   "cagr": 36.0,
-   "bh": 19.3,
+   "cagr": 35.5,
+   "bh": 18.4,
    "maxdd": -36.0,
    "bh_dd": -77.0,
-   "sharpe": 0.88,
-   "bh_sharpe": 0.54
+   "sharpe": 0.87,
+   "bh_sharpe": 0.52
   },
   {
    "start": "2023",
-   "cagr": 41.2,
-   "bh": 51.6,
+   "cagr": 40.3,
+   "bh": 49.8,
    "maxdd": -36.0,
    "bh_dd": -53.0,
-   "sharpe": 0.98,
-   "bh_sharpe": 1.04
+   "sharpe": 0.96,
+   "bh_sharpe": 1.01
   }
  ],
- "score": 0.142,
- "score_raw": 0.153,
- "score_5d_ago": 0.171,
- "score_30d_ago": 0.285,
- "score_pctile": 42,
+ "score": 0.114,
+ "score_raw": 0.058,
+ "score_5d_ago": 0.16,
+ "score_30d_ago": 0.275,
+ "score_pctile": 41,
  "thresholds": {
   "bull": 0.2,
   "bear": -0.15
  },
- "need_bull": 0.058,
- "need_bear": -0.292,
+ "need_bull": 0.086,
+ "need_bear": -0.264,
  "groups": {
-  "trend": 0.736,
-  "momentum": 0.145,
-  "macro": -0.486,
+  "trend": 0.527,
+  "momentum": -0.134,
+  "macro": -0.452,
   "valuation": 0.275,
   "cycle": 0.148
  },
@@ -322,36 +322,36 @@
    "group": "trend",
    "label": "Price vs 200-day MA",
    "weight": 0.09,
-   "signal": 0.81,
-   "reading": "+11.2% vs $73,069",
-   "contribution": 0.073
+   "signal": 0.56,
+   "reading": "+6.4% vs $73,104",
+   "contribution": 0.051
   },
   {
    "key": "f_vs20w",
    "group": "trend",
    "label": "Price vs 20-week MA",
    "weight": 0.06,
-   "signal": 0.84,
-   "reading": "+12.3% vs $72,371",
-   "contribution": 0.051
+   "signal": 0.63,
+   "reading": "+7.4% vs $72,371",
+   "contribution": 0.038
   },
   {
    "key": "f_vs50w",
    "group": "trend",
    "label": "Price vs 50-week MA",
    "weight": 0.075,
-   "signal": 0.58,
-   "reading": "+6.7% vs $76,172",
-   "contribution": 0.044
+   "signal": 0.21,
+   "reading": "+2.2% vs $76,108",
+   "contribution": 0.016
   },
   {
    "key": "f_slope200",
    "group": "trend",
    "label": "200-day MA slope",
    "weight": 0.045,
-   "signal": 0.53,
-   "reading": "+1.77% over 20 days",
-   "contribution": 0.024
+   "signal": 0.52,
+   "reading": "+1.73% over 20 days",
+   "contribution": 0.023
   },
   {
    "key": "f_cross",
@@ -367,27 +367,27 @@
    "group": "momentum",
    "label": "30-day return",
    "weight": 0.0525,
-   "signal": -0.18,
-   "reading": "\u22122.7%",
-   "contribution": -0.009
+   "signal": -0.44,
+   "reading": "\u22127.0%",
+   "contribution": -0.023
   },
   {
    "key": "f_mom90",
    "group": "momentum",
    "label": "90-day return",
    "weight": 0.0525,
-   "signal": 0.69,
-   "reading": "+25.5%",
-   "contribution": 0.036
+   "signal": 0.66,
+   "reading": "+23.8%",
+   "contribution": 0.035
   },
   {
    "key": "f_rsi",
    "group": "momentum",
    "label": "RSI (14-day)",
    "weight": 0.045,
-   "signal": -0.12,
-   "reading": "RSI 47.6",
-   "contribution": -0.005
+   "signal": -0.71,
+   "reading": "RSI 35.8",
+   "contribution": -0.032
   },
   {
    "key": "f_dollar",
@@ -395,35 +395,35 @@
    "label": "US dollar trend (inverted)",
    "weight": 0.084,
    "signal": -0.84,
-   "reading": "UUP +3.7% in 3 months",
-   "contribution": -0.071
+   "reading": "UUP +3.6% in 3 months",
+   "contribution": -0.07
   },
   {
    "key": "f_credit",
    "group": "macro",
    "label": "High-yield credit trend",
    "weight": 0.072,
-   "signal": -0.75,
+   "signal": -0.74,
    "reading": "HYG \u22122.9% in 3 months",
-   "contribution": -0.054
+   "contribution": -0.053
   },
   {
    "key": "f_rates",
    "group": "macro",
    "label": "Long Treasury trend",
    "weight": 0.042,
-   "signal": -0.43,
-   "reading": "TLT \u22122.8% in 3 months",
-   "contribution": -0.018
+   "signal": -0.32,
+   "reading": "TLT \u22122.0% in 3 months",
+   "contribution": -0.013
   },
   {
    "key": "f_liq",
    "group": "macro",
    "label": "Fed net liquidity",
    "weight": 0.042,
-   "signal": -0.41,
-   "reading": "\u22121.8% in 13 weeks ($5.47T)",
-   "contribution": -0.017
+   "signal": -0.31,
+   "reading": "\u22121.3% in 13 weeks ($5.42T)",
+   "contribution": -0.013
   },
   {
    "key": "f_gm2",
@@ -440,7 +440,7 @@
    "label": "VIX panic (contrarian)",
    "weight": 0.03,
    "signal": 0.0,
-   "reading": "VIX 16.9",
+   "reading": "VIX 17.2",
    "contribution": 0.0
   },
   {
@@ -449,7 +449,7 @@
    "label": "Price vs 200-week MA",
    "weight": 0.0825,
    "signal": 0.5,
-   "reading": "1.21x the 200-week MA (67,151)",
+   "reading": "1.16x the 200-week MA (67,151)",
    "contribution": 0.041
   },
   {
@@ -458,7 +458,7 @@
    "label": "Mayer multiple extremes",
    "weight": 0.0675,
    "signal": 0.0,
-   "reading": "Mayer multiple 1.11",
+   "reading": "Mayer multiple 1.06",
    "contribution": 0.0
   },
   {
@@ -467,7 +467,7 @@
    "label": "4-year cycle phase",
    "weight": 0.065,
    "signal": -0.25,
-   "reading": "387 days since ATH, 34.9% below it",
+   "reading": "388 days since ATH, 37.7% below it",
    "contribution": -0.016
   },
   {
@@ -481,13 +481,13 @@
   }
  ],
  "analog": {
-  "n": 480,
-  "med30": 4.2,
-  "pos30": 57.0,
-  "q10_30": -20.3,
-  "q90_30": 25.8,
-  "med90": 11.0,
-  "pos90": 63.0
+  "n": 425,
+  "med30": 3.7,
+  "pos30": 58.0,
+  "q10_30": -20.8,
+  "q90_30": 26.6,
+  "med90": 9.9,
+  "pos90": 61.0
  },
  "by_regime": {
   "Bearish": {
@@ -512,7 +512,7 @@
    "pos90": 60.0
   },
   "Neutral": {
-   "days": 830,
+   "days": 831,
    "med30": 1.6,
    "pos30": 54.0,
    "med90": 10.3,
@@ -531,26 +531,26 @@
   "ath_date": "2025-10-06",
   "cycle_low": 58563.0,
   "cycle_low_date": "2026-06-30",
-  "m20": 81835.0,
-  "m50": 81890.0,
-  "m100": 75925.0,
-  "m200": 73069.0,
-  "m365": 77377.0,
+  "m20": 81596.0,
+  "m50": 81880.0,
+  "m100": 76038.0,
+  "m200": 73104.0,
+  "m365": 77288.0,
   "m20w": 72371.0,
-  "m50w": 76172.0,
+  "m50w": 76108.0,
   "m200w": 67151.0
  },
- "vol30": 25.2,
- "move7": 3.5,
- "move30": 7.2,
+ "vol30": 29.3,
+ "move7": 4.1,
+ "move30": 8.4,
  "cycle": {
-  "days_since_ath": 387,
-  "dd": -34.9,
-  "days_since_low": 120,
-  "rally_from_low": 38.8,
-  "days_since_halving": 922,
+  "days_since_ath": 388,
+  "dd": -37.7,
+  "days_since_low": 121,
+  "rally_from_low": 32.8,
+  "days_since_halving": 923,
   "next_halving": "2028-04-15",
-  "days_to_halving": 535,
+  "days_to_halving": 534,
   "cycle_year": 2
  },
  "season": {
@@ -603,40 +603,40 @@
  },
  "corr": {
   "ndx": {
-   "w13": -0.12,
-   "w52": 0.39
+   "w13": -0.13,
+   "w52": 0.38
   },
   "spx": {
-   "w13": -0.19,
-   "w52": 0.34
+   "w13": -0.22,
+   "w52": 0.33
   },
   "gld": {
-   "w13": 0.53,
+   "w13": 0.52,
    "w52": 0.18
   },
   "uup": {
-   "w13": -0.37,
+   "w13": -0.36,
    "w52": -0.15
   },
   "tlt": {
-   "w13": -0.03,
+   "w13": -0.05,
    "w52": -0.08
   },
   "hyg": {
-   "w13": -0.05,
-   "w52": 0.2
+   "w13": -0.13,
+   "w52": 0.18
   }
  },
  "macro": {
-  "uup": 29.06,
-  "hyg": 77.59,
-  "tlt": 80.99,
-  "vix": 16.9,
-  "net_liq": 5.468,
+  "uup": 29.04,
+  "hyg": 77.58,
+  "tlt": 81.49,
+  "vix": 17.2,
+  "net_liq": 5.42,
   "gm2_usd": 105.2,
-  "spx": 7744.0,
-  "ndx": 29813.0,
-  "gld": 373.51,
+  "spx": 7720.0,
+  "ndx": 29403.0,
+  "gld": 368.57,
   "us10y": 4.99,
   "real10y": 2.64,
   "wti": 103.4,
@@ -644,25 +644,25 @@
  },
  "backtest": {
   "strategy": {
-   "cagr": 0.922,
+   "cagr": 0.919,
    "vol": 0.51,
-   "sharpe": 1.494,
+   "sharpe": 1.49,
    "maxdd": -0.498,
-   "multiple": 2283.125
+   "multiple": 2234.117
   },
   "old": {
-   "cagr": 0.711,
+   "cagr": 0.707,
    "vol": 0.508,
-   "sharpe": 1.27,
+   "sharpe": 1.266,
    "maxdd": -0.603,
-   "multiple": 574.106
+   "multiple": 561.782
   },
   "buyhold": {
-   "cagr": 0.596,
+   "cagr": 0.59,
    "vol": 0.663,
-   "sharpe": 1.009,
+   "sharpe": 1.003,
    "maxdd": -0.838,
-   "multiple": 253.413
+   "multiple": 242.507
   },
   "exposure": 0.696,
   "old_exposure": 0.637,
@@ -671,26 +671,31 @@
   "cash": "3-month T-bill"
  },
  "data_freshness": {
-  "btc": "2026-10-28",
-  "uup": "2026-10-28",
-  "hyg": "2026-10-28",
-  "tlt": "2026-10-28",
-  "vix": "2026-10-28",
-  "spx": "2026-10-28",
-  "net_liq": "2026-10-22",
+  "btc": "2026-10-29",
+  "uup": "2026-10-29",
+  "hyg": "2026-10-29",
+  "tlt": "2026-10-29",
+  "vix": "2026-10-29",
+  "spx": "2026-10-29",
+  "net_liq": "2026-10-29",
   "us_m2": "2026-09-01",
   "fx": "2026-10-23"
  },
  "notes": [
   {
-   "text": "On Oct 28, 2026, the Fed held its policy rate at 3.75%-4.00% in a 10-2 vote, with Lisa Cook and Beth Hammack dissenting in favor of a 25 basis point hike.",
-   "source": "Admiral Markets",
-   "url": "https://admiralmarkets.com/analytics/traders-blog/fed-rate-decision-october-28-2026-hawkish-hold"
+   "text": "On Oct 29, 2026, Bitcoin fell more than 4% to below $78,000 amid concerns over a possible Binance security breach; Circle and Tether froze $2.54 billion in funds tied to the suspected incident.",
+   "source": "Briefs",
+   "url": "https://www.briefs.co/news/bitcoin-dips-under-78-000-as-binance-reviews-potential-secur/"
   },
   {
-   "text": "US spot Bitcoin ETFs took in $137.3 million of net inflows on Oct 28, 2026, a third straight day of inflows, with BlackRock's IBIT accounting for $136 million.",
-   "source": "KuCoin News",
-   "url": "https://www.kucoin.com/news/flash/u-s-bitcoin-spot-etfs-see-137-3m-net-inflow-ethereum-etfs-record-21-4m-net-outflow-on-october-28"
+   "text": "Bitcoin slipped under $78,000 on Oct 29, 2026, a 4.1% decline over 24 hours.",
+   "source": "TokenPost",
+   "url": "https://www.tokenpost.com/news/investing/44040"
+  },
+  {
+   "text": "US spot Bitcoin ETFs took in a modest $17.2 million of net inflows on Oct 29, 2026, led by BlackRock's IBIT (+$12.8 million) and Fidelity's FBTC (+$10.5 million), per Farside data.",
+   "source": "Blockchain.News",
+   "url": "https://blockchain.news/flashnews/bitcoin-etf-17-2m-net-inflow-oct-29"
   },
   {
    "text": "The October jobs report is scheduled for Friday, Nov 6, 2026 at 8:30 AM ET, after JOLTS job openings on Tuesday, Nov 3; October CPI follows on Nov 10.",
