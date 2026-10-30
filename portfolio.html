@@ -18,7 +18,7 @@
 .hyp{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);border:1px solid var(--line2);border-radius:999px;padding:3px 9px;white-space:nowrap}
 </style>
 <meta charset="utf-8">
-<title>Kerdos Model Portfolio</title>
+<title>Model Portfolio · Kerdos Capital</title>
 <meta name="description" content="A hypothetical 60/40 stocks and Bitcoin portfolio that follows the Kerdos desks, with its rules, an allocation calculator and a backtest.">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -180,6 +180,25 @@ tr.adopt td:first-child{font-weight:600} tr.rej td{color:var(--muted)} tr.sens t
 .mast.sub h1{font-size:1.5rem;font-weight:700;font-stretch:112%;letter-spacing:-.01em;color:var(--white)}
 </style>
 
+<!--kerdos-head-->
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="canonical" href="https://kerdoscapital.xyz/portfolio.html">
+<meta name="theme-color" content="#131621">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kerdos Capital">
+<meta property="og:title" content="Model Portfolio · Kerdos Capital">
+<meta property="og:description" content="A hypothetical 60/40 stocks and Bitcoin portfolio that follows the Kerdos desks, with its rules, an allocation calculator and a backtest.">
+<meta property="og:url" content="https://kerdoscapital.xyz/portfolio.html">
+<meta property="og:image" content="https://kerdoscapital.xyz/og.png?v=20261029">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Model Portfolio · Kerdos Capital">
+<meta name="twitter:description" content="A hypothetical 60/40 stocks and Bitcoin portfolio that follows the Kerdos desks, with its rules, an allocation calculator and a backtest.">
+<meta name="twitter:image" content="https://kerdoscapital.xyz/og.png?v=20261029">
+<!--/kerdos-head-->
 </head>
 <body>
 <style>
@@ -202,15 +221,15 @@ tr.adopt td:first-child{font-weight:600} tr.rej td{color:var(--muted)} tr.sens t
 <link rel="stylesheet" href="kerdos.css">
 <script src="kerdos.js"></script>
 <div class="wrap" id="app">
-  <header class="k-nav"><div class="k-bar"><a class="k-word" href="index.html" aria-label="Kerdos Capital, overview"><b>Kerdos</b><span>Capital</span></a><button class="k-menu-btn" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 6h12M3 12h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button><nav class="k-links" aria-label="Site"><span class="k-ind" aria-hidden="true"></span><a href="index.html">Overview</a><a href="portfolio.html" aria-current="page">Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a></nav></div></header>
+  <header class="k-nav"><div class="k-bar"><a class="k-word" href="index.html" aria-label="Kerdos Capital, overview"><b>Kerdos</b><span>Capital</span></a><button class="k-menu-btn" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 6h12M3 12h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button><nav class="k-links" aria-label="Site"><span class="k-ind" aria-hidden="true"></span><a href="index.html">Overview</a><a href="portfolio.html" aria-current="page">Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a><a href="about.html">About</a></nav></div></header>
   <header class="mast sub">
     <div><h1>Model Portfolio</h1><div class="label" id="asof">Loading</div></div>
     <div class="meta"><span class="hyp">Hypothetical</span><span>60% stocks · 40% Bitcoin</span></div>
   </header>
-  <div class="loading" id="loading">Loading today’s calls…</div>
+  <div class="loading" id="loading"><!--pre:loading--><span style="display:block;font-size:1.05rem;color:var(--ink,#d1d4dc)"><b>Model portfolio: stocks Bullish, Bitcoin Neutral</b> · 80% invested · of a 60% stocks / 40% Bitcoin target</span><span style="display:block;margin-top:6px">As of the Oct 29, 2026 close. Loading the full report…</span><!--/pre:loading--></div>
   <main id="main" hidden style="display:grid;gap:18px"></main>
   <footer class="foot pub">
-    <div class="ft"><a class="wordmark" href="index.html">Kerdos <span>Capital</span></a><nav class="fl" aria-label="Footer"><a href="index.html">Overview</a><a href="portfolio.html">Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a></nav></div>
+    <div class="ft"><a class="wordmark" href="index.html">Kerdos <span>Capital</span></a><nav class="fl" aria-label="Footer"><a href="index.html">Overview</a><a href="portfolio.html">Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a><a href="about.html">About</a></nav></div>
     <div class="disc">
       <p><b>Important information.</b> Kerdos Capital is an independent research project that publishes rules-based market models for education and discussion. Nothing on this site is investment, tax or legal advice, or a recommendation to buy or sell any security or digital asset. The model portfolio is hypothetical: it manages no money, and its daily changes are not instructions to trade.</p>
       <p>Backtested results are hypothetical. They were computed with hindsight, from rules chosen with that history in view, and they leave out taxes and most real-world trading frictions. Past and backtested performance does not guarantee future results. Bitcoin and high-beta stocks are highly volatile, and any investment can lose money. Do your own research, or speak with a licensed professional, before investing.</p>
