@@ -189,13 +189,14 @@ td.hl{color:var(--white);font-weight:600}
 <body>
 <script src="kerdos.js"></script>
 <div class="wrap">
-  <header class="k-nav"><div class="k-bar"><a class="k-word" href="index.html" aria-label="Kerdos Capital, overview"><b>Kerdos</b><span>Capital</span></a><button class="k-menu-btn" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 6h12M3 12h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button><nav class="k-links" aria-label="Site"><span class="k-ind" aria-hidden="true"></span><a href="index.html" aria-current="page">Overview</a><a href="portfolio.html">Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a><a href="about.html">About</a></nav></div></header>
+  <header class="k-nav"><div class="k-bar"><a class="k-word" href="index.html" aria-label="Kerdos Capital, overview"><b>Kerdos</b><span>Capital</span></a><button class="k-menu-btn" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 6h12M3 12h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button><nav class="k-links" aria-label="Site"><span class="k-ind" aria-hidden="true"></span><a href="index.html" aria-current="page">Overview</a><a href="flagship.html">Flagship</a><a href="portfolio.html">Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a><a href="about.html">About</a></nav></div></header>
   <section class="intro">
     <div class="label" id="asof">Stocks and high beta as of Oct 29, 2026 close · Bitcoin as of Oct 29, 2026 close</div>
     <h1>Independent Quantitative Investment Research</h1>
     <p>Systematic strategies, market regime analysis and multi-asset portfolio construction. Rules-based models set exposure to US stocks, Bitcoin and high-beta tech after every close, and every call is published with its rules, its backtest and its limits.</p>
     <div><span class="hyp">Hypothetical models · not investment advice</span></div>
   </section>
+  <section class="sec" id="flag" hidden aria-label="Flagship model"></section>
   <section class="desks" id="desks" aria-label="Today’s calls"><!--pre:desks--><article class="desk"><div class="top"><h2>US stocks · SPY &amp; QQQ</h2></div><div><div class="call c-Bullish">Bullish</div></div><div class="expo"><span>Exposure</span><b>100%</b><span>since Apr 15, 2026</span></div><div class="meter" aria-hidden="true"><i style="width:100%"></i></div><div class="quotes"><div class="q"><div class="tk">SPY</div><div class="px">$769.36</div><div class="ch"><span>−0.4% 1d</span></div></div><div class="q"><div class="tk">QQQ</div><div class="px">$715.34</div><div class="ch"><span>−1.4% 1d</span></div></div></div><a class="go" href="stocks.html">Open the stocks desk <span aria-hidden="true">→</span></a></article><article class="desk"><div class="top"><h2>Bitcoin</h2></div><div><div class="call c-Neutral">Neutral</div></div><div class="expo"><span>Exposure</span><b>50%</b><span>since Oct 16, 2026</span></div><div class="meter" aria-hidden="true"><i style="width:50%"></i></div><div class="quotes"><div class="q"><div class="tk">BTC</div><div class="px">$77,762</div><div class="ch"><span>−4.3% 1d</span></div></div></div><a class="go" href="bitcoin.html">Open the Bitcoin desk <span aria-hidden="true">→</span></a></article><article class="desk"><div class="top"><h2>High beta · satellite sleeve</h2></div><div><div class="call c-Lagging">Lagging</div></div><div class="expo"><span>Exposure</span><b>50%</b><span>since Oct 27, 2026</span></div><div class="meter" aria-hidden="true"><i style="width:50%"></i></div><div class="quotes"><div class="q"><div class="tk">Basket</div><div class="px">31.16</div><div class="ch"><span>−1.7% 1d</span></div></div></div><a class="go" href="highbeta.html">Open the high-beta desk <span aria-hidden="true">→</span></a></article><!--/pre:desks--></section>
   <section class="sec">
     <details class="gloss"><summary>What the numbers on these cards mean</summary><dl>
@@ -360,7 +361,7 @@ function summary(R,have){
     </div>
   </section>
   <footer class="foot pub">
-    <div class="ft"><a class="wordmark" href="index.html">Kerdos <span>Capital</span></a><nav class="fl" aria-label="Footer"><a href="index.html">Overview</a><a href="portfolio.html">Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a><a href="about.html">About</a></nav></div>
+    <div class="ft"><a class="wordmark" href="index.html">Kerdos <span>Capital</span></a><nav class="fl" aria-label="Footer"><a href="index.html">Overview</a><a href="flagship.html">Flagship</a><a href="portfolio.html">Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a><a href="about.html">About</a></nav></div>
     <div class="disc">
       <p><b>Important information.</b> Kerdos Capital is an independent research project that publishes rules-based market models for education and discussion. Nothing on this site is investment, tax or legal advice, or a recommendation to buy or sell any security or digital asset. The model portfolio is hypothetical: it manages no money, and its daily changes are not instructions to trade.</p>
       <p>Backtested results are hypothetical. They were computed with hindsight, from rules chosen with that history in view, and they leave out taxes and most real-world trading frictions. Past and backtested performance does not guarantee future results. Bitcoin and high-beta stocks are highly volatile, and any investment can lose money. Do your own research, or speak with a licensed professional, before investing.</p>
@@ -390,6 +391,18 @@ function card(o){return `<article class="desk"><div class="top"><h2>${o.name}</h
   <dl class="facts">${o.facts.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join('')}</dl>
   ${o.strip}
   <a class="go" href="${o.href}">Open the ${o.short} desk <span aria-hidden="true">→</span></a></article>`}
+fetch('flagship/report.json').then(r=>{if(!r.ok)throw 0;return r.json()}).then(F=>{
+  const el=document.getElementById('flag');if(!el)return;const w=F.weights,A=['SPY','QQQ','IEF','GLD','BTC','CASH'];
+  const C={SPY:'#a58ee4',QQQ:'#8d72c8',IEF:'#5cc8f0',GLD:'#e0b44a',BTC:'#f39b4b',CASH:'#5c6272'},L={SPY:'SPY',QQQ:'QQQ',IEF:'Treasuries',GLD:'Gold',BTC:'Bitcoin',CASH:'Cash'};
+  const b=F.backtest.flagship['2005–26'],s=F.backtest.spy['2005–26'];
+  el.innerHTML=`<h2>Flagship model</h2><article class="desk" style="gap:14px"><div class="top"><h2>Multi-asset · stocks, Treasuries, gold, Bitcoin, cash</h2></div>
+   <div><div class="call c-${F.regime==='Risk-On'?'Bullish':F.regime==='Risk-Off'?'Bearish':'Neutral'}">${F.regime}</div></div>
+   <div style="display:flex;height:14px;border-radius:7px;overflow:hidden" role="img" aria-label="Allocation: ${A.map(k=>L[k]+' '+Math.round(w[k]*100)+'%').join(', ')}">${A.filter(k=>w[k]>0).map(k=>`<i style="flex:${w[k]};background:${C[k]}"></i>`).join('')}</div>
+   <div style="display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.82rem;color:var(--ink-2,#a9adb8)">${A.filter(k=>w[k]>0).map(k=>`<span><i style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${C[k]};margin-right:5px"></i>${L[k]} ${Math.round(w[k]*100)}%</span>`).join('')}</div>
+   <dl class="facts"><dt>Backtest since 2005, per year</dt><dd>${(b.cagr*100).toFixed(1)}% vs ${(s.cagr*100).toFixed(1)}% SPY</dd><dt>Worst drop</dt><dd>−${Math.abs(b.maxdd*100).toFixed(0)}% vs −${Math.abs(s.maxdd*100).toFixed(0)}% SPY</dd><dt>Live record</dt><dd>${F.live&&F.live.flagship?((F.live.flagship.total>=0?'+':'−')+Math.abs(F.live.flagship.total*100).toFixed(1)+'% since '+fmtD(F.live_since)):'starts '+fmtD(F.live_since)}</dd></dl>
+   <a class="go" href="flagship.html">Open the flagship model <span aria-hidden="true">→</span></a></article>`;
+  el.hidden=false;
+}).catch(()=>{});
 Promise.all(['stocks/report.json','bitcoin/report.json','highbeta/report.json'].map(u=>fetch(u).then(r=>r.json())).concat(['stocks/history.csv','bitcoin/history.csv','highbeta/history.csv'].map(u=>fetch(u).then(r=>r.text()))))
 .then(([M,B,G,mh,bh,gh])=>{
   const hbh=csv(gh).filter(r=>r.regime);

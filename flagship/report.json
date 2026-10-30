@@ -1,0 +1,502 @@
+{
+ "asof": "2026-10-29",
+ "generated": "2026-10-30 19:05 UTC",
+ "regime": "Risk-On",
+ "regime_since": "2025-04-09",
+ "stocks_regime": "Bullish",
+ "btc_regime": "Neutral",
+ "weights": {
+  "SPY": 0.35,
+  "QQQ": 0.25,
+  "IEF": 0.15,
+  "GLD": 0.1,
+  "BTC": 0.05,
+  "CASH": 0.1
+ },
+ "equity_weight": 0.6,
+ "weight_map": {
+  "Risk-On": {
+   "SPY": 0.35,
+   "QQQ": 0.25,
+   "IEF": 0.15,
+   "GLD": 0.1,
+   "BTC": 0.1
+  },
+  "Neutral": {
+   "SPY": 0.2,
+   "QQQ": 0.1,
+   "IEF": 0.3,
+   "GLD": 0.15,
+   "BTC": 0.05
+  },
+  "Risk-Off": {
+   "SPY": 0.0,
+   "QQQ": 0.0,
+   "IEF": 0.45,
+   "GLD": 0.2,
+   "BTC": 0.0
+  }
+ },
+ "regime_map": {
+  "Bullish": "Risk-On",
+  "Neutral": "Risk-On",
+  "Recovery": "Risk-On",
+  "Correction": "Neutral",
+  "Bearish": "Risk-Off"
+ },
+ "backtest": {
+  "flagship": {
+   "2005\u201326": {
+    "cagr": 0.1656,
+    "total": 27.1249,
+    "vol": 0.109,
+    "sharpe": 1.3,
+    "maxdd": -0.1765,
+    "days": 5487
+   },
+   "2005\u201314": {
+    "cagr": 0.1146,
+    "total": 1.9504,
+    "vol": 0.1023,
+    "sharpe": 0.97,
+    "maxdd": -0.1143,
+    "days": 2514
+   },
+   "2015\u201326": {
+    "cagr": 0.2106,
+    "total": 8.5298,
+    "vol": 0.1144,
+    "sharpe": 1.55,
+    "maxdd": -0.1765,
+    "days": 2972
+   }
+  },
+  "no_btc": {
+   "2005\u201326": {
+    "cagr": 0.1263,
+    "total": 12.3265,
+    "vol": 0.1055,
+    "sharpe": 1.01,
+    "maxdd": -0.1694,
+    "days": 5487
+   },
+   "2005\u201314": {
+    "cagr": 0.118,
+    "total": 2.0434,
+    "vol": 0.1026,
+    "sharpe": 1.0,
+    "maxdd": -0.1143,
+    "days": 2514
+   },
+   "2015\u201326": {
+    "cagr": 0.1334,
+    "total": 3.3777,
+    "vol": 0.108,
+    "sharpe": 1.02,
+    "maxdd": -0.1694,
+    "days": 2972
+   }
+  },
+  "spy": {
+   "2005\u201326": {
+    "cagr": 0.1076,
+    "total": 8.2592,
+    "vol": 0.1897,
+    "sharpe": 0.54,
+    "maxdd": -0.5542,
+    "days": 5487
+   },
+   "2005\u201314": {
+    "cagr": 0.0732,
+    "total": 1.0243,
+    "vol": 0.2051,
+    "sharpe": 0.38,
+    "maxdd": -0.5542,
+    "days": 2514
+   },
+   "2015\u201326": {
+    "cagr": 0.1376,
+    "total": 3.5762,
+    "vol": 0.1757,
+    "sharpe": 0.7,
+    "maxdd": -0.34,
+    "days": 2972
+   }
+  },
+  "sixty40": {
+   "2005\u201326": {
+    "cagr": 0.0813,
+    "total": 4.4797,
+    "vol": 0.1069,
+    "sharpe": 0.62,
+    "maxdd": -0.3281,
+    "days": 5487
+   },
+   "2005\u201314": {
+    "cagr": 0.0711,
+    "total": 0.9834,
+    "vol": 0.1111,
+    "sharpe": 0.54,
+    "maxdd": -0.3281,
+    "days": 2514
+   },
+   "2015\u201326": {
+    "cagr": 0.0898,
+    "total": 1.7578,
+    "vol": 0.1032,
+    "sharpe": 0.68,
+    "maxdd": -0.2091,
+    "days": 2972
+   }
+  }
+ },
+ "yearly": [
+  {
+   "year": 2005,
+   "flagship": 5.8,
+   "no_btc": 5.8,
+   "spy": 5.3,
+   "sixty40": 4.3
+  },
+  {
+   "year": 2006,
+   "flagship": 11.6,
+   "no_btc": 11.6,
+   "spy": 15.7,
+   "sixty40": 10.4
+  },
+  {
+   "year": 2007,
+   "flagship": 9.4,
+   "no_btc": 9.4,
+   "spy": 5.8,
+   "sixty40": 7.6
+  },
+  {
+   "year": 2008,
+   "flagship": 11.5,
+   "no_btc": 11.5,
+   "spy": -37.7,
+   "sixty40": -18.4
+  },
+  {
+   "year": 2009,
+   "flagship": 34.5,
+   "no_btc": 34.5,
+   "spy": 25.6,
+   "sixty40": 12.3
+  },
+  {
+   "year": 2010,
+   "flagship": 12.1,
+   "no_btc": 12.1,
+   "spy": 14.8,
+   "sixty40": 13.3
+  },
+  {
+   "year": 2011,
+   "flagship": -2.9,
+   "no_btc": -2.9,
+   "spy": 1.5,
+   "sixty40": 7.6
+  },
+  {
+   "year": 2012,
+   "flagship": 11.5,
+   "no_btc": 11.5,
+   "spy": 15.4,
+   "sixty40": 10.9
+  },
+  {
+   "year": 2013,
+   "flagship": 17.8,
+   "no_btc": 17.8,
+   "spy": 31.9,
+   "sixty40": 15.6
+  },
+  {
+   "year": 2014,
+   "flagship": 6.4,
+   "no_btc": 9.8,
+   "spy": 13.2,
+   "sixty40": 11.9
+  },
+  {
+   "year": 2015,
+   "flagship": 5.3,
+   "no_btc": -0.0,
+   "spy": 1.9,
+   "sixty40": 2.1
+  },
+  {
+   "year": 2016,
+   "flagship": 16.3,
+   "no_btc": 6.3,
+   "spy": 10.4,
+   "sixty40": 6.8
+  },
+  {
+   "year": 2017,
+   "flagship": 65.8,
+   "no_btc": 19.2,
+   "spy": 21.4,
+   "sixty40": 13.7
+  },
+  {
+   "year": 2018,
+   "flagship": -1.5,
+   "no_btc": 1.1,
+   "spy": -4.7,
+   "sixty40": -1.9
+  },
+  {
+   "year": 2019,
+   "flagship": 33.2,
+   "no_btc": 24.8,
+   "spy": 31.0,
+   "sixty40": 21.6
+  },
+  {
+   "year": 2020,
+   "flagship": 50.4,
+   "no_btc": 32.3,
+   "spy": 18.2,
+   "sixty40": 16.4
+  },
+  {
+   "year": 2021,
+   "flagship": 26.7,
+   "no_btc": 18.6,
+   "spy": 29.2,
+   "sixty40": 15.5
+  },
+  {
+   "year": 2022,
+   "flagship": -15.4,
+   "no_btc": -15.8,
+   "spy": -18.1,
+   "sixty40": -16.3
+  },
+  {
+   "year": 2023,
+   "flagship": 32.1,
+   "no_btc": 24.2,
+   "spy": 26.4,
+   "sixty40": 17.3
+  },
+  {
+   "year": 2024,
+   "flagship": 27.9,
+   "no_btc": 20.7,
+   "spy": 25.4,
+   "sixty40": 14.7
+  },
+  {
+   "year": 2025,
+   "flagship": 22.7,
+   "no_btc": 25.6,
+   "spy": 18.3,
+   "sixty40": 14.4
+  },
+  {
+   "year": 2026,
+   "flagship": 6.9,
+   "no_btc": 10.2,
+   "spy": 14.4,
+   "sixty40": 7.9
+  }
+ ],
+ "turnover": 1.9,
+ "live_since": "2026-11-02",
+ "live": {},
+ "changes": [
+  {
+   "date": "2026-10-16",
+   "regime": "Risk-On",
+   "stocks": "Bullish",
+   "bitcoin": "Neutral",
+   "weights": {
+    "SPY": 0.35,
+    "QQQ": 0.25,
+    "IEF": 0.15,
+    "GLD": 0.1,
+    "BTC": 0.05,
+    "CASH": 0.1
+   },
+   "before": {
+    "SPY": 0.35,
+    "QQQ": 0.25,
+    "IEF": 0.15,
+    "GLD": 0.1,
+    "BTC": 0.1,
+    "CASH": 0.05
+   }
+  },
+  {
+   "date": "2026-09-21",
+   "regime": "Risk-On",
+   "stocks": "Bullish",
+   "bitcoin": "Bullish",
+   "weights": {
+    "SPY": 0.35,
+    "QQQ": 0.25,
+    "IEF": 0.15,
+    "GLD": 0.1,
+    "BTC": 0.1,
+    "CASH": 0.05
+   },
+   "before": {
+    "SPY": 0.35,
+    "QQQ": 0.25,
+    "IEF": 0.15,
+    "GLD": 0.1,
+    "BTC": 0.05,
+    "CASH": 0.1
+   }
+  },
+  {
+   "date": "2026-09-17",
+   "regime": "Risk-On",
+   "stocks": "Bullish",
+   "bitcoin": "Neutral",
+   "weights": {
+    "SPY": 0.35,
+    "QQQ": 0.25,
+    "IEF": 0.15,
+    "GLD": 0.1,
+    "BTC": 0.05,
+    "CASH": 0.1
+   },
+   "before": {
+    "SPY": 0.35,
+    "QQQ": 0.25,
+    "IEF": 0.15,
+    "GLD": 0.1,
+    "BTC": 0.1,
+    "CASH": 0.05
+   }
+  },
+  {
+   "date": "2026-09-08",
+   "regime": "Risk-On",
+   "stocks": "Bullish",
+   "bitcoin": "Bullish",
+   "weights": {
+    "SPY": 0.35,
+    "QQQ": 0.25,
+    "IEF": 0.15,
+    "GLD": 0.1,
+    "BTC": 0.1,
+    "CASH": 0.05
+   },
+   "before": {
+    "SPY": 0.35,
+    "QQQ": 0.25,
+    "IEF": 0.15,
+    "GLD": 0.1,
+    "BTC": 0.05,
+    "CASH": 0.1
+   }
+  },
+  {
+   "date": "2026-08-24",
+   "regime": "Risk-On",
+   "stocks": "Bullish",
+   "bitcoin": "Neutral",
+   "weights": {
+    "SPY": 0.35,
+    "QQQ": 0.25,
+    "IEF": 0.15,
+    "GLD": 0.1,
+    "BTC": 0.05,
+    "CASH": 0.1
+   },
+   "before": {
+    "SPY": 0.35,
+    "QQQ": 0.25,
+    "IEF": 0.15,
+    "GLD": 0.1,
+    "BTC": 0.0,
+    "CASH": 0.15
+   }
+  },
+  {
+   "date": "2026-08-17",
+   "regime": "Risk-On",
+   "stocks": "Bullish",
+   "bitcoin": "Bearish",
+   "weights": {
+    "SPY": 0.35,
+    "QQQ": 0.25,
+    "IEF": 0.15,
+    "GLD": 0.1,
+    "BTC": 0.0,
+    "CASH": 0.15
+   },
+   "before": {
+    "SPY": 0.35,
+    "QQQ": 0.25,
+    "IEF": 0.15,
+    "GLD": 0.1,
+    "BTC": 0.05,
+    "CASH": 0.1
+   }
+  },
+  {
+   "date": "2026-07-15",
+   "regime": "Risk-On",
+   "stocks": "Bullish",
+   "bitcoin": "Correction",
+   "weights": {
+    "SPY": 0.35,
+    "QQQ": 0.25,
+    "IEF": 0.15,
+    "GLD": 0.1,
+    "BTC": 0.05,
+    "CASH": 0.1
+   },
+   "before": {
+    "SPY": 0.35,
+    "QQQ": 0.25,
+    "IEF": 0.15,
+    "GLD": 0.1,
+    "BTC": 0.0,
+    "CASH": 0.15
+   }
+  },
+  {
+   "date": "2026-07-14",
+   "regime": "Risk-On",
+   "stocks": "Bullish",
+   "bitcoin": "Bearish",
+   "weights": {
+    "SPY": 0.35,
+    "QQQ": 0.25,
+    "IEF": 0.15,
+    "GLD": 0.1,
+    "BTC": 0.0,
+    "CASH": 0.15
+   },
+   "before": {
+    "SPY": 0.35,
+    "QQQ": 0.25,
+    "IEF": 0.15,
+    "GLD": 0.1,
+    "BTC": 0.05,
+    "CASH": 0.1
+   }
+  }
+ ],
+ "days": {
+  "Risk-On": 4600,
+  "Risk-Off": 529,
+  "Neutral": 359
+ },
+ "prices": {
+  "SPY": 769.36,
+  "QQQ": 715.34,
+  "IEF": 91.25,
+  "GLD": 368.57,
+  "BTC": 77762.0
+ }
+}

@@ -266,6 +266,15 @@ def make_about(index_html):
     return (index_html[:head_end] + extra + index_html[head_end:i_end] + '\n' + body + '\n  ' + index_html[i_ft:i_fe] + '\n</div>\n</body>\n</html>\n')
 
 
+def make_shell_page(index_html, body_name):
+    """A page with the overview's head, nav and footer and its own body (tools/<body_name>)."""
+    body = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), body_name), encoding='utf-8').read()
+    i_nav = index_html.find('class="k-nav"'); i_end = index_html.find('</header>', i_nav) + len('</header>')
+    i_ft = index_html.find('<footer class="foot pub">'); i_fe = index_html.find('</footer>', i_ft) + len('</footer>')
+    if min(i_nav, i_ft) < 0: return None
+    return index_html[:i_end] + '\n' + body + '\n  ' + index_html[i_ft:i_fe] + '\n</div>\n</body>\n</html>\n'
+
+
 def main():
     M, B, G = jload('stocks/report.json'), jload('bitcoin/report.json'), jload('highbeta/report.json')
     FL = jload('flagship/report.json'); PF = jload('portfolio_backtest.json')
@@ -274,8 +283,12 @@ def main():
     try: make_og(M, B, G, FL)
     except Exception as e: print('og.png skipped:', e)
     if exists('index.html'):
-        a = make_about(unwrap(rd('index.html')))
+        idx = unwrap(rd('index.html'))
+        a = make_about(idx)
         if a: wr('about.html', a)
+        if exists('flagship/report.json'):
+            fp = make_shell_page(idx, 'flagship_body.html')
+            if fp: wr('flagship.html', fp)
     for f in PAGES:
         if not exists(f): continue
         s = fix_page(f, rd(f), img_v)
