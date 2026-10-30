@@ -1,0 +1,728 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html,body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<style id="pub-css">
+.foot.pub{display:grid;justify-content:stretch;gap:18px;border-top:1px solid var(--line);padding-top:20px;font-size:.8rem;color:var(--muted)}
+.foot.pub .ft{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px}
+.foot.pub .ft .wordmark{font-size:.72rem;letter-spacing:.32em;text-decoration:none}
+.foot.pub .fl{display:flex;flex-wrap:wrap;gap:4px 16px}
+.foot.pub .fl a{color:var(--ink2);text-decoration:none}
+.foot.pub .fl a:hover{color:var(--white)}
+.foot.pub .fl a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.foot.pub .disc{display:grid;gap:8px;max-width:88ch;line-height:1.55}
+.foot.pub .disc b{color:var(--ink2);font-weight:600}
+.foot.pub .disc p{margin:0}
+.hyp{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);border:1px solid var(--line2);border-radius:999px;padding:3px 9px;white-space:nowrap}
+</style>
+<style id="ox-css">
+.wrap,.sec{grid-template-columns:minmax(0,1fr)}
+.ox{display:grid;gap:18px}
+.ox .oxp{background:var(--surface);border:1px solid var(--line);border-radius:var(--r,6px);padding:18px;min-width:0;display:grid;gap:14px}
+.ox .oxh{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 16px}
+.ox .oxh h2{font-size:1.25rem;font-weight:700;font-stretch:112%;letter-spacing:-.01em;margin:0}
+.ox .oxh h2 small{font-size:.8rem;font-weight:500;color:var(--muted);font-stretch:100%;letter-spacing:0;margin-left:6px}
+.ox .lab{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.ox .stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px 14px}
+@media (max-width:860px){.ox .stats{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:520px){.ox .stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.ox .st{border-top:1px solid var(--line);padding-top:8px;min-width:0}
+.ox .st b{display:block;font-family:var(--f-mono);font-weight:600;font-size:1.05rem;font-variant-numeric:tabular-nums}
+.ox .st span{display:block;font-size:.75rem;color:var(--muted)}
+.ox .st i{font-style:normal;font-size:.72rem;color:var(--ink2)}
+.ox .read{max-width:72ch;font-size:.95rem;color:var(--ink);margin:0}
+.ox .seg{display:inline-flex;border:1px solid var(--line2);border-radius:6px;overflow:hidden}
+.ox .seg button{font:inherit;font-size:.78rem;font-family:var(--f-mono);background:transparent;color:var(--ink2);border:0;padding:5px 10px;cursor:pointer}
+.ox .seg button[aria-pressed="true"]{background:var(--sunk);color:var(--white)}
+.ox .seg button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.ox .lad{display:grid;gap:2px;font-family:var(--f-mono);font-size:.76rem;font-variant-numeric:tabular-nums}
+.ox .row{display:grid;grid-template-columns:52px minmax(0,1fr) 62px minmax(0,1fr) 52px;align-items:center;gap:6px;min-height:17px}
+.ox.btc .row{grid-template-columns:48px minmax(0,1fr) 98px minmax(0,1fr) 48px}
+.ox .row .pv{text-align:right;color:var(--ink2)} .ox .row .cv{color:var(--ink2)}
+.ox .row .pb,.ox .row .cb{height:11px;position:relative}
+.ox .row .pb span{position:absolute;right:0;top:0;bottom:0;background:var(--bear);border-radius:2px 0 0 2px;opacity:.85}
+.ox .row .cb span{position:absolute;left:0;top:0;bottom:0;background:var(--bull);border-radius:0 2px 2px 0;opacity:.85}
+.ox .row .k{text-align:center;color:var(--ink);white-space:nowrap}
+.ox .row .k small{color:var(--muted);font-size:.68rem}
+.ox .row.wall .k{color:var(--white);font-weight:600}
+.ox .row.wall .pb span,.ox .row.wall .cb span{opacity:1}
+.ox .spot{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:8px;color:var(--white);font-size:.72rem;margin:2px 0}
+.ox .spot::before,.ox .spot::after{content:"";height:1px;background:var(--line2)}
+.ox .legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.78rem;color:var(--ink2);align-items:center}
+.ox .legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.ox details{font-size:.85rem;color:var(--ink2)} .ox details p{margin:.5em 0 0;max-width:80ch}
+.ox summary{cursor:pointer;color:var(--ink2)} .ox summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.ox .twocol{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:18px;align-items:start}
+@media (max-width:900px){.ox .twocol{grid-template-columns:minmax(0,1fr)}}
+.ox table{border-collapse:collapse;width:100%;font-size:.84rem}
+.ox th{font-family:var(--f-mono);font-weight:500;font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:left;padding:6px 8px;border-bottom:1px solid var(--line2);white-space:nowrap}
+.ox td{padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+.ox td.n,.ox th.n{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.ox .tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.ox .pos{color:var(--bull)} .ox .neg{color:var(--bear)}
+.ox .err{color:var(--bear)}
+.ox a.oxl{color:var(--accent);text-decoration:none;font-weight:600} .ox a.oxl:hover{text-decoration:underline}
+</style>
+<meta charset="utf-8">
+<title>Kerdos Stocks Desk</title>
+<meta name="description" content="Daily regime model for US stocks (SPY and QQQ): trend, momentum, internals, macro and volatility, with a backtest since 2003.">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Kerdos Capital. Deep navy ground, lavender for up, red for down.
+   Everything else is grey. One dark look by design. */
+:root{
+  --bg:#131621; --surface:#171b26; --sunk:#1e2230; --ink:#d1d4dc; --ink2:#a9adb8; --muted:#7a7e8a; --line:#242835; --line2:#323745; --white:#ffffff;
+  --accent:#a58ee4; --accent-ink:#131621;
+  --bull:#a58ee4; --bull-bg:#221f33; --rec:#a58ee4; --rec-bg:#1e2230; --neut:#d1d4dc; --neut-bg:#1e2230; --corr:#9aa0ae; --corr-bg:#1e2230; --bear:#ef5a62; --bear-bg:#2a1d25;
+  --band-bull:rgba(165,142,228,.12); --band-rec:rgba(165,142,228,.20); --band-neut:rgba(0,0,0,0); --band-corr:rgba(154,160,174,.10); --band-bear:rgba(239,90,98,.14);
+  --s1:#a58ee4; --s2:#8a8e9a; --s3:#d1d4dc; --s4:#6d5ba6;
+  --pos:#8d72c8; --neg:#d34f58; --mid:#20242f;
+  --f-display:"Archivo","Helvetica Neue",Arial,sans-serif; --f-body:"Archivo","Helvetica Neue",Arial,sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --r:6px;
+  color-scheme:dark;
+}
+/* Layout: verdict strip, evidence, charts, then research tabs. */
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 64px;display:grid;gap:18px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.15}
+h2{font-size:1.25rem;font-weight:700;font-stretch:112%;letter-spacing:-.01em}
+h3{font-size:1rem;font-weight:650}
+p{margin:0}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.label{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)} .ink2{color:var(--ink2)}
+a{color:var(--accent)}
+.mast{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px;border-bottom:1px solid var(--line);padding-bottom:14px}
+.brand{display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px;min-width:0}
+.wordmark{font-family:var(--f-display);font-weight:600;font-stretch:115%;font-size:1rem;letter-spacing:.36em;text-transform:uppercase;color:var(--white);white-space:nowrap;line-height:1}
+.wordmark span{font-weight:400;color:var(--ink2)}
+.vrule{width:1px;height:30px;background:var(--line2)}
+.brand h1{font-size:1rem;font-weight:600;letter-spacing:0;line-height:1.2;color:var(--ink)}
+.brand .label{margin-top:2px}
+@media (max-width:560px){.vrule{display:none}.brand{flex-direction:column;align-items:flex-start}}
+.mast .meta{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.8rem;color:var(--ink2)}
+.foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px;border-top:1px solid var(--line);padding-top:14px;font-size:.78rem;color:var(--muted)}
+.foot .wordmark{font-size:.72rem;letter-spacing:.32em}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;min-width:0}
+.grid2{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:18px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+@media (max-width:900px){.grid2,.grid3{grid-template-columns:minmax(0,1fr)}}
+.phead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.verdict{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:26px;padding:22px}
+@media (max-width:820px){.verdict{grid-template-columns:minmax(0,1fr)}}
+.pill{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:4px 12px 4px 10px;font-weight:650;font-size:.85rem}
+.pill::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.pill.Bullish{background:var(--bull-bg);color:var(--bull)} .pill.Neutral{background:var(--neut-bg);color:var(--neut)} .pill.Bearish{background:var(--bear-bg);color:var(--bear)} .pill.Correction{background:var(--corr-bg);color:var(--corr)} .pill.Recovery{background:var(--rec-bg);color:var(--rec)}
+.call{font-family:var(--f-display);font-weight:800;font-stretch:125%;font-size:clamp(2.6rem,7vw,4rem);line-height:1;letter-spacing:-.03em}
+.call.Bullish{color:var(--bull)} .call.Neutral{color:var(--neut)} .call.Bearish{color:var(--bear)} .call.Correction{color:var(--corr)} .call.Recovery{color:var(--rec)}
+.since{font-size:.9rem;color:var(--ink2)}
+.quotes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 18px;margin-top:14px}
+.quote .tk{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;color:var(--muted)}
+.quote .big{font-family:var(--f-display);font-weight:700;font-stretch:110%;font-size:1.6rem}
+.quote .chg{display:flex;flex-wrap:wrap;gap:4px 12px;font-family:var(--f-mono);font-size:.8rem}
+.up{color:var(--bull)} .dn{color:var(--bear)}
+.narr{margin-top:14px;font-size:.98rem;max-width:62ch}
+.gauge svg{width:100%;height:auto;display:block}
+.gauge .ax{font-family:var(--f-mono);font-size:10.5px;fill:var(--muted)}
+.statrow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px}
+@media (max-width:520px){.statrow{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.stat{border-top:1px solid var(--line);padding-top:8px}
+.stat b{display:block;font-family:var(--f-mono);font-weight:600;font-size:1.05rem}
+.stat span{font-size:.75rem;color:var(--muted)}
+.meter{display:grid;grid-template-columns:110px minmax(0,1fr) 52px;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--line)}
+.meter:last-child{border-bottom:0}
+.meter .nm{font-weight:600;font-size:.9rem;text-transform:capitalize}
+.meter .nm small{display:block;font-weight:400;color:var(--muted);font-size:.72rem;font-family:var(--f-mono);text-transform:none}
+.track{position:relative;height:10px;background:var(--sunk);border-radius:5px}
+.track .zero{position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:var(--line2)}
+.track .bar{position:absolute;top:0;bottom:0;border-radius:5px}
+.track .bar.p{background:var(--bull)} .track .bar.n{background:var(--bear)}
+.meter .v{font-family:var(--f-mono);font-size:.85rem;text-align:right}
+.tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-size:.86rem}
+th{font-family:var(--f-mono);font-weight:500;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:left;padding:6px 8px;border-bottom:1px solid var(--line2);white-space:nowrap}
+td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+td.n,th.n{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.grp td{background:var(--sunk);font-family:var(--f-mono);font-size:.7rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink2);padding:4px 8px}
+.sig{display:inline-block;width:70px;height:8px;background:var(--sunk);border-radius:4px;position:relative;vertical-align:middle}
+.sig i{position:absolute;top:0;bottom:0;border-radius:4px}
+.sig::after{content:"";position:absolute;left:50%;top:-2px;bottom:-2px;width:1px;background:var(--line2)}
+.rung{display:grid;grid-template-columns:minmax(0,1fr) auto 64px;gap:10px;align-items:center;padding:5px 0;font-size:.88rem}
+.rung + .rung{border-top:1px solid var(--line)}
+.rung.now{background:var(--sunk);border-radius:4px;padding:7px 8px;margin:2px -8px;font-weight:650}
+.rung.now + .rung{border-top:0}
+.rung .px{font-family:var(--f-mono)} .rung .d{font-family:var(--f-mono);text-align:right;font-size:.8rem}
+.cbar{display:grid;grid-template-columns:96px minmax(0,1fr) 70px;gap:10px;align-items:center;font-size:.84rem;padding:3px 0}
+.cbar .t{height:12px;background:var(--sunk);border-radius:3px;position:relative;overflow:hidden}
+.cbar .t i{position:absolute;left:0;top:0;bottom:0;background:var(--line2);border-radius:3px}
+.cbar.cur .t i{background:var(--accent)}
+.cbar .n{font-family:var(--f-mono);text-align:right}
+.kv{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;font-size:.88rem}
+.kv dt{color:var(--ink2)} .kv dd{margin:0;font-family:var(--f-mono);text-align:right}
+.chart{position:relative;width:100%;min-width:0}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.chart .ax{font-family:var(--f-mono);font-size:10.5px;fill:var(--muted)}
+.chart .grid{stroke:var(--line);stroke-width:1}
+.chart .base{stroke:var(--line2);stroke-width:1}
+.tip{position:absolute;pointer-events:none;background:var(--surface);border:1px solid var(--line2);border-radius:6px;padding:7px 9px;font-size:.78rem;box-shadow:0 6px 18px rgba(0,0,0,.12);white-space:nowrap;z-index:5;min-width:120px}
+.tip .h{font-family:var(--f-mono);color:var(--muted);font-size:.72rem;margin-bottom:3px}
+.tip .r{display:flex;gap:8px;align-items:center;justify-content:space-between}
+.tip .r i{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.8rem;color:var(--ink2);margin-bottom:6px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:14px;height:3px;border-radius:2px;display:inline-block}
+.legend i.sw{width:12px;height:12px;border-radius:3px}
+.seg{display:inline-flex;border:1px solid var(--line2);border-radius:6px;overflow:hidden}
+.seg button{font:inherit;font-family:var(--f-mono);font-size:.75rem;background:transparent;color:var(--ink2);border:0;padding:5px 10px;cursor:pointer}
+.seg button + button{border-left:1px solid var(--line2)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--line2);margin:-4px 0 16px}
+.tabs button{font:inherit;font-weight:600;font-size:.9rem;background:none;border:0;border-bottom:2px solid transparent;color:var(--ink2);padding:8px 10px;cursor:pointer;margin-bottom:-1px}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tabpane{display:grid;gap:22px}
+.tabpane>*{min-width:0}
+.find{display:grid;gap:14px;grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:760px){.find{grid-template-columns:minmax(0,1fr)}}
+.finding{border-top:1px solid var(--line2);padding-top:10px;display:grid;gap:6px;align-content:start}
+.finding p{font-size:.9rem;color:var(--ink2);max-width:62ch}
+.note{font-size:.8rem;color:var(--muted);max-width:80ch}
+.heat td{text-align:center;font-family:var(--f-mono);font-size:.76rem;padding:6px 4px;border:2px solid var(--surface);border-radius:4px}
+.heat th{text-align:center}
+.chip{font-family:var(--f-mono);font-size:.68rem;border:1px solid var(--line2);border-radius:999px;padding:1px 7px;color:var(--ink2)}
+.chip.live{border-color:var(--accent);color:var(--accent)}
+.icrow{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,2fr) 92px;gap:10px;align-items:center;font-size:.84rem;padding:5px 0;border-bottom:1px solid var(--line)}
+.icrow .t{position:relative;height:10px}
+.icrow .t::before{content:"";position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:var(--line2)}
+.icrow .t i{position:absolute;top:0;bottom:0;border-radius:3px}
+.icrow .nm small{color:var(--muted);font-family:var(--f-mono);font-size:.68rem;margin-left:6px}
+.prose{display:grid;gap:10px;max-width:72ch;font-size:.93rem}
+.prose ul{margin:0;padding-left:1.1em;display:grid;gap:6px}
+.notes{margin:0;padding-left:1.1em;display:grid;gap:8px;font-size:.92rem;max-width:90ch}
+.notes a{font-size:.8rem;white-space:nowrap}
+.loading{padding:40px 0;text-align:center;color:var(--muted)}
+.err{color:var(--bear)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+.expo{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-top:10px;font-size:.92rem}
+.expo b{font-family:var(--f-mono);font-size:1.05rem}
+.track .gate{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink2);opacity:.7}
+.ladder4{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:8px;margin-top:12px}
+.ladder4 div{border-radius:8px;padding:8px 10px;font-size:.78rem;line-height:1.35;border:1px solid var(--line)}
+.ladder4 div b{display:block;font-size:.88rem}
+.ladder4 .on{outline:2px solid var(--white);outline-offset:-1px}
+
+tr.adopt td:first-child{font-weight:600} tr.rej td{color:var(--muted)} tr.sens td:first-child{padding-left:18px}
+.site{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.site .wordmark{color:var(--white);text-decoration:none}
+.site .links{display:flex;flex-wrap:wrap;gap:2px}
+.site .links a{color:var(--ink2);text-decoration:none;padding:6px 12px;border-radius:6px;font-weight:550;font-size:.9rem}
+.site .links a:hover{color:var(--white)}
+.site .links a[aria-current="page"]{color:var(--white);background:var(--sunk)}
+.site .links a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.mast.sub{border-bottom:0;padding-bottom:0;align-items:flex-end}
+.mast.sub h1{font-size:1.5rem;font-weight:700;font-stretch:112%;letter-spacing:-.01em;color:var(--white)}
+</style>
+
+</head>
+<body>
+<div class="wrap" id="app">
+  <nav class="site" aria-label="Site"><a class="wordmark" href="index.html">Kerdos <span>Capital</span></a><div class="links"><a href="index.html">Overview</a><a href="portfolio.html">Portfolio</a><a href="stocks.html" aria-current="page">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a></div></nav>
+  <header class="mast sub">
+    <div><h1>US Stocks · SPY &amp; QQQ</h1><div class="label" id="asof">Market close · loading</div></div>
+    <div class="meta" id="fresh"></div>
+  </header>
+  <div class="loading" id="loading">Loading today’s report…</div>
+  <main id="main" hidden style="display:grid;gap:18px"></main>
+  <!--ox-->
+  <section class="sec ox-wrap"><div class="ox" id="ox" data-assets="SPY,QQQ" data-mode="full"></div></section>
+<script id="ox-js">
+(function(){
+const mount=document.getElementById('ox'); if(!mount) return;
+const want=mount.dataset.assets.split(','), mode=mount.dataset.mode||'full';
+const NAME={SPY:'SPY',QQQ:'QQQ',IBIT:'IBIT'};
+const PAGE={SPY:'stocks.html',QQQ:'stocks.html',IBIT:'bitcoin.html'};
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const dshort=s=>{const [y,m,d]=s.split('-');return MON[+m-1]+' '+(+d)};
+const dlong=s=>{const [y,m,d]=s.split('-');return MON[+m-1]+' '+(+d)+', '+y};
+const kfmt=(k,step)=>step<5?(Number.isInteger(k)?String(k):k.toFixed(1)):k.toFixed(0);
+const px=v=>v==null?'\u2014':(v>=100?v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}):v.toFixed(2));
+const cnt=v=>v==null?'\u2014':v>=1e6?(v/1e6).toFixed(v>=1e7?1:2)+'M':v>=1e4?Math.round(v/1e3)+'k':v>=1e3?(v/1e3).toFixed(1)+'k':String(v);
+const usdk=v=>'$'+(v>=1e5?Math.round(v/1e3):(v/1e3).toFixed(1))+'k';
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+function moneyB(v){const a=Math.abs(v);const s=a>=1e9?(a/1e9).toFixed(2)+'B':a>=1e6?(a/1e6).toFixed(0)+'M':(a/1e3).toFixed(0)+'k';return (v<0?'\u2212$':'+$')+s}
+fetch('opts/report.json').then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(R=>{
+  const have=want.filter(s=>R.assets[s]);
+  if(!have.length){mount.innerHTML='';return}
+  if(mode==='summary') return summary(R,have);
+  fetch('opts/history.csv').then(r=>r.ok?r.text():'').catch(()=>'').then(h=>full(R,have,parseH(h)));
+}).catch(e=>{mount.innerHTML='<p class="err">Options data did not load ('+esc(e.message)+').</p>'});
+function parseH(t){if(!t)return[];const L=t.trim().split(/\r?\n/),H=L.shift().split(',');return L.map(l=>{const v=l.split(','),o={};H.forEach((h,i)=>o[h]=v[i]);return o})}
+function gammaTxt(o){
+  if(o.gamma_flip!=null){const above=o.spot>=o.gamma_flip;return {b:above?'Positive':'Negative',cls:above?'pos':'neg',sub:'flips near '+px(o.gamma_flip)}}
+  return {b:o.gex>0?'Positive':'Negative',cls:o.gex>0?'pos':'neg',sub:'no flip in range'}
+}
+function prevNote(o,key,val){const p=o.prev;if(!p||p[key]==null||val==null||p[key]===val)return '';return ` <i>(was ${px(p[key])})</i>`}
+function full(R,have,H){
+  const btc=have.includes('IBIT');
+  mount.classList.toggle('btc',btc);
+  mount.innerHTML=have.map(s=>panel(R,R.assets[s],H.filter(h=>h.sym===s))).join('')+method(R);
+  have.forEach(s=>{
+    const box=mount.querySelector(`[data-ox="${s}"]`);
+    box.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{
+      box.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));
+      box.querySelector('.lad').innerHTML=ladder(R.assets[s],b.dataset.e);
+    }));
+  });
+}
+function panel(R,o,H){
+  const g=gammaTxt(o), r=o.btc_per_share;
+  const btcs=k=>r?` <small>${usdk(k*r)}</small>`:'';
+  const pw=o.put_wall,cw=o.call_wall;
+  const em=o.em_week!=null?`\u00b1${px(o.em_week)}`:'\u2014';
+  const stats=[
+    ['Put wall',pw?kfmt(pw.strike,o.step)+prevNote(o,'put_wall',pw.strike):'\u2014',pw?`${cnt(pw.oi)} puts${r?' \u00b7 BTC '+usdk(pw.strike*r):''}`:''],
+    ['Call wall',cw?kfmt(cw.strike,o.step)+prevNote(o,'call_wall',cw.strike):'\u2014',cw?`${cnt(cw.oi)} calls${r?' \u00b7 BTC '+usdk(cw.strike*r):''}`:''],
+    ['Puts per call',o.all_pc!=null?o.all_pc.toFixed(2)+prevNote(o,'all_pc',o.all_pc):'\u2014',`all expiries \u00b7 near price ${o.win_pc!=null?o.win_pc.toFixed(2):'\u2014'}`],
+    ['Dealer gamma',`<span class="${g.cls}">${g.b}</span>`,g.sub+(r&&o.gamma_flip!=null?' \u00b7 BTC '+usdk(o.gamma_flip*r):'')],
+    ['1-week range',em,o.em_week!=null?`${(o.em_week/o.spot*100).toFixed(1)}% \u00b7 IV30 ${(o.iv30*100).toFixed(1)}%`:'']
+  ].map(([l,b,s])=>`<div class="st"><span>${l}</span><b>${b}</b><span>${s}</span></div>`).join('');
+  const segs=['all',...o.expiries].map((e,i)=>`<button type="button" data-e="${e}" aria-pressed="${i===0}">${e==='all'?'Both':dshort(e)}</button>`).join('');
+  const hist=H.length>1?histTable(o,H):'';
+  return `<article class="oxp" data-ox="${o.sym}">
+  <div class="oxh"><h2>Options positioning<small>${o.sym}${r?' \u00b7 Bitcoin proxy':''}</small></h2><span class="lab">${dlong(R.asof)} close \u00b7 ${o.expiries.map(dshort).join(' &amp; ')} expiries</span></div>
+  <div class="stats">${stats}</div>
+  <p class="read">${esc(o.read)}</p>
+  <div class="twocol"><div>
+    <div class="oxh" style="margin-bottom:8px"><div class="legend"><span><i style="background:var(--bear)"></i>Put open interest</span><span><i style="background:var(--bull)"></i>Call open interest</span>${r?'<span>Strike \u00b7 BTC equivalent</span>':''}</div><div class="seg" role="group" aria-label="Expiration">${segs}</div></div>
+    <div class="lad">${ladder(o,'all')}</div>
+  </div><div>${hist||topTable(o)}</div></div>
+</article>`;
+}
+function ladder(o,e){
+  const r=o.btc_per_share, ex=e==='all'?o.expiries:[e];
+  const rows=o.profile.map(p=>({k:p.k,c:ex.reduce((a,x)=>a+(p.c[x]||0),0),p:ex.reduce((a,x)=>a+(p.p[x]||0),0)}));
+  const mx=Math.max(1,...rows.map(x=>Math.max(x.c,x.p)));
+  const sk=o.step, cwB=o.call_wall?Math.round(o.call_wall.strike/sk)*sk:null, pwB=o.put_wall?Math.round(o.put_wall.strike/sk)*sk:null;
+  let html='',placed=false;
+  const desc=rows.slice().sort((a,b)=>b.k-a.k);
+  for(const x of desc){
+    if(!placed&&x.k<o.spot){html+=`<div class="spot">Close ${px(o.spot)}</div>`;placed=true}
+    const wall=(x.k===cwB||x.k===pwB)?' wall':'';
+    html+=`<div class="row${wall}"><span class="pv">${x.p?cnt(x.p):''}</span><span class="pb"><span style="width:${(x.p/mx*100).toFixed(1)}%"></span></span><span class="k">${kfmt(x.k,sk)}${r?' <small>'+usdk(x.k*r)+'</small>':''}</span><span class="cb"><span style="width:${(x.c/mx*100).toFixed(1)}%"></span></span><span class="cv">${x.c?cnt(x.c):''}</span></div>`;
+  }
+  if(!placed)html+=`<div class="spot">Close ${px(o.spot)}</div>`;
+  return html;
+}
+function topTable(o){
+  const r=o.btc_per_share;
+  const rows=o.top_strikes.map(t=>`<tr><td class="n">${kfmt(t.strike,o.step)}${r?' <span class="muted">'+usdk(t.strike*r)+'</span>':''}</td><td class="n">${cnt(t.put)}</td><td class="n">${cnt(t.call)}</td><td class="n">${cnt(t.total)}</td></tr>`).join('');
+  const be=o.expiries.map(e=>`<tr><td>${dshort(e)}</td><td class="n">${cnt(o.by_exp[e].put)}</td><td class="n">${cnt(o.by_exp[e].call)}</td><td class="n">${(o.by_exp[e].put/Math.max(1,o.by_exp[e].call)).toFixed(2)}</td></tr>`).join('');
+  return `<div class="lab" style="margin-bottom:6px">Largest strikes</div><div class="tw"><table><thead><tr><th class="n">Strike</th><th class="n">Puts</th><th class="n">Calls</th><th class="n">Total</th></tr></thead><tbody>${rows}</tbody></table></div>
+  <div class="lab" style="margin:14px 0 6px">By expiry, near the price</div><div class="tw"><table><thead><tr><th>Expiry</th><th class="n">Puts</th><th class="n">Calls</th><th class="n">Puts/call</th></tr></thead><tbody>${be}</tbody></table></div>
+  <p class="muted" style="font-size:.8rem;margin-top:10px">A daily history of these levels builds from ${dlong(o.since||'2026-10-23')}.</p>`;
+}
+function histTable(o,H){
+  const rows=H.slice(-10).reverse().map(h=>`<tr><td>${dshort(h.date)}</td><td class="n">${px(+h.spot)}</td><td class="n">${h.put_wall?kfmt(+h.put_wall,o.step):'\u2014'}</td><td class="n">${h.call_wall?kfmt(+h.call_wall,o.step):'\u2014'}</td><td class="n">${h.all_pc||'\u2014'}</td><td class="n">${h.gamma_flip?px(+h.gamma_flip):'\u2014'}</td></tr>`).join('');
+  return `<div class="lab" style="margin-bottom:6px">Recent sessions</div><div class="tw"><table><thead><tr><th>Date</th><th class="n">Close</th><th class="n">Put wall</th><th class="n">Call wall</th><th class="n">Puts/call</th><th class="n">Flip</th></tr></thead><tbody>${rows}</tbody></table></div>`+topTable(o).replace(/<p class="muted"[\s\S]*<\/p>/,'');
+}
+function method(R){
+  const w=R.method.windows;
+  return `<details class="oxp"><summary>How the options panel is built, and what it cannot tell you</summary>
+  <p>Open interest is the number of option contracts still open at each strike. It comes from Robinhood option quotes for the next two standard monthly expirations, using strikes within \u00b1${Math.round(w.SPY*1000)/10}% of the close for SPY, \u00b1${Math.round(w.QQQ*100)}% for QQQ and \u00b1${Math.round(w.IBIT*100)}% for IBIT (every strike near the price, round strikes further out). \u201cPuts per call, all expiries\u201d is Robinhood\u2019s total across every expiration. The OCC updates open interest once a day, so it typically reflects positions at the prior session\u2019s close.</p>
+  <p>The put wall and call wall are the strikes below and above the close with the most put and call open interest. Large open interest shows where positions are; it does not say whether they are hedges or bets, or that price will stop there.</p>
+  <p>Dealer gamma is an estimate in dollars per 1% move, under the common assumption that market makers hold the other side of customers\u2019 positions: long the calls and short the puts. Positive gamma means their hedging tends to lean against moves; negative means it tends to push with them. The assumption is often wrong strike by strike, so treat the sign and the flip level as rough.</p>
+  <p>Bitcoin levels are IBIT strikes converted at the day\u2019s ratio of the Bitcoin close to IBIT\u2019s close (about ${R.assets.IBIT&&R.assets.IBIT.btc_per_share?Math.round(R.assets.IBIT.btc_per_share).toLocaleString('en-US'):'\u2014'} dollars of Bitcoin per share), so they are approximate.</p>
+  <p>This panel is context only. It does not change any model\u2019s exposure and has no backtest: Robinhood does not provide a reliable history of open interest, so the panel\u2019s own history starts on Oct 23, 2026 and grows each session.</p>
+</details>`;
+}
+function summary(R,have){
+  const rows=have.map(s=>{const o=R.assets[s],g=gammaTxt(o),r=o.btc_per_share;
+    const lv=(k)=>k==null?'\u2014':kfmt(k,o.step)+(r?' <span class="muted">'+usdk(k*r)+'</span>':'');
+    return `<tr><td><a class="oxl" href="${PAGE[s]}">${s}</a>${r?' <span class="muted">BTC</span>':''}</td><td class="n">${px(o.spot)}</td><td class="n">${lv(o.put_wall&&o.put_wall.strike)}</td><td class="n">${lv(o.call_wall&&o.call_wall.strike)}</td><td class="n">${o.all_pc!=null?o.all_pc.toFixed(2):'\u2014'}</td><td class="n">${o.win_pc!=null?o.win_pc.toFixed(2):'\u2014'}</td><td class="n"><span class="${g.cls}">${g.b}</span></td><td class="n">${o.em_week!=null?'\u00b1'+(o.em_week/o.spot*100).toFixed(1)+'%':'\u2014'}</td></tr>`}).join('');
+  mount.innerHTML=`<div class="tw"><table><thead><tr><th>Asset</th><th class="n">Close</th><th class="n">Put wall</th><th class="n">Call wall</th><th class="n">Puts/call, all</th><th class="n">Near price</th><th class="n">Dealer gamma</th><th class="n">1-wk range</th></tr></thead><tbody>${rows}</tbody></table></div>
+  <p class="muted" style="font-size:.82rem;margin-top:8px">Where open interest sits in the next two monthly expirations, as of the ${dlong(R.asof)} close. Walls are the strikes below and above the close with the most put and call open interest. Context only, not part of the models; each desk page has the full ladder and how it is built.</p>`;
+}
+})();
+</script>
+<!--/ox-->
+  <footer class="foot pub">
+    <div class="ft"><a class="wordmark" href="index.html">Kerdos <span>Capital</span></a><nav class="fl" aria-label="Footer"><a href="index.html">Overview</a><a href="portfolio.html">Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a></nav></div>
+    <div class="disc">
+      <p><b>Important information.</b> Kerdos Capital is an independent research project that publishes rules-based market models for education and discussion. Nothing on this site is investment, tax or legal advice, or a recommendation to buy or sell any security or digital asset. The model portfolio is hypothetical: it manages no money, and its daily changes are not instructions to trade.</p>
+      <p>Backtested results are hypothetical. They were computed with hindsight, from rules chosen with that history in view, and they leave out taxes and most real-world trading frictions. Past and backtested performance does not guarantee future results. Bitcoin and high-beta stocks are highly volatile, and any investment can lose money. Do your own research, or speak with a licensed professional, before investing.</p>
+      <p>Data: Robinhood, FRED, Robert Shiller. Prices may be delayed or contain errors. The models update after each US market close.</p>
+    </div>
+  </footer>
+</div>
+
+<script>
+(()=>{
+const $=(s,r=document)=>r.querySelector(s);
+const h=(tag,attrs={},html='')=>{const e=document.createElement(tag);for(const[k,v]of Object.entries(attrs))e.setAttribute(k,v);if(html)e.innerHTML=html;return e};
+const usd=v=>v==null?'—':'$'+Math.round(v).toLocaleString('en-US');
+const sgn=(v,d=1,u='%')=>{if(v==null||isNaN(v))return'—';const r=+(+v).toFixed(d);return(r>0?'+':r<0?'−':'')+Math.abs(r).toFixed(d)+u};
+const cls=v=>v==null?'':v>0?'up':v<0?'dn':'';
+const pc=(v,d=0)=>v==null?'—':(v*100).toFixed(d)+'%';
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fmtD=d=>{const t=new Date(d+'T00:00:00Z');return MON[t.getUTCMonth()]+' '+t.getUTCDate()+', '+t.getUTCFullYear()};
+const fmtShort=d=>{const t=new Date(d+'T00:00:00Z');return MON[t.getUTCMonth()]+' '+t.getUTCDate()};
+const parseCSV=t=>{const [hd,...rows]=t.trim().split(/\r?\n/);const k=hd.split(',');return rows.map(r=>{const c=r.split(',');const o={};k.forEach((kk,i)=>o[kk]=c[i]);return o})};
+
+/* ---------------- tiny SVG chart kit ---------------- */
+function niceTicks(lo,hi,n=5){const span=hi-lo;if(span<=0)return[lo];const step0=span/n;const p=Math.pow(10,Math.floor(Math.log10(step0)));const m=step0/p;const step=(m<1.5?1:m<3?2:m<7?5:10)*p;const out=[];for(let v=Math.ceil(lo/step)*step;v<=hi+1e-9;v+=step)out.push(+v.toFixed(10));return out}
+function logTicks(lo,hi){const out=[];for(let e=Math.floor(Math.log10(lo));e<=Math.ceil(Math.log10(hi));e++){for(const m of[1,2,5]){const v=m*Math.pow(10,e);if(v>=lo*.999&&v<=hi*1.001)out.push(v)}}return out.length>=2?out:niceTicks(lo,hi)}
+const kfmt=v=>v>=1e6?(v/1e6).toFixed(v%1e6?1:0)+'M':v>=1e3?(v/1e3).toFixed(v%1e3?1:0)+'k':String(v);
+function lineChart(host,o){
+  const draw=()=>{
+    host.innerHTML='';
+    if(o.series.length>1&&!o.noLegend){const lg=h('div',{class:'legend'});o.series.forEach(s=>lg.append(h('span',{},`<i style="background:${s.color}"></i>${s.name}`)));if(o.legendExtra)o.legendExtra.forEach(x=>lg.append(h('span',{},`<i class="sw" style="background:${x.color}"></i>${x.name}`)));host.append(lg)}
+    else if(o.legendExtra){const lg=h('div',{class:'legend'});o.legendExtra.forEach(x=>lg.append(h('span',{},`<i class="sw" style="background:${x.color}"></i>${x.name}`)));host.append(lg)}
+    const W=Math.max(300,host.clientWidth||600),H=o.h||260,m={t:10,r:o.r??52,b:24,l:o.l??8};
+    const xs=o.series.flatMap(s=>s.data.map(d=>d.x)),ys=o.series.flatMap(s=>s.data.map(d=>d.y)).filter(v=>v!=null&&isFinite(v)&&(!o.log||v>0));
+    let x0=Math.min(...xs),x1=Math.max(...xs);let y0=o.yMin??Math.min(...ys),y1=o.yMax??Math.max(...ys);
+    if(o.hlines)o.hlines.forEach(l=>{y0=Math.min(y0,l.y);y1=Math.max(y1,l.y)});
+    if(!o.log){const pad=(y1-y0)*.06||1;if(o.yMin==null)y0-=pad;if(o.yMax==null)y1+=pad}
+    const X=v=>m.l+(v-x0)/(x1-x0||1)*(W-m.l-m.r);
+    const Y=o.log?(v=>m.t+(Math.log(y1)-Math.log(v))/(Math.log(y1)-Math.log(y0))*(H-m.t-m.b)):(v=>m.t+(y1-v)/(y1-y0)*(H-m.t-m.b));
+    const ns='http://www.w3.org/2000/svg';const svg=document.createElementNS(ns,'svg');svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.setAttribute('role','img');svg.setAttribute('aria-label',o.aria||'chart');
+    let s='';
+    (o.bands||[]).forEach(b=>{const a=X(Math.max(b.x0,x0)),c=X(Math.min(b.x1,x1));if(c>a)s+=`<rect x="${a}" y="${m.t}" width="${c-a}" height="${H-m.t-m.b}" fill="${b.color}"/>`});
+    const yt=o.log?logTicks(y0,y1):niceTicks(y0,y1,o.yTicks||5);
+    yt.forEach(v=>{const y=Y(v);s+=`<line class="grid" x1="${m.l}" x2="${W-m.r}" y1="${y}" y2="${y}"/><text class="ax" x="${W-m.r+6}" y="${y+3.5}">${(o.yFmt||kfmt)(v)}</text>`});
+    let xt=[];if(o.xType==='time'){const yrs=(x1-x0)/(365.25*864e5);const a=new Date(x0),b=new Date(x1);if(yrs>2.2){const stp=yrs>8?2:1;for(let y=a.getUTCFullYear()+1;y<=b.getUTCFullYear();y+=stp)xt.push([Date.UTC(y,0,1),String(y)])}else{const st=yrs>1.1?3:yrs>.5?2:1;let d=new Date(Date.UTC(a.getUTCFullYear(),a.getUTCMonth()+1,1));while(d<=b){if(d.getUTCMonth()%st===0)xt.push([+d,MON[d.getUTCMonth()]+(d.getUTCMonth()===0?" ’"+String(d.getUTCFullYear()).slice(2):'')]);d=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+1,1))}}}else{xt=niceTicks(x0,x1,o.xTicks||6).map(v=>[v,(o.xFmt||String)(v)])}
+    xt.forEach(([v,l])=>{const x=X(v);if(x<m.l-1||x>W-m.r+1)return;s+=`<text class="ax" x="${x}" y="${H-6}" text-anchor="middle">${l}</text>`});
+    s+=`<line class="base" x1="${m.l}" x2="${W-m.r}" y1="${H-m.b}" y2="${H-m.b}"/>`;
+    (o.hlines||[]).forEach(l=>{const y=Y(l.y);s+=`<line x1="${m.l}" x2="${W-m.r}" y1="${y}" y2="${y}" stroke="${l.color||css('--line2')}" stroke-width="1"/>`+(l.label?`<text class="ax" x="${m.l+4}" y="${y-4}" style="fill:${l.tcolor||css('--muted')}">${l.label}</text>`:'')});
+    o.series.forEach(se=>{let d='';let pen=false;se.data.forEach(p=>{if(p.y==null||!isFinite(p.y)||(o.log&&p.y<=0)){pen=false;return}d+=(pen?'L':'M')+X(p.x).toFixed(1)+','+Y(p.y).toFixed(1);pen=true});s+=`<path d="${d}" fill="none" stroke="${se.color}" stroke-width="${se.w||2}" stroke-linejoin="round" stroke-linecap="round"/>`;
+      if(se.endLabel){const lp=[...se.data].reverse().find(p=>p.y!=null);if(lp)s+=`<circle cx="${X(lp.x)}" cy="${Y(lp.y)}" r="4" fill="${se.color}" stroke="${css('--surface')}" stroke-width="2"/>`}});
+    s+=`<line id="xh" x1="0" x2="0" y1="${m.t}" y2="${H-m.b}" stroke="${css('--ink2')}" stroke-width="1" opacity="0"/>`;
+    o.series.forEach((se,i)=>{s+=`<circle class="hd" data-i="${i}" r="4.5" fill="${se.color}" stroke="${css('--surface')}" stroke-width="2" opacity="0"/>`});
+    s+=`<rect x="${m.l}" y="${m.t}" width="${W-m.l-m.r}" height="${H-m.t-m.b}" fill="transparent" style="cursor:crosshair"/>`;
+    svg.innerHTML=s;host.append(svg);
+    const tip=h('div',{class:'tip',hidden:''});host.append(tip);
+    const base=o.series[0].data;
+    const move=ev=>{const r=svg.getBoundingClientRect();const px=(ev.clientX-r.left)*W/r.width;const xv=x0+(px-m.l)/(W-m.l-m.r)*(x1-x0);
+      let lo=0,hi=base.length-1;while(hi-lo>1){const md=(lo+hi)>>1;if(base[md].x<xv)lo=md;else hi=md}const idx=Math.abs(base[lo].x-xv)<Math.abs(base[hi].x-xv)?lo:hi;const xx=base[idx].x;
+      const xl=svg.querySelector('#xh');xl.setAttribute('x1',X(xx));xl.setAttribute('x2',X(xx));xl.setAttribute('opacity',.5);
+      let rows='';o.series.forEach((se,i)=>{const p=se.data.find(d=>d.x===xx)||se.data[Math.min(idx,se.data.length-1)];const c=svg.querySelector(`.hd[data-i="${i}"]`);if(p&&p.y!=null&&isFinite(p.y)){c.setAttribute('cx',X(p.x));c.setAttribute('cy',Y(p.y));c.setAttribute('opacity',1);rows+=`<div class="r"><span><i style="background:${se.color}"></i>${se.name}</span><b class="mono">${(o.tipFmt||o.yFmt||kfmt)(p.y)}</b></div>`}else c.setAttribute('opacity',0)});
+      if(o.tipExtra)rows+=o.tipExtra(idx,xx);
+      tip.innerHTML=`<div class="h">${o.xType==='time'?fmtD(new Date(xx).toISOString().slice(0,10)):(o.xLabel?o.xLabel(xx):xx)}</div>`+rows;tip.hidden=false;
+      const tx=X(xx)/W*r.width;const tw=tip.offsetWidth;tip.style.left=Math.min(Math.max(0,tx+12),r.width-tw)+'px';tip.style.top=(host.querySelector('.legend')?.offsetHeight||0)+6+'px';
+      if(tx+12+tw>r.width)tip.style.left=Math.max(0,tx-tw-12)+'px'};
+    svg.addEventListener('pointermove',move);svg.addEventListener('pointerleave',()=>{tip.hidden=true;svg.querySelector('#xh').setAttribute('opacity',0);svg.querySelectorAll('.hd').forEach(c=>c.setAttribute('opacity',0))});
+  };
+  draw();host._draw=draw;charts.add(host);
+}
+function colChart(host,o){ // vertical bars, diverging around 0. o.items=[{label,value,tip}]
+  const draw=()=>{host.innerHTML='';const W=Math.max(280,host.clientWidth||500),H=o.h||200,m={t:14,r:40,b:22,l:6};
+    const vals=o.items.map(d=>d.value);let lo=Math.min(0,...vals),hi=Math.max(0,...vals);const pad=(hi-lo)*.08;lo-=lo<0?pad:0;hi+=pad;
+    const Y=v=>m.t+(hi-v)/(hi-lo)*(H-m.t-m.b);const n=o.items.length;const bw=(W-m.l-m.r)/n;const ns='http://www.w3.org/2000/svg';const svg=document.createElementNS(ns,'svg');svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+    let s='';niceTicks(lo,hi,4).forEach(v=>{const y=Y(v);s+=`<line class="grid" x1="${m.l}" x2="${W-m.r}" y1="${y}" y2="${y}"/><text class="ax" x="${W-m.r+6}" y="${y+3.5}">${(o.yFmt||(v=>v+'%'))(v)}</text>`});
+    o.items.forEach((d,i)=>{const x=m.l+i*bw+bw*.18,w=bw*.64;const y=Y(Math.max(0,d.value)),y2=Y(Math.min(0,d.value));const c=d.color||(d.value>=0?css('--pos'):css('--neg'));
+      s+=`<rect class="cb" data-i="${i}" x="${x}" y="${y}" width="${w}" height="${Math.max(1,y2-y)}" rx="3" fill="${c}"/><text class="ax" x="${x+w/2}" y="${H-6}" text-anchor="middle">${d.label}</text>`;
+      if(d.hl)s+=`<text class="ax" x="${x+w/2}" y="${d.value>=0?y-4:y2+11}" text-anchor="middle" style="fill:${css('--ink')}">${d.hl}</text>`});
+    s+=`<line class="base" x1="${m.l}" x2="${W-m.r}" y1="${Y(0)}" y2="${Y(0)}"/>`;
+    o.items.forEach((d,i)=>{s+=`<rect class="hit" data-i="${i}" x="${m.l+i*bw}" y="${m.t}" width="${bw}" height="${H-m.t-m.b}" fill="transparent"/>`});
+    svg.innerHTML=s;host.append(svg);const tip=h('div',{class:'tip',hidden:''});host.append(tip);
+    svg.querySelectorAll('.hit').forEach(r=>{r.addEventListener('pointerenter',()=>{const i=+r.dataset.i,d=o.items[i];tip.innerHTML=d.tip;tip.hidden=false;const R=svg.getBoundingClientRect();const cx=(m.l+(i+.5)*bw)/W*R.width;tip.style.left=Math.min(Math.max(0,cx-tip.offsetWidth/2),R.width-tip.offsetWidth)+'px';tip.style.top='0px';svg.querySelectorAll('.cb').forEach(b=>b.setAttribute('opacity',b.dataset.i==i?1:.45))});r.addEventListener('pointerleave',()=>{tip.hidden=true;svg.querySelectorAll('.cb').forEach(b=>b.setAttribute('opacity',1))})});
+  };draw();host._draw=draw;charts.add(host)}
+const charts=new Set();let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>charts.forEach(c=>c.isConnected&&c._draw()),150)});
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>charts.forEach(c=>c.isConnected&&c._draw()));
+new MutationObserver(()=>charts.forEach(c=>c.isConnected&&c._draw())).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+
+/* diverging cell color: blue for +, red for −, grey midpoint */
+function hex2rgb(x){x=x.replace('#','');return[0,2,4].map(i=>parseInt(x.slice(i,i+2),16))}
+function divColor(v,lim){const t=Math.max(-1,Math.min(1,v/lim));const mid=hex2rgb(css('--mid')),pole=hex2rgb(t>=0?css('--pos'):css('--neg'));const a=Math.abs(t)**.8;const c=mid.map((m,i)=>Math.round(m+(pole[i]-m)*a));const L=(.2126*c[0]+.7152*c[1]+.0722*c[2])/255;return{bg:`rgb(${c.join(',')})`,fg:a>.55?'#ffffff':css('--ink')}}
+
+
+/* ---------------- render ---------------- */
+Promise.all([fetch('stocks/report.json').then(r=>r.json()),fetch('stocks/research.json').then(r=>r.json()),fetch('stocks/history.csv').then(r=>r.text()),fetch('stocks/equity_spy.csv').then(r=>r.text()),fetch('stocks/equity_qqq.csv').then(r=>r.text())])
+.then(([R,S,hist,es,eq])=>render(R,S,parseCSV(hist),{SPY:parseCSV(es),QQQ:parseCSV(eq)})).catch(e=>{$('#loading').innerHTML='<span class="err">The report files did not load ('+e.message+'). Reload the page to try again.</span>'});
+const pf=(v,d=0)=>{if(v==null||isNaN(v))return'—';const r=+(v*100).toFixed(d);return(r>0?'+':r<0?'−':'')+Math.abs(r).toFixed(d)+'%'};
+const usd2=v=>v==null?'—':'$'+v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ord=n=>n+(['th','st','nd','rd'][(n%100-20)%10]||['th','st','nd','rd'][n%100]||'th');
+const pcm=(v,d=0)=>v==null?'—':(v<0?'−':'')+Math.abs(v*100).toFixed(d)+'%';
+const pp=v=>v==null||isNaN(v)?'—':Math.round(v*100)+'%';
+const PCN={1:'Post-election',2:'Midterm',3:'Pre-election',4:'Election'};
+const FR=(R,k)=>R.factors.find(f=>f.key===k)||{reading:'—'};
+const EXL=['More than 20% below','10–20% below','5–10% below','0–5% below','0–5% above','5–10% above','10–15% above','More than 15% above'];
+function localGet(k){try{return localStorage.getItem('mrd_'+k)}catch(e){return null}}
+function localSet(k,v){try{localStorage.setItem('mrd_'+k,v)}catch(e){}}
+
+function render(R,S,H,EQ){
+  $('#loading').hidden=true;const M=$('#main');M.hidden=false;
+  $('#asof').textContent=`Market close · ${fmtD(R.asof)}`;
+  const fr=R.freshness;const mo=s=>MON[+s.slice(5,7)-1]+' ’'+s.slice(2,4);
+  $('#fresh').innerHTML=`<span>ETFs ${fmtShort(fr.SPY)}</span><span>VIX ${fmtShort(fr.VIX)}</span><span>Rates ${mo(fr.TB3MS)}</span><span>Jobs ${mo(fr.UNRATE)}</span><span>CPI ${mo(fr.CPI)}</span>`;
+  const G=R.groups,F=R.factors;
+  const word=v=>v>.35?'strongly positive':v>.1?'positive':v<-.35?'strongly negative':v<-.1?'negative':'flat';
+  const top=(arr,n,neg)=>arr.filter(f=>f.signal!=null&&(neg?f.signal<-.3:f.signal>.3)).sort((a,b)=>neg?a.contribution-b.contribution:b.contribution-a.contribution).slice(0,n);
+  const negs=top(F,2,true),poss=top(F,2,false);
+  let narr=`Trend is ${word(G.trend)} and momentum ${word(G.momentum)}. Market internals are ${word(G.internals)} and macro ${word(G.macro)}.`;
+  const nm=f=>{let l=f.label.replace(/\s*\([^)]*\)$/,'');if(!/^[A-Z0-9]{2,}\b/.test(l))l=l[0].toLowerCase()+l.slice(1);return l+' ('+f.reading.replace(/ \(([^)]*)\)/,', $1')+')'};
+  if(negs.length)narr+=` Biggest drags: ${negs.map(nm).join('; ')}.`;
+  if(poss.length)narr+=` Biggest supports: ${poss.map(nm).join('; ')}.`;
+  const MG=R.macro_gate,gtxt=sgn(MG.threshold,2,''),mtxt=sgn(MG.value,2,'');
+  const gateLine=MG.confirmed?`Macro (${mtxt}) is at or below the ${gtxt} gate, so a Bearish signal would mean cash.`:`Macro (${mtxt}) is above the ${gtxt} gate, so a Bearish signal would only mean a Correction (half invested).`;
+  const RB=R.rebound||{};const rbLine=RB.low20==null?'':RB.cpi_ok?`A close at or above ${usd2(RB.low20*1.1)} (10% over the 20-session low of ${usd2(RB.low20)}) would trigger a rebound back to 100%.`:`The rebound route is off while CPI inflation (${RB.cpi}%) is above 4%.`;
+  const flip=R.regime==='Bullish'?`It drops to Neutral below ${sgn(R.thresholds.bull,2,'')} (a fall of ${(R.score-R.thresholds.bull).toFixed(2)}). ${gateLine}`:
+    R.regime==='Neutral'?`It turns Bullish above ${sgn(R.thresholds.bull,2,'')} and gives a Bearish signal below ${sgn(R.thresholds.bear,2,'')}. ${gateLine}`:
+    R.regime==='Recovery'?(RB.active&&R.recovery.route==='rebound'?`On ${fmtD(RB.since)} SPY closed 10% or more above its lowest close of the prior 20 sessions, a panic-reversal rally, so the model bought back in ahead of the score (Recovery, 100%). It stays fully invested until the score recovers, unless SPY closes below ${usd2(RB.stop_level)}, 7% under that day’s close.`:`SPY is ${sgn(-Math.abs(R.recovery.dd),1)} below its high but has closed above a rising 50-day average, so the model has bought back in ahead of the score (Recovery, 100%).`):
+    R.regime==='Correction'?`The score is in Bearish territory, but macro (${mtxt}) has not confirmed it (the gate is ${gtxt}), so this is treated as a dip inside a bull market: half invested. It turns to cash if macro falls to ${gtxt}, and back to fully invested above ${sgn(R.thresholds.bear,2,'')}. ${rbLine}`:
+    `The score is Bearish and macro (${mtxt}) confirms it (gate ${gtxt}): cash. It returns to half invested if macro recovers above ${gtxt}, and fully invested once the score rises above ${sgn(R.thresholds.bear,2,'')}. ${rbLine}`;
+  const EX=R.exposure_map,EN=R.enhanced_map;
+  const TOK={Bullish:'bull',Neutral:'neut',Recovery:'rec',Correction:'corr',Bearish:'bear'};
+  const lad=['Bullish','Neutral','Recovery','Correction','Bearish'].map(k=>`<div class="${k===R.regime?'on':''}" style="background:var(--${TOK[k]}-bg)"><b style="color:var(--${TOK[k]})">${k}</b>${Math.round(EX[k]*100)}% invested${EN[k]!==EX[k]?` <span class="muted">(${Math.round(EN[k]*100)}% enhanced)</span>`:''}</div>`).join('');
+  const A=R.analog;const q=(t,p,c)=>`<div class="quote"><div class="tk">${t}</div><div class="big">${usd2(p)}</div><div class="chg"><span class="${cls(c.d1)}">${sgn(c.d1)} 1d</span><span class="${cls(c.d5)}">${sgn(c.d5)} 1w</span><span class="${cls(c.d21)}">${sgn(c.d21)} 1m</span><span class="${cls(c.ytd)}">${sgn(c.ytd)} YTD</span></div></div>`;
+  M.append(h('section',{class:'panel verdict','aria-label':'Today’s call'},`
+   <div><div class="label">Market regime · 1–3 month risk backdrop</div>
+    <div style="margin-top:6px"><div class="call ${R.regime}">${R.regime}</div></div>
+    <div class="since" style="margin-top:8px">Since ${fmtD(R.regime_since)} (${R.regime_days} days)${R.prev_regime?' · previously <span class="pill '+R.prev_regime+'">'+R.prev_regime+'</span>':''}</div>
+    <div class="expo"><span>Model exposure</span><b>${Math.round(R.exposure*100)}%</b>${R.exposure_enhanced!==R.exposure?`<span class="muted">${Math.round(R.exposure_enhanced*100)}% in the enhanced version</span>`:''}</div>
+    <div class="ladder4" aria-label="Exposure by regime">${lad}</div>
+    <div class="quotes">${q('SPY',R.spy,R.spy_chg)}${q('QQQ',R.qqq,R.qqq_chg)}</div>
+    <p class="narr">${narr} ${flip}</p></div>
+   <div><div class="phead" style="margin-bottom:2px"><span class="label">Composite score (5-day smoothed)</span><span class="mono" style="font-size:.85rem">${R.score>0?'+':''}${R.score.toFixed(3)} · ${ord(R.score_pctile)} percentile since 2003</span></div>
+    <div class="gauge" id="gauge"></div>
+    <div class="statrow">
+     <div class="stat"><b>${A.dd10}%</b><span>Chance of a 10%+ SPY drop within 6 months at similar scores</span></div>
+     <div class="stat"><b>${sgn(A.med63)}</b><span>Median SPY return over the next 3 months</span></div>
+     <div class="stat"><b>${A.pos63}%</b><span>Share of those 3-month windows that rose</span></div>
+     <div class="stat"><b>±${R.vol.move21}%</b><span>1σ 1-month move implied by the VIX</span></div>
+    </div>
+    <p class="note" style="margin-top:10px">Similar scores: ${A.n.toLocaleString()} trading days since 2003 within ±0.08 of today. Their 3-month SPY returns ranged ${sgn(A.q10_63)} to ${sgn(A.q90_63)} (10th–90th percentile). Across all days, 10%+ drops followed ${S.deciles[0].dd}% of the time in the bottom score decile and ${S.deciles[9].dd}% in the top.</p></div>`));
+  drawGauge($('#gauge'),R);
+  if(R.notes&&R.notes.length){const safe=u=>/^https:\/\//.test(u||'')?u:'';M.append(h('section',{class:'panel'},`<div class="phead"><h2>Catalysts and headlines</h2><span class="label">context · not part of the score</span></div><ul class="notes">${R.notes.map(n=>`<li>${esc(n.text)}${safe(n.url)?` <a href="${esc(safe(n.url))}" target="_blank" rel="noopener">${esc(n.source||'Source')}</a>`:''}</li>`).join('')}</ul>`))}
+  const sec2=h('section',{class:'grid2'});M.append(sec2);
+  const fp=h('div',{class:'panel'});sec2.append(fp);
+  fp.innerHTML=`<div class="phead"><h2>What’s driving the score</h2><span class="label">signal −1 … +1</span></div><p class="note" style="margin:-4px 0 10px">The tick on the macro bar is the gate: a Bearish signal only moves to cash when macro is at or left of it.</p>`;
+  const gm=h('div',{style:'margin-bottom:14px'});fp.append(gm);
+  Object.entries(G).forEach(([g,v])=>{const bar=v>=0?`left:50%;width:${v*50}%`:`left:${50+v*50}%;width:${-v*50}%`;gm.append(h('div',{class:'meter'},`<div class="nm">${g}<small>${Math.round(R.group_weights[g]*100)}% weight</small></div><div class="track"><span class="zero"></span><span class="bar ${v>=0?'p':'n'}" style="${bar}"></span>${g==='macro'?`<span class="gate" style="left:${50+R.macro_gate.threshold*50}%" title="Macro gate ${sgn(R.macro_gate.threshold,2,'')}: Bearish signals go to cash only at or below this line"></span>`:''}</div><div class="v">${sgn(v,2,'')}</div>`))});
+  let rows='',lg='';F.forEach(f=>{if(f.group!==lg){rows+=`<tr class="grp"><td colspan="4">${f.group}</td></tr>`;lg=f.group}const v=f.signal;const bar=v==null?'':v>=0?`left:50%;width:${v*50}%;background:var(--bull)`:`left:${50+v*50}%;width:${-v*50}%;background:var(--bear)`;
+    rows+=`<tr><td>${f.label}<div class="muted" style="font-size:.76rem">${esc(f.reading)}</div></td><td><span class="sig"><i style="${bar}"></i></span></td><td class="n">${sgn(v,2,'')}</td><td class="n muted">${(f.weight*100).toFixed(1)}%</td></tr>`});
+  fp.append(h('div',{class:'tblwrap'},`<table><thead><tr><th>Factor · reading</th><th>Signal</th><th class="n">Value</th><th class="n">Weight</th></tr></thead><tbody>${rows}</tbody></table>`));
+  const rc=h('div',{style:'display:grid;gap:18px;align-content:start;min-width:0'});sec2.append(rc);
+  const L=R.levels;const lv=[['SPY all-time high · '+fmtShort(L.ath_date),L.ath],['20-day MA',L.m20],['50-day MA',L.m50],['100-day MA',L.m100],['200-day MA',L.m200],['NOW',R.spy]].sort((a,b)=>b[1]-a[1]);
+  rc.append(h('div',{class:'panel'},`<div class="phead"><h2>SPY price ladder</h2><span class="label">distance from today</span></div>${lv.map(([n,v])=>n==='NOW'?`<div class="rung now"><span>SPY today</span><span class="px">${usd2(v)}</span><span class="d"></span></div>`:`<div class="rung"><span class="ink2">${n}</span><span class="px">${usd2(v)}</span><span class="d ${v>R.spy?'up':'dn'}">${sgn((v/R.spy-1)*100)}</span></div>`).join('')}
+   <p class="note" style="margin-top:10px">QQQ is ${sgn(L.q_dd)} from its high, ${sgn((R.qqq/L.q_m50-1)*100)} vs its 50-day (${usd2(L.q_m50)}) and ${sgn((R.qqq/L.q_m200-1)*100)} vs its 200-day (${usd2(L.q_m200)}).</p>`));
+  const bulls=[['2002–07',1826],['2009–20',3999],['2020–22',651],['2022–now',R.cycle.bull_days]];const cm=Math.max(...bulls.map(b=>b[1]))+60;
+  const C=R.cycle,Mc=R.macro;
+  rc.append(h('div',{class:'panel'},`<div class="phead"><h2>Cycle clock</h2><span class="label">bull market age</span></div>
+   <div class="label" style="margin-bottom:4px">Days from bear-market low to next 20% decline (SPY)</div>
+   ${bulls.map((b,i)=>`<div class="cbar ${i===3?'cur':''}"><span class="${i===3?'':'ink2'}">${i===3?'<b>'+b[0]+'</b>':b[0]}</span><span class="t"><i style="width:${b[1]/cm*100}%"></i></span><span class="n">${i===3?'<b>'+b[1].toLocaleString()+'d</b>':b[1].toLocaleString()+'d'}</span></div>`).join('')}
+   <dl class="kv" style="margin-top:12px"><dt>Gain since Oct 12, 2022 low</dt><dd>${sgn(C.bull_gain)}</dd><dt>Presidential cycle</dt><dd>Year ${C.pres_year} (${PCN[C.pres_year].toLowerCase()})</dd><dt>Shiller CAPE</dt><dd>${Mc.cape}</dd><dt>Yield curve 10y–3m</dt><dd>${Mc.curve>0?'+':''}${Mc.curve} pt</dd></dl>
+   <p class="note" style="margin-top:10px">The 2009 bull is counted to the 2020 crash; the 2018 decline (−20.2% on SPY’s close) briefly met the bar. Midterm-year Septembers have led to higher prices a year later in 18 of 19 cycles since 1950.</p>`));
+  const s3=rc;
+  const pm=S.pres_month.find(r=>r.m===new Date(R.asof+'T00:00:00Z').getUTCMonth()+1),pn=S.pres_month.find(r=>r.m===((new Date(R.asof+'T00:00:00Z').getUTCMonth()+1)%12)+1);
+  const sm=S.spy_month.find(r=>r.m===pm.m),sn=S.spy_month.find(r=>r.m===pn.m);const mname=m=>['January','February','March','April','May','June','July','August','September','October','November','December'][m-1];
+  s3.append(h('div',{class:'panel'},`<div class="phead"><h2>Seasonality now</h2><span class="label">${PCN[R.cycle.pres_year].toLowerCase()} year</span></div>
+   <dl class="kv"><dt>${mname(pm.m)}, SPY since 2000</dt><dd>${pf(sm.mean,1)} avg · ${Math.round(sm.pos*100)}% up</dd><dt>${mname(pm.m)} in ${PCN[R.cycle.pres_year].toLowerCase()} years (1950+)</dt><dd>${pf(pm[String(R.cycle.pres_year)],1)} avg</dd>
+   <dt>${mname(pn.m)}, SPY since 2000</dt><dd>${pf(sn.mean,1)} avg · ${Math.round(sn.pos*100)}% up</dd><dt>${mname(pn.m)} in ${PCN[R.cycle.pres_year].toLowerCase()} years (1950+)</dt><dd>${pf(pn[String(R.cycle.pres_year)],1)} avg</dd>
+   <dt>Midterm Sep → next Sep (1950+)</dt><dd>+${Math.round(S.midterm_fwd.reduce((a,b)=>a+b.r,0)/S.midterm_fwd.length*100)}% avg</dd></dl>
+   <p class="note" style="margin-top:10px">Monthly-average S&P data for the long history; treat month-level tilts as small effects.</p>`));
+  s3.append(h('div',{class:'panel'},`<div class="phead"><h2>Macro dashboard</h2><span class="label">latest prints</span></div>
+   <dl class="kv"><dt>3-month T-bill · 2-yr · 10-yr</dt><dd>${Mc.tb3}% · ${Mc.gs2}% · ${Mc.gs10}%</dd><dt>Baa – 10-yr spread</dt><dd>${Mc.spread} pt</dd><dt>Unemployment · Sahm gap</dt><dd>${Mc.unrate}% · ${Mc.sahm>0?'+':''}${Mc.sahm}</dd>
+   <dt>CPI inflation (YoY)</dt><dd>${Mc.cpi}%</dd><dt>Real 10-yr yield</dt><dd>${Mc.real10y}%</dd><dt>UMich sentiment</dt><dd>${Mc.sent}</dd></dl>`));
+  const bt=R.by_regime;
+  s3.append(h('div',{class:'panel'},`<div class="phead"><h2>What each regime has meant</h2><span class="label">SPY, 2003–${R.asof.slice(0,4)}</span></div>
+   <div class="tblwrap"><table><thead><tr><th>Regime</th><th class="n">Invested</th><th class="n">Days</th><th class="n">3-mo med</th><th class="n">10% drop risk</th></tr></thead><tbody>
+   ${['Bullish','Neutral','Recovery','Correction','Bearish'].filter(k=>bt[k]).map(k=>`<tr><td><span class="pill ${k}">${k}</span></td><td class="n">${Math.round(R.exposure_map[k]*100)}%</td><td class="n">${Math.round(bt[k].days/Object.values(bt).reduce((a,b)=>a+b.days,0)*100)}%</td><td class="n">${sgn(bt[k].med63)}</td><td class="n">${bt[k].dd10}%</td></tr>`).join('')}</tbody></table></div>
+   <p class="note" style="margin-top:8px">Bearish signals that macro confirmed were followed by a 10% drop ${bt.Bearish.dd10}% of the time. Unconfirmed ones (Correction) were usually dips worth holding through. Recovery has two routes: a close above a rising 50-day average after a 20% decline, and a rebound of 10% off the 20-session low. These rules were chosen in Oct 2026 with this history in view, so treat their numbers as in-sample.</p>`));
+  // history
+  const hp=h('section',{class:'panel'});M.append(hp);
+  hp.innerHTML=`<div class="phead"><h2>Price and regime history</h2><div style="display:flex;gap:8px;flex-wrap:wrap"><div class="seg" role="group" aria-label="Ticker"><button data-t="spy" aria-pressed="true">SPY</button><button data-t="qqq" aria-pressed="false">QQQ</button></div><div class="seg" role="group" aria-label="Range"><button data-r="365" aria-pressed="false">1Y</button><button data-r="1825" aria-pressed="true">5Y</button><button data-r="all" aria-pressed="false">Since 2003</button></div></div></div><div class="chart" id="pchart"></div><div class="chart" id="schart" style="margin-top:12px"></div>`;
+  const hist=H.map(r=>({t:Date.parse(r.date+'T00:00:00Z'),spy:+r.spy,qqq:+r.qqq,s:r.score===''?null:+r.score,g:r.regime}));
+  let range=localGet('range')||'1825',tk=localGet('tk')||'spy';
+  const drawHist=()=>{hp.querySelectorAll('[data-r]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.r===range));hp.querySelectorAll('[data-t]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.t===tk));
+    const cut=range==='all'?0:hist[hist.length-1].t-(+range)*864e5;const rows=hist.filter(r=>r.t>=cut);const step=rows.length>2500?5:rows.length>1200?2:1;const smp=rows.filter((r,i)=>i%step===0||i===rows.length-1);
+    const bands=[];let cur=null;rows.forEach(r=>{if(!cur||cur.g!==r.g){if(cur)cur.x1=r.t;cur={g:r.g,x0:r.t,x1:r.t};bands.push(cur)}});if(cur)cur.x1=rows[rows.length-1].t;
+    const bc={Bullish:css('--band-bull'),Neutral:css('--band-neut'),Recovery:css('--band-rec'),Correction:css('--band-corr'),Bearish:css('--band-bear')};
+    lineChart($('#pchart'),{xType:'time',log:range==='all',h:300,aria:tk.toUpperCase()+' price with regime shading',series:[{name:tk.toUpperCase(),color:css('--ink'),w:1.6,data:smp.map(r=>({x:r.t,y:r[tk]})),endLabel:true}],bands:bands.filter(b=>b.g).map(b=>({x0:b.x0,x1:b.x1,color:bc[b.g]})),yFmt:v=>'$'+kfmt(v),tipFmt:v=>usd2(v),
+      legendExtra:[{name:'Bullish 100%',color:bc.Bullish},{name:'Neutral 100%',color:bc.Neutral},{name:'Recovery 100%',color:bc.Recovery},{name:'Correction 50%',color:bc.Correction},{name:'Bearish 0%',color:bc.Bearish}],
+      tipExtra:(i,x)=>{const r=rows.find(q=>q.t===x)||smp[i];return r?`<div class="r"><span>Regime</span><b>${r.g||'—'}${r.g?' · '+Math.round(R.exposure_map[r.g]*100)+'%':''}</b></div><div class="r"><span>Score</span><b class="mono">${r.s==null?'—':r.s.toFixed(2)}</b></div>`:''}});
+    lineChart($('#schart'),{xType:'time',h:150,aria:'Composite score history',series:[{name:'Composite score',color:css('--accent'),w:1.6,data:smp.map(r=>({x:r.t,y:r.s}))}],yMin:-.9,yMax:.7,yTicks:4,yFmt:v=>(v>0?'+':'')+v.toFixed(1),tipFmt:v=>(v>0?'+':'')+v.toFixed(2),
+      hlines:[{y:R.thresholds.bull,label:'Bullish above +0.15',color:css('--bull'),tcolor:css('--bull')},{y:R.thresholds.bear,label:'Bearish signal below −0.10 (cash only if macro confirms)',color:css('--bear'),tcolor:css('--bear')}]})};
+  hp.querySelectorAll('[data-r]').forEach(b=>b.addEventListener('click',()=>{range=b.dataset.r;localSet('range',range);drawHist()}));
+  hp.querySelectorAll('[data-t]').forEach(b=>b.addEventListener('click',()=>{tk=b.dataset.t;localSet('tk',tk);drawHist()}));drawHist();
+  // backtest
+  const bp=h('section',{class:'panel'});M.append(bp);
+  const btab=sym=>{const b=R.backtest[sym];const c=(k,f)=>['strategy','enhanced','buyhold'].map(x=>`<td class="n">${f(b[x],x)}</td>`).join('');
+   return `<table><thead><tr><th>${sym}, 2003–${R.asof.slice(0,4)}</th><th class="n">Model</th><th class="n">Model 1.25x</th><th class="n">Buy & hold</th></tr></thead><tbody>
+   <tr><td>Annual return</td>${c('cagr',v=>pc(v.cagr,1))}</tr><tr><td>Worst drawdown</td>${c('dd',v=>pcm(v.maxdd,0))}</tr>
+   <tr><td>Volatility</td>${c('vol',v=>pc(v.vol,0))}</tr><tr><td>Sharpe</td>${c('sh',v=>v.sharpe.toFixed(2))}</tr>
+   <tr><td>Avg. invested</td>${c('ex',(v,x)=>x==='buyhold'?'100%':pc(x==='strategy'?b.exposure:b.enh_exposure,0))}</tr></tbody></table>`};
+  bp.innerHTML=`<div class="phead"><h2>Does it work? Backtest since 2003</h2><span class="label">Bullish, Neutral & Recovery 100% · Correction 50% · Bearish T-bills</span></div>
+   <div class="grid2" style="gap:22px"><div style="min-width:0"><div class="seg" role="group" aria-label="Backtest ticker" style="margin-bottom:8px"><button data-b="SPY" aria-pressed="true">SPY</button><button data-b="QQQ" aria-pressed="false">QQQ</button></div><div class="chart" id="eqchart"></div>
+    <p class="note" style="margin-top:6px">Growth of $1, log scale. Dividends approximated (1.7%/yr SPY, 0.7% QQQ), cash earns the 3-month T-bill, 0.05% per trade, positions taken at the next close. “1.25x” adds 25% leverage when Bullish, financed at the T-bill + 0.5%. Factors use only data published by each date.</p></div>
+   <div style="min-width:0;display:grid;gap:14px;align-content:start"><div class="tblwrap">${btab('SPY')}</div><div class="tblwrap">${btab('QQQ')}</div></div></div>
+   <div class="grid2" style="gap:22px;margin-top:18px"><div style="min-width:0"><h3 style="margin-bottom:8px">Year by year</h3><div class="tblwrap" id="yrtab"></div>
+    <p class="note" style="margin-top:6px">It kept most of the protection in 2008 and 2022 and was back to fully invested soon after the 2009, 2020 and 2025 lows. It still trails in strong, steady years, when brief cuts to half cost a few points.</p></div>
+   <div style="min-width:0"><h3 style="margin-bottom:8px">Score decile → chance of a 10% drop within 6 months</h3><div class="chart" id="decchart"></div>
+    <h3 style="margin:18px 0 4px">The start date matters</h3><p class="note" style="margin-bottom:8px">Same rules, different start years, through ${R.asof.slice(0,4)}. Returns are per year; Sharpe is model/buy-and-hold.</p><div class="tblwrap" id="sytab"></div><p class="note" id="synote" style="margin-top:6px"></p>
+    <h3 style="margin:18px 0 4px">Selling after tops, buying after bottoms</h3><p class="note" style="margin-bottom:8px">Each 20% decline and 25% rally in SPY since 2003. At tops: how far below the top SPY was when the model first cut to half, and to zero. At bottoms: how far above the low when it went back to half, and to full.</p>
+    <div class="tblwrap"><table><thead><tr><th>Turn</th><th class="n">SPY</th><th class="n">Half</th><th class="n">Full</th></tr></thead><tbody>
+    ${(R.turns||[]).map(t=>`<tr><td>${t.kind==='top'?'Top':'Bottom'} · <span class="mono">${t.date}</span></td><td class="n">${usd2(t.price)}</td>${t.new.map(v=>`<td class="n">${v==null||(t.kind==='top'&&v>0)?'—':sgn(v,0)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>
+    <p class="note" style="margin-top:6px">At the 2009, 2018, 2020 and 2022 lows it was fully invested again within about 10% of the bottom. Exits are slower: it cut to half 8–10% below each top.</p></div></div>`;
+  let bsym=localGet('bsym')||'SPY';
+  const drawBT=()=>{bp.querySelectorAll('[data-b]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.b===bsym));const e=EQ[bsym].map(r=>({t:Date.parse(r.date+'T00:00:00Z'),s:+r.strategy,b:+r.buyhold}));
+    lineChart($('#eqchart'),{xType:'time',log:true,h:270,aria:'Equity curves',series:[{name:'Regime model',color:css('--s1'),data:e.map(r=>({x:r.t,y:r.s})),endLabel:true},{name:'Buy & hold '+bsym,color:css('--s2'),data:e.map(r=>({x:r.t,y:r.b})),endLabel:true}],yFmt:v=>'$'+(v<10?v:kfmt(v)),tipFmt:v=>'$'+v.toFixed(2)});
+    const SY=(R.start_years||{})[bsym]||[];const s03=SY.find(r=>r.start==='2003'),s10=SY.find(r=>r.start==='2010');
+    $('#sytab').innerHTML=`<table><thead><tr><th>From</th><th class="n">Model</th><th class="n">${bsym}</th><th class="n">Worst DD</th><th class="n">${bsym} DD</th><th class="n">Sharpe</th></tr></thead><tbody>${SY.map(r=>`<tr><td class="mono">${r.start}</td><td class="n">${r.cagr.toFixed(1)}%</td><td class="n">${r.bh.toFixed(1)}%</td><td class="n">${sgn(r.maxdd,0)}</td><td class="n">${sgn(r.bh_dd,0)}</td><td class="n">${r.sharpe.toFixed(2)}/${r.bh_sharpe.toFixed(2)}</td></tr>`).join('')}</tbody></table>`;
+    $('#synote').textContent=s03&&s10?`From 2003 the model returned ${s03.cagr.toFixed(1)}% a year against ${s03.bh.toFixed(1)}% for ${bsym}, with a worst drawdown of ${sgn(s03.maxdd,0)} instead of ${sgn(s03.bh_dd,0)}. From 2010, a stretch without a deep bear market, it ${Math.abs(s10.cagr-s10.bh)<.5?'roughly matched':s10.cagr>s10.bh?'beat':'trailed'} ${bsym} (${s10.cagr.toFixed(1)}% vs ${s10.bh.toFixed(1)}%) with ${sgn(s10.maxdd,0)} instead of ${sgn(s10.bh_dd,0)} at the worst point.`:'';
+    $('#yrtab').innerHTML=`<table><thead><tr><th>Year</th><th class="n">Model</th><th class="n">${bsym}</th><th class="n">Difference</th></tr></thead><tbody>${(R.yearly?R.yearly[bsym]:S.yearly[bsym]).map(y=>`<tr><td class="mono">${y.year}${y.year===+R.asof.slice(0,4)?' YTD':''}</td><td class="n">${sgn(y.strategy,0)}</td><td class="n">${sgn(y.buyhold,0)}</td><td class="n ${cls(Math.round(y.strategy-y.buyhold))}">${sgn(Math.round(y.strategy-y.buyhold),0,' pts')}</td></tr>`).join('')}</tbody></table>`};
+  bp.querySelectorAll('[data-b]').forEach(b=>b.addEventListener('click',()=>{bsym=b.dataset.b;localSet('bsym',bsym);drawBT()}));drawBT();
+  colChart($('#decchart'),{h:180,yFmt:v=>v+'%',items:S.deciles.map(d=>({label:'D'+d.dec,value:d.dd,color:css('--neg'),hl:d.dec===1||d.dec===10?d.dd+'%':'',tip:`<div class="h">Decile ${d.dec} · score ${d.lo} to ${d.hi}</div><div class="r"><span>10% drop within 6 mo</span><b class="mono">${d.dd}%</b></div><div class="r"><span>Median 3-mo return</span><b class="mono">${sgn(d.med63)}</b></div>`}))});
+  research(M,R,S);
+}
+function drawGauge(host,R){const draw=()=>{const W=Math.max(300,host.clientWidth||460),H=74,m={l:10,r:10};const X=v=>m.l+(v+1)/2*(W-m.l-m.r);const y=30;
+  const seg=(a,b,c)=>`<rect x="${X(a)}" y="${y-7}" width="${X(b)-X(a)}" height="14" fill="${c}"/>`;
+  let s=seg(-1,R.thresholds.bear,css('--bear-bg'))+seg(R.thresholds.bear,R.thresholds.bull,css('--neut-bg'))+seg(R.thresholds.bull,1,css('--bull-bg'));
+  [-1,-.5,0,.5,1].forEach(v=>s+=`<text class="ax" x="${X(v)}" y="${y+28}" text-anchor="${v===-1?'start':v===1?'end':'middle'}">${v>0?'+':''}${v}</text>`);
+  s+=`<text class="ax" x="${(X(-1)+X(R.thresholds.bear))/2}" y="${y+4}" text-anchor="middle" style="fill:${css('--bear')};font-weight:600">BEARISH</text><text class="ax" x="${(X(R.thresholds.bull)+X(1))/2}" y="${y+4}" text-anchor="middle" style="fill:${css('--bull')};font-weight:600">BULLISH</text>`;
+  const g=(v,lab,op)=>`<g opacity="${op}"><line x1="${X(v)}" x2="${X(v)}" y1="${y-14}" y2="${y+12}" stroke="${css('--ink')}" stroke-width="${op===1?2.5:1.5}"/><text class="ax" x="${X(v)}" y="${y-18}" text-anchor="middle" style="fill:${css('--ink')}">${lab}</text></g>`;
+  if(R.score_21d!=null&&Math.abs(R.score_21d-R.score)>.04)s+=g(R.score_21d,'1m ago',.35);s+=g(R.score,'today',1);
+  host.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Score gauge: ${R.score.toFixed(2)} on a scale from −1 to +1">${s}</svg>`};draw();host._draw=draw;charts.add(host)}
+function research(M,R,S){
+  const p=h('section',{class:'panel'});M.append(p);
+  const tabs=[['cycles','Cycles'],['season','Seasonality'],['ma','Moving averages'],['macro','Macro & internals'],['radar','Under the radar'],['recov','Recoveries'],['method','Method & data']];
+  p.innerHTML=`<div class="phead"><h2>The research behind the model</h2><span class="label">SPY/QQQ daily since Sep 1999 · S&P monthly since 1871</span></div><div class="tabs" role="tablist">${tabs.map(([k,n])=>`<button role="tab" id="tab-${k}" aria-selected="false" data-k="${k}">${n}</button>`).join('')}</div><div id="pane"></div>`;
+  const pane=$('#pane',p);const show=k=>{p.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.k===k));pane.innerHTML='';pane.className='tabpane';({cycles,season,ma,macro,radar,recov,method})[k](pane,R,S);localSet('tab',k)};
+  p.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>show(b.dataset.k)));
+  const init=(location.hash||'').slice(1);show(tabs.some(t=>t[0]===init)?init:(localGet('tab')||'cycles'));
+}
+const fmtM=d=>MON[+d.slice(5,7)-1]+' '+d.slice(0,4);
+function cycles(el,R,S){
+  const ds=S.decl_stats;
+  el.append(h('div',{class:'find'},`
+   <div class="finding"><h3>Five bear markets since 1999, from 1 month to 2½ years</h3><p>SPY fell 49% (2000–02), 57% (2007–09), 20% (2018), 34% (2020) and 25% (2022). The slow ones were recessions; the fast ones were shocks. Recovering to the old high took 4 months to 4½ years.</p></div>
+   <div class="finding"><h3>Pullbacks are routine; bears are not</h3><p>Since 1999, SPY has had ${ds.pullbacks.per_year} pullbacks of 5% or more per year (median −${Math.abs(ds.pullbacks.med_dd*100).toFixed(0)}%, ${ds.pullbacks.med_decline} days down, ${Math.round(ds.pullbacks.med_recovery)} days to recover) and ${ds.corrections.per_year} declines of 10%+ per year. ${S.corr_to_bear.n20} of ${S.corr_to_bear.n10} declines of 10%+ went on to 20%.</p></div>
+   <div class="finding"><h3>Post-war bears averaged about a year and a half</h3><p>Using monthly-average prices since 1946, the eight biggest declines had a median drop of 28%, lasted a median 17 months and took 20 months to recover. Monthly averages miss short, sharp bears (1957, 1966, 1980–82, 1990, 2020), so this undercounts them.</p></div>
+   <div class="finding"><h3>This bull is ${(R.cycle.bull_days/365.25).toFixed(1)} years old</h3><p>SPY is up ${sgn(R.cycle.bull_gain,0)} since the October 12, 2022 low (${R.cycle.bull_days.toLocaleString()} days). The last three ran 5.0 years (2002–07), 10.9 years (2009–20, counting through the brief 2018 bear) and 1.8 years (2020–22).</p></div>`));
+  const bt=(rows,cap)=>`<table><thead><tr><th>Peak</th><th>Low</th><th class="n">Decline</th><th class="n">Days down</th><th class="n">Days to recover</th></tr></thead><tbody>${rows.map(b=>`<tr><td class="mono">${b.peak}</td><td class="mono">${b.trough}</td><td class="n">${pf(b.dd)}</td><td class="n">${b.decline_days.toLocaleString()}</td><td class="n">${b.recovery_days==null?'—':b.recovery_days.toLocaleString()}</td></tr>`).join('')}</tbody></table>`;
+  el.append(h('div',{class:'grid2',style:'gap:22px'},`<div style="min-width:0"><h3 style="margin-bottom:8px">SPY bear markets (20%+ on closing prices)</h3><div class="tblwrap">${bt(S.bears_spy)}</div>
+    <h3 style="margin:16px 0 8px">QQQ bear markets</h3><div class="tblwrap">${bt(S.qqq_bears)}</div><p class="note" style="margin-top:6px">QQQ needed 14 years to regain its 2000 peak.</p></div>
+   <div style="min-width:0"><h3 style="margin-bottom:8px">S&P 500 20%+ declines since 1946 (monthly averages)</h3><div class="tblwrap">${bt(S.bears_long)}</div>
+    <h3 style="margin:16px 0 8px">The bull runs between them</h3><div class="tblwrap"><table><thead><tr><th>Low</th><th>High</th><th class="n">Gain</th><th class="n">Years</th></tr></thead><tbody>${S.bulls_long.map(b=>`<tr><td class="mono">${b.trough.slice(0,7)}</td><td class="mono">${b.peak.replace(' (ongoing)','').slice(0,7)}${b.peak.includes('ongoing')?' (ongoing)':''}</td><td class="n">${pf(b.gain)}</td><td class="n">${(b.days/365.25).toFixed(1)}</td></tr>`).join('')}</tbody></table></div></div>`));
+}
+function season(el,R,S){
+  const py=S.pres_year;const g=k=>py.find(r=>r.pc===k);
+  el.append(h('div',{class:'find'},`
+   <div class="finding"><h3>The pre-election year is the strongest of the four</h3><p>Since 1950 the S&P has averaged +${(g(3).mean*100).toFixed(0)}% in the third year of a presidential term, up in ${Math.round(g(3)['<lambda_0>']*g(3).count)} of ${g(3).count}. Midterm years (like 2026) averaged +${(g(2).mean*100).toFixed(1)}%, the weakest.</p></div>
+   <div class="finding"><h3>The midterm-year low has been a reliable launch point</h3><p>From September of a midterm year, the S&P was higher a year later in ${S.midterm_fwd.filter(r=>r.r>0).length} of ${S.midterm_fwd.length} cycles since 1950, by a median ${pf(S.midterm_fwd.map(r=>r.r).sort((a,b)=>a-b)[9])}. November and December of midterm years averaged +2.9% and +1.1%.</p></div>
+   <div class="finding"><h3>Most of the gains come around month-end</h3><p>Since 2000, the last trading day of each month plus the first three made up ${Math.round(S.tom.days_share*100)}% of days but ${Math.round(S.tom.share*100)}% of SPY’s total return. Days before market holidays averaged ${(S.preholiday.mean*100).toFixed(2)}% versus ${(S.preholiday.all*100).toFixed(2)}% for all days.</p></div>
+   <div class="finding"><h3>Options-expiration weeks lag</h3><p>Weeks ending on the monthly options expiration averaged ${sgn(S.opex[0].mean*100,2)} since 2000, against +${(S.opex[1].mean*100).toFixed(2)}% for other weeks. The Santa Claus rally (last 5 days of December, first 2 of January) rose in ${S.santa.pos} of ${S.santa.n} years.</p></div>`));
+  const g2=h('div',{class:'grid2',style:'gap:22px'});el.append(g2);
+  const a=h('div',{style:'min-width:0'},`<h3 style="margin-bottom:8px">Average monthly return</h3><div class="seg" role="group" aria-label="Period" style="margin-bottom:8px"><button data-p="spy" aria-pressed="true">SPY 2000–2026</button><button data-p="long" aria-pressed="false">S&P 1950–2026</button></div><div class="chart" id="mchart"></div>`);g2.append(a);
+  const dm=k=>{a.querySelectorAll('.seg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.p===k));const src=k==='spy'?S.spy_month:S.long_month;colChart($('#mchart',a),{h:200,yFmt:v=>v.toFixed(1)+'%',items:src.map(r=>({label:MON[r.m-1],value:+(r.mean*100).toFixed(2),tip:`<div class="h">${MON[r.m-1]} · ${r.n} years</div><div class="r"><span>Average</span><b class="mono">${pf(r.mean,2)}</b></div><div class="r"><span>Median</span><b class="mono">${pf(r.median,2)}</b></div><div class="r"><span>Up years</span><b class="mono">${Math.round(r.pos*100)}%</b></div>`}))})};
+  a.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>dm(b.dataset.p)));dm('spy');
+  const b=h('div',{style:'min-width:0'},`<h3 style="margin-bottom:8px">Average daily return by weekday (%), SPY 2000+</h3><div class="chart" id="dchart"></div><h3 style="margin:14px 0 8px">Annual S&P return by the year’s last digit</h3><div class="chart" id="decchart2"></div>`);g2.append(b);
+  colChart($('#dchart',b),{h:150,yFmt:v=>v.toFixed(2),items:S.dow.map(r=>({label:r.index,value:+(r.mean*100).toFixed(3),tip:`<div class="h">${r.index}</div><div class="r"><span>Average</span><b class="mono">${(r.mean*100).toFixed(3)}%</b></div><div class="r"><span>Up days</span><b class="mono">${Math.round(r.pos*100)}%</b></div>`}))});
+  colChart($('#decchart2',b),{h:150,yFmt:v=>v.toFixed(0)+'%',items:S.decennial.map(r=>({label:String(r.month),value:+(r.mean*100).toFixed(1),tip:`<div class="h">Years ending in ${r.month} · ${r.n} years</div><div class="r"><span>Average</span><b class="mono">${pf(r.mean,1)}</b></div><div class="r"><span>Up years</span><b class="mono">${Math.round(r.pos*100)}%</b></div>`}))});
+  const pcn=PCN;
+  let t=`<table class="heat"><thead><tr><th style="text-align:left">Year of term</th>${MON.map(m=>`<th>${m}</th>`).join('')}</tr></thead><tbody>`;
+  [1,2,3,4].forEach(k=>{t+=`<tr><th style="text-align:left;white-space:nowrap">${pcn[k]}</th>`;S.pres_month.forEach(r=>{const v=r[String(k)];const c=divColor(v,.03);t+=`<td style="background:${c.bg};color:${c.fg}" title="${MON[r.m-1]}, ${pcn[k]} year: average ${pf(v,1)}">${(v*100).toFixed(1)}</td>`});t+='</tr>'});
+  el.append(h('div',{},`<h3 style="margin-bottom:4px">Average monthly S&P return (%) by year of the presidential term, 1950–2026</h3><p class="note" style="margin-bottom:8px">Monthly-average prices; about 19 observations per cell. 2026 is a midterm year.</p><div class="tblwrap">${t}</tbody></table></div>`));
+}
+function ma(el,R,S){
+  const T=S.ma_spy,g=(m,e)=>T.find(r=>r.ma===m&&r.event===e)||{};const b=g('baseline','all days');const ex=S.ext_spy;const tm=S.tenmonth;
+  el.append(h('div',{class:'find'},`
+   <div class="finding"><h3>The 200-day line is a risk switch, not a return switch</h3><p>Above its 200-day average, SPY rose over the next 3 months ${pp(g('200DMA','state above').pos63)} of the time and a 10% drop followed within 6 months ${pp(g('200DMA','state above').dd10)} of the time. Below it: ${pp(g('200DMA','state below').pos63)} and ${pp(g('200DMA','state below').dd10)}. Median returns differed far less (${pf(g('200DMA','state above').med63,1)} vs ${pf(g('200DMA','state below').med63,1)}).</p></div>
+   <div class="finding"><h3>Death crosses come too late to sell on</h3><p>SPY’s 12 death crosses since 2000 were followed by a median ${pf(g('50/200','death cross').med63,1)} over 3 months and ${pf(g('50/200','death cross').med252)} over a year. Golden crosses were higher a year later ${pp(g('50/200','golden cross').pos252)} of the time.</p></div>
+   <div class="finding"><h3>Strength is not a sell signal</h3><p>When SPY was more than 15% above its 200-day line, it rose over the next 3 months ${pp(+ex[7].pos63)} of the time, with only a ${pp(+ex[7].dd10)} chance of a 10% drop. 10–20% below it, the risk was ${pp(+ex[1].dd10)}; more than 20% below, ${pp(+ex[0].dd10)}.</p></div>
+   <div class="finding"><h3>Ninety-eight years of the 10-month rule</h3><p>Holding the S&P only above its 10-month average (1928–2026, cash otherwise, a month’s delay) earned ${pf(tm['1928'].timing.cagr,1)} a year versus ${pf(tm['1928'].buyhold.cagr,1)} for buy-and-hold, with a worst drawdown of ${pf(tm['1928'].timing.mdd)} instead of ${pf(tm['1928'].buyhold.mdd)}. Since 1950: ${pf(tm['1950'].timing.cagr,1)} vs ${pf(tm['1950'].buyhold.cagr,1)}, ${pf(tm['1950'].timing.mdd)} vs ${pf(tm['1950'].buyhold.mdd)}.</p></div>`));
+  const tbl=(rows,sym)=>{let r='';[['200DMA','200-day'],['10-month (210D)','10-month'],['100DMA','100-day'],['50DMA','50-day']].forEach(([k,n])=>['state above','state below','break above','break below'].forEach(e=>{const x=rows.find(q=>q.ma===k&&q.event===e);if(!x)return;r+=`<tr><td>${e.startsWith('state')?(e==='state above'?'Above':'Below'):(e==='break above'?'▲ Breaks above':'▼ Breaks below')} the ${n}</td><td class="n">${x.n.toLocaleString()}</td><td class="n">${pf(x.med21,1)}</td><td class="n">${pf(x.med63,1)}</td><td class="n">${pp(x.pos63)}</td><td class="n">${pf(x.med252,1)}</td><td class="n">${pp(x.dd10)}</td><td class="n">${x.persist==null?'—':Math.round(x.persist)}</td></tr>`}));
+    ['golden cross','death cross'].forEach(e=>{const x=rows.find(q=>q.event===e);r+=`<tr><td>${e==='golden cross'?'Golden cross':'Death cross'}</td><td class="n">${x.n}</td><td class="n">${pf(x.med21,1)}</td><td class="n">${pf(x.med63,1)}</td><td class="n">${pp(x.pos63)}</td><td class="n">${pf(x.med252,1)}</td><td class="n">${pp(x.dd10)}</td><td class="n">—</td></tr>`});
+    const bb=rows.find(q=>q.ma==='baseline');r+=`<tr><td class="muted">Any day (baseline)</td><td class="n muted">${bb.n.toLocaleString()}</td><td class="n muted">${pf(bb.med21,1)}</td><td class="n muted">${pf(bb.med63,1)}</td><td class="n muted">${pp(bb.pos63)}</td><td class="n muted">${pf(bb.med252,1)}</td><td class="n muted">${pp(bb.dd10)}</td><td class="n muted">—</td></tr>`;
+    return `<table><thead><tr><th>${sym}</th><th class="n">Days / events</th><th class="n">1-mo med</th><th class="n">3-mo med</th><th class="n">3-mo up</th><th class="n">1-yr med</th><th class="n">10% drop in 6 mo</th><th class="n">Holds (days)</th></tr></thead><tbody>${r}</tbody></table>`};
+  const box=h('div',{},`<h3 style="margin-bottom:4px">What followed each moving-average state and break, 2000–2026</h3><p class="note" style="margin-bottom:8px">A break needs 3 straight closes on the new side; repeats within 20 days are dropped. “Holds” is the median days until 3 closes back on the other side.</p><div class="seg" role="group" aria-label="Ticker" style="margin-bottom:8px"><button data-m="SPY" aria-pressed="true">SPY</button><button data-m="QQQ" aria-pressed="false">QQQ</button></div><div class="tblwrap" id="matab"></div>`);el.append(box);
+  const dm=k=>{box.querySelectorAll('.seg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===k));$('#matab',box).innerHTML=tbl(k==='SPY'?S.ma_spy:S.ma_qqq,k)};box.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>dm(b.dataset.m)));dm('SPY');
+  el.append(h('div',{},`<h3 style="margin-bottom:8px">SPY distance from its 200-day average</h3><div class="tblwrap"><table><thead><tr><th>Distance</th><th class="n">Days</th><th class="n">3-mo med</th><th class="n">3-mo up</th><th class="n">1-yr med</th><th class="n">10% drop in 6 mo</th></tr></thead><tbody>${ex.map((r,i)=>`<tr><td>${EXL[i]}</td><td class="n">${r.n}</td><td class="n">${pf(+r.med63,1)}</td><td class="n">${pp(+r.pos63)}</td><td class="n">${pf(+r.med252,1)}</td><td class="n">${pp(+r.dd10)}</td></tr>`).join('')}</tbody></table></div>`));
+}
+function icList(S,filter,title,note){
+  const box=h('div',{},`<h3 style="margin-bottom:4px">${title}</h3><p class="note" style="margin-bottom:8px">${note}</p>`);
+  S.ic.filter(filter).forEach(r=>{const d=(r.dd_hi-r.dd_lo)*100;const w=Math.min(1,Math.abs(d)/50)*50;const bar=d<=0?`left:${50-w}%;width:${w}%;background:var(--pos)`:`left:50%;width:${w}%;background:var(--neg)`;
+    box.append(h('div',{class:'icrow',title:`${r.name}: 10% drop risk ${Math.round(r.dd_hi*100)}% in its top fifth vs ${Math.round(r.dd_lo*100)}% in its bottom fifth; 3-month return rank correlation ${r.ic63.toFixed(2)} (2000–12 ${r.ic63_a==null?'—':r.ic63_a.toFixed(2)}, 2013–26 ${r.ic63_b.toFixed(2)})`},
+      `<div class="nm">${r.name}${r.live?' <span class="chip live">model</span>':''}</div><div class="t"><i style="${bar}"></i></div><div class="mono" style="text-align:right;font-size:.78rem">${Math.round(r.dd_hi*100)}% vs ${Math.round(r.dd_lo*100)}%<div class="muted" style="font-size:.68rem">ret IC ${r.ic63>0?'+':''}${r.ic63.toFixed(2)}</div></div>`))});
+  return box}
+function evTable(rows,title,long){
+  return h('div',{},`<h3 style="margin-bottom:4px">${title}</h3><p class="note" style="margin-bottom:8px">${long?'First month each condition appeared, 1955–2026 (monthly-average S&P, measured from the following month).':'First day each condition appeared, 2000–2026 (repeats within the event’s cool-off window dropped). Small samples: read as tendencies.'}</p><div class="tblwrap"><table><thead><tr><th>Event</th><th class="n">Count</th>${long?'<th class="n">6-mo med</th><th class="n">12-mo med</th><th class="n">12-mo up</th><th class="n">Worst dip, 12 mo</th>':'<th class="n">1-mo med</th><th class="n">3-mo med</th><th class="n">3-mo up</th><th class="n">6-mo med</th><th class="n">12-mo med</th><th class="n">Worst dip, 6 mo</th>'}</tr></thead><tbody>${rows.map(e=>long?`<tr title="${e.dates.join(', ')}"><td>${e.event}</td><td class="n">${e.n}</td><td class="n">${pf(e.med6,1)}</td><td class="n">${pf(e.med12,1)}</td><td class="n">${pp(e.pos12)}</td><td class="n">${pf(e.med_mdd12,1)}</td></tr>`:`<tr title="${e.dates.join(', ')}"><td>${e.event}</td><td class="n">${e.n}</td><td class="n">${pf(e.med21,1)}</td><td class="n">${pf(e.med63,1)}</td><td class="n">${pp(e.pos63)}</td><td class="n">${pf(e.med126,1)}</td><td class="n">${pf(e.med252,1)}</td><td class="n">${pf(e.med_mdd126,1)}</td></tr>`).join('')}</tbody></table></div>`)}
+function macro(el,R,S){
+  const E=n=>S.events.find(e=>e.event===n)||{};const fed=E('Fed easing begins (3-mo bill −0.5 pt in 6 mo)'),un=E('Yield curve un-inverts');const lu=S.events_long.find(e=>e.event.startsWith('Curve un-inverts'));
+  el.append(h('div',{class:'find'},`
+   <div class="finding"><h3>The first Fed cuts have been more dangerous than the hikes</h3><p>When the 3-month bill fell half a point in six months (the start of an easing cycle), SPY was higher six months later only ${pp(fed.pos126)} of the time, median ${pf(fed.med126,1)}, with a median worst dip of ${pf(fed.med_mdd126,1)}. Cuts made into a slowing economy (2001, 2007) hurt; insurance cuts (2019, 2024) did not.</p></div>
+   <div class="finding"><h3>Watch the curve un-invert, not invert</h3><p>Inversion itself was usually followed by gains a year later (${S.events_long.find(e=>e.event.startsWith('Curve 10y'))?Math.round(S.events_long.find(e=>e.event.startsWith('Curve 10y')).pos12*S.events_long.find(e=>e.event.startsWith('Curve 10y')).n):'—'} of ${(S.events_long.find(e=>e.event.startsWith('Curve 10y'))||{}).n} times since 1955). The danger came when the 10y–3m curve turned positive again: since 1955 the S&P’s median worst dip in the following year was ${pf(lu.med_mdd12)}, and since 2000 SPY’s was ${pf(un.med_mdd126,1)} within six months. The curve un-inverted in January 2025, and the model keeps that flag on for two years.</p></div>
+   <div class="finding"><h3>Credit leads the turn</h3><p>A widening Baa–Treasury spread over three months raised the chance of a 10% drop within six months to about ${Math.round((S.ic.find(r=>r.key==='credit_chg63')||{}).dd_hi*100)}%, versus ${Math.round((S.ic.find(r=>r.key==='credit_chg63')||{}).dd_lo*100)}% when spreads narrowed. Now: ${esc(FR(R,'f_spread').reading)}.</p></div>
+   <div class="finding"><h3>High inflation is the one macro reading that hurt a full year out</h3><p>When CPI inflation first crossed 5% (six times since 1955), the S&P was higher 12 months later only once, median ${pf((S.events_long.find(e=>e.event.startsWith('CPI'))||{}).med12)}. Inflation today is ${R.macro.cpi}%.</p></div>`));
+  el.append(icList(S,r=>r.group==='macro'||r.group==='volatility','Macro and volatility factors: chance of a 10% SPY drop within 6 months, top fifth vs bottom fifth of each reading','Blue bars lower the risk when the reading is high; red bars raise it. Right column: risk in the top fifth vs bottom fifth, then the rank correlation with 3-month returns. 2000–2026, sampled weekly.'));
+  el.append(evTable(S.events.filter(e=>['Fed easing begins (3-mo bill −0.5 pt in 6 mo)','Yield curve (10y–3m) inverts','Yield curve un-inverts','Sahm rule triggers (≥0.5)','Credit spread +0.5 pt in 3 months','Oil +40% in 3 months','Dollar +5% in 3 months','Consumer sentiment below 60','VIX closes above 30','VIX closes above 40'].includes(e.event)),'Macro shocks: what SPY did next',false));
+  el.append(evTable(S.events_long,'The long view: macro signals since 1955',true));
+}
+function radar(el,R,S){
+  const I=k=>S.ic.find(r=>r.key===k)||{};const E=n=>S.events.find(e=>e.event===n)||{};
+  el.append(h('div',{class:'find'},`
+   <div class="finding"><h3>Semiconductors lead the market</h3><p>When SMH outperformed SPY over three months, SPY’s next 3 and 6 months were stronger (rank correlation +${I('SMH/SPY').ic63.toFixed(2)}, positive in both halves of the sample) and 10% drops less likely (${Math.round(I('SMH/SPY').dd_hi*100)}% vs ${Math.round(I('SMH/SPY').dd_lo*100)}%). Now: ${esc(FR(R,'f_semis').reading)}.</p></div>
+   <div class="finding"><h3>Gloomy consumers have been a buy signal</h3><p>Low University of Michigan sentiment came before better 3- and 6-month returns (rank correlation ${I('sentiment').ic63.toFixed(2)}). Since 1978, the first reading below 60 was followed by a median ${pf((S.events_long.find(e=>e.event.startsWith('Sentiment'))||{}).med12)} over the next year. Sentiment is ${R.macro.sent} today.</p></div>
+   <div class="finding"><h3>VIX above 40 has marked panic lows</h3><p>The first close above 40 (10 times since 2000) was followed by gains three months later in ${pp(E('VIX closes above 40').pos63)} of cases, median ${pf(E('VIX closes above 40').med63,1)}, and ${pf(E('VIX closes above 40').med252)} a year later.</p></div>
+   <div class="finding"><h3>Breadth and EM confirm, the dollar warns</h3><p>Equal-weight and emerging markets outperforming SPY lowered drawdown risk; a rising dollar raised it (${Math.round(I('dxy_63').dd_hi*100)}% vs ${Math.round(I('dxy_63').dd_lo*100)}%). When the equal-weight S&P lagged by 5%+ in three months, SPY was higher a year later in all ${E('Equal-weight lagging by 5% in 3 months').n} cases: narrow leadership alone has not ended bulls.</p></div>
+   <div class="finding"><h3>Distribution days flag risk, not returns</h3><p>Days when SPY fell 0.2%+ on rising volume, counted over 25 sessions (the IBD method), raised drawdown risk but did not hurt median returns. Now: ${esc(FR(R,'f_distr').reading)}.</p></div>
+   <div class="finding"><h3>Valuation matters for the decade, not the quarter</h3><p>Shiller CAPE near ${R.macro.cape} is close to the 2000 peak. High CAPE predicted weaker returns (rank correlation ${I('cape').ic63.toFixed(2)} at 3 months), but the effect was strongest in 2000–12 and nearly gone since, so the model shows it as context and does not score it.</p></div>`));
+  el.append(icList(S,r=>r.group==='internals'||r.group==='price','Market internals and price factors: chance of a 10% SPY drop within 6 months, top fifth vs bottom fifth','Ratios are 3-month changes (e.g. SMH/SPY rising = semis outperforming). Copper/gold and high-beta/low-vol start in 2011.'));
+  el.append(evTable(S.events.filter(e=>['S&P 10% below its high','S&P 20% below its high','6+ distribution days in 25 sessions','New all-time high after ≥1 year','Golden cross (50 over 200)','Death cross (50 under 200)','RSI(14) below 30','Semis lagging S&P by 10% in 3 months','Equal-weight lagging by 5% in 3 months'].includes(e.event)),'Price and internals events',false));
+}
+function recov(el,R,S){
+  const V=S.recovery;if(!V){el.textContent='Recovery research is not available.';return}
+  const ev=V.events,up=ev.filter(e=>e.f252!=null),win=up.filter(e=>e.f252>0).length,held=ev.filter(e=>e.held).length;
+  const s5=V.sizes[0];const ic=v=>`<td class="n ${v>=.1?'pos':v<=-.1?'neg':''}">${v>0?'+':v<0?'−':''}${Math.abs(v).toFixed(2)}</td>`;
+  el.append(h('div',{class:'find'},`
+   <div class="finding"><h3>The cost was in the climb back, not the fall</h3><p>Since 2003 the model has had ${V.episodes} stretches below full exposure. Adding up the daily returns it sat out, it avoided ${Math.abs(V.pre).toFixed(0)} points of losses before the lows and gave up ${V.post.toFixed(0)} points of gains after them. ${V.exit_near_low} of the ${V.episodes} cuts came within 2% of the low, mostly in quick corrections.</p></div>
+   <div class="finding"><h3>Fear, not confirmation, came before the best rebounds</h3><p>On the ${V.outdays.toLocaleString()} days since 2003 when the trend and macro rules had the model at 50% or less, 3-month returns were better when the VIX was higher, in both halves of the sample and in 13 of 14 declines. Breadth and leadership readings pointed the other way: by the time equal-weight, small caps, transports and sector breadth improved, much of the rebound was already gone.</p></div>
+   <div class="finding"><h3>A 10% rally in 20 sessions has marked lasting lows</h3><p>From 1953 to 2026 the S&P closed 10% above its 20-session low ${ev.length} times while it was below its 200-day average and 10% or more under its high. It was higher a year later ${win} of ${up.length} times and never broke that low within six months ${held} of ${ev.length} times. Smaller rallies of 5–7% did little better than an average day in a drawdown.</p></div>
+   <div class="finding"><h3>Where it fails: inflation and slow bear markets</h3><p>The rallies that failed came in 1987, 2001–02, October 2008 and August 2022, and repeatedly in the 1929–32 crash. October 2008 and August 2022 had CPI inflation above 4%, which is why the model skips the rebound route then. The 1970s show the filter is a safety rule, not a law: recoveries there came with inflation above 4%.</p></div>`));
+  el.append(h('div',{},`<h3 style="margin-bottom:4px">What came before better 3-month returns while the model was out</h3><p class="note" style="margin-bottom:8px">Rank correlation between each reading and SPY’s next 3-month return above T-bills, on days the model was at 50% or less. Positive means a higher reading came before better returns. “Within declines” asks the timing question: inside each decline, did higher readings come before better 1-month returns?</p>
+   <div class="tblwrap"><table><thead><tr><th>Reading</th><th class="n">2003–14</th><th class="n">2015–26</th><th class="n">Within declines</th></tr></thead><tbody>${V.predictors.map(r=>`<tr><td>${r.label}</td>${ic(r.ic1)}${ic(r.ic2)}<td class="n">${r.within>0?'+':r.within<0?'−':''}${Math.abs(r.within).toFixed(2)} <span class="muted">(${r.ep_pos} of ${r.n_ep} up)</span></td></tr>`).join('')}</tbody></table></div>
+   <p class="note" style="margin-top:6px">Depth of the decline is a negative number, so its negative correlation means deeper declines came before better returns. Readings with opposite signs in the two halves (macro, the Fed, credit) are unreliable guides to timing.</p>`));
+  const sz=(x,base)=>`<td class="n">${x.n.toLocaleString()}</td><td class="n">${pf(x.f252/100,1)}</td><td class="n">${x.win}%</td><td class="n">${x.held}%</td>`;
+  el.append(h('div',{},`<h3 style="margin-bottom:4px">Rally size vs what came next, S&P 500 daily</h3><p class="note" style="margin-bottom:8px">Days when the S&P was below its 200-day average and 10%+ under its 52-week high, and the first day of each rally off the 20-session low. “Held the low” means the S&P did not close below that low in the next six months.</p>
+   <div class="tblwrap"><table><thead><tr><th>Period · signal</th><th class="n">Count</th><th class="n">Avg 1-yr</th><th class="n">Up after 1 yr</th><th class="n">Held the low</th></tr></thead><tbody>${V.sizes.map(p=>[['base','Any day in a drawdown'],['r5','5% rally'],['r7','7% rally'],['r10','10% rally']].map(([k,n],i)=>`<tr${k==='r10'?' style="font-weight:600"':''}><td>${i===0?`<b>${p.period}</b> · `:''}${n}</td>${sz(p[k])}</tr>`).join('')).join('')}</tbody></table></div>`));
+  el.append(h('div',{},`<h3 style="margin-bottom:4px">Every 10% rally off a 20-session low, 1953–2026</h3><p class="note" style="margin-bottom:8px">S&P 500 to 2019, SPY after. Grey rows had CPI inflation above 4%; the model skips those.</p>
+   <div class="tblwrap"><table><thead><tr><th>Date</th><th class="n">3 months</th><th class="n">1 year</th><th class="n">Held the low</th><th class="n">CPI</th></tr></thead><tbody>${ev.map(e=>`<tr${e.cpi>4?' class="muted"':''}><td class="mono">${e.date}</td><td class="n ${cls(e.f63)}">${e.f63==null?'—':sgn(e.f63,1)}</td><td class="n ${cls(e.f252)}">${e.f252==null?'—':sgn(e.f252,1)}</td><td class="n">${e.held?'Yes':'<b class="neg">No</b>'}</td><td class="n">${e.cpi.toFixed(1)}%</td></tr>`).join('')}</tbody></table></div>`));
+  el.append(h('div',{class:'prose'},`<h3>Tested and not used</h3><ul>
+   <li>Faster re-entry from Correction (a close above the 10-day average, or a risk-appetite composite of cyclicals, semis, transports, credit and small caps): added 0.5–1 point a year in 2003–26, added nothing on 1954–1999 data, and deepened the 2000–19 drawdown of a stand-in model from 28% to 39%.</li>
+   <li>Not cutting to half when the market is already oversold (RSI below 30): helped in 2003–26, hurt in 1954–79.</li>
+   <li>An unemployment (Sahm) filter on rebounds: it would have skipped the March 2009 bottom.</li>
+   <li>Rallies scaled to volatility, 5–7% rallies, and Fed-hiking or credit-spread filters: no consistent edge across periods.</li>
+   <li>New data tried: sector ETFs, homebuilders, retail, regional banks, junk bonds, TIPS, momentum vs low-volatility, ARKK and VIX futures ETFs. None gave a timing signal that held in both halves of 2003–26, so the daily data feed is unchanged.</li></ul>`));
+}
+function method(el,R,S){
+  const gw=R.group_weights;
+  el.append(h('div',{class:'prose'},`<h3>How the daily call is made</h3><ul>
+   <li>Twenty-four factors are scaled to signals between −1 and +1 and averaged within six groups: trend ${gw.trend*100}%, macro ${gw.macro*100}%, internals ${gw.internals*100}%, momentum ${gw.momentum*100}%, volatility & sentiment ${gw.volatility*100}%, calendar ${gw.calendar*100}%. Weights were set from the research before backtesting.</li>
+   <li>The score is smoothed over 5 days. Above +0.15 is Bullish, below −0.10 a Bearish signal, in between Neutral; a new signal needs 3 straight days. Nearby threshold pairs gave similar results.</li>
+   <li>A Bearish signal goes to cash only when the macro group is at or below −0.25. Otherwise the state is Correction and exposure is halved, because Bearish readings without macro confirmation were usually dips inside bull markets. Gate levels from −0.10 to −0.40 gave similar results.</li>
+   <li>Neutral stays fully invested: Neutral days carried about the same drawdown risk as an average day.</li>
+   <li>Recovery, trend route: after SPY has fallen 20% or more from its high, a close above a rising 50-day average puts the model at 100% before the score turns.</li>
+   <li>Recovery, rebound route: while the model is at 50% or 0%, a close 10% or more above the lowest close of the last 20 sessions puts it at 100%, unless CPI inflation is above 4%. It holds until the model is fully invested on its own, and ends early if SPY closes 7% below the close that triggered it. See the Recoveries tab for the evidence.</li>
+   <li>Exposure: Bullish, Neutral and Recovery 100%; Correction 50%; Bearish 0% (T-bills). The optional 1.25x version holds 125% when Bullish.</li>
+   <li>No look-ahead: monthly macro data enter only after publication (jobs 36 days after the month starts, CPI 46, industrial production 47); the presidential-cycle table uses 1950–1999 data only; month-of-year tilts use earlier years only; trades happen at the next close.</li>
+   <li>The model is built to avoid large drawdowns. Its scores separate the odds of a 10% decline far better than they separate returns, so on its own it is slow after V-shaped lows; the rebound route is there for those.</li></ul>
+   <h3>Data</h3><ul>
+   <li>Daily ETF closes (SPY, QQQ, RSP, SMH, EEM, HYG, IEF, XLY, XLP, UUP and others) from Robinhood back to September 1999, price-only; backtests add approximate dividends.</li>
+   <li>VIX from the CBOE history on GitHub and Robinhood. S&P 500 monthly prices, dividends, earnings and CAPE from Robert Shiller’s dataset (via GitHub), extended with multpl.com CAPE readings after 2023.</li>
+   <li>FRED: 3-month bill, 2- and 10-year yields, Moody’s Baa yield, unemployment, CPI, industrial production, building permits, UMich sentiment, M2, Fed balance sheet, real yields.</li></ul>
+   <h3>Limits</h3><ul>
+   <li>Daily data covers three recessions and five bear markets. That is enough to see patterns, not to prove them.</li>
+   <li>Factor directions, the macro gate and both Recovery routes were chosen after looking at the 2003–2026 sample, so the backtest is somewhat optimistic. A 1955–1999 check of the gate idea showed no gain. The rebound trigger held up on S&P data back to 1953, but on a 1954–1999 stand-in for the model it added only about 0.1 point a year, and it bought bear-market rallies in 1929–32 and 2001–02.</li>
+   <li>News is not scored; the catalysts panel is context only. This is a research tool, not investment advice.</li></ul>`));
+}
+})();
+</script>
+
+</body>
+</html>

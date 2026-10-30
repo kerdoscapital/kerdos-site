@@ -1,0 +1,375 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<style id="pub-css">
+.foot.pub{display:grid;justify-content:stretch;gap:18px;border-top:1px solid var(--line);padding-top:20px;font-size:.8rem;color:var(--muted)}
+.foot.pub .ft{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px}
+.foot.pub .ft .wordmark{font-size:.72rem;letter-spacing:.32em;text-decoration:none}
+.foot.pub .fl{display:flex;flex-wrap:wrap;gap:4px 16px}
+.foot.pub .fl a{color:var(--ink2);text-decoration:none}
+.foot.pub .fl a:hover{color:var(--white)}
+.foot.pub .fl a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.foot.pub .disc{display:grid;gap:8px;max-width:88ch;line-height:1.55}
+.foot.pub .disc b{color:var(--ink2);font-weight:600}
+.foot.pub .disc p{margin:0}
+.hyp{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);border:1px solid var(--line2);border-radius:999px;padding:3px 9px;white-space:nowrap}
+</style></head><body>
+<title>Kerdos Regime Desk</title>
+<meta name="description" content="Daily, rules-based regime calls for US stocks, Bitcoin and high-beta tech, with a hypothetical model portfolio and backtests.">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Kerdos Capital. Deep navy ground, lavender for up, red for down.
+   Everything else is grey. One dark look by design. */
+:root{
+  --bg:#131621; --surface:#171b26; --sunk:#1e2230; --ink:#d1d4dc; --ink2:#a9adb8; --muted:#7a7e8a; --line:#242835; --line2:#323745; --white:#ffffff;
+  --accent:#a58ee4; --accent-ink:#131621;
+  --bull:#a58ee4; --bull-bg:#221f33; --rec:#a58ee4; --rec-bg:#1e2230; --neut:#d1d4dc; --neut-bg:#1e2230; --corr:#9aa0ae; --corr-bg:#1e2230; --bear:#ef5a62; --bear-bg:#2a1d25;
+  --band-bull:rgba(165,142,228,.12); --band-rec:rgba(165,142,228,.20); --band-neut:rgba(0,0,0,0); --band-corr:rgba(154,160,174,.10); --band-bear:rgba(239,90,98,.14);
+  --s1:#a58ee4; --s2:#8a8e9a; --s3:#d1d4dc; --s4:#6d5ba6;
+  --pos:#8d72c8; --neg:#d34f58; --mid:#20242f;
+  --f-display:"Archivo","Helvetica Neue",Arial,sans-serif; --f-body:"Archivo","Helvetica Neue",Arial,sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --r:6px;
+  color-scheme:dark;
+}
+/* Layout: site nav, a short statement, the two desks side by side, then the record and the rules. */
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 64px;display:grid;gap:28px}
+h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.15;text-wrap:balance}
+p{margin:0}
+a{color:var(--accent)}
+.label{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.mast{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px;border-bottom:1px solid var(--line);padding-bottom:14px}
+.brand{display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px;min-width:0}
+.wordmark{font-family:var(--f-display);font-weight:600;font-stretch:115%;font-size:1rem;letter-spacing:.36em;text-transform:uppercase;color:var(--white);white-space:nowrap;line-height:1;text-decoration:none}
+.wordmark span{font-weight:400;color:var(--ink2)}
+.vrule{width:1px;height:30px;background:var(--line2)}
+.brand h1{font-size:1rem;font-weight:600;letter-spacing:0;line-height:1.2;color:var(--ink)}
+.brand .label{margin-top:2px}
+@media (max-width:560px){.vrule{display:none}.brand{flex-direction:column;align-items:flex-start}}
+.mast .meta{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.8rem;color:var(--ink2)}
+.foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px;border-top:1px solid var(--line);padding-top:14px;font-size:.78rem;color:var(--muted)}
+.foot .wordmark{font-size:.72rem;letter-spacing:.32em}
+.site{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.site .wordmark{color:var(--white);text-decoration:none}
+.site .links{display:flex;flex-wrap:wrap;gap:2px}
+.site .links a{color:var(--ink2);text-decoration:none;padding:6px 12px;border-radius:6px;font-weight:550;font-size:.9rem}
+.site .links a:hover{color:var(--white)}
+.site .links a[aria-current="page"]{color:var(--white);background:var(--sunk)}
+.site .links a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.mast.sub{border-bottom:0;padding-bottom:0;align-items:flex-end}
+.mast.sub h1{font-size:1.5rem;font-weight:700;font-stretch:112%;letter-spacing:-.01em;color:var(--white)}
+
+.intro{display:grid;gap:10px;max-width:68ch;padding-top:8px}
+.intro h1{font-size:clamp(1.9rem,4.4vw,2.7rem);font-weight:700;font-stretch:112%;letter-spacing:-.02em;color:var(--white)}
+.intro p{color:var(--ink2);font-size:1.02rem}
+.desks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+@media (max-width:1080px){.desks{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:820px){.desks{grid-template-columns:minmax(0,1fr)}}
+.desk{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:22px;display:grid;gap:16px;min-width:0;align-content:start}
+.desk .top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.desk h2{font-size:1.05rem;font-weight:600;color:var(--ink)}
+.call{font-family:var(--f-display);font-weight:800;font-stretch:122%;font-size:clamp(2.4rem,6vw,3.3rem);line-height:1;letter-spacing:-.03em}
+.c-Bullish,.c-Recovery{color:var(--bull)} .c-Neutral{color:var(--neut)} .c-Correction{color:var(--corr)} .c-Bearish{color:var(--bear)}.c-Breakdown{color:var(--bear)}.c-Crash{color:var(--corr)}.c-Lagging{color:var(--corr)}
+.expo{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;color:var(--ink2);font-size:.92rem}
+.expo b{font-family:var(--f-mono);font-size:1.15rem;color:var(--white)}
+.meter{height:6px;background:var(--sunk);border-radius:3px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--accent);border-radius:3px}
+.quotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px 18px}
+.q .tk{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;color:var(--muted)}
+.q .px{font-family:var(--f-display);font-weight:700;font-stretch:108%;font-size:1.45rem;color:var(--white)}
+.q .ch{font-family:var(--f-mono);font-size:.8rem;display:flex;gap:10px;flex-wrap:wrap}
+.up{color:var(--bull)} .dn{color:var(--bear)}
+.facts{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 14px;font-size:.88rem;border-top:1px solid var(--line);padding-top:12px;margin:0}
+.facts dt{color:var(--ink2)} .facts dd{margin:0;font-family:var(--f-mono);text-align:right;color:var(--ink)}
+.strip{display:grid;gap:6px}
+.strip .bar{display:flex;height:14px;border-radius:3px;overflow:hidden;background:var(--sunk)}
+.strip .bar i{display:block;height:100%}
+.strip .ax{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:.7rem;color:var(--muted)}
+.go{display:inline-flex;align-items:center;gap:8px;justify-self:start;text-decoration:none;color:var(--accent-ink);background:var(--accent);font-weight:600;font-size:.9rem;padding:9px 14px;border-radius:6px}
+.go:hover{filter:brightness(1.08)} .go:focus-visible{outline:2px solid var(--white);outline-offset:2px}
+.sec{display:grid;gap:12px}
+.sec h2{font-size:1.2rem;font-weight:700;font-stretch:110%;color:var(--white)}
+.sec .note{font-size:.82rem;color:var(--muted);max-width:90ch}
+.tblwrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.9rem;background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+th{font-family:var(--f-mono);font-weight:500;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:left;padding:10px 12px;border-bottom:1px solid var(--line2);white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid var(--line)} tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+td.hl{color:var(--white);font-weight:600}
+.rules{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+@media (max-width:820px){.rules{grid-template-columns:minmax(0,1fr)}}
+.rule{display:grid;gap:8px;align-content:start;border-top:1px solid var(--line2);padding-top:12px}
+.rule h3{font-size:1rem;font-weight:600;color:var(--white)}
+.rule ul{margin:0;padding-left:1.1em;display:grid;gap:5px;color:var(--ink2);font-size:.9rem}
+.rule li b{color:var(--ink);font-weight:600}
+.err{color:var(--bear)}
+</style>
+<style id="ox-css">
+.wrap,.sec{grid-template-columns:minmax(0,1fr)}
+.ox{display:grid;gap:18px}
+.ox .oxp{background:var(--surface);border:1px solid var(--line);border-radius:var(--r,6px);padding:18px;min-width:0;display:grid;gap:14px}
+.ox .oxh{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 16px}
+.ox .oxh h2{font-size:1.25rem;font-weight:700;font-stretch:112%;letter-spacing:-.01em;margin:0}
+.ox .oxh h2 small{font-size:.8rem;font-weight:500;color:var(--muted);font-stretch:100%;letter-spacing:0;margin-left:6px}
+.ox .lab{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.ox .stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px 14px}
+@media (max-width:860px){.ox .stats{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:520px){.ox .stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.ox .st{border-top:1px solid var(--line);padding-top:8px;min-width:0}
+.ox .st b{display:block;font-family:var(--f-mono);font-weight:600;font-size:1.05rem;font-variant-numeric:tabular-nums}
+.ox .st span{display:block;font-size:.75rem;color:var(--muted)}
+.ox .st i{font-style:normal;font-size:.72rem;color:var(--ink2)}
+.ox .read{max-width:72ch;font-size:.95rem;color:var(--ink);margin:0}
+.ox .seg{display:inline-flex;border:1px solid var(--line2);border-radius:6px;overflow:hidden}
+.ox .seg button{font:inherit;font-size:.78rem;font-family:var(--f-mono);background:transparent;color:var(--ink2);border:0;padding:5px 10px;cursor:pointer}
+.ox .seg button[aria-pressed="true"]{background:var(--sunk);color:var(--white)}
+.ox .seg button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.ox .lad{display:grid;gap:2px;font-family:var(--f-mono);font-size:.76rem;font-variant-numeric:tabular-nums}
+.ox .row{display:grid;grid-template-columns:52px minmax(0,1fr) 62px minmax(0,1fr) 52px;align-items:center;gap:6px;min-height:17px}
+.ox.btc .row{grid-template-columns:48px minmax(0,1fr) 98px minmax(0,1fr) 48px}
+.ox .row .pv{text-align:right;color:var(--ink2)} .ox .row .cv{color:var(--ink2)}
+.ox .row .pb,.ox .row .cb{height:11px;position:relative}
+.ox .row .pb span{position:absolute;right:0;top:0;bottom:0;background:var(--bear);border-radius:2px 0 0 2px;opacity:.85}
+.ox .row .cb span{position:absolute;left:0;top:0;bottom:0;background:var(--bull);border-radius:0 2px 2px 0;opacity:.85}
+.ox .row .k{text-align:center;color:var(--ink);white-space:nowrap}
+.ox .row .k small{color:var(--muted);font-size:.68rem}
+.ox .row.wall .k{color:var(--white);font-weight:600}
+.ox .row.wall .pb span,.ox .row.wall .cb span{opacity:1}
+.ox .spot{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:8px;color:var(--white);font-size:.72rem;margin:2px 0}
+.ox .spot::before,.ox .spot::after{content:"";height:1px;background:var(--line2)}
+.ox .legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.78rem;color:var(--ink2);align-items:center}
+.ox .legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.ox details{font-size:.85rem;color:var(--ink2)} .ox details p{margin:.5em 0 0;max-width:80ch}
+.ox summary{cursor:pointer;color:var(--ink2)} .ox summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.ox .twocol{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:18px;align-items:start}
+@media (max-width:900px){.ox .twocol{grid-template-columns:minmax(0,1fr)}}
+.ox table{border-collapse:collapse;width:100%;font-size:.84rem}
+.ox th{font-family:var(--f-mono);font-weight:500;font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:left;padding:6px 8px;border-bottom:1px solid var(--line2);white-space:nowrap}
+.ox td{padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+.ox td.n,.ox th.n{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.ox .tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.ox .pos{color:var(--bull)} .ox .neg{color:var(--bear)}
+.ox .err{color:var(--bear)}
+.ox a.oxl{color:var(--accent);text-decoration:none;font-weight:600} .ox a.oxl:hover{text-decoration:underline}
+</style>
+
+<div class="wrap">
+  <nav class="site" aria-label="Site"><a class="wordmark" href="index.html">Kerdos <span>Capital</span></a><div class="links"><a href="index.html" aria-current="page">Overview</a><a href="portfolio.html">Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a></div></nav>
+  <section class="intro">
+    <div class="label" id="asof">Loading the latest reports…</div>
+    <h1>Regime Desk</h1>
+    <p>Three rules-based models that set how much a hypothetical portfolio holds in US stocks (SPY and QQQ), Bitcoin, and a basket of the 25 highest-beta Nasdaq-100 stocks. Each reads trend, momentum and macro data after the close and sets exposure to fully invested, half, or cash.</p>
+    <div><span class="hyp">Hypothetical models · not investment advice</span></div>
+  </section>
+  <section class="desks" id="desks" aria-label="Today’s calls"></section>
+  <section class="sec">
+    <h2>Hypothetical model portfolio</h2>
+    <div id="mport"></div>
+  </section>
+            <!--ox-->
+  <section class="sec ox-wrap"><h2>Options positioning</h2>
+    <div class="ox" id="ox" data-assets="SPY,QQQ,IBIT" data-mode="summary"></div></section>
+<script id="ox-js">
+(function(){
+const mount=document.getElementById('ox'); if(!mount) return;
+const want=mount.dataset.assets.split(','), mode=mount.dataset.mode||'full';
+const NAME={SPY:'SPY',QQQ:'QQQ',IBIT:'IBIT'};
+const PAGE={SPY:'stocks.html',QQQ:'stocks.html',IBIT:'bitcoin.html'};
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const dshort=s=>{const [y,m,d]=s.split('-');return MON[+m-1]+' '+(+d)};
+const dlong=s=>{const [y,m,d]=s.split('-');return MON[+m-1]+' '+(+d)+', '+y};
+const kfmt=(k,step)=>step<5?(Number.isInteger(k)?String(k):k.toFixed(1)):k.toFixed(0);
+const px=v=>v==null?'\u2014':(v>=100?v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}):v.toFixed(2));
+const cnt=v=>v==null?'\u2014':v>=1e6?(v/1e6).toFixed(v>=1e7?1:2)+'M':v>=1e4?Math.round(v/1e3)+'k':v>=1e3?(v/1e3).toFixed(1)+'k':String(v);
+const usdk=v=>'$'+(v>=1e5?Math.round(v/1e3):(v/1e3).toFixed(1))+'k';
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+function moneyB(v){const a=Math.abs(v);const s=a>=1e9?(a/1e9).toFixed(2)+'B':a>=1e6?(a/1e6).toFixed(0)+'M':(a/1e3).toFixed(0)+'k';return (v<0?'\u2212$':'+$')+s}
+fetch('opts/report.json').then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(R=>{
+  const have=want.filter(s=>R.assets[s]);
+  if(!have.length){mount.innerHTML='';return}
+  if(mode==='summary') return summary(R,have);
+  fetch('opts/history.csv').then(r=>r.ok?r.text():'').catch(()=>'').then(h=>full(R,have,parseH(h)));
+}).catch(e=>{mount.innerHTML='<p class="err">Options data did not load ('+esc(e.message)+').</p>'});
+function parseH(t){if(!t)return[];const L=t.trim().split(/\r?\n/),H=L.shift().split(',');return L.map(l=>{const v=l.split(','),o={};H.forEach((h,i)=>o[h]=v[i]);return o})}
+function gammaTxt(o){
+  if(o.gamma_flip!=null){const above=o.spot>=o.gamma_flip;return {b:above?'Positive':'Negative',cls:above?'pos':'neg',sub:'flips near '+px(o.gamma_flip)}}
+  return {b:o.gex>0?'Positive':'Negative',cls:o.gex>0?'pos':'neg',sub:'no flip in range'}
+}
+function prevNote(o,key,val){const p=o.prev;if(!p||p[key]==null||val==null||p[key]===val)return '';return ` <i>(was ${px(p[key])})</i>`}
+function full(R,have,H){
+  const btc=have.includes('IBIT');
+  mount.classList.toggle('btc',btc);
+  mount.innerHTML=have.map(s=>panel(R,R.assets[s],H.filter(h=>h.sym===s))).join('')+method(R);
+  have.forEach(s=>{
+    const box=mount.querySelector(`[data-ox="${s}"]`);
+    box.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{
+      box.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));
+      box.querySelector('.lad').innerHTML=ladder(R.assets[s],b.dataset.e);
+    }));
+  });
+}
+function panel(R,o,H){
+  const g=gammaTxt(o), r=o.btc_per_share;
+  const btcs=k=>r?` <small>${usdk(k*r)}</small>`:'';
+  const pw=o.put_wall,cw=o.call_wall;
+  const em=o.em_week!=null?`\u00b1${px(o.em_week)}`:'\u2014';
+  const stats=[
+    ['Put wall',pw?kfmt(pw.strike,o.step)+prevNote(o,'put_wall',pw.strike):'\u2014',pw?`${cnt(pw.oi)} puts${r?' \u00b7 BTC '+usdk(pw.strike*r):''}`:''],
+    ['Call wall',cw?kfmt(cw.strike,o.step)+prevNote(o,'call_wall',cw.strike):'\u2014',cw?`${cnt(cw.oi)} calls${r?' \u00b7 BTC '+usdk(cw.strike*r):''}`:''],
+    ['Puts per call',o.all_pc!=null?o.all_pc.toFixed(2)+prevNote(o,'all_pc',o.all_pc):'\u2014',`all expiries \u00b7 near price ${o.win_pc!=null?o.win_pc.toFixed(2):'\u2014'}`],
+    ['Dealer gamma',`<span class="${g.cls}">${g.b}</span>`,g.sub+(r&&o.gamma_flip!=null?' \u00b7 BTC '+usdk(o.gamma_flip*r):'')],
+    ['1-week range',em,o.em_week!=null?`${(o.em_week/o.spot*100).toFixed(1)}% \u00b7 IV30 ${(o.iv30*100).toFixed(1)}%`:'']
+  ].map(([l,b,s])=>`<div class="st"><span>${l}</span><b>${b}</b><span>${s}</span></div>`).join('');
+  const segs=['all',...o.expiries].map((e,i)=>`<button type="button" data-e="${e}" aria-pressed="${i===0}">${e==='all'?'Both':dshort(e)}</button>`).join('');
+  const hist=H.length>1?histTable(o,H):'';
+  return `<article class="oxp" data-ox="${o.sym}">
+  <div class="oxh"><h2>Options positioning<small>${o.sym}${r?' \u00b7 Bitcoin proxy':''}</small></h2><span class="lab">${dlong(R.asof)} close \u00b7 ${o.expiries.map(dshort).join(' &amp; ')} expiries</span></div>
+  <div class="stats">${stats}</div>
+  <p class="read">${esc(o.read)}</p>
+  <div class="twocol"><div>
+    <div class="oxh" style="margin-bottom:8px"><div class="legend"><span><i style="background:var(--bear)"></i>Put open interest</span><span><i style="background:var(--bull)"></i>Call open interest</span>${r?'<span>Strike \u00b7 BTC equivalent</span>':''}</div><div class="seg" role="group" aria-label="Expiration">${segs}</div></div>
+    <div class="lad">${ladder(o,'all')}</div>
+  </div><div>${hist||topTable(o)}</div></div>
+</article>`;
+}
+function ladder(o,e){
+  const r=o.btc_per_share, ex=e==='all'?o.expiries:[e];
+  const rows=o.profile.map(p=>({k:p.k,c:ex.reduce((a,x)=>a+(p.c[x]||0),0),p:ex.reduce((a,x)=>a+(p.p[x]||0),0)}));
+  const mx=Math.max(1,...rows.map(x=>Math.max(x.c,x.p)));
+  const sk=o.step, cwB=o.call_wall?Math.round(o.call_wall.strike/sk)*sk:null, pwB=o.put_wall?Math.round(o.put_wall.strike/sk)*sk:null;
+  let html='',placed=false;
+  const desc=rows.slice().sort((a,b)=>b.k-a.k);
+  for(const x of desc){
+    if(!placed&&x.k<o.spot){html+=`<div class="spot">Close ${px(o.spot)}</div>`;placed=true}
+    const wall=(x.k===cwB||x.k===pwB)?' wall':'';
+    html+=`<div class="row${wall}"><span class="pv">${x.p?cnt(x.p):''}</span><span class="pb"><span style="width:${(x.p/mx*100).toFixed(1)}%"></span></span><span class="k">${kfmt(x.k,sk)}${r?' <small>'+usdk(x.k*r)+'</small>':''}</span><span class="cb"><span style="width:${(x.c/mx*100).toFixed(1)}%"></span></span><span class="cv">${x.c?cnt(x.c):''}</span></div>`;
+  }
+  if(!placed)html+=`<div class="spot">Close ${px(o.spot)}</div>`;
+  return html;
+}
+function topTable(o){
+  const r=o.btc_per_share;
+  const rows=o.top_strikes.map(t=>`<tr><td class="n">${kfmt(t.strike,o.step)}${r?' <span class="muted">'+usdk(t.strike*r)+'</span>':''}</td><td class="n">${cnt(t.put)}</td><td class="n">${cnt(t.call)}</td><td class="n">${cnt(t.total)}</td></tr>`).join('');
+  const be=o.expiries.map(e=>`<tr><td>${dshort(e)}</td><td class="n">${cnt(o.by_exp[e].put)}</td><td class="n">${cnt(o.by_exp[e].call)}</td><td class="n">${(o.by_exp[e].put/Math.max(1,o.by_exp[e].call)).toFixed(2)}</td></tr>`).join('');
+  return `<div class="lab" style="margin-bottom:6px">Largest strikes</div><div class="tw"><table><thead><tr><th class="n">Strike</th><th class="n">Puts</th><th class="n">Calls</th><th class="n">Total</th></tr></thead><tbody>${rows}</tbody></table></div>
+  <div class="lab" style="margin:14px 0 6px">By expiry, near the price</div><div class="tw"><table><thead><tr><th>Expiry</th><th class="n">Puts</th><th class="n">Calls</th><th class="n">Puts/call</th></tr></thead><tbody>${be}</tbody></table></div>
+  <p class="muted" style="font-size:.8rem;margin-top:10px">A daily history of these levels builds from ${dlong(o.since||'2026-10-23')}.</p>`;
+}
+function histTable(o,H){
+  const rows=H.slice(-10).reverse().map(h=>`<tr><td>${dshort(h.date)}</td><td class="n">${px(+h.spot)}</td><td class="n">${h.put_wall?kfmt(+h.put_wall,o.step):'\u2014'}</td><td class="n">${h.call_wall?kfmt(+h.call_wall,o.step):'\u2014'}</td><td class="n">${h.all_pc||'\u2014'}</td><td class="n">${h.gamma_flip?px(+h.gamma_flip):'\u2014'}</td></tr>`).join('');
+  return `<div class="lab" style="margin-bottom:6px">Recent sessions</div><div class="tw"><table><thead><tr><th>Date</th><th class="n">Close</th><th class="n">Put wall</th><th class="n">Call wall</th><th class="n">Puts/call</th><th class="n">Flip</th></tr></thead><tbody>${rows}</tbody></table></div>`+topTable(o).replace(/<p class="muted"[\s\S]*<\/p>/,'');
+}
+function method(R){
+  const w=R.method.windows;
+  return `<details class="oxp"><summary>How the options panel is built, and what it cannot tell you</summary>
+  <p>Open interest is the number of option contracts still open at each strike. It comes from Robinhood option quotes for the next two standard monthly expirations, using strikes within \u00b1${Math.round(w.SPY*1000)/10}% of the close for SPY, \u00b1${Math.round(w.QQQ*100)}% for QQQ and \u00b1${Math.round(w.IBIT*100)}% for IBIT (every strike near the price, round strikes further out). \u201cPuts per call, all expiries\u201d is Robinhood\u2019s total across every expiration. The OCC updates open interest once a day, so it typically reflects positions at the prior session\u2019s close.</p>
+  <p>The put wall and call wall are the strikes below and above the close with the most put and call open interest. Large open interest shows where positions are; it does not say whether they are hedges or bets, or that price will stop there.</p>
+  <p>Dealer gamma is an estimate in dollars per 1% move, under the common assumption that market makers hold the other side of customers\u2019 positions: long the calls and short the puts. Positive gamma means their hedging tends to lean against moves; negative means it tends to push with them. The assumption is often wrong strike by strike, so treat the sign and the flip level as rough.</p>
+  <p>Bitcoin levels are IBIT strikes converted at the day\u2019s ratio of the Bitcoin close to IBIT\u2019s close (about ${R.assets.IBIT&&R.assets.IBIT.btc_per_share?Math.round(R.assets.IBIT.btc_per_share).toLocaleString('en-US'):'\u2014'} dollars of Bitcoin per share), so they are approximate.</p>
+  <p>This panel is context only. It does not change any model\u2019s exposure and has no backtest: Robinhood does not provide a reliable history of open interest, so the panel\u2019s own history starts on Oct 23, 2026 and grows each session.</p>
+</details>`;
+}
+function summary(R,have){
+  const rows=have.map(s=>{const o=R.assets[s],g=gammaTxt(o),r=o.btc_per_share;
+    const lv=(k)=>k==null?'\u2014':kfmt(k,o.step)+(r?' <span class="muted">'+usdk(k*r)+'</span>':'');
+    return `<tr><td><a class="oxl" href="${PAGE[s]}">${s}</a>${r?' <span class="muted">BTC</span>':''}</td><td class="n">${px(o.spot)}</td><td class="n">${lv(o.put_wall&&o.put_wall.strike)}</td><td class="n">${lv(o.call_wall&&o.call_wall.strike)}</td><td class="n">${o.all_pc!=null?o.all_pc.toFixed(2):'\u2014'}</td><td class="n">${o.win_pc!=null?o.win_pc.toFixed(2):'\u2014'}</td><td class="n"><span class="${g.cls}">${g.b}</span></td><td class="n">${o.em_week!=null?'\u00b1'+(o.em_week/o.spot*100).toFixed(1)+'%':'\u2014'}</td></tr>`}).join('');
+  mount.innerHTML=`<div class="tw"><table><thead><tr><th>Asset</th><th class="n">Close</th><th class="n">Put wall</th><th class="n">Call wall</th><th class="n">Puts/call, all</th><th class="n">Near price</th><th class="n">Dealer gamma</th><th class="n">1-wk range</th></tr></thead><tbody>${rows}</tbody></table></div>
+  <p class="muted" style="font-size:.82rem;margin-top:8px">Where open interest sits in the next two monthly expirations, as of the ${dlong(R.asof)} close. Walls are the strikes below and above the close with the most put and call open interest. Context only, not part of the models; each desk page has the full ladder and how it is built.</p>`;
+}
+})();
+</script>
+<!--/ox-->
+  <section class="sec">
+    <h2>Track record</h2>
+    <div class="tblwrap" id="record"></div>
+    <p class="note">Backtests with no look-ahead: positions taken at the next close, cash earns the 3-month T-bill, trading costs included, dividends approximated for SPY and QQQ. Stocks since 2003, Bitcoin since 2015. The high-beta basket is rebuilt from today’s Nasdaq-100 list, so its history only holds companies that made it into the index (survivorship bias) and overstates what a real-time list would have earned; the High Beta page has an unbiased check. The rules were chosen with this history in view, so treat the numbers as in-sample. Past and backtested results do not guarantee future results.</p>
+  </section>
+  <section class="sec">
+    <h2>How exposure is set</h2>
+    <div class="rules">
+      <div class="rule"><h3>US stocks</h3><ul>
+        <li><b>Bullish, Neutral: 100%.</b> The composite score is positive or mixed.</li>
+        <li><b>Correction: 50%.</b> The score turns Bearish but macro does not confirm it.</li>
+        <li><b>Bearish: 0%.</b> The score is Bearish and macro confirms it. Cash earns T-bills.</li>
+        <li><b>Recovery: 100%.</b> After a 20% decline SPY reclaims a rising 50-day average, or SPY rallies 10% off its 20-session low while inflation is under 4%.</li>
+      </ul></div>
+      <div class="rule"><h3>Bitcoin</h3><ul>
+        <li><b>Bullish: 100%.</b> The composite score is positive.</li>
+        <li><b>Neutral: 50%.</b> Mixed signals.</li>
+        <li><b>Bearish: 0%.</b> The score is negative. Cash earns T-bills.</li>
+        <li><b>Correction 50%, Recovery 100%.</b> Bottoming rules that apply only once Bitcoin is 50% or more below its high.</li>
+      </ul></div>
+      <div class="rule"><h3>High beta</h3><ul>
+        <li><b>S&amp;P backdrop.</b> Starts from the stock model: Bullish, Neutral and Recovery 100%, Correction 50%, Bearish 0%. The rules below let high beta cut on its own.</li>
+        <li><b>Lagging: 50%.</b> High beta is clearly lagging the S&amp;P 500 (basket vs SPY), even when the market model is Bullish.</li>
+        <li><b>Crash: 50%.</b> The basket falls 12% or more in 10 sessions, whatever the market model says; back to the market call on a close above the basket’s close 5 sessions earlier.</li>
+        <li><b>Breakdown: 0%.</b> The market model is Neutral or in Correction and the basket closes below its own 200-day average.</li>
+        <li><b>The basket.</b> The 25 Nasdaq-100 stocks with the highest beta to QQQ over two years, equal weight, re-ranked each quarter.</li>
+        <li><b>Not in the model portfolio.</b> A separate desk for a high-risk sleeve.</li>
+      </ul></div>
+    </div>
+  </section>
+  <footer class="foot pub">
+    <div class="ft"><a class="wordmark" href="index.html">Kerdos <span>Capital</span></a><nav class="fl" aria-label="Footer"><a href="index.html">Overview</a><a href="portfolio.html">Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a></nav></div>
+    <div class="disc">
+      <p><b>Important information.</b> Kerdos Capital is an independent research project that publishes rules-based market models for education and discussion. Nothing on this site is investment, tax or legal advice, or a recommendation to buy or sell any security or digital asset. The model portfolio is hypothetical: it manages no money, and its daily changes are not instructions to trade.</p>
+      <p>Backtested results are hypothetical. They were computed with hindsight, from rules chosen with that history in view, and they leave out taxes and most real-world trading frictions. Past and backtested performance does not guarantee future results. Bitcoin and high-beta stocks are highly volatile, and any investment can lose money. Do your own research, or speak with a licensed professional, before investing.</p>
+      <p>Data: Robinhood (prices, index levels, options open interest), FRED, Robert Shiller and CME CF Bitcoin Reference Rate via Robinhood. Prices may be delayed or contain errors. The models update after each US market close.</p>
+    </div>
+  </footer>
+</div>
+
+<script>
+(()=>{
+const $=s=>document.querySelector(s);
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fmtD=d=>{const t=new Date(d+'T00:00:00Z');return MON[t.getUTCMonth()]+' '+t.getUTCDate()+', '+t.getUTCFullYear()};
+const sgn=(v,d=1)=>v==null||isNaN(v)?'—':(v>0?'+':v<0?'−':'')+Math.abs(v).toFixed(d)+'%';
+const cls=v=>v>0?'up':v<0?'dn':'';
+const usd=(v,d=2)=>v==null?'—':'$'+v.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+const pc=(v,d=1)=>v==null?'—':(v*100).toFixed(d)+'%';
+const pcs=(v,d=0)=>v==null?'—':(v<0?'−':'')+Math.abs(v*100).toFixed(d)+'%';
+const csv=t=>{const[h,...r]=t.trim().split(/\r?\n/);const k=h.split(',');return r.map(x=>{const c=x.split(',');const o={};k.forEach((kk,i)=>o[kk]=c[i]);return o})};
+const BAND={Bullish:'var(--bull)',Recovery:'var(--bull)',Neutral:'#5a5f6e',Correction:'#3a3f4d',Bearish:'var(--bear)',Breakdown:'var(--bear)',Crash:'#3a3f4d',Lagging:'#3a3f4d'};
+function strip(H,ex){const end=Date.parse(H[H.length-1].date);const rows=H.filter(r=>Date.parse(r.date)>end-365*864e5);const segs=[];let cur=null;rows.forEach(r=>{if(!cur||cur.g!==r.regime){cur={g:r.regime,n:0};segs.push(cur)}cur.n++});
+  return `<div class="strip"><div class="label">Last 12 months</div><div class="bar" role="img" aria-label="Regime over the last 12 months">${segs.map(s=>`<i title="${s.g} · ${s.n} days" style="width:${s.n/rows.length*100}%;background:${BAND[s.g]||'var(--sunk)'};opacity:${ex[s.g]===1?1:ex[s.g]===.5?.9:1}"></i>`).join('')}</div><div class="ax"><span>${fmtD(rows[0].date)}</span><span>${fmtD(rows[rows.length-1].date)}</span></div></div>`}
+function card(o){return `<article class="desk"><div class="top"><h2>${o.name}</h2><span class="label">${o.asof}</span></div>
+  <div><div class="call c-${o.reg}">${o.reg}</div></div>
+  <div class="expo"><span>Exposure</span><b>${Math.round(o.exp*100)}%</b><span>since ${fmtD(o.since)}</span></div>
+  <div class="meter" aria-hidden="true"><i style="width:${o.exp*100}%"></i></div>
+  <div class="quotes">${o.quotes}</div>
+  <dl class="facts">${o.facts.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join('')}</dl>
+  ${o.strip}
+  <a class="go" href="${o.href}">Open the ${o.short} desk <span aria-hidden="true">→</span></a></article>`}
+Promise.all(['stocks/report.json','bitcoin/report.json','highbeta/report.json'].map(u=>fetch(u).then(r=>r.json())).concat(['stocks/history.csv','bitcoin/history.csv','highbeta/history.csv'].map(u=>fetch(u).then(r=>r.text()))))
+.then(([M,B,G,mh,bh,gh])=>{
+  const hbh=csv(gh).filter(r=>r.regime);
+  $('#asof').textContent=`Stocks and high beta as of ${fmtD(M.asof)} close · Bitcoin as of ${fmtD(B.asof)} close`;
+  const q=(tk,p,c)=>`<div class="q"><div class="tk">${tk}</div><div class="px">${usd(p)}</div><div class="ch"><span class="${cls(c.d1)}">${sgn(c.d1)} 1d</span><span class="${cls(c.ytd)}">${sgn(c.ytd)} YTD</span></div></div>`;
+  const RB=M.rebound||{};
+  const mf=[['Composite score',(M.score>0?'+':'')+M.score.toFixed(2)],['Chance of a 10% drop in 6 months at similar scores',M.analog.dd10+'%'],
+    ['Macro group vs the cash gate',`${M.macro_gate.value.toFixed(2)} / ${M.macro_gate.threshold}`]];
+  if(M.exposure<1&&RB.cpi_ok)mf.push(['Rebound to 100% on a SPY close at or above',usd(RB.low20*1.1)]);
+  const bf=[['Composite score',(B.score>0?'+':'')+B.score.toFixed(2)],['Distance from the all-time high',sgn(B.cycle.dd,0)],
+    ['Turns Bullish above / Bearish below',`+${B.thresholds.bull} / ${B.thresholds.bear}`]];
+  $('#desks').innerHTML=card({name:'US stocks · SPY & QQQ',asof:fmtD(M.asof),reg:M.regime,exp:M.exposure,since:M.regime_since,quotes:q('SPY',M.spy,M.spy_chg)+q('QQQ',M.qqq,M.qqq_chg),facts:mf,strip:strip(csv(mh),M.exposure_map),href:'stocks.html',short:'stocks'})
+   +card({name:'Bitcoin',asof:fmtD(B.asof),reg:B.regime,exp:B.exposure,since:B.regime_since,quotes:`<div class="q"><div class="tk">BTC</div><div class="px">${usd(B.price,0)}</div><div class="ch"><span class="${cls(B.chg1)}">${sgn(B.chg1)} 1d</span><span class="${cls(B.chg7)}">${sgn(B.chg7)} 7d</span><span class="${cls(B.ytd)}">${sgn(B.ytd)} YTD</span></div></div>`,facts:bf,strip:strip(csv(bh),B.exposure_map),href:'bitcoin.html',short:'Bitcoin'})
+   +card({name:'High beta · top 25',asof:fmtD(G.asof),reg:G.regime,exp:G.exposure,since:G.regime_since,quotes:`<div class="q"><div class="tk">Basket</div><div class="px">${G.level.toFixed(2)}</div><div class="ch"><span class="${cls(G.chg.d1)}">${sgn(G.chg.d1*100)} 1d</span><span class="${cls(G.chg.ytd)}">${sgn(G.chg.ytd*100,0)} YTD</span></div></div>`,facts:[['Strength vs S&P 500',(G.strength||{}).state+' · '+(((G.strength||{}).score||0)<0?'−':'+')+Math.abs((G.strength||{}).score||0).toFixed(2)],['Basket vs its 200-day average',sgn(G.trend.vs200*100)],['Basket, last 10 sessions (cut at −12%)',sgn(((G.crash||{}).r10||0)*100)]],strip:strip(hbh,G.exposure_map),href:'highbeta.html',short:'high-beta'});
+  {const W={stocks:.6,btc:.4};const SL=[['US stocks','stocks',M,mh],['Bitcoin','btc',B,bh]];
+   const lc=(H,map)=>{const R=csv(H);let i=R.length-1;const c=R[i].regime;while(i>0&&R[i-1].regime===c)i--;return {today:i===R.length-1,from:i>0?R[i-1].regime:null,to:c,a:i>0?map[R[i-1].regime]:null,b:map[c]}};
+   const rows=SL.map(([n,k,R,H])=>{const t=W[k]*R.exposure;const ch=lc(H,R.exposure_map);const act=ch.today&&ch.a!==ch.b?(ch.b<ch.a?(ch.b===0?'Moves to cash':'Reduces by '+Math.round((1-ch.b/ch.a)*100)+'%'):'Raises to '+(t*100).toFixed(1).replace(/\.0$/,'')+'%'):'No change';
+     return `<tr><td>${n}</td><td class="n">${Math.round(W[k]*100)}%</td><td class="c-${R.regime}" style="font-weight:600">${R.regime}</td><td class="n hl">${(t*100).toFixed(1).replace(/\.0$/,'')}%</td><td>${act}</td></tr>`}).join('');
+   const cash=1-SL.reduce((a,[n,k,R])=>a+W[k]*R.exposure,0);
+   $('#mport').innerHTML=`<div class="tblwrap"><table><thead><tr><th>Slice</th><th class="n">Weight</th><th>Desk call</th><th class="n">Target now</th><th>Model change today</th></tr></thead><tbody>${rows}<tr><td>Cash (T-bills)</td><td class="n">—</td><td class="muted">what is left</td><td class="n hl">${(cash*100).toFixed(1).replace(/\.0$/,'')}%</td><td class="muted">—</td></tr></tbody></table></div><p class="note" style="margin-top:8px">Hypothetical allocation: 60% stocks and 40% Bitcoin, each slice scaled by its desk’s exposure, with the rest in T-bills. It manages no money and is not a recommendation to trade. <a href="portfolio.html">See the rules, calculator and backtest →</a></p>`;}
+  const row=(n,s,b)=>`<tr><td>${n}</td><td class="n hl">${pc(s.cagr)}</td><td class="n">${pc(b.cagr)}</td><td class="n hl">${pcs(s.maxdd)}</td><td class="n">${pcs(b.maxdd)}</td><td class="n">${s.sharpe.toFixed(2)} / ${b.sharpe.toFixed(2)}</td></tr>`;
+  $('#record').innerHTML=`<table><thead><tr><th>Asset</th><th class="n">Model / yr</th><th class="n">Buy & hold / yr</th><th class="n">Model worst drop</th><th class="n">Buy & hold worst</th><th class="n">Sharpe</th></tr></thead><tbody>
+   ${row('SPY since 2003',M.backtest.SPY.strategy,M.backtest.SPY.buyhold)}${row('QQQ since 2003',M.backtest.QQQ.strategy,M.backtest.QQQ.buyhold)}${row('Bitcoin since 2015',B.backtest.strategy,B.backtest.buyhold)}${row('High-beta basket since 2018*',G.backtest.basket.strategy,G.backtest.basket.buyhold)}</tbody></table>`;
+}).catch(e=>{$('#desks').innerHTML=`<p class="err">The latest reports did not load (${e.message}). Reload the page to try again.</p>`});
+})();
+</script>
+
+</body></html>
+</body></html>
