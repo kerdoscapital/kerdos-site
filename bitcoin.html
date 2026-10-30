@@ -71,7 +71,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&display=swap">
 <style>
 /* Layout: a morning desk sheet. Verdict strip first, then the evidence (factors, levels, cycle clock), then the charts, then the research in tabs. */
 /* Kerdos Capital. Deep navy ground, lavender for up, red for down.
@@ -239,20 +239,12 @@ tr.adopt td:first-child{font-weight:600} tr.rej td{color:var(--muted)} tr.sens t
 .mast.sub h1{font-size:1.5rem;font-weight:700;font-stretch:112%;letter-spacing:-.01em;color:var(--white)}
 </style>
 
-<style id="wide-css">
-/* Wide screens: let the layout use the window instead of a fixed 1180px column. */
-@media (min-width:1400px){
-  html body .wrap{max-width:min(1760px,94vw);padding-left:clamp(24px,3vw,64px);padding-right:clamp(24px,3vw,64px)}
-  html body{font-size:16px}
-  html body .intro{max-width:none}
-  html body .intro>p{max-width:86ch}
-}
-@media (min-width:1800px){html body{font-size:17px}}
-</style>
 </head>
 <body>
+<link rel="stylesheet" href="kerdos.css">
+<script src="kerdos.js"></script>
 <div class="wrap" id="app">
-  <nav class="site" aria-label="Site"><a class="wordmark" href="index.html">Kerdos <span>Capital</span></a><div class="links"><a href="index.html">Overview</a><a href="portfolio.html">Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html" aria-current="page">Bitcoin</a><a href="highbeta.html">High Beta</a></div></nav>
+  <header class="k-nav"><div class="k-bar"><a class="k-word" href="index.html" aria-label="Kerdos Capital, overview"><b>Kerdos</b><span>Capital</span></a><button class="k-menu-btn" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 6h12M3 12h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button><nav class="k-links" aria-label="Site"><span class="k-ind" aria-hidden="true"></span><a href="index.html">Overview</a><a href="portfolio.html">Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html" aria-current="page">Bitcoin</a><a href="highbeta.html">High Beta</a></nav></div></header>
   <header class="mast sub">
     <div><h1>Bitcoin</h1><div class="label" id="asof">Daily close · loading</div></div>
     <div class="meta" id="fresh"></div>
@@ -484,30 +476,62 @@ function render(R,S,H,EQ){
     R.regime==='Correction'?`The score is Bearish, but Bitcoin is already ${sgn(V2.dd,0)} below its high and macro (${sgn(V2.macro,2,'')}) is above the ${sgn(V2.bottom_macro,2,'')} line, so the model holds half (Correction) instead of going to cash. It goes fully back in on a close above the 20-week average (${usd(V2.m20w)}).`:'';
   const flip=flip0?flip0:R.regime==='Bullish'?`It drops to Neutral below +${R.thresholds.bull.toFixed(2)} (a fall of ${(R.score-R.thresholds.bull).toFixed(2)}). ${deepTxt}`:R.regime==='Bearish'?`It leaves Bearish above ${sgn(R.thresholds.bear,2,'')} (needs +${(R.thresholds.bear-R.score).toFixed(2)}). ${deepTxt}${V2.deep&&V2.macro<=V2.bottom_macro?' Macro ('+sgn(V2.macro,2,'')+') confirms the signal, so the model stays in cash until price closes above the 20-week average ('+usd(V2.m20w)+').':''}`:`It turns Bullish above +${R.thresholds.bull.toFixed(2)} (needs ${sgn(R.need_bull,2,'')}) and Bearish below ${sgn(R.thresholds.bear,2,'')} (needs ${sgn(R.need_bear,2,'')}). ${deepTxt}`;
   const A=R.analog;
-  M.append(h('section',{class:'panel verdict','aria-label':'Today’s call'},`
-    <div>
-      <div class="label">Today’s regime · 1–3 month outlook</div>
-      <div class="callrow" style="margin-top:6px"><div class="call ${R.regime}">${R.regime}</div></div>
-      <div class="since" style="margin-top:8px">Since ${fmtD(R.regime_since)} (${R.regime_days} day${R.regime_days>1?'s':''})${R.prev_regime?' · previously <span class="pill '+R.prev_regime+'">'+R.prev_regime+'</span>':''}</div>
-      <div class="expo"><span>Model exposure</span><b>${Math.round(R.exposure*100)}%</b></div>
-      <div class="ladder4" aria-label="Exposure by regime">${['Bullish','Recovery','Neutral','Correction','Bearish'].map(k=>{const T={Bullish:'bull',Neutral:'neut',Recovery:'rec',Correction:'corr',Bearish:'bear'}[k];return `<div class="${k===R.regime?'on':''}" style="background:var(--${T}-bg)"><b style="color:var(--${T})">${k}</b>${Math.round(R.exposure_map[k]*100)}% invested</div>`}).join('')}</div>
-      <div class="price"><span class="big">${usd(R.price)}</span><span class="chg ${cls(R.chg1)}">${sgn(R.chg1)} 1d</span><span class="chg ${cls(R.chg7)}">${sgn(R.chg7)} 7d</span><span class="chg ${cls(R.chg30)}">${sgn(R.chg30)} 30d</span><span class="chg ${cls(R.ytd)}">${sgn(R.ytd)} YTD</span></div>
-      <p class="narr">${narr} ${flip}</p>
-    </div>
-    <div>
-      <div class="phead" style="margin-bottom:2px"><span class="label">Composite score (5-day smoothed)</span><span class="mono" style="font-size:.85rem">${R.score>0?'+':''}${R.score.toFixed(3)} · ${R.score_pctile}th pct since 2015</span></div>
-      <div class="gauge" id="gauge"></div>
-      <div class="statrow">
-        <div class="stat"><b>${sgn(A.med30)}</b><span>Median next 30d at similar scores</span></div>
-        <div class="stat"><b>${A.pos30}%</b><span>Share of those 30d windows that rose</span></div>
-        <div class="stat"><b>${sgn(A.med90)}</b><span>Median next 90d (${A.pos90}% rose)</span></div>
-        <div class="stat"><b>±${R.move30}%</b><span>1σ 30-day move at current volatility</span></div>
-      </div>
-      <p class="note" style="margin-top:10px">Similar scores: ${A.n.toLocaleString()} days since 2015 within ±0.10 of today. Their 30-day outcomes ranged ${sgn(A.q10_30)} to ${sgn(A.q90_30)} (10th–90th percentile).</p>
-    </div>`));
-  drawGauge($('#gauge'),R);
-  if(R.notes&&R.notes.length){const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));const safe=u=>/^https:\/\//.test(u||'')?u:'';
-    M.append(h('section',{class:'panel'},`<div class="phead"><h2>Catalysts and headlines</h2><span class="label">context · not part of the score</span></div><ul class="notes">${R.notes.map(n=>`<li>${esc(n.text)}${safe(n.url)?` <a href="${esc(safe(n.url))}" target="_blank" rel="noopener">${esc(n.source||'Source')}</a>`:n.source?` <span class="muted">${esc(n.source)}</span>`:''}</li>`).join('')}</ul>`))}
+  document.documentElement.dataset.regime=R.regime;
+  const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const dl=(v,lab)=>`<span class="k-delta ${cls(v)}">${sgn(v)}<small>${lab}</small></span>`;
+  const RG=['Bullish','Recovery','Neutral','Correction','Bearish'];
+  const T=R.thresholds;const sn=(v,d=3)=>(v>0?'+':v<0?'−':'')+Math.abs(v).toFixed(d);
+  const hero=h('section',{class:'k-hero','aria-label':'Today’s call'});
+  hero.innerHTML=`<div class="k-glow" aria-hidden="true"></div>
+   <div class="panel k-main">
+     <div class="label">Today’s regime · 1–3 month outlook</div>
+     <div><h2 class="k-regime">${R.regime}</h2>
+       <div class="k-since" style="margin-top:14px"><span>Since <span class="num">${fmtD(R.regime_since)}</span> · ${R.regime_days} day${R.regime_days>1?'s':''}</span>${R.prev_regime?`<span class="muted">previously</span><span class="pill ${R.prev_regime}">${R.prev_regime}</span>`:''}</div></div>
+     <div class="k-expo"><span class="v" data-cu="${Math.round(R.exposure*100)}" data-fmt="pct">${Math.round(R.exposure*100)}%</span><span class="bar" aria-hidden="true"><i style="--x:${R.exposure}"></i></span><span class="cap">Model exposure to Bitcoin · the rest earns 3-month T-bills</span></div>
+     <div class="k-seg" role="list" aria-label="Exposure by regime">${RG.map(k=>`<div role="listitem" data-r="${k}" class="${k===R.regime?'on':''}"${k===R.regime?' aria-current="true"':''}><b>${k}</b><span>${Math.round(R.exposure_map[k]*100)}%</span></div>`).join('')}</div>
+     <div class="k-price"><span class="big" data-cu="${R.price}" data-from="${(R.price*0.97).toFixed(0)}" data-fmt="usd">${usd(R.price)}</span><span class="k-pills">${dl(R.chg1,'1D')}${dl(R.chg7,'7D')}${dl(R.chg30,'30D')}${dl(R.ytd,'YTD')}</span></div>
+     ${Kerdos.hist(H)}
+   </div>
+   <div class="panel k-score">
+     <div class="k-score-head"><div><div class="label">Composite score · 5-day smoothed</div><div class="k-score-val" style="margin-top:12px"><span data-cu="${R.score}" data-fmt="snum" data-dec="3">${sn(R.score)}</span><small>${R.score_pctile}th percentile since 2015</small></div></div></div>
+     <div><div id="gauge"></div>
+       <div class="k-gauge-key"><span><i></i>Today <span class="num">${sn(R.score)}</span></span>${R.score_30d_ago!=null?`<span><i class="g"></i>30 days ago <span class="num">${sn(R.score_30d_ago)}</span></span>`:''}<span><i class="t"></i>Regime lines</span></div></div>
+     <div class="k-stats">
+       <div class="k-stat"><b data-cu="${A.med30}" data-fmt="spct" data-dec="1">${sgn(A.med30)}</b><span>Median next 30d</span></div>
+       <div class="k-stat"><b data-cu="${A.pos30}" data-fmt="pct">${A.pos30}%</b><span>Rose over 30d</span></div>
+       <div class="k-stat"><b data-cu="${A.med90}" data-fmt="spct" data-dec="1">${sgn(A.med90)}</b><span>Median next 90d</span></div>
+       <div class="k-stat"><b data-cu="${R.move30}" data-fmt="pm" data-dec="1">±${R.move30}%</b><span>1σ 30-day move</span></div>
+     </div>
+     <div class="k-spark" id="spark"></div>
+     <p class="note" style="margin:0">Stats use ${A.n.toLocaleString()} days since 2015 with a score within ±0.10 of today; their 30-day outcomes ranged ${sgn(A.q10_30)} to ${sgn(A.q90_30)} (10th–90th percentile).</p>
+   </div>`;
+  M.append(hero);
+  Kerdos.gauge($('#gauge'),{value:R.score,ghost:R.score_30d_ago,ticks:[{v:T.bear,label:`Bearish <b>${sn(T.bear,2)}</b>`,side:'l'},{v:T.bull,label:`Bullish <b>${sn(T.bull,2)}</b>`}],label:`Composite score ${sn(R.score,2)} on a scale from −1 to +1. Bullish above ${sn(T.bull,2)}, Bearish below ${sn(T.bear,2)}.`});
+  Kerdos.spark($('#spark'),H.filter(r=>r.score!==''&&r.score!=null).slice(-90).map(r=>({date:r.date,v:+r.score})),{title:'Score · last 90 days',lines:[{v:T.bull,color:css('--c-bull')},{v:T.bear,color:css('--c-bear')}]});
+  /* drivers: one scannable row per group, plus what flips the call */
+  const rd=k=>{const f=F.find(x=>x.key===k);return f?esc(f.reading):''};
+  const word2=v=>v>.35?'Strongly positive':v>.1?'Positive':v<-.35?'Strongly negative':v<-.1?'Negative':'Flat';
+  const DET={
+    trend:`Above <b>${trendAbove} of 3</b> key averages (200-day, 20-week, 50-week).`,
+    macro:((neg.length?`Held back by ${neg.map(f=>PH[f.key][1]+' <span class="muted">('+esc(f.reading)+')</span>').join(' and ')}`:'')+(posm.length?`${neg.length?'; helped by ':'Helped by '}${posm.map(f=>PH[f.key][0]).join(' and ')}`:''))||'No macro input is pulling hard either way.',
+    momentum:`30-day <b>${rd('f_mom30')}</b> · 90-day <b>${rd('f_mom90')}</b> · ${rd('f_rsi')}`,
+    valuation:`${rd('f_200w')} · ${rd('f_mayer')}`,
+    cycle:`${rd('f_cyclephase')} · ${rd('f_season')}`};
+  const KN=['trend','macro','momentum','valuation','cycle'];
+  const ORDER=KN.filter(g=>g in G).concat(Object.keys(G).filter(g=>!KN.includes(g)));
+  const chip=(line,name,isBull)=>{const d=R.score-line;
+    if(isBull)return d<0?`<span class="to-bull">${name} above ${sn(line,2)} · needs <b>${sn(-d,3)}</b></span>`:`<span class="to-bull">${name} line ${sn(line,2)} · <b>${d.toFixed(3)}</b> cushion</span>`;
+    return d>0?`<span class="to-bear">${name} below ${sn(line,2)} · <b>${sn(-d,3)}</b> away</span>`:`<span class="to-bear">${name} line ${sn(line,2)} · needs <b>${sn(-d,3)}</b> to leave</span>`};
+  const flipText=flip0||(R.regime==='Bearish'?deepTxt+(V2.deep&&V2.macro<=V2.bottom_macro?' Macro ('+sgn(V2.macro,2,'')+') confirms the signal, so the model stays in cash until price closes above the 20-week average ('+usd(V2.m20w)+').':''):deepTxt);
+  M.append(h('section',{class:'panel','aria-label':'Why the model reads this way'},`<div class="phead"><h2>Why it reads ${R.regime}</h2><span class="label">group signal −1 … +1</span></div>
+    <div class="k-drivers">${ORDER.map(g=>{const v=G[g];const s=v>.1?'pos':v<-.1?'neg':'flat';const det=DET[g]||F.filter(f=>f.group===g).map(f=>esc(f.reading)).slice(0,3).join(' · ');
+      return `<div class="k-drv" data-s="${s}"><div class="nm"><i></i>${g[0].toUpperCase()+g.slice(1)}<span class="mono muted" style="font-size:11px;font-weight:400">${Math.round(R.group_weights[g]*100)}% wt</span></div><div class="val">${sn(v,2)}</div><div class="tx"><b>${word2(v)}.</b> ${det}</div></div>`}).join('')}</div>
+    <div class="k-flip"><div class="label" style="padding-top:7px">What flips it</div><div style="display:grid;gap:10px"><div class="k-dist">${chip(T.bull,'Bullish',true)}${chip(T.bear,'Bearish',false)}</div><p>${flipText}</p></div></div>`));
+  if(R.notes&&R.notes.length){const safe=u=>/^https:\/\//.test(u||'')?u:'';
+    const arrow='<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.5 8.5l5-5M4.5 3.5h4v4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    const when=t=>{const m=String(t).match(/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.? \d{1,2}(, \d{4})?/);return m?m[0]:''};
+    M.append(h('section',{class:'panel'},`<div class="phead"><h2>Catalysts and headlines</h2><span class="label">context · not part of the score</span></div><ul class="k-news">${R.notes.map(n=>{const u=safe(n.url);const w=when(n.text);
+      return `<li><div><div class="t">${esc(n.text)}</div><span class="when">${esc(n.source||'')}${w?' · '+esc(w):''}</span></div>${u?`<a class="src" href="${esc(u)}" target="_blank" rel="noopener" aria-label="Open source: ${esc(n.source||'article')}">Source ${arrow}</a>`:''}</li>`}).join('')}</ul>`))}
   /* groups + factors */
   const sec2=h('section',{class:'grid2'});M.append(sec2);
   const fpanel=h('div',{class:'panel'});sec2.append(fpanel);

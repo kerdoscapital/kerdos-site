@@ -23,7 +23,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&display=swap">
 <style>
 /* Kerdos Capital. Deep navy ground, lavender for up, red for down.
    Everything else is grey. One dark look by design. */
@@ -180,16 +180,6 @@ tr.adopt td:first-child{font-weight:600} tr.rej td{color:var(--muted)} tr.sens t
 .mast.sub h1{font-size:1.5rem;font-weight:700;font-stretch:112%;letter-spacing:-.01em;color:var(--white)}
 </style>
 
-<style id="wide-css">
-/* Wide screens: let the layout use the window instead of a fixed 1180px column. */
-@media (min-width:1400px){
-  html body .wrap{max-width:min(1760px,94vw);padding-left:clamp(24px,3vw,64px);padding-right:clamp(24px,3vw,64px)}
-  html body{font-size:16px}
-  html body .intro{max-width:none}
-  html body .intro>p{max-width:86ch}
-}
-@media (min-width:1800px){html body{font-size:17px}}
-</style>
 </head>
 <body>
 <style>
@@ -209,8 +199,10 @@ tr.adopt td:first-child{font-weight:600} tr.rej td{color:var(--muted)} tr.sens t
 .tickers{font-family:var(--f-mono);font-size:.78rem;color:var(--muted)}
 .err{color:var(--bear);font-size:.85rem}
 </style>
+<link rel="stylesheet" href="kerdos.css">
+<script src="kerdos.js"></script>
 <div class="wrap" id="app">
-  <nav class="site" aria-label="Site"><a class="wordmark" href="index.html">Kerdos <span>Capital</span></a><div class="links"><a href="index.html">Overview</a><a href="portfolio.html" aria-current="page">Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a></div></nav>
+  <header class="k-nav"><div class="k-bar"><a class="k-word" href="index.html" aria-label="Kerdos Capital, overview"><b>Kerdos</b><span>Capital</span></a><button class="k-menu-btn" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 6h12M3 12h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button><nav class="k-links" aria-label="Site"><span class="k-ind" aria-hidden="true"></span><a href="index.html">Overview</a><a href="portfolio.html" aria-current="page">Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a></nav></div></header>
   <header class="mast sub">
     <div><h1>Model Portfolio</h1><div class="label" id="asof">Loading</div></div>
     <div class="meta"><span class="hyp">Hypothetical</span><span>60% stocks · 40% Bitcoin</span></div>

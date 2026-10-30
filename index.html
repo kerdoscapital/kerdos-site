@@ -1,15 +1,5 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><style id="wide-css">
-/* Wide screens: let the layout use the window instead of a fixed 1180px column. */
-@media (min-width:1400px){
-  html body .wrap{max-width:min(1760px,94vw);padding-left:clamp(24px,3vw,64px);padding-right:clamp(24px,3vw,64px)}
-  html body{font-size:16px}
-  html body .intro{max-width:none}
-  html body .intro>p{max-width:86ch}
-}
-@media (min-width:1800px){html body{font-size:17px}}
-</style>
-</head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
 <style id="pub-css">
 .foot.pub{display:grid;justify-content:stretch;gap:18px;border-top:1px solid var(--line);padding-top:20px;font-size:.8rem;color:var(--muted)}
@@ -29,7 +19,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&display=swap">
 <style>
 /* Kerdos Capital. Deep navy ground, lavender for up, red for down.
    Everything else is grey. One dark look by design. */
@@ -167,8 +157,10 @@ td.hl{color:var(--white);font-weight:600}
 .ox a.oxl{color:var(--accent);text-decoration:none;font-weight:600} .ox a.oxl:hover{text-decoration:underline}
 </style>
 
+<link rel="stylesheet" href="kerdos.css">
+<script src="kerdos.js"></script>
 <div class="wrap">
-  <nav class="site" aria-label="Site"><a class="wordmark" href="index.html">Kerdos <span>Capital</span></a><div class="links"><a href="index.html" aria-current="page">Overview</a><a href="portfolio.html">Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a></div></nav>
+  <header class="k-nav"><div class="k-bar"><a class="k-word" href="index.html" aria-label="Kerdos Capital, overview"><b>Kerdos</b><span>Capital</span></a><button class="k-menu-btn" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 6h12M3 12h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button><nav class="k-links" aria-label="Site"><span class="k-ind" aria-hidden="true"></span><a href="index.html" aria-current="page">Overview</a><a href="portfolio.html">Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a></nav></div></header>
   <section class="intro">
     <div class="label" id="asof">Loading the latest reports…</div>
     <h1>Regime Desk</h1>
@@ -345,8 +337,7 @@ const pc=(v,d=1)=>v==null?'—':(v*100).toFixed(d)+'%';
 const pcs=(v,d=0)=>v==null?'—':(v<0?'−':'')+Math.abs(v*100).toFixed(d)+'%';
 const csv=t=>{const[h,...r]=t.trim().split(/\r?\n/);const k=h.split(',');return r.map(x=>{const c=x.split(',');const o={};k.forEach((kk,i)=>o[kk]=c[i]);return o})};
 const BAND={Bullish:'var(--bull)',Recovery:'var(--bull)',Neutral:'#5a5f6e',Correction:'#3a3f4d',Bearish:'var(--bear)',Breakdown:'var(--bear)',Crash:'#3a3f4d',Lagging:'#3a3f4d'};
-function strip(H,ex){const end=Date.parse(H[H.length-1].date);const rows=H.filter(r=>Date.parse(r.date)>end-365*864e5);const segs=[];let cur=null;rows.forEach(r=>{if(!cur||cur.g!==r.regime){cur={g:r.regime,n:0};segs.push(cur)}cur.n++});
-  return `<div class="strip"><div class="label">Last 12 months</div><div class="bar" role="img" aria-label="Regime over the last 12 months">${segs.map(s=>`<i title="${s.g} · ${s.n} days" style="width:${s.n/rows.length*100}%;background:${BAND[s.g]||'var(--sunk)'};opacity:${ex[s.g]===1?1:ex[s.g]===.5?.9:1}"></i>`).join('')}</div><div class="ax"><span>${fmtD(rows[0].date)}</span><span>${fmtD(rows[rows.length-1].date)}</span></div></div>`}
+function strip(H,ex){return Kerdos.hist(H.map(r=>({date:r.date,regime:r.regime})))}
 function card(o){return `<article class="desk"><div class="top"><h2>${o.name}</h2><span class="label">${o.asof}</span></div>
   <div><div class="call c-${o.reg}">${o.reg}</div></div>
   <div class="expo"><span>Exposure</span><b>${Math.round(o.exp*100)}%</b><span>since ${fmtD(o.since)}</span></div>

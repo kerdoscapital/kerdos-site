@@ -71,7 +71,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&display=swap">
 <style>
 /* Kerdos Capital. Deep navy ground, lavender for up, red for down.
    Everything else is grey. One dark look by design. */
@@ -228,20 +228,12 @@ tr.adopt td:first-child{font-weight:600} tr.rej td{color:var(--muted)} tr.sens t
 .mast.sub h1{font-size:1.5rem;font-weight:700;font-stretch:112%;letter-spacing:-.01em;color:var(--white)}
 </style>
 
-<style id="wide-css">
-/* Wide screens: let the layout use the window instead of a fixed 1180px column. */
-@media (min-width:1400px){
-  html body .wrap{max-width:min(1760px,94vw);padding-left:clamp(24px,3vw,64px);padding-right:clamp(24px,3vw,64px)}
-  html body{font-size:16px}
-  html body .intro{max-width:none}
-  html body .intro>p{max-width:86ch}
-}
-@media (min-width:1800px){html body{font-size:17px}}
-</style>
 </head>
 <body>
+<link rel="stylesheet" href="kerdos.css">
+<script src="kerdos.js"></script>
 <div class="wrap" id="app">
-  <nav class="site" aria-label="Site"><a class="wordmark" href="index.html">Kerdos <span>Capital</span></a><div class="links"><a href="index.html">Overview</a><a href="portfolio.html">Portfolio</a><a href="stocks.html" aria-current="page">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a></div></nav>
+  <header class="k-nav"><div class="k-bar"><a class="k-word" href="index.html" aria-label="Kerdos Capital, overview"><b>Kerdos</b><span>Capital</span></a><button class="k-menu-btn" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 6h12M3 12h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button><nav class="k-links" aria-label="Site"><span class="k-ind" aria-hidden="true"></span><a href="index.html">Overview</a><a href="portfolio.html">Portfolio</a><a href="stocks.html" aria-current="page">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a></nav></div></header>
   <header class="mast sub">
     <div><h1>US Stocks · SPY &amp; QQQ</h1><div class="label" id="asof">Market close · loading</div></div>
     <div class="meta" id="fresh"></div>
@@ -491,25 +483,55 @@ function render(R,S,H,EQ){
   const TOK={Bullish:'bull',Neutral:'neut',Recovery:'rec',Correction:'corr',Bearish:'bear'};
   const lad=['Bullish','Neutral','Recovery','Correction','Bearish'].map(k=>`<div class="${k===R.regime?'on':''}" style="background:var(--${TOK[k]}-bg)"><b style="color:var(--${TOK[k]})">${k}</b>${Math.round(EX[k]*100)}% invested${EN[k]!==EX[k]?` <span class="muted">(${Math.round(EN[k]*100)}% enhanced)</span>`:''}</div>`).join('');
   const A=R.analog;const q=(t,p,c)=>`<div class="quote"><div class="tk">${t}</div><div class="big">${usd2(p)}</div><div class="chg"><span class="${cls(c.d1)}">${sgn(c.d1)} 1d</span><span class="${cls(c.d5)}">${sgn(c.d5)} 1w</span><span class="${cls(c.d21)}">${sgn(c.d21)} 1m</span><span class="${cls(c.ytd)}">${sgn(c.ytd)} YTD</span></div></div>`;
-  M.append(h('section',{class:'panel verdict','aria-label':'Today’s call'},`
-   <div><div class="label">Market regime · 1–3 month risk backdrop</div>
-    <div style="margin-top:6px"><div class="call ${R.regime}">${R.regime}</div></div>
-    <div class="since" style="margin-top:8px">Since ${fmtD(R.regime_since)} (${R.regime_days} days)${R.prev_regime?' · previously <span class="pill '+R.prev_regime+'">'+R.prev_regime+'</span>':''}</div>
-    <div class="expo"><span>Model exposure</span><b>${Math.round(R.exposure*100)}%</b>${R.exposure_enhanced!==R.exposure?`<span class="muted">${Math.round(R.exposure_enhanced*100)}% in the enhanced version</span>`:''}</div>
-    <div class="ladder4" aria-label="Exposure by regime">${lad}</div>
-    <div class="quotes">${q('SPY',R.spy,R.spy_chg)}${q('QQQ',R.qqq,R.qqq_chg)}</div>
-    <p class="narr">${narr} ${flip}</p></div>
-   <div><div class="phead" style="margin-bottom:2px"><span class="label">Composite score (5-day smoothed)</span><span class="mono" style="font-size:.85rem">${R.score>0?'+':''}${R.score.toFixed(3)} · ${ord(R.score_pctile)} percentile since 2003</span></div>
-    <div class="gauge" id="gauge"></div>
-    <div class="statrow">
-     <div class="stat"><b>${A.dd10}%</b><span>Chance of a 10%+ SPY drop within 6 months at similar scores</span></div>
-     <div class="stat"><b>${sgn(A.med63)}</b><span>Median SPY return over the next 3 months</span></div>
-     <div class="stat"><b>${A.pos63}%</b><span>Share of those 3-month windows that rose</span></div>
-     <div class="stat"><b>±${R.vol.move21}%</b><span>1σ 1-month move implied by the VIX</span></div>
-    </div>
-    <p class="note" style="margin-top:10px">Similar scores: ${A.n.toLocaleString()} trading days since 2003 within ±0.08 of today. Their 3-month SPY returns ranged ${sgn(A.q10_63)} to ${sgn(A.q90_63)} (10th–90th percentile). Across all days, 10%+ drops followed ${S.deciles[0].dd}% of the time in the bottom score decile and ${S.deciles[9].dd}% in the top.</p></div>`));
-  drawGauge($('#gauge'),R);
-  if(R.notes&&R.notes.length){const safe=u=>/^https:\/\//.test(u||'')?u:'';M.append(h('section',{class:'panel'},`<div class="phead"><h2>Catalysts and headlines</h2><span class="label">context · not part of the score</span></div><ul class="notes">${R.notes.map(n=>`<li>${esc(n.text)}${safe(n.url)?` <a href="${esc(safe(n.url))}" target="_blank" rel="noopener">${esc(n.source||'Source')}</a>`:''}</li>`).join('')}</ul>`))}
+  document.documentElement.dataset.regime=R.regime;
+  const kn=(v,d=3)=>(v>0?'+':v<0?'−':'')+Math.abs(v).toFixed(d);const T=R.thresholds;
+  const dl=(v,lab)=>`<span class="k-delta ${cls(v)}">${sgn(v)}<small>${lab}</small></span>`;
+  const kq=(t,p,c)=>`<div><div class="tk">${t}</div><span class="big" data-cu="${p}" data-from="${(p*.97).toFixed(2)}" data-fmt="usd" data-dec="2">${usd2(p)}</span><span class="k-pills">${dl(c.d1,'1D')}${dl(c.d5,'1W')}${dl(c.d21,'1M')}${dl(c.ytd,'YTD')}</span></div>`;
+  const RG=['Bullish','Neutral','Recovery','Correction','Bearish'];
+  const hero=h('section',{class:'k-hero','aria-label':'Today’s call'});
+  hero.innerHTML=`<div class="k-glow" aria-hidden="true"></div>
+   <div class="panel k-main">
+     <div class="label">Market regime · 1–3 month risk backdrop</div>
+     <div><h2 class="k-regime">${R.regime}</h2>
+       <div class="k-since" style="margin-top:14px"><span>Since <span class="num">${fmtD(R.regime_since)}</span> · ${R.regime_days} days</span>${R.prev_regime?`<span class="muted">previously</span><span class="pill ${R.prev_regime}">${R.prev_regime}</span>`:''}</div></div>
+     <div class="k-expo"><span class="v" data-cu="${Math.round(R.exposure*100)}" data-fmt="pct">${Math.round(R.exposure*100)}%</span><span class="bar" aria-hidden="true"><i style="--x:${R.exposure}"></i></span><span class="cap">Model exposure to SPY and QQQ${R.exposure_enhanced!==R.exposure?` · ${Math.round(R.exposure_enhanced*100)}% in the enhanced version`:''} · the rest earns T-bills</span></div>
+     <div class="k-seg" role="list" aria-label="Exposure by regime">${RG.map(k=>`<div role="listitem" data-r="${k}" class="${k===R.regime?'on':''}"${k===R.regime?' aria-current="true"':''}><b>${k}</b><span>${Math.round(EX[k]*100)}%</span></div>`).join('')}</div>
+     <div class="k-quotes">${kq('SPY',R.spy,R.spy_chg)}${kq('QQQ',R.qqq,R.qqq_chg)}</div>
+     ${Kerdos.hist(H)}
+   </div>
+   <div class="panel k-score">
+     <div class="k-score-head"><div><div class="label">Composite score · 5-day smoothed</div><div class="k-score-val" style="margin-top:12px"><span data-cu="${R.score}" data-fmt="snum" data-dec="3">${kn(R.score)}</span><small>${ord(R.score_pctile)} percentile since 2003</small></div></div></div>
+     <div><div id="gauge"></div>
+       <div class="k-gauge-key"><span><i></i>Today <span class="num">${kn(R.score)}</span></span>${R.score_21d!=null?`<span><i class="g"></i>1 month ago <span class="num">${kn(R.score_21d)}</span></span>`:''}<span><i class="t"></i>Regime lines</span></div></div>
+     <div class="k-stats">
+       <div class="k-stat"><b data-cu="${A.dd10}" data-fmt="pct">${A.dd10}%</b><span>Odds of a 10% drop · 6M</span></div>
+       <div class="k-stat"><b data-cu="${A.med63}" data-fmt="spct" data-dec="1">${sgn(A.med63)}</b><span>Median SPY · next 3M</span></div>
+       <div class="k-stat"><b data-cu="${A.pos63}" data-fmt="pct">${A.pos63}%</b><span>Rose over 3M</span></div>
+       <div class="k-stat"><b data-cu="${R.vol.move21}" data-fmt="pm" data-dec="1">±${R.vol.move21}%</b><span>1σ move · 1M (VIX)</span></div>
+     </div>
+     <div id="spark"></div>
+     <p class="note" style="margin:0">Stats use ${A.n.toLocaleString()} trading days since 2003 with a score within ±0.08 of today; their 3-month SPY returns ranged ${sgn(A.q10_63)} to ${sgn(A.q90_63)} (10th–90th percentile). Across all days, 10%+ drops followed ${S.deciles[0].dd}% of the time in the bottom score decile and ${S.deciles[9].dd}% in the top.</p>
+   </div>`;
+  M.append(hero);
+  Kerdos.gauge($('#gauge'),{value:R.score,ghost:R.score_21d,ticks:[{v:T.bear,label:`Bearish <b>${kn(T.bear,2)}</b>`,side:'l'},{v:T.bull,label:`Bullish <b>${kn(T.bull,2)}</b>`}],label:`Composite score ${kn(R.score,2)} on a scale from −1 to +1. Bullish above ${kn(T.bull,2)}, Bearish signal below ${kn(T.bear,2)}.`});
+  Kerdos.spark($('#spark'),H.filter(r=>r.score!==''&&r.score!=null).slice(-90).map(r=>({date:r.date,v:+r.score})),{title:'Score · last 90 sessions',lines:[{v:T.bull,color:css('--c-bull')},{v:T.bear,color:css('--c-bear')}]});
+  /* drivers */
+  const E=Kerdos.esc;const word2=v=>v>.35?'Strongly positive':v>.1?'Positive':v<-.35?'Strongly negative':v<-.1?'Negative':'Flat';
+  const ORDER=['trend','momentum','internals','macro','volatility','calendar'].filter(g=>g in G).concat(Object.keys(G).filter(g=>!['trend','momentum','internals','macro','volatility','calendar'].includes(g)));
+  const det=g=>{const fs=F.filter(f=>f.group===g&&f.signal!=null).sort((a,b)=>Math.abs(b.contribution)-Math.abs(a.contribution)).slice(0,2);let t=fs.map(f=>`${E(f.label.replace(/\s*\([^)]*\)$/,''))} <b>${E(f.reading)}</b>`).join(' · ');if(g==='macro')t+=` · cash gate ${kn(MG.threshold,2)} ${MG.confirmed?'<b>confirmed</b>':'not reached'}`;return t};
+  const chip=(line,name,isBull)=>{const d=R.score-line;
+    if(isBull)return d<0?`<span class="to-bull">${name} above ${kn(line,2)} · needs <b>${kn(-d,3)}</b></span>`:`<span class="to-bull">${name} line ${kn(line,2)} · <b>${d.toFixed(3)}</b> cushion</span>`;
+    return d>0?`<span class="to-bear">${name} below ${kn(line,2)} · <b>${kn(-d,3)}</b> away</span>`:`<span class="to-bear">${name} line ${kn(line,2)} · needs <b>${kn(-d,3)}</b> to leave</span>`};
+  const flipText=(R.regime==='Bullish'||R.regime==='Neutral')?gateLine:flip;
+  M.append(h('section',{class:'panel','aria-label':'Why the model reads this way'},`<div class="phead"><h2>Why it reads ${R.regime}</h2><span class="label">group signal −1 … +1</span></div>
+    <div class="k-drivers">${ORDER.map(g=>{const v=G[g];const s=v>.1?'pos':v<-.1?'neg':'flat';
+      return `<div class="k-drv" data-s="${s}"><div class="nm"><i></i>${g[0].toUpperCase()+g.slice(1)}<span class="mono muted" style="font-size:11px;font-weight:400">${Math.round(R.group_weights[g]*100)}% wt</span></div><div class="val">${kn(v,2)}</div><div class="tx"><b>${word2(v)}.</b> ${det(g)}</div></div>`}).join('')}</div>
+    <div class="k-flip"><div class="label" style="padding-top:7px">What flips it</div><div style="display:grid;gap:10px"><div class="k-dist">${chip(T.bull,'Bullish',true)}${chip(T.bear,'Bearish signal',false)}<span>Macro gate ${kn(MG.threshold,2)} · now <b>${kn(MG.value,2)}</b></span></div><p>${flipText}</p></div></div>`));
+  if(R.notes&&R.notes.length){const E=Kerdos.esc;const safe=u=>/^https:\/\//.test(u||'')?u:'';
+    const arrow='<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.5 8.5l5-5M4.5 3.5h4v4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    const when=t=>{const m=String(t).match(/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.? \d{1,2}(, \d{4})?/);return m?m[0]:''};
+    M.append(h('section',{class:'panel'},`<div class="phead"><h2>Catalysts and headlines</h2><span class="label">context · not part of the score</span></div><ul class="k-news">${R.notes.map(n=>{const u=safe(n.url);const w=when(n.text);
+      return `<li><div><div class="t">${E(n.text)}</div><span class="when">${E(n.source||'')}${w?' · '+E(w):''}</span></div>${u?`<a class="src" href="${E(u)}" target="_blank" rel="noopener" aria-label="Open source: ${E(n.source||'article')}">Source ${arrow}</a>`:''}</li>`}).join('')}</ul>`))}
   const sec2=h('section',{class:'grid2'});M.append(sec2);
   const fp=h('div',{class:'panel'});sec2.append(fp);
   fp.innerHTML=`<div class="phead"><h2>What’s driving the score</h2><span class="label">signal −1 … +1</span></div><p class="note" style="margin:-4px 0 10px">The tick on the macro bar is the gate: a Bearish signal only moves to cash when macro is at or left of it.</p>`;

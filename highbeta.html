@@ -23,7 +23,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&display=swap">
 <style>
 /* Kerdos Capital. Deep navy ground, lavender for up, red for down.
    Everything else is grey. One dark look by design. */
@@ -180,16 +180,6 @@ tr.adopt td:first-child{font-weight:600} tr.rej td{color:var(--muted)} tr.sens t
 .mast.sub h1{font-size:1.5rem;font-weight:700;font-stretch:112%;letter-spacing:-.01em;color:var(--white)}
 </style>
 
-<style id="wide-css">
-/* Wide screens: let the layout use the window instead of a fixed 1180px column. */
-@media (min-width:1400px){
-  html body .wrap{max-width:min(1760px,94vw);padding-left:clamp(24px,3vw,64px);padding-right:clamp(24px,3vw,64px)}
-  html body{font-size:16px}
-  html body .intro{max-width:none}
-  html body .intro>p{max-width:86ch}
-}
-@media (min-width:1800px){html body{font-size:17px}}
-</style>
 </head>
 <body>
 <style>.grid2>div>div{min-width:0}
@@ -199,8 +189,10 @@ tr.adopt td:first-child{font-weight:600} tr.rej td{color:var(--muted)} tr.sens t
 .chips{display:flex;flex-wrap:wrap;gap:6px}.chips span{font-family:var(--f-mono);font-size:.78rem;padding:2px 8px;border-radius:5px;background:var(--sunk);color:var(--ink)}
 .caveat{border-left:3px solid var(--line2);padding:4px 0 4px 12px;color:var(--ink2);font-size:.86rem;line-height:1.5}
 </style>
+<link rel="stylesheet" href="kerdos.css">
+<script src="kerdos.js"></script>
 <div class="wrap" id="app">
-  <nav class="site" aria-label="Site"><a class="wordmark" href="index.html">Kerdos <span>Capital</span></a><div class="links"><a href="index.html">Overview</a><a href="portfolio.html">Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html" aria-current="page">High Beta</a></div></nav>
+  <header class="k-nav"><div class="k-bar"><a class="k-word" href="index.html" aria-label="Kerdos Capital, overview"><b>Kerdos</b><span>Capital</span></a><button class="k-menu-btn" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 6h12M3 12h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button><nav class="k-links" aria-label="Site"><span class="k-ind" aria-hidden="true"></span><a href="index.html">Overview</a><a href="portfolio.html">Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html" aria-current="page">High Beta</a></nav></div></header>
   <header class="mast sub">
     <div><h1>High Beta · Top 25 Nasdaq-100</h1><div class="label" id="asof">Market close · loading</div></div>
     <div class="meta" id="fresh"></div>
@@ -322,23 +314,41 @@ function render(R,H,EQ){
   else if(mk==='Bearish') narr=`The stock-market model is Bearish (macro confirmed), so this desk is in cash, whatever the basket’s own trend.`;
   else narr=`The stock-market model is ${mk} and the basket is still above its 200-day average (${pf(T.vs200)}), so this desk follows the market call at ${Math.round(EX[R.regime]*100)}%. A close below ${T.ma200.toFixed(2)} on the basket index would move it to Breakdown (cash).`;
   const q=(t,p,c,fmt)=>`<div class="quote"><div class="tk">${t}</div><div class="big">${fmt(p)}</div><div class="chg"><span class="${cls(c.d1)}">${pf(c.d1)} 1d</span><span class="${cls(c.d5)}">${pf(c.d5)} 1w</span><span class="${cls(c.d21)}">${pf(c.d21)} 1m</span><span class="${cls(c.ytd)}">${pf(c.ytd)} YTD</span></div></div>`;
-  M.append(h('section',{class:'panel verdict','aria-label':'Today’s call'},`
-   <div><div class="label">High-beta regime · S&amp;P backdrop, with high beta’s own veto</div>
-    <div style="margin-top:6px"><div class="call ${R.regime}">${R.regime}</div></div>
-    <div class="since" style="margin-top:8px">Since ${fmtD(R.regime_since)} (${R.regime_days} days)${R.prev_regime?' · previously <span class="pill '+R.prev_regime+'">'+R.prev_regime+'</span>':''}</div>
-    <div class="expo"><span>Model exposure</span><b>${Math.round(R.exposure*100)}%</b><span class="muted">equal weight across the 25 names</span></div>
-    <div class="ladder4" aria-label="Exposure by regime">${lad}</div>
-    <div class="quotes">${q('Basket index · Dec 2017 = 1',R.level,C,v=>v.toFixed(2))}${q('QQQ',R.qqq,R.qqq_chg,usd2)}</div>
-    <p class="narr">${narr}</p></div>
-   <div><div class="label" style="margin-bottom:8px">Inputs today</div>
-    <dl class="kv"><dt>Stock-market model</dt><dd><span class="pill ${mk}">${mk}</span></dd><dt>High beta vs S&amp;P 500 (veto below −${S.threshold})</dt><dd>${S.state} · ${sgn(S.score,2,'')}</dd><dt>Basket vs SPY, last 3 months</dt><dd class="${cls(S.rel_3m)}">${pf(S.rel_3m)}</dd>
-     <dt>Basket vs 200-day average</dt><dd class="${cls(T.vs200)}">${pf(T.vs200)}</dd>
-     <dt>Basket 200-day average (index)</dt><dd>${T.ma200.toFixed(2)}</dd>
-     <dt>Basket from its 52-week high</dt><dd>${pf(T.hi52)}</dd>
-     <dt>Days below the 200-day, last 60</dt><dd>${T.days_below}</dd>
-     <dt>Basket, last 10 sessions (crash rule: −12%)</dt><dd class="${cls(K.r10)}">${pf(K.r10)}</dd><dt>Basket 3-month return</dt><dd class="${cls(C.d63)}">${pf(C.d63)}</dd>
-     <dt>SPHB (S&amp;P 500 high beta), 1 day</dt><dd>${usd2(R.sphb)} ${pf(R.sphb_chg.d1)}</dd>
-     <dt>Next re-rank (first trading day)</dt><dd>${nextQ(R.asof)}</dd></dl></div>`));
+  document.documentElement.dataset.regime=R.regime;
+  const sn=(v,d=2)=>(v>0?'+':v<0?'−':'')+Math.abs(v).toFixed(d);
+  const dl=(v,lab)=>`<span class="k-delta ${cls(v)}">${pf(v)}<small>${lab}</small></span>`;
+  const RG=['Bullish','Neutral','Recovery','Correction','Lagging','Crash','Bearish','Breakdown'];
+  const hero=h('section',{class:'k-hero','aria-label':'Today’s call'});
+  hero.innerHTML=`<div class="k-glow" aria-hidden="true"></div>
+   <div class="panel k-main">
+     <div class="label">High-beta regime · S&amp;P backdrop, with high beta’s own veto</div>
+     <div><h2 class="k-regime">${R.regime}</h2>
+       <div class="k-since" style="margin-top:14px"><span>Since <span class="num">${fmtD(R.regime_since)}</span> · ${R.regime_days} day${R.regime_days===1?'':'s'}</span>${R.prev_regime?`<span class="muted">previously</span><span class="pill ${R.prev_regime}">${R.prev_regime}</span>`:''}</div></div>
+     <div class="k-expo"><span class="v" data-cu="${Math.round(R.exposure*100)}" data-fmt="pct">${Math.round(R.exposure*100)}%</span><span class="bar" aria-hidden="true"><i style="--x:${R.exposure}"></i></span><span class="cap">Model exposure · equal weight across the 25 names</span></div>
+     <div class="k-seg k-seg8" role="list" aria-label="Exposure by regime">${RG.map(k=>`<div role="listitem" data-r="${k}" class="${k===R.regime?'on':''}"${k===R.regime?' aria-current="true"':''}><b>${k}</b><span>${Math.round(EX[k]*100)}%</span></div>`).join('')}</div>
+     <div class="k-quotes">
+       <div><div class="tk">Basket index · Dec 2017 = 1</div><span class="big" data-cu="${R.level}" data-from="${(R.level*.97).toFixed(2)}" data-fmt="num" data-dec="2">${R.level.toFixed(2)}</span><span class="k-pills">${dl(C.d1,'1D')}${dl(C.d5,'1W')}${dl(C.d21,'1M')}${dl(C.ytd,'YTD')}</span></div>
+       <div><div class="tk">QQQ</div><span class="big" data-cu="${R.qqq}" data-from="${(R.qqq*.97).toFixed(2)}" data-fmt="usd" data-dec="2">${usd2(R.qqq)}</span><span class="k-pills">${dl(R.qqq_chg.d1,'1D')}${dl(R.qqq_chg.d5,'1W')}${dl(R.qqq_chg.d21,'1M')}${dl(R.qqq_chg.ytd,'YTD')}</span></div>
+     </div>
+     ${Kerdos.hist(H,{unit:'sessions'})}
+   </div>
+   <div class="panel k-score">
+     <div class="k-score-head"><div><div class="label">High beta vs the S&amp;P 500 · strength score</div><div class="k-score-val" style="margin-top:12px"><span data-cu="${S.score}" data-fmt="snum" data-dec="2">${sn(S.score)}</span><small>${S.state}${S.since?` since ${fmtD(S.since)}`:''}</small></div></div><span class="pill ${mk}">Market model: ${mk}</span></div>
+     <div><div id="gauge"></div>
+       <div class="k-gauge-key"><span><i></i>Today <span class="num">${sn(S.score)}</span></span><span><i class="t"></i>Lagging line · needs ${S.confirm} closes to switch</span></div></div>
+     <div class="k-stats">
+       <div class="k-stat"><b data-cu="${T.vs200*100}" data-fmt="spct" data-dec="1">${pf(T.vs200)}</b><span>vs 200-day average</span></div>
+       <div class="k-stat"><b data-cu="${S.rel_3m*100}" data-fmt="spct" data-dec="1">${pf(S.rel_3m)}</b><span>vs SPY · 3M</span></div>
+       <div class="k-stat"><b data-cu="${K.r10*100}" data-fmt="spct" data-dec="1">${pf(K.r10)}</b><span>10 sessions · cut at −12%</span></div>
+       <div class="k-stat"><b data-cu="${T.hi52*100}" data-fmt="spct" data-dec="1">${pf(T.hi52)}</b><span>From 52-week high</span></div>
+     </div>
+     <div id="spark"></div>
+     <dl class="k-kv"><dt>Basket 200-day average (index)</dt><dd>${T.ma200.toFixed(2)}</dd><dt>Crash rule: cut to 50% on a close below</dt><dd>${K.trigger_below.toFixed(2)}</dd><dt>Days below the 200-day, last 60</dt><dd>${T.days_below}</dd><dt>Basket 3-month return</dt><dd class="${cls(C.d63)}">${pf(C.d63)}</dd><dt>Next re-rank (first trading day)</dt><dd>${nextQ(R.asof)}</dd></dl>
+   </div>`;
+  M.append(hero);
+  Kerdos.gauge($('#gauge'),{value:S.score,ticks:[{v:-S.threshold,label:`Lagging below <b>−${S.threshold.toFixed(2)}</b>`,side:'l'}],label:`Strength score ${sn(S.score)} on a scale from −1 to +1; high beta counts as lagging below −${S.threshold.toFixed(2)}.`});
+  Kerdos.spark($('#spark'),H.filter(r=>r.level).slice(-90).map(r=>({date:r.date,v:+r.level})),{title:'Basket index · last 90 sessions',fmt:v=>v.toFixed(2),lines:[{v:T.ma200,color:css('--c-neut'),label:'200d'}]});
+  M.append(h('section',{class:'panel','aria-label':'What the desk is doing'},`<div class="phead"><h2>Why it reads ${R.regime}</h2><span class="label">rules in play today</span></div><div class="k-flip" style="margin-top:0"><div class="label" style="padding-top:2px">The call</div><p>${narr}</p></div>`));
   // members
   const B0=R.backtest.basket;
   const mx=Math.max(...R.members.map(m=>m.weight));
