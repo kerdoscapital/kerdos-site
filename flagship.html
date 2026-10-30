@@ -266,9 +266,9 @@ const pc=(v,d=1)=>v==null?'—':(v<0?'−':'')+Math.abs(v*100).toFixed(d)+'%';
 const pcs=(v,d=1)=>v==null?'—':(v>0?'+':v<0?'−':'')+Math.abs(v*100).toFixed(d)+'%';
 const sc=v=>v>0?'fl-pos':v<0?'fl-neg':'';
 const NAMES={SPY:'S&P 500 (SPY)',QQQ:'Nasdaq-100 (QQQ)',BTC:'Bitcoin',GLD:'Gold (GLD)',CASH:'T-bills'};
-const COLS={SPY:'#a58ee4',QQQ:'#8d72c8',BTC:'#f39b4b',GLD:'#e0b44a',CASH:'#5c6272'};
+const COLS={SPY:'#7DA6DD',QQQ:'#4F72A8',BTC:'#C3CAD5',GLD:'#9C9384',CASH:'#3A404B'};
+const FC='#7DA6DD',SC='#9AA1AC';
 const A=['SPY','QQQ','BTC','GLD','CASH'];
-const STUDY={"chosen":{"b":[0.395,1.69,-0.24],"b2":[0.244,1.16,-0.202],"h1":[0.117,0.81,-0.158]},"b40":{"b":[0.477,1.66,-0.271],"b2":[0.265,1.09,-0.237],"h1":[0.114,0.73,-0.177]},"v2":{"b":[0.324,1.66,-0.22],"b2":[0.226,1.2,-0.185],"h1":[0.124,0.85,-0.158]},"g30":{"b":[0.232,1.55,-0.176],"b2":[0.195,1.22,-0.13],"h1":[0.123,0.9,-0.124]},"nogold":{"b":[0.401,1.66,-0.252],"b2":[0.247,1.14,-0.215],"h1":[0.118,0.76,-0.177]},"qqq":{"b":[0.418,1.7,-0.237],"b2":[0.254,1.13,-0.235],"h1":[0.133,0.85,-0.16]},"tech":{"b":[0.446,1.73,-0.242],"b2":[0.294,1.22,-0.218],"h1":[0.12,0.76,-0.165]},"defeq":{"b":[0.39,1.71,-0.223],"b2":[0.229,1.14,-0.185],"h1":[0.123,0.92,-0.133]},"qld":{"b":[0.431,1.68,-0.265],"b2":[0.27,1.16,-0.239],"h1":[0.168,0.94,-0.193]},"out_ief":{"b":[0.389,1.66,-0.286],"b2":[0.224,1.04,-0.286],"h1":[0.131,0.88,-0.16]},"out_tlt":{"b":[0.377,1.59,-0.383],"b2":[0.197,0.88,-0.383],"h1":[0.136,0.87,-0.143]},"spy":{"b":[0.138,0.7,-0.34],"b2":[0.155,0.75,-0.244],"h1":[0.073,0.38,-0.554]}};
 const parse=t=>{const[h,...r]=t.trim().split(/\r?\n/);const k=h.split(',');return r.map(x=>{const c=x.split(',');const o={};k.forEach((kk,i)=>o[kk]=c[i]);return o})};
 Promise.all([fetch('flagship/report.json').then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}),fetch('flagship/equity.csv').then(r=>r.text())])
 .then(([R,eq])=>render(R,parse(eq))).catch(e=>{$('#loading').innerHTML='<span class="err">The flagship report did not load ('+e.message+'). Reload the page to try again.</span>'});
@@ -279,7 +279,7 @@ function render(R,EQ){
   const bar=k=>`<div class="fl-row"><span>${NAMES[k]}</span><span class="t"><i style="width:${(w[k]*100).toFixed(1)}%;background:${COLS[k]}"></i></span><span class="v">${Math.round(w[k]*100)}%</span></div>`;
   M.insertAdjacentHTML('beforeend',`<section class="panel" aria-label="Current allocation"><div class="fl-now">
     <div><div class="label">Allocation now</div><div class="fl-call ${R.regime}" style="margin-top:8px">${Math.round((1-w.CASH)*100)}% invested</div>
-      <div class="fl-sub">Stocks desk <b>${R.stocks_regime}</b> · Bitcoin desk <b>${R.btc_regime||'—'}</b></div>
+      <div class="fl-sub">Stocks desk <b>${Kerdos.st(R.stocks_regime,RU.stocks_exposure)}</b> · Bitcoin desk <b>${Kerdos.st(R.btc_regime,RU.btc_exposure)||'—'}</b></div>
       <div class="fl-sub">Stocks ${Math.round(R.equity_weight*100)}% of ${stk}% · Bitcoin ${Math.round(w.BTC*100)}% of ${Math.round(RU.btc*100)}% · gold ${Math.round(w.GLD*100)}% · T-bills ${Math.round(w.CASH*100)}%</div></div>
     <div><div class="fl-alloc">${A.map(bar).join('')}</div></div></div></section>
     <div class="fl-own"><b>Use your own stock holdings.</b> The model's ${stk}% stock sleeve is SPY ${Math.round(RU.stocks.SPY*100)}% and QQQ ${Math.round(RU.stocks.QQQ*100)}%: a simple, low-cost stand-in for large US stocks that the backtest can measure. You don't have to hold those two funds. The stock sleeve can be any stocks or stock funds you choose, sized up and down with the stocks desk's calls in the same way. Your results will then differ from the model's, and the stocks desk's signals were tested on SPY and QQQ.</div>`);
@@ -292,9 +292,9 @@ function render(R,EQ){
       <div class="fl-big"><div class="k"><span>Flagship</span><b class="${sc(f)}">${pcs(f,2)}</b><i>worst drop ${pc(L.flagship.maxdd)}</i></div>
         <div class="k"><span>S&amp;P 500 (SPY)</span><b>${pcs(s,2)}</b><i>worst drop ${pc(L.spy.maxdd)}</i></div>
         <div class="k"><span>Flagship vs S&amp;P 500</span><b class="${sc(d)}">${(d>0?'+':d<0?'−':'')+Math.abs(d*100).toFixed(2)} pts</b><i>difference in total return</i></div></div>
-      <div class="fl-legend"><span><i style="background:#a58ee4"></i>Flagship</span><span><i style="background:#d1d4dc"></i>S&amp;P 500</span></div>
+      <div class="fl-legend"><span><i style="background:#7DA6DD"></i>Flagship</span><span><i style="background:#9AA1AC"></i>S&amp;P 500</span></div>
       <div class="fl-chart chart" id="flive"></div>
-      <p class="note" style="margin:0">Started at the open on ${fmtD(L.since)} with the allocation set by the ${L.start_signals?`previous close (stocks desk ${L.start_signals.stocks}, Bitcoin desk ${L.start_signals.bitcoin})`:'previous close'}: ${A.filter(k=>L.start_weights[k]>0).map(k=>`${k==='CASH'?'T-bills':k} ${Math.round(L.start_weights[k]*100)}%`).join(', ')}. Opening prices: SPY $${L.start_prices.SPY.toFixed(2)}, QQQ $${L.start_prices.QQQ.toFixed(2)}, GLD $${L.start_prices.GLD.toFixed(2)}, Bitcoin $${Math.round(L.start_prices.BTC).toLocaleString('en-US')} (CME CF Bitcoin Real Time Index at 9:30 ET). Updated after each close; each day's file is a commit in the public GitHub history. Dividends approximated, T-bill interest included, no taxes.</p>
+      <p class="note" style="margin:0">Started at the open on ${fmtD(L.since)} with the allocation set by the ${L.start_signals?`previous close (stocks desk ${Kerdos.st(L.start_signals.stocks,RU.stocks_exposure)}, Bitcoin desk ${Kerdos.st(L.start_signals.bitcoin,RU.btc_exposure)})`:'previous close'}: ${A.filter(k=>L.start_weights[k]>0).map(k=>`${k==='CASH'?'T-bills':k} ${Math.round(L.start_weights[k]*100)}%`).join(', ')}. Opening prices: SPY $${L.start_prices.SPY.toFixed(2)}, QQQ $${L.start_prices.QQQ.toFixed(2)}, GLD $${L.start_prices.GLD.toFixed(2)}, Bitcoin $${Math.round(L.start_prices.BTC).toLocaleString('en-US')} (CME CF Bitcoin Real Time Index at 9:30 ET). Updated after each close; each day's file is a commit in the public GitHub history. Dividends approximated, T-bill interest included, no taxes.</p>
     </div></section>`);
     drawLive($('#flive'),L.series);}
   // backtest
@@ -302,16 +302,15 @@ function render(R,EQ){
   const rows=Object.keys(N).map(k=>`<tr${k==='flagship'?' style="font-weight:600"':''}><td>${N[k]}</td>${P.map(p=>{const s=B[k][p];return `<td class="n">${pc(s.cagr)}</td><td class="n">${pc(s.maxdd,0)}</td><td class="n">${s.sharpe.toFixed(2)}</td>`}).join('')}</tr>`).join('');
   M.insertAdjacentHTML('beforeend',`<section class="sec"><h2>Backtest vs the S&amp;P 500</h2>
     <p class="fl-sub" style="margin:0;max-width:78ch">How the same rules would have done since 2005. Nobody held this portfolio over those years, and the desks' rules were chosen with this history in view, so read it as a test of the rules, not a track record.</p>
-    <div class="panel"><div class="fl-legend"><span><i style="background:#a58ee4"></i>Flagship</span><span><i style="background:#d1d4dc"></i>S&amp;P 500</span></div><div class="fl-chart chart" id="flchart"></div>
+    <div class="panel"><div class="fl-legend"><span><i style="background:#7DA6DD"></i>Flagship</span><span><i style="background:#9AA1AC"></i>S&amp;P 500</span></div><div class="fl-chart chart" id="flchart"></div>
     <p class="note" style="margin-top:8px">Growth of $1 since January 2005, log scale. Hypothetical.</p></div>
     <div class="tblwrap"><table><thead><tr><th rowspan="2">Backtest</th>${P.map(p=>`<th class="n" colspan="3">${p}</th>`).join('')}</tr><tr>${P.map(()=>'<th class="n">Per year</th><th class="n">Worst drop</th><th class="n">Sharpe</th>').join('')}</tr></thead><tbody>${rows}</tbody></table></div>
     <p class="note">Bitcoin, which has a desk only from 2014, accounts for most of the gap since 2015. Without the Bitcoin sleeve the model returned ${pc(B.no_btc['2005–26'].cagr)} a year from 2005 to 2026 against ${pc(B.spy['2005–26'].cagr)} for the S&amp;P 500, with a worst drop of ${pc(B.no_btc['2005–26'].maxdd,0)} against ${pc(B.spy['2005–26'].maxdd,0)}. Turnover about ${Math.round(R.turnover*100)}% a year.</p></section>`);
   drawChart($('#flchart'),EQ);
   // rules
-  const ex=m=>Object.entries(m),who=(m,v)=>ex(m).filter(([,x])=>x===v).map(([k])=>k).join(', ')||'—';
-  const rrow=(n,wt,by,m)=>`<tr><td>${n}</td><td class="n">${wt}</td><td>${by}</td><td>${m?who(m,1):'Always'}</td><td>${m?who(m,.5):'—'}</td><td>${m?who(m,0):'—'}</td></tr>`;
+  const rrow=(n,wt,by,m)=>`<tr><td>${n}</td><td class="n">${wt}</td><td>${by}</td><td>${m?'Bullish':'Always'}</td><td>${m?'Neutral':'—'}</td><td>${m?'Bearish':'—'}</td></tr>`;
   M.insertAdjacentHTML('beforeend',`<section class="sec"><h2>The rules</h2>
-    <div class="tblwrap"><table><thead><tr><th>Sleeve</th><th class="n">Target</th><th>Sized by</th><th>Full</th><th>Half</th><th>None</th></tr></thead><tbody>
+    <div class="tblwrap"><table><thead><tr><th>Sleeve</th><th class="n">Target</th><th>Sized by</th><th>Full (100%)</th><th>Half (50%)</th><th>None (0%)</th></tr></thead><tbody>
     ${rrow(`Stocks: SPY ${Math.round(RU.stocks.SPY*100)}% + QQQ ${Math.round(RU.stocks.QQQ*100)}%`,stk+'%','<a href="stocks.html">Stocks desk</a>',RU.stocks_exposure)}
     ${rrow('Bitcoin',Math.round(RU.btc*100)+'%','<a href="bitcoin.html">Bitcoin desk</a>',RU.btc_exposure)}
     ${rrow('Gold (GLD)',Math.round(RU.gold*100)+'%','Fixed',null)}
@@ -321,30 +320,15 @@ function render(R,EQ){
   const ch=R.changes||[];const f=v=>Math.round(v*100)+'%';
   const diff=c=>A.filter(k=>Math.abs(c.weights[k]-c.before[k])>1e-6).map(k=>`${k==='CASH'?'T-bills':k} ${f(c.before[k])} → ${f(c.weights[k])}`).join(', ');
   M.insertAdjacentHTML('beforeend',`<section class="sec"><h2>Recent allocation changes</h2><div class="tblwrap"><table><thead><tr><th>Date</th><th>Desks</th><th>What changed</th></tr></thead><tbody>
-    ${ch.map(c=>`<tr><td class="mono" style="white-space:nowrap">${fmtD(c.date)}</td><td>Stocks ${c.stocks} · Bitcoin ${c.bitcoin||'—'}</td><td>${diff(c)}</td></tr>`).join('')}</tbody></table></div>
+    ${ch.map(c=>`<tr><td class="mono" style="white-space:nowrap">${fmtD(c.date)}</td><td>Stocks ${Kerdos.st(c.stocks,RU.stocks_exposure)} · Bitcoin ${Kerdos.st(c.bitcoin,RU.btc_exposure)||'—'}</td><td>${diff(c)}</td></tr>`).join('')}</tbody></table></div>
     <p class="note">Dates are the close that produced each change; it is traded at the next close.</p></section>`);
   const Y=R.yearly;
   M.insertAdjacentHTML('beforeend',`<section class="sec"><h2>Year by year (backtest)</h2><div class="tblwrap"><table><thead><tr><th>Year</th><th class="n">Flagship</th><th class="n">S&amp;P 500</th><th class="n">Difference</th></tr></thead><tbody>
     ${Y.slice().reverse().map(y=>{const d=y.flagship-y.spy;return `<tr><td class="mono">${y.year}${y.year===+R.asof.slice(0,4)?' YTD':''}</td><td class="n">${pcs(y.flagship/100,0)}</td><td class="n">${pcs(y.spy/100,0)}</td><td class="n ${sc(d)}">${(d>0?'+':d<0?'−':'')+Math.abs(d).toFixed(0)} pts</td></tr>`}).join('')}</tbody></table></div></section>`);
-  const SD=STUDY,sr=(k,n,b)=>{const x=SD[k];const c=v=>`<td class="n">${pc(v[0])}</td><td class="n">${v[1].toFixed(2)}</td><td class="n">${pc(v[2],0)}</td>`;return `<tr${b?' style="font-weight:600"':''}><td>${n}</td>${c(x.b)}<td class="n">${x.b2[1].toFixed(2)}</td><td class="n">${x.h1[1].toFixed(2)}</td></tr>`};
-  M.insertAdjacentHTML('beforeend',`<section class="sec"><h2>How the mix was chosen</h2>
-    <p class="fl-sub" style="margin:0 0 12px;max-width:78ch">Before the live record began, we ran more than 150 portfolios through the same two desks: index, sector, factor, international, real-estate, commodity and leveraged ETFs, Treasuries of several maturities, gold and Bitcoin. Each was judged on 2015–26 and, separately, on 2021–26 and the pre-Bitcoin years 2005–14. The aim was a high return per unit of risk that still beat the S&amp;P 500 in every window, with the simplest mix that held up.</p>
-    <div class="tblwrap"><table><thead><tr><th rowspan="2">Variant</th><th class="n" colspan="3">2015–26</th><th class="n">2021–26</th><th class="n">2005–14</th></tr><tr><th class="n">Per year</th><th class="n">Sharpe</th><th class="n">Worst drop</th><th class="n">Sharpe</th><th class="n">Sharpe</th></tr></thead><tbody>
-    ${sr('chosen','Flagship: SPY 35 · QQQ 25 · Bitcoin 30 · gold 10',1)}
-    ${sr('b40','60% stocks / 40% Bitcoin, no gold')}${sr('v2','Stocks 70 · Bitcoin 20 · gold 10')}${sr('g30','Stocks 60 · Bitcoin 10 · gold 30')}${sr('nogold','Stocks 70 · Bitcoin 30, no gold')}
-    ${sr('qqq','Nasdaq-100 only for stocks')}${sr('tech','Tech tilt: QQQ + semis (SMH) + tech (XLK)')}${sr('defeq','Defensive tilt: QQQ + health care + staples')}${sr('qld','A quarter of stocks in 2× Nasdaq (QLD)*')}
-    ${sr('out_ief','Treasuries (IEF) instead of T-bills when out')}${sr('out_tlt','Long Treasuries (TLT) instead of T-bills when out')}${sr('spy','S&amp;P 500, buy and hold')}
-    </tbody></table></div>
-    <p class="note">Study run Oct 30, 2026. Sharpe uses daily returns over T-bills. *QLD began trading in June 2006, so its 2005–14 column starts then.</p>
-    <div class="fl-method" style="margin-top:12px">
-    <p><b>Bitcoin.</b> Timed by its desk, Bitcoin was the largest source of extra return. Return per unit of risk was roughly flat with Bitcoin between 15% and 30% and fell above that. The flagship sits at the top of that range for more return; a 20% version held up slightly better since 2021 and in the stress test below.</p>
-    <p><b>Gold.</b> Moving 10 points from Bitcoin to gold, against a 60/40 stocks-and-Bitcoin mix, cost about 8 points a year since 2015, mostly from Bitcoin's 2017 and 2020 runs. It lowered volatility from about 24% to 20%, trimmed the worst drop and improved return per unit of risk in every period tested. Larger gold slices smoothed the ride further but leaned on gold's 2024–26 rally.</p>
-    <p><b>Everything else.</b> T-bills beat Treasuries as the place to wait since 2015, because bonds fell with stocks in 2022 (Treasuries did better in 2005–14). The tech tilt tested best since 2015 but lagged in 2005–14. A 2× Nasdaq slice raised returns but deepened the worst drop. The defensive tilt had a similar return with a smaller worst drop and is the closest alternative. Factor, international, emerging-market, real-estate and energy sleeves did not improve on SPY and QQQ. A basket of today's mega-cap stocks tested best of all, but only because it was picked with hindsight, so it was excluded.</p>
-    <p><b>Stress test.</b> With Bitcoin's and gold's 2015–26 returns both set to zero, leaving only the desks' timing, the flagship still returned 25.0% a year at a Sharpe of 1.14, against 13.8% and 0.70 for the S&amp;P 500.</p></div></section>`);
   M.insertAdjacentHTML('beforeend',`<section class="sec"><h2>Method and limits</h2><div class="fl-method">
     <p>The flagship adds no new forecasting signals. It reuses the two published desks: the US stocks desk sizes the ${stk}% stock sleeve, the Bitcoin desk sizes the ${Math.round(RU.btc*100)}% Bitcoin sleeve, a ${Math.round(RU.gold*100)}% gold slice is always held, and the rest waits in T-bills.</p>
     <p>Backtest: a call made at one close is traded at the next close, and the portfolio rebalances to target at each month start, at 0.05% per unit traded. T-bills earn the 3-month rate; dividends are approximated. The live record starts at the open on Monday, Oct 26, 2026 and follows the same rules after its first day.</p>
-    <p>Limits: the stocks desk's rules were chosen with the 2003–2026 history in view and the Bitcoin desk's with 2014–2026, so the backtest is optimistic. Bitcoin drives about 70% of the portfolio's swings, and its early gains are unlikely to repeat; gold's 2024–26 rally flatters the gold slice. 2022, when stocks, bonds and Bitcoin all fell, was the worst calendar year. Earlier drafts of this portfolio were replaced before the live record began; any later change will be dated here and will not rewrite the live record. This is a hypothetical model, not investment advice.</p></div></section>`);
+    <p>Limits: the stocks desk's rules were chosen with the 2003–2026 history in view and the Bitcoin desk's with 2014–2026, so the backtest is optimistic. Bitcoin accounts for most of the backtest's lead over the S&amp;P 500 since 2015 and drives about 70% of the portfolio's swings, and its early gains are unlikely to repeat; gold's 2024–26 rally flatters the gold slice. 2022, when stocks, bonds and Bitcoin all fell, was the worst calendar year. Earlier drafts of this portfolio were replaced before the live record began; any later change will be dated here and will not rewrite the live record. This is a hypothetical model, not investment advice.</p></div></section>`);
 }
 function drawLive(host,S){
   const draw=()=>{
@@ -355,13 +339,13 @@ function drawLive(host,S){
     for(let g=Math.ceil(y0/step)*step;g<=y1;g+=step){const lab=(g-1)*100;s+=`<line class="grid" x1="${m.l}" x2="${W-m.r}" y1="${Y(g)}" y2="${Y(g)}"/><text class="ax" x="${W-m.r+6}" y="${Y(g)+3.5}">${lab>0?'+':lab<0?'−':''}${Math.abs(lab).toFixed(1)}%</text>`}
     const lab=i=>i===0?'Open':fmtD(S[i].date).replace(/, \d{4}$/,'');
     const every=W<500?Math.max(1,Math.ceil((n-1)/4)):Math.max(1,Math.ceil((n-1)/8));for(let i=0;i<n;i++){if(i!==0&&i!==n-1&&i%every)continue;if(i!==n-1&&i>0&&n-1-i<every)continue;s+=`<text class="ax" x="${X(i)}" y="${H-6}" text-anchor="${i===0?'start':i===n-1?'end':'middle'}">${lab(i)}</text>`}
-    [['spy','#d1d4dc',1.5],['flagship','#a58ee4',2.2]].forEach(([k,c,wd])=>{let d='';S.forEach((r,i)=>{d+=(i?'L':'M')+X(i).toFixed(1)+','+Y(r[k]).toFixed(1)});s+=`<path d="${d}" fill="none" stroke="${c}" stroke-width="${wd}" stroke-linejoin="round" stroke-linecap="round"/>`;s+=`<circle cx="${X(n-1)}" cy="${Y(S[n-1][k])}" r="3.5" fill="${c}"/>`});
+    [['spy',SC,1.5],['flagship',FC,2.2]].forEach(([k,c,wd])=>{let d='';S.forEach((r,i)=>{d+=(i?'L':'M')+X(i).toFixed(1)+','+Y(r[k]).toFixed(1)});s+=`<path d="${d}" fill="none" stroke="${c}" stroke-width="${wd}" stroke-linejoin="round" stroke-linecap="round"/>`;s+=`<circle cx="${X(n-1)}" cy="${Y(S[n-1][k])}" r="3.5" fill="${c}"/>`});
     host.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Live record since inception: flagship ${pcs(S[n-1].flagship-1,2)}, S&P 500 ${pcs(S[n-1].spy-1,2)}">${s}</svg>`;
   };
   draw();let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(draw,150)});
 }
 function drawChart(host,EQ){
-  const S=[['flagship','#a58ee4',2.2],['spy','#d1d4dc',1.5]];
+  const S=[['flagship',FC,2.2],['spy',SC,1.5]];
   const draw=()=>{
     host.innerHTML='';const W=Math.max(300,host.clientWidth||600),H=W<500?240:300,m={t:10,r:46,b:24,l:6};
     const xs=EQ.map(r=>Date.parse(r.date+'T00:00:00Z'));const x0=xs[0],x1=xs[xs.length-1];

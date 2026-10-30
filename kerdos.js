@@ -185,6 +185,24 @@
   const dy = s => ds(s) + ' ’' + s.slice(2, 4);
   const cssv = n => getComputedStyle(root).getPropertyValue(n).trim();
   const sn = (v, n) => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v).toFixed(n);
+  /* Three display states. Each desk keeps its own internal rules; the site shows them by exposure:
+     Bullish = 100% invested, Neutral = 50%, Bearish = 0% (T-bills). map = the desk's exposure_map. */
+  K.STATES = ['Bullish', 'Neutral', 'Bearish'];
+  K.EXPO = { Bullish: 1, Neutral: .5, Bearish: 0 };
+  K.st = (reg, map) => {
+    if (!reg) return reg;
+    const e = map && map[reg] != null ? +map[reg] : null;
+    if (e == null) return reg;
+    return e >= .99 ? 'Bullish' : e > 0 ? 'Neutral' : 'Bearish';
+  };
+  /* Current state run from a history (rows with .date and .regime): {state, since, n, prev} */
+  K.stRun = (rows, map) => {
+    const s = rows.filter(r => r.regime).map(r => ({ d: r.date, s: K.st(r.regime, map) }));
+    if (!s.length) return null;
+    let i = s.length - 1; const c = s[i].s;
+    while (i > 0 && s[i - 1].s === c) i--;
+    return { state: c, since: s[i].d, n: s.length - i, prev: i > 0 ? s[i - 1].s : null };
+  };
   K.esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   K.sn = sn;
   const redraws = new Set(); let rt;
@@ -217,7 +235,7 @@
       const X = i => m.l + i / (ys.length - 1) * (W - m.l - m.r), Y = v => m.t + (hi - v) / (hi - lo) * (H - m.t - m.b);
       const line = 'M' + ys.map((v, i) => X(i).toFixed(1) + ',' + Y(v).toFixed(1)).join('L');
       const area = line + `L${X(ys.length - 1).toFixed(1)},${H - m.b}L${X(0)},${H - m.b}Z`;
-      const ac = o.color || cssv('--accent') || '#3DD68C', last = ys[ys.length - 1], id = 'k' + Math.random().toString(36).slice(2, 7);
+      const ac = o.color || cssv('--accent') || '#6E9BD8', last = ys[ys.length - 1], id = 'k' + Math.random().toString(36).slice(2, 7);
       const fmt = o.fmt || (v => sn(v, 2));
       host.classList.add('k-spark');
       host.innerHTML = `<div class="hd"><span class="label">${o.title || ''}</span><span class="mono" style="font-size:12px;color:var(--ink-2)">${ds(pts[0].date)} – ${ds(pts[pts.length - 1].date)}</span></div>
@@ -232,9 +250,9 @@
   };
 
   /* Regime history as one continuous glass track. rows = [{date, regime}] */
-  const RC = { Bullish: 'var(--c-bull)', Recovery: 'var(--c-rec)', Neutral: '#8E97AB', Correction: 'var(--c-corr)', Lagging: 'var(--c-corr)', Crash: '#E0904A', Bearish: 'var(--c-bear)', Breakdown: 'var(--c-bear)' };
+  const RC = { Bullish: 'var(--c-bull)', Neutral: '#7E8796', Bearish: 'var(--c-bear)' };
   K.hist = (rows, o = {}) => {
-    rows = rows.filter(r => r.regime);
+    rows = rows.filter(r => r.regime).map(r => ({ date: r.date, regime: o.map ? K.st(r.regime, o.map) : r.regime }));
     if (!rows.length) return '';
     const end = Date.parse(rows[rows.length - 1].date);
     rows = rows.filter(r => Date.parse(r.date) > end - (o.days || 365) * 864e5);
@@ -248,8 +266,8 @@
     });
     const days = {}; segs.forEach(s => days[s.g] = (days[s.g] || 0) + s.n);
     const top = Object.entries(days).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([g, k]) => `${g} ${Math.round(k / n * 100)}%`).join(' · ');
-    return `<div class="k-hist"><div class="hd"><span class="label">${o.title || 'Regime · last 12 months'}</span><span class="mono">${top}</span></div>
-      <div class="trk" role="img" aria-label="Regime over the last 12 months: ${top}"><span class="fill" style="background:linear-gradient(90deg,${stops.join(',')})"></span>
+    return `<div class="k-hist"><div class="hd"><span class="label">${o.title || 'State · last 12 months'}</span><span class="mono">${top}</span></div>
+      <div class="trk" role="img" aria-label="State over the last 12 months: ${top}"><span class="fill" style="background:linear-gradient(90deg,${stops.join(',')})"></span>
       <span class="hits">${segs.map(s => `<i style="flex:${s.n}" title="${s.g} · ${ds(s.from)} – ${ds(s.to)} (${s.n} ${o.unit || 'days'})"></i>`).join('')}</span><span class="end"></span></div>
       <div class="ax"><span>${dy(rows[0].date)}</span><span>${dy(rows[n - 1].date)}</span></div></div>`;
   };

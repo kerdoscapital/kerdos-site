@@ -225,13 +225,13 @@ td.hl{color:var(--white);font-weight:600}
     <article class="desk feat-card" id="flagcard"><!--pre:flagcard--><div class="col"><div class="mix">60% stocks · 30% Bitcoin · 10% gold</div><div class="big">85% invested</div><div class="leg"><span>SPY 35%</span><span>QQQ 25%</span><span>Bitcoin 15%</span><span>Gold 10%</span><span>T-bills 15%</span></div><div class="sub">Stocks desk <b>Bullish</b> · Bitcoin desk <b>Neutral</b> · as of the Oct 29, 2026 close</div><a class="go" href="flagship.html">Open the flagship portfolio <span aria-hidden="true">→</span></a></div><div class="col"><div class="kv"><div><span>Since inception · Flagship</span><b>+0.29%</b><em>from the Oct 26, 2026 open</em></div><div><span>Since inception · S&amp;P 500</span><b>+0.96%</b><em>to the Oct 29, 2026 close</em></div><div><span>Backtest 2005–26 · per year</span><b>26.0%</b><em>S&amp;P 500 10.8%</em></div><div><span>Backtest · worst drop</span><b>−24%</b><em>S&amp;P 500 −55%</em></div></div></div><!--/pre:flagcard--><p class="note">Loading the flagship portfolio…</p></article>
   </section>
   <section class="sec" aria-label="The models"><h2>The models behind it</h2><p class="note" style="margin:0">Each desk publishes a call after every close. The stocks and Bitcoin desks size the flagship’s two sleeves; the high-beta desk is a separate, higher-risk satellite model.</p></section>
-  <section class="desks" id="desks" aria-label="Today’s calls"><!--pre:desks--><article class="desk"><div class="top"><h2>US stocks · SPY &amp; QQQ</h2></div><div><div class="call c-Bullish">Bullish</div></div><div class="expo"><span>Exposure</span><b>100%</b><span>since Apr 15, 2026</span></div><div class="meter" aria-hidden="true"><i style="width:100%"></i></div><div class="quotes"><div class="q"><div class="tk">SPY</div><div class="px">$769.36</div><div class="ch"><span>−0.4% 1d</span></div></div><div class="q"><div class="tk">QQQ</div><div class="px">$715.34</div><div class="ch"><span>−1.4% 1d</span></div></div></div><a class="go" href="stocks.html">Open the stocks desk <span aria-hidden="true">→</span></a></article><article class="desk"><div class="top"><h2>Bitcoin</h2></div><div><div class="call c-Neutral">Neutral</div></div><div class="expo"><span>Exposure</span><b>50%</b><span>since Oct 16, 2026</span></div><div class="meter" aria-hidden="true"><i style="width:50%"></i></div><div class="quotes"><div class="q"><div class="tk">BTC</div><div class="px">$77,762</div><div class="ch"><span>−4.3% 1d</span></div></div></div><a class="go" href="bitcoin.html">Open the Bitcoin desk <span aria-hidden="true">→</span></a></article><article class="desk"><div class="top"><h2>High beta · satellite sleeve</h2></div><div><div class="call c-Lagging">Lagging</div></div><div class="expo"><span>Exposure</span><b>50%</b><span>since Oct 27, 2026</span></div><div class="meter" aria-hidden="true"><i style="width:50%"></i></div><div class="quotes"><div class="q"><div class="tk">Basket</div><div class="px">31.16</div><div class="ch"><span>−1.7% 1d</span></div></div></div><a class="go" href="highbeta.html">Open the high-beta desk <span aria-hidden="true">→</span></a></article><!--/pre:desks--></section>
+  <section class="desks" id="desks" aria-label="Today’s calls"><!--pre:desks--><article class="desk"><div class="top"><h2>US stocks · SPY &amp; QQQ</h2></div><div><div class="call c-Bullish">Bullish</div></div><div class="expo"><span>Exposure</span><b>100%</b><span>since Apr 9, 2025</span></div><div class="meter" aria-hidden="true"><i style="width:100%"></i></div><div class="quotes"><div class="q"><div class="tk">SPY</div><div class="px">$769.36</div><div class="ch"><span>−0.4% 1d</span></div></div><div class="q"><div class="tk">QQQ</div><div class="px">$715.34</div><div class="ch"><span>−1.4% 1d</span></div></div></div><a class="go" href="stocks.html">Open the stocks desk <span aria-hidden="true">→</span></a></article><article class="desk"><div class="top"><h2>Bitcoin</h2></div><div><div class="call c-Neutral">Neutral</div></div><div class="expo"><span>Exposure</span><b>50%</b><span>since Oct 16, 2026</span></div><div class="meter" aria-hidden="true"><i style="width:50%"></i></div><div class="quotes"><div class="q"><div class="tk">BTC</div><div class="px">$77,762</div><div class="ch"><span>−4.3% 1d</span></div></div></div><a class="go" href="bitcoin.html">Open the Bitcoin desk <span aria-hidden="true">→</span></a></article><article class="desk"><div class="top"><h2>High beta · satellite sleeve</h2></div><div><div class="call c-Neutral">Neutral</div></div><div class="expo"><span>Exposure</span><b>50%</b><span>since Oct 16, 2026</span></div><div class="meter" aria-hidden="true"><i style="width:50%"></i></div><div class="quotes"><div class="q"><div class="tk">Basket</div><div class="px">31.16</div><div class="ch"><span>−1.7% 1d</span></div></div></div><a class="go" href="highbeta.html">Open the high-beta desk <span aria-hidden="true">→</span></a></article><!--/pre:desks--></section>
   <section class="sec">
     <details class="gloss"><summary>What the numbers on these cards mean</summary><dl>
-      <dt>Regime and exposure</dt><dd>Each desk’s call (Bullish, Neutral, Correction, Bearish and so on) sets how much of its slice is invested: 100%, 50% or 0%, with the rest in T-bills.</dd>
-      <dt>Composite score</dt><dd>A weighted average of trend, momentum, market internals, macro, volatility and calendar signals, each scaled from −1 to +1. Above +0.15 is Bullish; below −0.10 is a Bearish signal.</dd>
+      <dt>Bullish, Neutral, Bearish</dt><dd>Every desk is in one of three states: Bullish (100% invested), Neutral (50%) or Bearish (0%, in T-bills). Each desk’s own rules decide which.</dd>
+      <dt>Composite score</dt><dd>A weighted average of trend, momentum, market internals, macro, volatility and calendar signals, each scaled from −1 to +1. The stock desk cuts exposure when it falls below −0.10.</dd>
       <dt>Chance of a 10% drop in 6 months</dt><dd>How often SPY fell 10% or more within six months on past days with a similar score, since 2003.</dd>
-      <dt>Macro group vs the cash gate</dt><dd>A Bearish signal moves the stock desk to cash only when the macro signals are at or below −0.25. Above that it cuts to half (Correction).</dd>
+      <dt>Macro group vs the cash gate</dt><dd>When the stock score is below −0.10, the desk goes Bearish (cash) only if the macro signals are at or below −0.25; otherwise it goes Neutral (half invested).</dd>
       <dt>Strength vs S&amp;P 500</dt><dd>Whether the high-beta basket is keeping up with the S&amp;P. Clearly lagging cuts that desk to half.</dd>
       <dt>Put wall, call wall, dealer gamma</dt><dd>Where the most put and call open interest sits below and above the price, and an estimate of whether options dealers’ hedging tends to calm moves (positive) or amplify them (negative). Context only.</dd>
     </dl></details>
@@ -239,7 +239,7 @@ td.hl{color:var(--white);font-weight:600}
   <section class="sec">
     <h2>Recent signal changes</h2>
     <div id="changes"></div>
-    <p class="note">Every change a desk made, newest first, from the published daily history. Each update is also a timestamped commit on GitHub.</p>
+    <p class="note">Every change in a desk’s exposure, newest first, from the published daily history. Each update is also a timestamped commit on GitHub.</p>
   </section>
             <!--ox-->
   <section class="sec ox-wrap"><h2>Options positioning</h2>
@@ -363,24 +363,20 @@ function summary(R,have){
     <h2>How exposure is set</h2>
     <div class="rules">
       <div class="rule"><h3>US stocks</h3><ul>
-        <li><b>Bullish, Neutral: 100%.</b> The composite score is positive or mixed.</li>
-        <li><b>Correction: 50%.</b> The score turns Bearish but macro does not confirm it.</li>
-        <li><b>Bearish: 0%.</b> The score is Bearish and macro confirms it. Cash earns T-bills.</li>
-        <li><b>Recovery: 100%.</b> After a 20% decline SPY reclaims a rising 50-day average, or SPY rallies 10% off its 20-session low while inflation is under 4%.</li>
+        <li><b>Bullish · 100%.</b> The composite score is above −0.10. It also goes back to 100% early after a sell-off: when SPY reclaims a rising 50-day average after a 20% decline, or rallies 10% off its 20-session low while inflation is under 4%.</li>
+        <li><b>Neutral · 50%.</b> The score is below −0.10, but the macro signals have not confirmed it.</li>
+        <li><b>Bearish · 0%.</b> The score is below −0.10 and macro confirms it. Cash earns T-bills.</li>
       </ul></div>
       <div class="rule"><h3>Bitcoin</h3><ul>
-        <li><b>Bullish: 100%.</b> The composite score is positive.</li>
-        <li><b>Neutral: 50%.</b> Mixed signals.</li>
-        <li><b>Bearish: 0%.</b> The score is negative. Cash earns T-bills.</li>
-        <li><b>Correction 50%, Recovery 100%.</b> Bottoming rules that apply only once Bitcoin is 50% or more below its high.</li>
+        <li><b>Bullish · 100%.</b> The composite score is above +0.20, or, once Bitcoin is 50% or more below its high, it closes back above its 20-week average.</li>
+        <li><b>Neutral · 50%.</b> The score is between −0.15 and +0.20, or it is below −0.15 deep in a bear market without macro confirmation.</li>
+        <li><b>Bearish · 0%.</b> The score is below −0.15. Cash earns T-bills.</li>
       </ul></div>
       <div class="rule"><h3>High beta</h3><ul>
-        <li><b>S&amp;P backdrop.</b> Starts from the stock model: Bullish, Neutral and Recovery 100%, Correction 50%, Bearish 0%. The rules below let high beta cut on its own.</li>
-        <li><b>Lagging: 50%.</b> High beta is clearly lagging the S&amp;P 500 (basket vs SPY), even when the market model is Bullish.</li>
-        <li><b>Crash: 50%.</b> The basket falls 12% or more in 10 sessions, whatever the market model says; back to the market call on a close above the basket’s close 5 sessions earlier.</li>
-        <li><b>Breakdown: 0%.</b> The market model is Neutral or in Correction and the basket closes below its own 200-day average.</li>
-        <li><b>The basket.</b> The 25 Nasdaq-100 stocks with the highest beta to QQQ over two years, equal weight, re-ranked each quarter.</li>
-        <li><b>Not in the model portfolio.</b> A separate desk for a high-risk sleeve.</li>
+        <li><b>Starts from the stock desk.</b> High beta takes the stock desk’s state, then its own rules can cut it further; the lowest exposure wins.</li>
+        <li><b>Neutral · 50%.</b> High beta is clearly lagging the S&amp;P 500, or the basket falls 12% or more in 10 sessions.</li>
+        <li><b>Bearish · 0%.</b> The stock desk is Bearish, or the basket closes below its 200-day average while the stock model is not firmly positive.</li>
+        <li><b>The basket.</b> The 25 Nasdaq-100 stocks with the highest beta to QQQ over two years, equal weight, re-ranked each quarter. A separate, higher-risk desk, not part of the flagship.</li>
       </ul></div>
     </div>
   </section>
@@ -406,7 +402,7 @@ const pc=(v,d=1)=>v==null?'—':(v*100).toFixed(d)+'%';
 const pcs=(v,d=0)=>v==null?'—':(v<0?'−':'')+Math.abs(v*100).toFixed(d)+'%';
 const csv=t=>{const[h,...r]=t.trim().split(/\r?\n/);const k=h.split(',');return r.map(x=>{const c=x.split(',');const o={};k.forEach((kk,i)=>o[kk]=c[i]);return o})};
 const BAND={Bullish:'var(--bull)',Recovery:'var(--bull)',Neutral:'#5a5f6e',Correction:'#3a3f4d',Bearish:'var(--bear)',Breakdown:'var(--bear)',Crash:'#3a3f4d',Lagging:'#3a3f4d'};
-function strip(H,ex){return Kerdos.hist(H.map(r=>({date:r.date,regime:r.regime})))}
+function strip(H,ex){return Kerdos.hist(H.map(r=>({date:r.date,regime:r.regime})),{map:ex})}
 function card(o){return `<article class="desk"><div class="top"><h2>${o.name}</h2><span class="label">${o.asof}</span></div>
   <div><div class="call c-${o.reg}">${o.reg}</div></div>
   <div class="expo"><span>Exposure</span><b>${Math.round(o.exp*100)}%</b><span>since ${fmtD(o.since)}</span></div>
@@ -417,7 +413,7 @@ function card(o){return `<article class="desk"><div class="top"><h2>${o.name}</h
   <a class="go" href="${o.href}">Open the ${o.short} desk <span aria-hidden="true">→</span></a></article>`}
 Promise.all([fetch('flagship/report.json').then(r=>{if(!r.ok)throw 0;return r.json()}),fetch('flagship/equity.csv').then(r=>r.ok?r.text():'')]).then(([F,eqt])=>{
   const el=document.getElementById('flagcard');if(!el)return;const w=F.weights,A=['SPY','QQQ','BTC','GLD','CASH'],RU=F.rules;
-  const C={SPY:'#a58ee4',QQQ:'#8d72c8',BTC:'#f39b4b',GLD:'#e0b44a',CASH:'#5c6272'},L={SPY:'SPY',QQQ:'QQQ',BTC:'Bitcoin',GLD:'Gold',CASH:'T-bills'};
+  const C={SPY:'#7DA6DD',QQQ:'#4F72A8',BTC:'#C3CAD5',GLD:'#9C9384',CASH:'#3A404B'},L={SPY:'SPY',QQQ:'QQQ',BTC:'Bitcoin',GLD:'Gold',CASH:'T-bills'};
   const p1=(v,d=1)=>(v>0?'+':v<0?'−':'')+Math.abs(v*100).toFixed(d)+'%',ud=v=>v>0?'up':v<0?'dn':'';
   const b=F.backtest.flagship['2005–26'],s=F.backtest.spy['2005–26'],Lv=F.live;
   const mix=`${Math.round((RU.stocks.SPY+RU.stocks.QQQ)*100)}% stocks · ${Math.round(RU.btc*100)}% Bitcoin · ${Math.round(RU.gold*100)}% gold`;
@@ -426,12 +422,12 @@ Promise.all([fetch('flagship/report.json').then(r=>{if(!r.ok)throw 0;return r.js
   el.innerHTML=`<div class="col"><div class="mix">${mix}</div><div class="big">${Math.round((1-w.CASH)*100)}% invested</div>
      <div class="abar" role="img" aria-label="Allocation now: ${A.map(k=>L[k]+' '+Math.round(w[k]*100)+'%').join(', ')}">${A.filter(k=>w[k]>0).map(k=>`<i style="flex:${w[k]};background:${C[k]}"></i>`).join('')}</div>
      <div class="leg">${A.filter(k=>w[k]>0).map(k=>`<span><i style="background:${C[k]}"></i>${L[k]} ${Math.round(w[k]*100)}%</span>`).join('')}</div>
-     <div class="sub">Stocks desk <b>${F.stocks_regime}</b> · Bitcoin desk <b>${F.btc_regime||'—'}</b> · as of the ${fmtD(F.asof)} close</div>
+     <div class="sub">Stocks desk <b>${Kerdos.st(F.stocks_regime,RU.stocks_exposure)}</b> · Bitcoin desk <b>${Kerdos.st(F.btc_regime,RU.btc_exposure)||'—'}</b> · as of the ${fmtD(F.asof)} close</div>
      <a class="go" href="flagship.html">Open the flagship portfolio <span aria-hidden="true">→</span></a></div>
    <div class="col"><div class="kv">${live}
      <div><span>Backtest 2005–26 · per year</span><b>${(b.cagr*100).toFixed(1)}%</b><em>S&amp;P 500 ${(s.cagr*100).toFixed(1)}%</em></div>
      <div><span>Backtest · worst drop</span><b>−${Math.abs(b.maxdd*100).toFixed(0)}%</b><em>S&amp;P 500 −${Math.abs(s.maxdd*100).toFixed(0)}%</em></div></div>
-     <div class="mini chart" id="flmini"></div><p class="note" style="margin:0">Backtest growth of $1 since 2005, log scale: <span style="color:#a58ee4">flagship</span> vs <span style="color:#d1d4dc">S&amp;P 500</span>. Hypothetical; nobody held this portfolio before Oct 26, 2026.</p></div>`;
+     <div class="mini chart" id="flmini"></div><p class="note" style="margin:0">Backtest growth of $1 since 2005, log scale: <span style="color:#7DA6DD">flagship</span> vs <span style="color:#9AA1AC">S&amp;P 500</span>. Hypothetical; nobody held this portfolio before Oct 26, 2026.</p></div>`;
   const rows=(eqt||'').trim().split(/\r?\n/).slice(1).map(l=>l.split(',')).map(c=>({t:Date.parse(c[0]+'T00:00:00Z'),f:+c[1],s:+c[2]})).filter(r=>r.f>0&&r.s>0);
   const host=document.getElementById('flmini');
   const draw=()=>{if(!rows.length||!host)return;const W=Math.max(280,host.clientWidth||520),H=W<500?140:160,m={t:8,r:40,b:18,l:4};
@@ -439,7 +435,7 @@ Promise.all([fetch('flagship/report.json').then(r=>{if(!r.ok)throw 0;return r.js
     const X=v=>m.l+(v-x0)/(x1-x0)*(W-m.l-m.r),Y=v=>m.t+(Math.log(y1)-Math.log(v))/(Math.log(y1)-Math.log(y0))*(H-m.t-m.b);let g='';
     [1,10,100].filter(v=>v>=y0&&v<=y1).forEach(v=>{g+=`<line class="grid" x1="${m.l}" x2="${W-m.r}" y1="${Y(v)}" y2="${Y(v)}"/><text class="ax" x="${W-m.r+5}" y="${Y(v)+3.5}">$${v}</text>`});
     [2005,2010,2015,2020,2025].forEach(y=>{const x=X(Date.UTC(y,0,1));if(x>m.l+10&&x<W-m.r-10)g+=`<text class="ax" x="${x}" y="${H-4}" text-anchor="middle">${y}</text>`});
-    [['s','#d1d4dc',1.4],['f','#a58ee4',2]].forEach(([k,c,wd])=>{let d='';rows.forEach((r,i)=>{d+=(i?'L':'M')+X(r.t).toFixed(1)+','+Y(r[k]).toFixed(1)});g+=`<path d="${d}" fill="none" stroke="${c}" stroke-width="${wd}" stroke-linejoin="round"/>`});
+    [['s','#9AA1AC',1.4],['f','#7DA6DD',2]].forEach(([k,c,wd])=>{let d='';rows.forEach((r,i)=>{d+=(i?'L':'M')+X(r.t).toFixed(1)+','+Y(r[k]).toFixed(1)});g+=`<path d="${d}" fill="none" stroke="${c}" stroke-width="${wd}" stroke-linejoin="round"/>`});
     host.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Backtest growth of one dollar since 2005">${g}</svg>`};
   draw();let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(draw,150)});
 }).catch(()=>{const el=document.getElementById('flagcard');if(el)el.innerHTML='<p class="note" style="margin:0">The flagship portfolio is published at <a href="https://kerdoscapital.xyz/flagship.html">kerdoscapital.xyz</a>.</p>'});
@@ -454,15 +450,15 @@ Promise.all(['stocks/report.json','bitcoin/report.json','highbeta/report.json'].
   if(M.exposure<1&&RB.cpi_ok)mf.push(['Rebound to 100% on a SPY close at or above',usd(RB.low20*1.1)]);
   const bf=[['Composite score',(B.score>0?'+':'')+B.score.toFixed(2)],['Distance from the all-time high',sgn(B.cycle.dd,0)],
     ['Turns Bullish above / Bearish below',`+${B.thresholds.bull} / ${B.thresholds.bear}`]];
-  $('#desks').innerHTML=card({name:'US stocks · SPY & QQQ',asof:fmtD(M.asof),reg:M.regime,exp:M.exposure,since:M.regime_since,quotes:q('SPY',M.spy,M.spy_chg)+q('QQQ',M.qqq,M.qqq_chg),facts:mf,strip:strip(csv(mh),M.exposure_map),href:'stocks.html',short:'stocks'})
-   +card({name:'Bitcoin',asof:fmtD(B.asof),reg:B.regime,exp:B.exposure,since:B.regime_since,quotes:`<div class="q"><div class="tk">BTC</div><div class="px">${usd(B.price,0)}</div><div class="ch"><span class="${cls(B.chg1)}">${sgn(B.chg1)} 1d</span><span class="${cls(B.chg7)}">${sgn(B.chg7)} 7d</span><span class="${cls(B.ytd)}">${sgn(B.ytd)} YTD</span></div></div>`,facts:bf,strip:strip(csv(bh),B.exposure_map),href:'bitcoin.html',short:'Bitcoin'})
-   +card({name:'High beta · satellite sleeve',asof:fmtD(G.asof),reg:G.regime,exp:G.exposure,since:G.regime_since,quotes:`<div class="q"><div class="tk">Basket</div><div class="px">${G.level.toFixed(2)}</div><div class="ch"><span class="${cls(G.chg.d1)}">${sgn(G.chg.d1*100)} 1d</span><span class="${cls(G.chg.ytd)}">${sgn(G.chg.ytd*100,0)} YTD</span></div></div>`,facts:[['Strength vs S&P 500',(G.strength||{}).state+' · '+(((G.strength||{}).score||0)<0?'−':'+')+Math.abs((G.strength||{}).score||0).toFixed(2)],['Basket vs its 200-day average',sgn(G.trend.vs200*100)],['Basket, last 10 sessions (cut at −12%)',sgn(((G.crash||{}).r10||0)*100)]],strip:strip(hbh,G.exposure_map),href:'highbeta.html',short:'high-beta'});
+  $('#desks').innerHTML=card({name:'US stocks · SPY & QQQ',asof:fmtD(M.asof),reg:Kerdos.st(M.regime,M.exposure_map),exp:M.exposure,since:(Kerdos.stRun(csv(mh),M.exposure_map)||{}).since||M.regime_since,quotes:q('SPY',M.spy,M.spy_chg)+q('QQQ',M.qqq,M.qqq_chg),facts:mf,strip:strip(csv(mh),M.exposure_map),href:'stocks.html',short:'stocks'})
+   +card({name:'Bitcoin',asof:fmtD(B.asof),reg:Kerdos.st(B.regime,B.exposure_map),exp:B.exposure,since:(Kerdos.stRun(csv(bh),B.exposure_map)||{}).since||B.regime_since,quotes:`<div class="q"><div class="tk">BTC</div><div class="px">${usd(B.price,0)}</div><div class="ch"><span class="${cls(B.chg1)}">${sgn(B.chg1)} 1d</span><span class="${cls(B.chg7)}">${sgn(B.chg7)} 7d</span><span class="${cls(B.ytd)}">${sgn(B.ytd)} YTD</span></div></div>`,facts:bf,strip:strip(csv(bh),B.exposure_map),href:'bitcoin.html',short:'Bitcoin'})
+   +card({name:'High beta · satellite sleeve',asof:fmtD(G.asof),reg:Kerdos.st(G.regime,G.exposure_map),exp:G.exposure,since:(Kerdos.stRun(hbh,G.exposure_map)||{}).since||G.regime_since,quotes:`<div class="q"><div class="tk">Basket</div><div class="px">${G.level.toFixed(2)}</div><div class="ch"><span class="${cls(G.chg.d1)}">${sgn(G.chg.d1*100)} 1d</span><span class="${cls(G.chg.ytd)}">${sgn(G.chg.ytd*100,0)} YTD</span></div></div>`,facts:[['Strength vs S&P 500',(G.strength||{}).state+' · '+(((G.strength||{}).score||0)<0?'−':'+')+Math.abs((G.strength||{}).score||0).toFixed(2)],['Basket vs its 200-day average',sgn(G.trend.vs200*100)],['Basket, last 10 sessions (cut at −12%)',sgn(((G.crash||{}).r10||0)*100)]],strip:strip(hbh,G.exposure_map),href:'highbeta.html',short:'high-beta'});
   {
    {const MAPS={stocks:M.exposure_map,btc:B.exposure_map,hb:G.exposure_map};const ch=[];
-    [['US stocks','stocks',csv(mh)],['Bitcoin','btc',csv(bh)],['High beta','hb',hbh]].forEach(([n,k,R])=>{let prev=null;R.forEach(r=>{if(!r.regime)return;if(prev&&r.regime!==prev.regime)ch.push({date:r.date,desk:n,k,from:prev.regime,to:r.regime});prev=r})});
+    [['US stocks','stocks',csv(mh)],['Bitcoin','btc',csv(bh)],['High beta','hb',hbh]].forEach(([n,k,R])=>{let prev=null;R.forEach(r=>{if(!r.regime)return;const s=Kerdos.st(r.regime,MAPS[k]);if(prev&&s!==prev)ch.push({date:r.date,desk:n,k,from:prev,to:s});prev=s})});
     ch.sort((a,b)=>a.date<b.date?1:-1);
     const px=v=>v==null?'—':Math.round(v*100)+'%';
-    $('#changes').innerHTML=`<div class="tblwrap"><table><thead><tr><th>Date</th><th>Desk</th><th>Change</th><th class="n">Exposure</th></tr></thead><tbody>${ch.slice(0,6).map(c=>`<tr><td class="mono">${fmtD(c.date)}</td><td>${c.desk}</td><td><span class="c-${c.from}">${c.from}</span> → <b class="c-${c.to}">${c.to}</b></td><td class="n">${px(MAPS[c.k][c.from])} → ${px(MAPS[c.k][c.to])}</td></tr>`).join('')}</tbody></table></div>`;}
+    $('#changes').innerHTML=`<div class="tblwrap"><table><thead><tr><th>Date</th><th>Desk</th><th>Change</th><th class="n">Exposure</th></tr></thead><tbody>${ch.slice(0,6).map(c=>`<tr><td class="mono">${fmtD(c.date)}</td><td>${c.desk}</td><td><span class="c-${c.from}">${c.from}</span> → <b class="c-${c.to}">${c.to}</b></td><td class="n">${px(Kerdos.EXPO[c.from])} → ${px(Kerdos.EXPO[c.to])}</td></tr>`).join('')}</tbody></table></div>`;}
   }
   const row=(n,s,b)=>`<tr><td>${n}</td><td class="n hl">${pc(s.cagr)}</td><td class="n">${pc(b.cagr)}</td><td class="n hl">${pcs(s.maxdd)}</td><td class="n">${pcs(b.maxdd)}</td><td class="n">${s.sharpe.toFixed(2)} / ${b.sharpe.toFixed(2)}</td></tr>`;
   $('#record').innerHTML=`<table><thead><tr><th>Asset</th><th class="n">Model / yr</th><th class="n">Buy & hold / yr</th><th class="n">Model worst drop</th><th class="n">Buy & hold worst</th><th class="n">Sharpe</th></tr></thead><tbody>

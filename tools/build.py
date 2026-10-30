@@ -31,7 +31,7 @@ PAGES = {   # file: (title, description, nav label)
     'bitcoin.html': (f'Bitcoin Desk · {NAME}',
                      'Daily regime model for Bitcoin: trend, momentum and macro signals, with a backtest since 2015.', 'Bitcoin'),
     'highbeta.html': (f'High Beta Desk · {NAME}',
-                      'Daily regime model for the 25 highest-beta Nasdaq-100 stocks, a satellite sleeve outside the model portfolio, with a backtest against SPHB.', 'High Beta'),
+                      'Daily model for the 25 highest-beta Nasdaq-100 stocks, a satellite sleeve outside the flagship portfolio, with a backtest against holding the basket and QQQ.', 'High Beta'),
     'about.html': (f'About · {NAME}',
                    'What Kerdos Capital is, how its models are built and run, and what it is not.', 'About'),
 }
@@ -157,7 +157,7 @@ def flag_card(F):
     live = (f'<div><span>Since inception · Flagship</span><b>{p1(L["flagship"]["total"], 2)}</b><em>from the {E(fmt_d(L["since"]))} open</em></div>'
             f'<div><span>Since inception · S&amp;P 500</span><b>{p1(L["spy"]["total"], 2)}</b><em>to the {E(fmt_d(L["asof"]))} close</em></div>') if L else ''
     return (f'<div class="col"><div class="mix">{mix}</div><div class="big">{round((1 - w["CASH"]) * 100)}% invested</div><div class="leg">{leg}</div>'
-            f'<div class="sub">Stocks desk <b>{E(F["stocks_regime"])}</b> · Bitcoin desk <b>{E(F.get("btc_regime") or "—")}</b> · as of the {E(fmt_d(F["asof"]))} close</div>'
+            f'<div class="sub">Stocks desk <b>{E(st3(F["stocks_regime"], RU.get("stocks_exposure")))}</b> · Bitcoin desk <b>{E(st3(F.get("btc_regime"), RU.get("btc_exposure")) or "—")}</b> · as of the {E(fmt_d(F["asof"]))} close</div>'
             f'<a class="go" href="flagship.html">Open the flagship portfolio <span aria-hidden="true">→</span></a></div>'
             f'<div class="col"><div class="kv">{live}<div><span>Backtest 2005–26 · per year</span><b>{b["cagr"] * 100:.1f}%</b><em>S&amp;P 500 {sp["cagr"] * 100:.1f}%</em></div>'
             f'<div><span>Backtest · worst drop</span><b>−{abs(b["maxdd"]) * 100:.0f}%</b><em>S&amp;P 500 −{abs(sp["maxdd"]) * 100:.0f}%</em></div></div></div>')
@@ -174,9 +174,9 @@ def prerender_index(s, M, B, G, FL):
                 f'<div class="meter" aria-hidden="true"><i style="width:{expo * 100:.0f}%"></i></div><div class="quotes">{quote}</div>'
                 f'<a class="go" href="{href}">Open the {short} desk <span aria-hidden="true">→</span></a></article>')
     q = lambda tk, px, d1: f'<div class="q"><div class="tk">{tk}</div><div class="px">{px}</div><div class="ch"><span>{sg(d1)} 1d</span></div></div>'
-    if M: cards.append(card('US stocks · SPY & QQQ', M['regime'], M['exposure'], M['regime_since'], q('SPY', usd(M['spy']), M['spy_chg']['d1']) + q('QQQ', usd(M['qqq']), M['qqq_chg']['d1']), 'stocks.html', 'stocks'))
-    if B: cards.append(card('Bitcoin', B['regime'], B['exposure'], B['regime_since'], q('BTC', usd(B.get('price'), 0), B.get('chg1')), 'bitcoin.html', 'Bitcoin'))
-    if G: cards.append(card('High beta · satellite sleeve', G['regime'], G['exposure'], G['regime_since'], q('Basket', f"{G['level']:.2f}", (G.get('chg') or {}).get('d1', 0) * 100), 'highbeta.html', 'high-beta'))
+    if M: cards.append(card('US stocks · SPY & QQQ', st3(M['regime'], M.get('exposure_map')), M['exposure'], st_since('stocks/history.csv', M.get('exposure_map')) or M['regime_since'], q('SPY', usd(M['spy']), M['spy_chg']['d1']) + q('QQQ', usd(M['qqq']), M['qqq_chg']['d1']), 'stocks.html', 'stocks'))
+    if B: cards.append(card('Bitcoin', st3(B['regime'], B.get('exposure_map')), B['exposure'], st_since('bitcoin/history.csv', B.get('exposure_map')) or B['regime_since'], q('BTC', usd(B.get('price'), 0), B.get('chg1')), 'bitcoin.html', 'Bitcoin'))
+    if G: cards.append(card('High beta · satellite sleeve', st3(G['regime'], G.get('exposure_map')), G['exposure'], st_since('highbeta/history.csv', G.get('exposure_map')) or G['regime_since'], q('Basket', f"{G['level']:.2f}", (G.get('chg') or {}).get('d1', 0) * 100), 'highbeta.html', 'high-beta'))
     if cards: s = put_inside(s, r'<section class="desks" id="desks"[^>]*>', 'desks', ''.join(cards))
     if FL:
         s = put_inside(s, r'<article class="desk feat-card" id="flagcard">', 'flagcard', flag_card(FL))
@@ -215,19 +215,38 @@ SANS_B = ['/usr/share/fonts/truetype/google-fonts/Poppins-Bold.ttf', '/usr/share
 SANS_M = ['/usr/share/fonts/truetype/google-fonts/Poppins-Medium.ttf', '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf']
 SANS_R = ['/usr/share/fonts/truetype/google-fonts/Poppins-Regular.ttf', '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf']
 MONO = ['/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf']
-COL = {'Bullish': '#a58ee4', 'Recovery': '#a58ee4', 'Neutral': '#d1d4dc', 'Correction': '#9aa0ae', 'Lagging': '#9aa0ae',
-       'Crash': '#e0904a', 'Bearish': '#ef5a62', 'Breakdown': '#ef5a62', 'Risk-On': '#a58ee4', 'Risk-Off': '#ef5a62'}
+COL = {'Bullish': '#6E9BD8', 'Neutral': '#B4BBC7', 'Bearish': '#D9737C'}
+
+
+def st3(reg, mp):
+    """The site's three display states, by exposure: Bullish 100%, Neutral 50%, Bearish 0%."""
+    e = (mp or {}).get(reg)
+    if e is None: return reg
+    return 'Bullish' if e >= .99 else 'Neutral' if e > 0 else 'Bearish'
+
+
+def st_since(path, mp):
+    """Date the current display state began, from a desk's history.csv (columns include date and regime)."""
+    try:
+        lines = open(p(path), encoding='utf-8').read().strip().splitlines()
+        hd = lines[0].split(','); di, ri = hd.index('date'), hd.index('regime')
+        rows = [(c[di], st3(c[ri], mp)) for c in (l.split(',') for l in lines[1:]) if len(c) > ri and c[ri]]
+        i = len(rows) - 1
+        while i > 0 and rows[i - 1][1] == rows[-1][1]: i -= 1
+        return rows[i][0]
+    except Exception:
+        return None
 
 
 def make_icons():
     from PIL import Image, ImageDraw
     svg = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#131621"/>'
-           '<path d="M21 15v34M21 33l19-18M27 28l15 21" fill="none" stroke="#a58ee4" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>')
+           '<path d="M21 15v34M21 33l19-18M27 28l15 21" fill="none" stroke="#7DA6DD" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>')
     wr('favicon.svg', svg)
     def k_img(n):
         im = Image.new('RGBA', (n, n), (0, 0, 0, 0)); d = ImageDraw.Draw(im); s = n / 64
         d.rounded_rectangle([0, 0, n - 1, n - 1], radius=int(14 * s), fill='#131621')
-        w = max(2, int(7 * s)); c = '#a58ee4'
+        w = max(2, int(7 * s)); c = '#7DA6DD'
         for a, b in [((21, 15), (21, 49)), ((21, 33), (40, 15)), ((27, 28), (42, 49))]:
             d.line([(a[0] * s, a[1] * s), (b[0] * s, b[1] * s)], fill=c, width=w)
             for pt in (a, b): d.ellipse([pt[0] * s - w / 2, pt[1] * s - w / 2, pt[0] * s + w / 2, pt[1] * s + w / 2], fill=c)
@@ -242,15 +261,15 @@ def make_og(M, B, G, FL):
     im = Image.new('RGB', (W, H), '#131621'); d = ImageDraw.Draw(im)
     for i in range(H):   # faint lavender glow at the top left
         a = max(0, 1 - i / 420) * 0.10
-        d.line([(0, i), (W, i)], fill=tuple(int(x * (1 - a) + y * a) for x, y in zip((19, 22, 33), (165, 142, 228))))
+        d.line([(0, i), (W, i)], fill=tuple(int(x * (1 - a) + y * a) for x, y in zip((19, 22, 33), (110, 155, 216))))
     d.text((72, 66), 'K E R D O S   C A P I T A L', font=font(SANS_M, 26), fill='#ffffff')
     d.text((72, 128), 'Independent Quantitative', font=font(SANS_B, 58), fill='#ffffff')
     d.text((72, 196), 'Investment Research', font=font(SANS_B, 58), fill='#ffffff')
     rows = []
-    if FL: rows.append(('Flagship portfolio', FL.get('regime', '—'), f"{round((1 - FL.get('weights', {}).get('CASH', 0)) * 100)}% invested"))
-    if M: rows.append(('US stocks', M['regime'], f"{round(M['exposure'] * 100)}% invested"))
-    if B: rows.append(('Bitcoin', B['regime'], f"{round(B['exposure'] * 100)}% invested"))
-    if G: rows.append(('High beta', G['regime'], f"{round(G['exposure'] * 100)}% invested"))
+    if FL: rows.append(('Flagship portfolio', '60 / 30 / 10', f"{round((1 - FL.get('weights', {}).get('CASH', 0)) * 100)}% invested"))
+    if M: rows.append(('US stocks', st3(M['regime'], M.get('exposure_map')), f"{round(M['exposure'] * 100)}% invested"))
+    if B: rows.append(('Bitcoin', st3(B['regime'], B.get('exposure_map')), f"{round(B['exposure'] * 100)}% invested"))
+    if G: rows.append(('High beta', st3(G['regime'], G.get('exposure_map')), f"{round(G['exposure'] * 100)}% invested"))
     y = 310
     for name, reg, ex in rows[:4]:
         d.rounded_rectangle([72, y, W - 72, y + 56], radius=14, fill='#1e2230')
@@ -270,7 +289,7 @@ def make_about(index_html):
     i_ft = index_html.find('<footer class="foot pub">'); i_fe = index_html.find('</footer>', i_ft) + len('</footer>')
     if min(i_nav, i_ft) < 0: return None
     extra = ('<style>.about .prose{display:grid;gap:12px;max-width:72ch;color:var(--ink2,#a9adb8);font-size:.98rem;line-height:1.6}'
-             '.about .prose p{margin:0}.about .prose a{color:var(--accent,#a58ee4)}</style>\n')
+             '.about .prose p{margin:0}.about .prose a{color:var(--accent,#7DA6DD)}</style>\n')
     head_end = index_html.find('</head>')
     return (index_html[:head_end] + extra + index_html[head_end:i_end] + '\n' + body + '\n  ' + index_html[i_ft:i_fe] + '\n</div>\n</body>\n</html>\n')
 
@@ -316,7 +335,7 @@ def main():
         wr(old, f'<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<title>{E(title)}</title>\n'
                 f'<meta http-equiv="refresh" content="0; url={new}">\n<link rel="canonical" href="{SITE}/{new}">\n<meta name="robots" content="noindex">\n'
                 f'</head>\n<body style="background:#131621;color:#d1d4dc;font-family:sans-serif;padding:24px">'
-                f'<p>This page has moved to the <a style="color:#a58ee4" href="{new}">Kerdos Flagship Portfolio</a>.</p>\n'
+                f'<p>This page has moved to the <a style="color:#7DA6DD" href="{new}">Kerdos Flagship Portfolio</a>.</p>\n'
                 f'<script>location.replace({json.dumps(new)})</script>\n</body>\n</html>\n')
     today = dt.date.today().isoformat()
     wr('robots.txt', f'User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n')
