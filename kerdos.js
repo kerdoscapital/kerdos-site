@@ -111,43 +111,71 @@
   let mt; new MutationObserver(() => { clearTimeout(mt); mt = setTimeout(K.scan, 30); }).observe(d.body, { childList: true, subtree: true });
 
   /* ---------- line charts draw themselves in as they scroll into view ----------
-     Every stroked, unfilled path inside a .chart svg starts hidden and is traced left to right the first time
-     the chart is a third on screen. A chart redrawn by a tap (ticker or range toggle) traces again; one redrawn
-     by a resize or by the phone's address bar showing/hiding stays as it is. */
+     Every stroked, unfilled path in a .chart is revealed by a left-to-right sweep the first time the chart is a third on screen,
+     after its panel has faded in. The animation is driven per chart, not per svg, so when the page redraws a chart
+     mid-trace (a phone's address bar showing or hiding fires a resize) the new drawing carries on from the same point
+     instead of popping in whole. A redraw from a tap (ticker or range toggle) traces again; other redraws of a
+     finished chart stay as they are. */
   if (!reduce && 'IntersectionObserver' in window) {
-    let tap = -1e9; const DUR = 1500;
+    let tap = -1e9; const DUR = 2000;
     const mark = () => { tap = performance.now(); };
     d.addEventListener('pointerdown', mark, true); d.addEventListener('keydown', mark, true);
     const strokes = svg => [...svg.querySelectorAll('path')].filter(p => p.getAttribute('fill') === 'none' && (p.getAttribute('stroke') || 'none') !== 'none');
     const dots = svg => svg.querySelectorAll('circle:not(.hd)');
-    const prep = svg => {
-      const ps = strokes(svg); if (!ps.length) return false;
-      ps.forEach(p => { let L = 0; try { L = p.getTotalLength(); } catch (e) {} if (!L) return;
-        p.style.transition = 'none'; p.style.strokeDasharray = L + ' ' + L; p.style.strokeDashoffset = L; });
-      dots(svg).forEach(c => { c.style.transition = 'none'; c.style.opacity = 0; });
-      return true;
+    const ease = p => .5 - Math.cos(Math.PI * p) / 2;   // steady pen speed with soft start and finish
+    const ST = new WeakMap(), live = new Set();
+    let cid = 0;
+    const clipOf = svg => {   // a rect that sweeps left to right; the lines show only inside it
+      if (svg._kc) return svg._kc;
+      const ns = 'http://www.w3.org/2000/svg', vb = svg.viewBox.baseVal, id = 'kdraw' + (++cid);
+      const cp = d.createElementNS(ns, 'clipPath'); cp.setAttribute('id', id);
+      const r = d.createElementNS(ns, 'rect'); r.setAttribute('x', vb.x - 4); r.setAttribute('y', vb.y - 20);
+      r.setAttribute('height', vb.height + 40); r.setAttribute('width', 0); cp.append(r); svg.prepend(cp);
+      strokes(svg).forEach(p => p.setAttribute('clip-path', `url(#${id})`));
+      return (svg._kc = { r, w: vb.width + 8 });
     };
-    const play = svg => {
-      const ps = strokes(svg);
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        ps.forEach((p, i) => { p.style.transition = `stroke-dashoffset ${DUR}ms cubic-bezier(.33,.0,.15,1) ${200 + i * 140}ms`; p.style.strokeDashoffset = 0; });
-        dots(svg).forEach(c => { c.style.transition = `opacity .4s ease ${DUR + 50}ms`; c.style.opacity = ''; });
-        setTimeout(() => ps.forEach(p => { p.style.transition = ''; p.style.strokeDasharray = ''; p.style.strokeDashoffset = ''; }), DUR + 300 + ps.length * 140);
-      }));
+    const setP = (host, f) => {
+      const svg = host.querySelector('svg'); if (!svg) return;
+      const c = clipOf(svg); c.r.setAttribute('width', (c.w * f).toFixed(1));
+      dots(svg).forEach(c => { c.style.opacity = f >= 1 ? '' : 0; });
+    };
+    const clear = host => {
+      const svg = host.querySelector('svg'); if (!svg) return;
+      strokes(svg).forEach(p => p.removeAttribute('clip-path'));
+      if (svg._kc) { svg._kc.r.parentNode.remove(); svg._kc = null; }
+      dots(svg).forEach(c => { c.style.transition = 'opacity .35s ease'; c.style.opacity = ''; });
+    };
+    const prog = s => { const t = performance.now(); return t < s.t0 ? 0 : ease(Math.min(1, (t - s.t0) / DUR)); };
+    const tick = () => {
+      live.forEach(host => {
+        const s = ST.get(host);
+        if (!host.isConnected) { live.delete(host); return; }
+        const f = prog(s); setP(host, f);
+        if (f >= 1) { s.state = 'done'; clear(host); live.delete(host); }
+      });
+      if (live.size) requestAnimationFrame(tick);
+    };
+    const start = (host, delay) => {
+      const s = ST.get(host); s.state = 'play'; s.t0 = performance.now() + delay;
+      if (!live.size) requestAnimationFrame(tick);
+      live.add(host);
     };
     const lio = new IntersectionObserver(es => es.forEach(e => {
-      if (!e.isIntersecting) return; lio.unobserve(e.target); play(e.target);
-    }), { threshold: 0.33, rootMargin: '0px 0px -6% 0px' });
-    const seen = new WeakSet();
-    const drawScan = () => d.querySelectorAll('.chart svg').forEach(svg => {
-      if (seen.has(svg)) return; seen.add(svg);
-      const host = svg.closest('.chart');
-      if (host.dataset.kd && performance.now() - tap > 1200) return;
-      host.dataset.kd = '1';
-      if (prep(svg)) lio.observe(svg);
+      if (!e.isIntersecting) return; lio.unobserve(e.target);
+      const s = ST.get(e.target); if (!s || s.state !== 'wait') return;
+      const panel = e.target.closest('.k-rv');
+      start(e.target, panel && !panel.classList.contains('k-done') ? 700 : 200);   // let the panel finish fading in first
+    }), { threshold: 0.3, rootMargin: '0px 0px -6% 0px' });
+    const scan = () => d.querySelectorAll('.chart').forEach(host => {
+      const svg = host.querySelector('svg'); if (!svg || svg._ks) return; svg._ks = 1;
+      const s = ST.get(host);
+      if (!s) { if (!strokes(svg).length) return; ST.set(host, { state: 'wait' }); setP(host, 0); lio.observe(host); return; }
+      if (s.state === 'wait') { setP(host, 0); return; }
+      if (s.state === 'play') { setP(host, prog(s)); return; }
+      if (performance.now() - tap < 1200 && strokes(svg).length) { setP(host, 0); start(host, 120); }
     });
-    drawScan();
-    new MutationObserver(drawScan).observe(d.body, { childList: true, subtree: true });
+    scan();
+    new MutationObserver(scan).observe(d.body, { childList: true, subtree: true });
   }
   };
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', boot); else boot();
