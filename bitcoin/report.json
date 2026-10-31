@@ -1,6 +1,6 @@
 {
  "asof": "2026-10-30",
- "generated": "2026-10-31 10:06 UTC",
+ "generated": "2026-10-31 22:40 UTC",
  "price": 77194.0,
  "chg1": -0.7,
  "chg7": -4.8,
@@ -22,7 +22,7 @@
  },
  "v2": {
   "deep_dd": -0.5,
-  "deep_off": -0.45,
+  "deep_release": "signal turns Bullish (v4 latch)",
   "bottom_macro": -0.2,
   "dd": -38.2,
   "deep": false,
@@ -93,7 +93,7 @@
    "price": 12863.0,
    "new": [
     -35.0,
-    179.0
+    223.0
    ],
    "old": [
     -35.0,
@@ -119,7 +119,7 @@
    "price": 63446.0,
    "new": [
     0.0,
-    -43.0
+    -35.0
    ],
    "old": [
     -36.0,
@@ -132,7 +132,7 @@
    "price": 29767.0,
    "new": [
     0.0,
-    67.0
+    53.0
    ],
    "old": [
     40.0,
@@ -218,7 +218,7 @@
   },
   {
    "year": 2021,
-   "strategy": 83.4,
+   "strategy": 96.8,
    "buyhold": 59.7,
    "old": 39.4
   },
@@ -248,7 +248,7 @@
   },
   {
    "year": 2026,
-   "strategy": -12.8,
+   "strategy": -1.9,
    "buyhold": -11.8,
    "old": -16.9
   }
@@ -256,38 +256,38 @@
  "start_years": [
   {
    "start": "2015",
-   "cagr": 91.8,
+   "cagr": 94.8,
    "bh": 58.9,
    "maxdd": -50.0,
    "bh_dd": -84.0,
-   "sharpe": 1.49,
+   "sharpe": 1.52,
    "bh_sharpe": 1.0
   },
   {
    "start": "2018",
-   "cagr": 46.9,
+   "cagr": 50.1,
    "bh": 21.4,
    "maxdd": -50.0,
    "bh_dd": -81.0,
-   "sharpe": 1.02,
+   "sharpe": 1.06,
    "bh_sharpe": 0.59
   },
   {
    "start": "2021",
-   "cagr": 35.3,
+   "cagr": 39.8,
    "bh": 18.3,
    "maxdd": -36.0,
    "bh_dd": -77.0,
-   "sharpe": 0.87,
+   "sharpe": 0.94,
    "bh_sharpe": 0.52
   },
   {
    "start": "2023",
-   "cagr": 40.2,
+   "cagr": 44.5,
    "bh": 49.5,
    "maxdd": -36.0,
    "bh_dd": -53.0,
-   "sharpe": 0.96,
+   "sharpe": 1.03,
    "bh_sharpe": 1.01
   }
  ],
@@ -491,11 +491,11 @@
  },
  "by_regime": {
   "Bearish": {
-   "days": 670,
-   "med30": -1.9,
-   "pos30": 44.0,
-   "med90": -12.6,
-   "pos90": 27.0
+   "days": 645,
+   "med30": -2.4,
+   "pos30": 41.0,
+   "med90": -13.7,
+   "pos90": 25.0
   },
   "Bullish": {
    "days": 2237,
@@ -505,25 +505,25 @@
    "pos90": 71.0
   },
   "Correction": {
-   "days": 455,
-   "med30": 4.0,
-   "pos30": 63.0,
-   "med90": 11.2,
-   "pos90": 60.0
+   "days": 476,
+   "med30": 4.7,
+   "pos30": 64.0,
+   "med90": 15.8,
+   "pos90": 62.0
   },
   "Neutral": {
-   "days": 832,
-   "med30": 1.6,
-   "pos30": 54.0,
-   "med90": 10.3,
-   "pos90": 58.0
+   "days": 803,
+   "med30": 1.3,
+   "pos30": 53.0,
+   "med90": 9.4,
+   "pos90": 57.0
   },
   "Recovery": {
-   "days": 127,
-   "med30": 9.2,
-   "pos30": 61.0,
-   "med90": 11.5,
-   "pos90": 57.0
+   "days": 160,
+   "med30": 6.9,
+   "pos30": 64.0,
+   "med90": 17.3,
+   "pos90": 61.0
   }
  },
  "levels": {
@@ -644,11 +644,11 @@
  },
  "backtest": {
   "strategy": {
-   "cagr": 0.918,
-   "vol": 0.51,
-   "sharpe": 1.489,
+   "cagr": 0.948,
+   "vol": 0.512,
+   "sharpe": 1.516,
    "maxdd": -0.498,
-   "multiple": 2226.075
+   "multiple": 2686.336
   },
   "old": {
    "cagr": 0.707,
@@ -664,9 +664,9 @@
    "maxdd": -0.838,
    "multiple": 240.735
   },
-  "exposure": 0.696,
+  "exposure": 0.703,
   "old_exposure": 0.637,
-  "trades": 103,
+  "trades": 98,
   "old_trades": 71,
   "cash": "3-month T-bill"
  },

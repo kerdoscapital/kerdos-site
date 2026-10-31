@@ -1,6 +1,6 @@
 {
  "asof": "2026-10-30",
- "generated": "2026-10-31 21:38 UTC",
+ "generated": "2026-10-31 22:41 UTC",
  "version": 3,
  "regime": "Risk-On",
  "regime_since": "2025-04-09",
@@ -46,26 +46,26 @@
  "backtest": {
   "flagship": {
    "2005\u201326": {
-    "cagr": 0.259,
-    "total": 149.9007,
-    "vol": 0.1693,
-    "sharpe": 1.34,
+    "cagr": 0.2575,
+    "total": 145.9071,
+    "vol": 0.1698,
+    "sharpe": 1.33,
     "maxdd": -0.2397,
     "days": 5488
    },
    "2005\u201314": {
-    "cagr": 0.1174,
-    "total": 2.0254,
-    "vol": 0.1305,
-    "sharpe": 0.81,
+    "cagr": 0.1131,
+    "total": 1.9111,
+    "vol": 0.1309,
+    "sharpe": 0.77,
     "maxdd": -0.1579,
     "days": 2514
    },
    "2015\u201326": {
-    "cagr": 0.393,
-    "total": 48.9023,
-    "vol": 0.1959,
-    "sharpe": 1.68,
+    "cagr": 0.3943,
+    "total": 49.4885,
+    "vol": 0.1965,
+    "sharpe": 1.69,
     "maxdd": -0.2397,
     "days": 2973
    }
@@ -180,7 +180,7 @@
   },
   {
    "year": 2014,
-   "flagship": 0.4,
+   "flagship": -3.4,
    "no_btc": 11.0,
    "spy": 13.2
   },
@@ -222,7 +222,7 @@
   },
   {
    "year": 2021,
-   "flagship": 50.6,
+   "flagship": 49.1,
    "no_btc": 25.1,
    "spy": 29.2
   },
@@ -252,12 +252,12 @@
   },
   {
    "year": 2026,
-   "flagship": 1.6,
+   "flagship": 3.7,
    "no_btc": 10.7,
    "spy": 12.4
   }
  ],
- "turnover": 2.69,
+ "turnover": 2.63,
  "live_since": "2026-10-26",
  "live": {
   "since": "2026-10-26",
@@ -383,36 +383,16 @@
    }
   },
   {
-   "date": "2026-09-08",
+   "date": "2026-08-19",
    "regime": "Risk-On",
    "stocks": "Bullish",
-   "bitcoin": "Bullish",
+   "bitcoin": "Recovery",
    "weights": {
     "SPY": 0.35,
     "QQQ": 0.25,
     "BTC": 0.3,
     "GLD": 0.1,
     "CASH": 0.0
-   },
-   "before": {
-    "SPY": 0.35,
-    "QQQ": 0.25,
-    "BTC": 0.15,
-    "GLD": 0.1,
-    "CASH": 0.15
-   }
-  },
-  {
-   "date": "2026-08-24",
-   "regime": "Risk-On",
-   "stocks": "Bullish",
-   "bitcoin": "Neutral",
-   "weights": {
-    "SPY": 0.35,
-    "QQQ": 0.25,
-    "BTC": 0.15,
-    "GLD": 0.1,
-    "CASH": 0.15
    },
    "before": {
     "SPY": 0.35,
@@ -480,6 +460,26 @@
     "BTC": 0.15,
     "GLD": 0.1,
     "CASH": 0.15
+   }
+  },
+  {
+   "date": "2026-07-13",
+   "regime": "Risk-On",
+   "stocks": "Bullish",
+   "bitcoin": "Correction",
+   "weights": {
+    "SPY": 0.35,
+    "QQQ": 0.25,
+    "BTC": 0.15,
+    "GLD": 0.1,
+    "CASH": 0.15
+   },
+   "before": {
+    "SPY": 0.35,
+    "QQQ": 0.25,
+    "BTC": 0.0,
+    "GLD": 0.1,
+    "CASH": 0.3
    }
   }
  ],
