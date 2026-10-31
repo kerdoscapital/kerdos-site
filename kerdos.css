@@ -793,3 +793,14 @@ main#main .phead h2{font-family:var(--f-serif)!important;font-weight:400!importa
 @media (max-width:620px){.mast .meta span+span::before{content:none}.mast .meta{gap:2px 14px}}
 main#main .grid2 .panel,main#main .grid3 .panel{background:transparent;border:0;border-top:1px solid var(--hair);border-radius:0;padding:32px 0 0!important}
 main#main .grid2>div,main#main .grid3>div{gap:40px!important}
+
+/* ---- logo (Oct 2026): Bodoni K mark + spaced Garamond caps ---- */
+.k-word{gap:14px!important;font-family:"Cormorant Garamond",var(--f-serif)!important;font-weight:500!important;font-size:15px!important;letter-spacing:.3em!important;text-transform:uppercase!important}
+.k-word .k-wt{color:var(--ink)}
+.k-mono{display:block;width:auto!important;height:46px!important;flex:none;margin:-4px 0}
+.k-gh{display:none!important}
+@media (max-width:520px){.k-word{font-size:13px!important;letter-spacing:.24em!important;gap:10px!important}.k-mono{height:32px!important}}
+.foot.pub .k-word{font-size:16px!important}
+.foot.pub .k-mono{height:44px!important}
+.kf-top{grid-template-columns:minmax(0,1.6fr) repeat(2,minmax(0,1fr))!important}
+@media (max-width:900px){.kf-top{grid-template-columns:repeat(2,minmax(0,1fr))!important}}

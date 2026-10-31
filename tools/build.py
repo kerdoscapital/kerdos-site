@@ -8,7 +8,7 @@ What it does (idempotent: running it twice gives the same files):
   1. index.html  - strips the document wrappers the artifact service adds, so <title>, meta, links and styles
                    sit in a real <head>.
   2. every page  - one managed block in <head>: favicon, canonical URL, description, Open Graph / Twitter tags,
-                   theme colour; consistent titles; the site's web fonts; one canonical nav (with the GitHub link)
+                   theme colour; consistent titles; the site's web fonts; one canonical nav
                    and one canonical footer (with the disclosures), so every page shares them.
   3. first paint - today's numbers are written into the HTML (key figures, desk cards, portfolio card, track
                    record, page summaries), so the page shows real content before JavaScript loads and search
@@ -24,9 +24,8 @@ ROOT = sys.argv[1] if len(sys.argv) > 1 else '.'
 SITE = 'https://kerdoscapital.xyz'
 NAME = 'Kerdos Capital'
 TAG = 'Independent Quantitative Investment Research'
-GH = 'https://github.com/kerdoscapital/kerdos-site'
 FONTS_CSS = ('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400'
-             '&family=Instrument+Serif:ital@0;1&display=swap')
+             '&family=Instrument+Serif:ital@0;1&family=Cormorant+Garamond:wght@500;600&display=swap')
 BG, INK, INK2, MUTED, SAGE, RED, PANEL, HAIR = '#111315', '#E7E4DC', '#858B90', '#858B90', '#B9A98A', '#A9705F', '#191C1F', '#2A2E32'
 PAGES = {   # file: (title, description, nav label)
     'index.html': (f'{NAME} · {TAG}',
@@ -113,9 +112,23 @@ def head_block(f, img_v):
 <!--/kerdos-head-->'''
 
 
-MONO = ('<svg class="k-mono" viewBox="0 0 64 64" aria-hidden="true"><rect x="1" y="1" width="62" height="62" fill="none" stroke="currentColor" stroke-opacity=".3" stroke-width="2"/>'
-        '<path d="M23 16V48" fill="none" stroke="currentColor" stroke-width="4"/><path class="k-mk" d="M44 16L29 32L44 48" fill="none" stroke-width="4" stroke-linejoin="miter"/></svg>')
-GH_SVG = ('<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>')
+# Logo (Oct 2026): Bodoni Moda K in a champagne gradient, a rising line with three points, a four-point star.
+# The mark's box is viewBox "226 116 338 282".
+LOGO_K = 'M318.6 322.0 439.5 165.9H406.8V160.0H479.8V165.9H448.0L327.3 322.0ZM286.6 388.0V382.1H314.1V165.9H286.6V160.0H378.4V165.9H348.1V382.1H377.6V388.0ZM394.9 388.0V382.1H424.7L361.3 269.7L383.7 243.0L466.2 382.1H493.4V388.0Z'
+LOGO_LINE = '238,371 276,349 296,358 352,310 376,325 425,272 444,283 478,215 493,226 516,178'
+LOGO_DOTS = [[352, 310], [425, 272], [478, 215]]
+LOGO_STAR = 'M531.0 124.0L534.2 143.8L554.0 147.0L534.2 150.2L531.0 170.0L527.8 150.2L508.0 147.0L527.8 143.8Z'
+
+
+def logo_svg(gid, cls='k-mono', lw=2.4, dot=3.8, solid=False, ink='#E7E4DC'):
+    star = (f'<path d="{LOGO_STAR}" fill="{ink}"/>' if solid else
+            f'<path d="{LOGO_STAR}" fill="none" stroke="{ink}" stroke-width="2" stroke-linejoin="round"/>')
+    return (f'<svg class="{cls}" viewBox="226 116 338 282" aria-hidden="true"><defs><linearGradient id="{gid}" x1="0" y1="0" x2="1" y2="1">'
+            f'<stop offset="0" stop-color="#DCCFAC"/><stop offset="1" stop-color="#8E7F62"/></linearGradient></defs>'
+            f'<path d="{LOGO_K}" fill="url(#{gid})"/><polyline points="{LOGO_LINE}" fill="none" stroke="{ink}" stroke-width="{lw}" stroke-linejoin="round" stroke-linecap="round"/>'
+            + ''.join(f'<circle cx="{x}" cy="{y}" r="{dot}" fill="{ink}"/>' for x, y in LOGO_DOTS) + star + '</svg>')
+
+
 MENU = ('<button class="k-menu-btn" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 18 18" aria-hidden="true">'
         '<path d="M3 6h12M3 12h12" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"/></svg></button>')
 
@@ -130,9 +143,9 @@ def nav_links(cur, cls_attr):
 
 
 def header(cur):
-    return (f'<header class="k-nav"><div class="k-bar"><a class="k-word" href="index.html" aria-label="Kerdos Capital, overview">{MONO}<span class="k-wt">Kerdos Capital</span></a>'
+    return (f'<header class="k-nav"><div class="k-bar"><a class="k-word" href="index.html" aria-label="Kerdos Capital, overview">{logo_svg("kgn", lw=3.6, dot=5)}<span class="k-wt">Kerdos Capital</span></a>'
             f'<div class="k-right"><nav class="k-links" aria-label="Site"><span class="k-ind" aria-hidden="true"></span>{nav_links(cur, "site")}</nav>'
-            f'<a class="k-gh" href="{GH}" rel="noopener" aria-label="Kerdos Capital on GitHub: source and model history">{GH_SVG}<span>GitHub</span></a>{MENU}</div></div></header>')
+            f'{MENU}</div></div></header>')
 
 
 def footer(asof, live_since):
@@ -141,14 +154,13 @@ def footer(asof, live_since):
     col = lambda title, links: (f'<div class="kf-col"><span class="label">{title}</span>' + ''.join(f'<a href="{h}"{r}>{t}</a>' for t, h, r in links) + '</div>')
     research = [(PAGES[f][2], f, '') for f in ['index.html', 'flagship.html', 'stocks.html', 'bitcoin.html', 'highbeta.html'] if exists(f)]
     firm = [('Methodology', 'methodology.html', ''), ('Signal archive', 'methodology.html#archive', ''), ('Model limitations', 'methodology.html#limits', ''), ('About', 'about.html', '')]
-    open_ = [('GitHub repository', GH, ' rel="noopener"'), ('Daily update history', GH + '/commits/main', ' rel="noopener"'), ('Contact &amp; corrections', GH + '/issues', ' rel="noopener"')]
     live = (f' The flagship portfolio’s live record began at the open on {E(ls)}; every result before that date is a backtest.' if ls else '')
     stamp = f'Models as of the {E(fmt_d(asof))} close' if asof else 'Models update daily'
     return (f'<footer class="foot pub">\n    <div class="kf-top">'
-            f'<div class="kf-brand"><a class="k-word" href="index.html" aria-label="Kerdos Capital, overview">{MONO}<span class="k-wt">Kerdos Capital</span></a>'
+            f'<div class="kf-brand"><a class="k-word" href="index.html" aria-label="Kerdos Capital, overview">{logo_svg("kgf", lw=3.2, dot=4.6)}<span class="k-wt">Kerdos Capital</span></a>'
             f'<p class="k-pos">Transparency over promises. <i>Methodology over speculation.</i> Discipline over emotion.</p></div>'
             f'<nav class="kf-col fl" aria-label="Footer"><span class="label">Research</span>' + ''.join(f'<a href="{h}">{t}</a>' for t, h, _ in research) + '</nav>'
-            + col('Method', firm) + col('In the open', open_) + '</div>\n'
+            + col('Method', firm) + '</div>\n'
             '    <div class="disc">\n'
             '      <p><b>Important information.</b> Kerdos Capital is an independent research project that publishes rules-based market models for education and discussion. '
             'It is not a registered investment adviser or broker-dealer. Nothing on this site is investment, tax or legal advice, or a recommendation to buy or sell any security or digital asset. '
@@ -286,6 +298,8 @@ WEBFONTS = {   # npm package: files used for the share card
     'instrument-serif': ['instrument-serif-latin-400-normal.woff2', 'instrument-serif-latin-400-italic.woff2'],
     'ibm-plex-mono': ['ibm-plex-mono-latin-400-normal.woff2', 'ibm-plex-mono-latin-500-normal.woff2'],
     'ibm-plex-sans': ['ibm-plex-sans-latin-400-normal.woff2', 'ibm-plex-sans-latin-500-normal.woff2'],
+    'bodoni-moda': ['bodoni-moda-latin-500-normal.woff2'],
+    'cormorant-garamond': ['cormorant-garamond-latin-500-normal.woff2'],
 }
 
 
@@ -315,6 +329,8 @@ SANS_M = [('ibm-plex-sans', 'ibm-plex-sans-latin-500-normal.woff2'), '/usr/share
 SANS_R = [('ibm-plex-sans', 'ibm-plex-sans-latin-400-normal.woff2'), '/usr/share/fonts/truetype/google-fonts/Poppins-Regular.ttf', '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf']
 MONO_F = [('ibm-plex-mono', 'ibm-plex-mono-latin-400-normal.woff2'), '/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf']
 COL = {'Bullish': SAGE, 'Neutral': INK2, 'Bearish': RED}
+BODONI = [('bodoni-moda', 'bodoni-moda-latin-500-normal.woff2'), '/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf']
+CAPS = [('cormorant-garamond', 'cormorant-garamond-latin-500-normal.woff2'), '/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf']
 
 
 def font(cands, size):
@@ -347,42 +363,68 @@ def st_since(path, mp):
         return None
 
 
-# K monogram: a stem and a chevron that stops short of it; ivory stem, sage chevron
-ICON_SVG = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="8" fill="#111315"/>'
-            '<path d="M22 14V50" fill="none" stroke="#E7E4DC" stroke-width="7"/>'
-            '<path d="M45 14L28 32L45 50" fill="none" stroke="#B9A98A" stroke-width="7" stroke-linejoin="miter" stroke-miterlimit="10"/></svg>')
+# Favicon / app icon: the logo on graphite, with a heavier line and a solid star so it reads at small sizes.
+ICON_SVG = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#111315"/>'
+            f'<g transform="translate(32 33) scale(.168) translate(-397 -257)">' + logo_svg('kf', cls='', lw=11, dot=.01, solid=True)
+            .replace('<svg class="" viewBox="226 116 338 282" aria-hidden="true">', '').replace('</svg>', '') + '</g></svg>')
 
 
-def k_img(n, pad=0.0, bg=True):
-    """The K monogram as a Pillow image (drawn at 4x, then scaled down): stem 22, chevron 45 -> 28 -> 45 on a 64 grid."""
-    import math
+def logo_img(px, box=(226, 116, 338, 282), lw=2.4, dot=3.8, solid=False, ink=INK, star_w=2.0):
+    """The logo as an RGBA Pillow image px wide (drawn at 4x, then scaled down), same geometry as logo_svg()."""
     from PIL import Image, ImageDraw
-    S = 4; N = n * S; im = Image.new('RGBA', (N, N), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
-    if bg: d.rounded_rectangle([0, 0, N - 1, N - 1], radius=int(8 / 64 * N), fill=BG)
-    s = N / 64 * (1 - 2 * pad); o = N * pad
-    P = lambda x, y: (o + x * s, o + y * s)
-    d.polygon([P(18.5, 14), P(25.5, 14), P(25.5, 50), P(18.5, 50)], fill=INK)
-    h = 3.5 / math.sin(math.atan2(18, 17))   # stroke half-width measured along x for the diagonals
-    d.polygon([P(45 - h, 14), P(45 + h, 14), P(28 + h, 32), P(45 + h, 50), P(45 - h, 50), P(28 - h, 32)], fill=SAGE)
+    SS = 4; bx, by, bw, bh = box; k = px * SS / bw; W, H = px * SS, round(bh * k)
+    P = lambda x, y: ((x - bx) * k, (y - by) * k)
+    im = Image.new('RGBA', (W, H), (0, 0, 0, 0))
+    # the K: Bodoni Moda fitted to the box x 286.6-493.4, y 160-388, filled with the champagne gradient
+    f = font(BODONI, 400); l, t, r, b = f.getbbox('K')
+    g = Image.new('L', (r - l, b - t), 0); ImageDraw.Draw(g).text((-l, -t), 'K', font=f, fill=255)
+    (x0, y0), (x1, y1) = P(286.6, 160), P(493.4, 388)
+    g = g.resize((max(1, round(x1 - x0)), max(1, round(y1 - y0))), Image.LANCZOS)
+    grad = Image.new('RGBA', g.size); gw, gh = g.size; c0, c1 = (0xDC, 0xCF, 0xAC), (0x8E, 0x7F, 0x62)
+    gp = grad.load()
+    for yy in range(gh):
+        for xx in range(gw):
+            u = (xx / max(1, gw - 1) + yy / max(1, gh - 1)) / 2
+            gp[xx, yy] = tuple(round(a + (b2 - a) * u) for a, b2 in zip(c0, c1)) + (255,)
+    im.paste(grad, (round(x0), round(y0)), g)
+    d = ImageDraw.Draw(im); w = max(1, round(lw * k))
+    pts = [P(*map(float, xy.split(','))) for xy in LOGO_LINE.split()]
+    d.line(pts, fill=ink, width=w, joint='curve')
+    for x, y in (pts[0], pts[-1]): d.ellipse([x - w / 2, y - w / 2, x + w / 2, y + w / 2], fill=ink)
+    for x, y in LOGO_DOTS:
+        cx, cy = P(x, y); rr = dot * k; d.ellipse([cx - rr, cy - rr, cx + rr, cy + rr], fill=ink)
+    sp = [P(*map(float, q.split())) for q in LOGO_STAR[1:-1].split('L')]
+    if solid: d.polygon(sp, fill=ink)
+    else: d.line(sp + [sp[0]], fill=ink, width=max(1, round(star_w * k)), joint='curve')
+    return im.resize((px, round(H / SS)), Image.LANCZOS)
+
+
+def icon_img(n, rounded=True):
+    from PIL import Image, ImageDraw
+    S2 = 4; N = n * S2; im = Image.new('RGBA', (N, N), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
+    if rounded: d.rounded_rectangle([0, 0, N - 1, N - 1], radius=round(N * 12 / 64), fill=BG)
+    else: d.rectangle([0, 0, N - 1, N - 1], fill=BG)
+    m = logo_img(round(N * .94), lw=8, dot=.01, solid=True)
+    im.paste(m, ((N - m.width) // 2, (N - m.height) // 2 + round(N * .02)), m)
     return im.resize((n, n), Image.LANCZOS)
 
 
 def make_icons():
-    from PIL import Image
     wr('favicon.svg', ICON_SVG)
-    k_img(256).save(p('favicon.ico'), sizes=[(16, 16), (32, 32), (48, 48)])
-    big = Image.new('RGB', (180, 180), BG); m = k_img(180, pad=.14, bg=False); big.paste(m, (0, 0), m); big.save(p('apple-touch-icon.png'))
+    icon_img(256).save(p('favicon.ico'), sizes=[(16, 16), (32, 32), (48, 48)])
+    icon_img(180, rounded=False).convert('RGB').save(p('apple-touch-icon.png'))
 
 
-def make_og(M, B, G, FL, k_img=None):
+def make_og(M, B, G, FL):
     from PIL import Image, ImageDraw
     W, H = 1200, 630
     im = Image.new('RGB', (W, H), BG); d = ImageDraw.Draw(im)
     for x in range(0, W, 60): d.line([(x, 0), (x, H)], fill='#16191C')     # faint architectural grid
     for y in range(0, H, 60): d.line([(0, y), (W, y)], fill='#16191C')
-    if k_img:
-        ic = k_img(56, pad=0, bg=False); im.paste(ic, (72, 62), ic)
-    d.text((144, 66), 'Kerdos Capital', font=font(SERIF, 40), fill=INK)
+    try:
+        lg = logo_img(104, lw=3.4, dot=4.8); im.paste(lg, (60, 34), lg)
+    except Exception as e: print('og logo skipped:', e)
+    d.text((176, 78), 'K E R D O S   C A P I T A L', font=font(CAPS, 28), fill=INK)
     d.text((72, 150), 'A systematic approach', font=font(SERIF, 78), fill=INK)
     d.text((72, 232), 'to navigating the markets.', font=font(SERIF_I, 78), fill=INK2)
     rows = []
@@ -489,7 +531,7 @@ METHOD_BODY = r'''  <section class="intro">
     <div class="k-split"><h2><small>05 · Timing</small>Updates and assumptions</h2>
       <dl class="k-dl">
         <div><dt>When the models run</dt><dd>Once a day, before the US open, on the latest completed session’s closing data. The Bitcoin desk uses the latest completed day and also runs on weekends.</dd></div>
-        <div><dt>When this site updates</dt><dd>Once a day, by about 10:00 a.m. ET. Each update is a timestamped commit in the public GitHub history.</dd></div>
+        <div><dt>When this site updates</dt><dd>Once a day, by about 10:00 a.m. ET. Each update is saved as a timestamped version.</dd></div>
         <div><dt>When trades are assumed</dt><dd>A call made at one close is traded at the next close, in the backtests and in the flagship’s live record.</dd></div>
         <div><dt>Costs and income</dt><dd>Trading costs are included (0.05% per unit traded in the flagship). Cash earns the 3-month T-bill rate. Dividends on SPY and QQQ are approximated. No taxes.</dd></div>
         <div><dt>No look-ahead</dt><dd>Monthly macro data enter only after their publication dates, seasonal tables use only earlier years, and cycle measures use the running high rather than hindsight peaks.</dd></div>
@@ -498,9 +540,9 @@ METHOD_BODY = r'''  <section class="intro">
   </section>
 
   <section class="sec" id="integrity" aria-label="Research integrity">
-    <div class="k-sh"><div><span class="eyebrow">06 · Research integrity</span><h2>Built to be checked</h2></div><a class="feat-link" href="https://github.com/kerdoscapital/kerdos-site" rel="noopener">GitHub repository <span aria-hidden="true">↗</span></a></div>
+    <div class="k-sh"><div><span class="eyebrow">06 · Research integrity</span><h2>Built to be checked</h2></div></div>
     <div class="k-pillars">
-      <div><h3>A public, <em>timestamped</em> record</h3><p>Every daily update is a commit in the site’s public repository, with each report stamped with the close it used and the time it was generated. What a model said, and when, cannot be revised after the fact.</p><p id="m-upd" class="mono" style="font-size:12px"></p></div>
+      <div><h3>A public, <em>timestamped</em> record</h3><p>Every daily update is saved as a dated version of the site, with each report stamped with the close it used and the time it was generated. What a model said, and when, cannot be revised after the fact.</p><p id="m-upd" class="mono" style="font-size:12px"></p></div>
       <div><h3>Backtests <em>labeled</em> as backtests</h3><p>Backtested results are shown as hypothetical and kept apart from the flagship’s live record. The live record never inherits the backtest’s numbers.</p></div>
       <div><h3>Rejected ideas <em>published</em></h3><p>Each desk page lists the rules that were tested and left out, and why, alongside the ones that were kept, so the method can be judged by its misses as well as its hits.</p></div>
     </div>
@@ -510,7 +552,7 @@ METHOD_BODY = r'''  <section class="intro">
     <div class="k-sh"><div><span class="eyebrow">07 · Signal archive</span><h2>Every change of state</h2></div><p>Each desk’s state changes and the flagship’s allocation changes, newest first, from the published daily histories.</p></div>
     <div class="k-arch-ctl"><div class="seg" role="group" aria-label="Desk" id="arch-seg"><button type="button" data-d="all" aria-pressed="true">All</button><button type="button" data-d="Flagship" aria-pressed="false">Flagship</button><button type="button" data-d="US stocks" aria-pressed="false">Stocks</button><button type="button" data-d="Bitcoin" aria-pressed="false">Bitcoin</button><button type="button" data-d="High beta" aria-pressed="false">High beta</button></div><span class="label" id="arch-n"></span></div>
     <div class="tblwrap k-arch" id="arch"><p class="note">The archive loads as you reach it.</p></div>
-    <p class="note" id="arch-note">Rows before the flagship’s live start are backtests: the current rules run over past data, not calls published at the time. Every row is computed by the models’ current rules; the GitHub commit history is the record of what was published on each day.</p>
+    <p class="note" id="arch-note">Rows before the flagship’s live start are backtests: the current rules run over past data, not calls published at the time. Every row is computed by the models’ current rules; the site’s version history is the record of what was published on each day.</p>
   </section>
 
   <section class="sec" id="limits" aria-label="Limitations">
@@ -550,7 +592,7 @@ Promise.all([J('stocks/report.json'),J('bitcoin/report.json'),J('highbeta/report
     ${rrow('Bitcoin',Math.round(RU.btc*100)+'%','<a href="bitcoin.html">Bitcoin desk</a>',RU.btc_exposure)}
     ${rrow('Gold (GLD)',Math.round(RU.gold*100)+'%','Fixed',null)}
     <tr><td>T-bills</td><td class="n">Rest</td><td colspan="4">Whatever the sleeves above don’t hold</td></tr></tbody></table>`;
-  const n=$('#arch-note');if(n&&F.live_since)n.innerHTML=`Rows dated before ${fmtD(F.live_since)}, when the flagship’s live record began, are marked <b>Backtest</b>: the current rules run over past data, not calls published at the time. Every row is computed by the models’ current rules; the <a href="https://github.com/kerdoscapital/kerdos-site/commits/main" rel="noopener">GitHub commit history</a> is the record of what was published on each day.`;
+  const n=$('#arch-note');if(n&&F.live_since)n.innerHTML=`Rows dated before ${fmtD(F.live_since)}, when the flagship’s live record began, are marked <b>Backtest</b>: the current rules run over past data, not calls published at the time. Every row is computed by the models’ current rules; the site’s version history is the record of what was published on each day.`;
 }).catch(e=>{['#w-stocks','#w-btc','#m-rules'].forEach(s=>{const el=$(s);if(el)el.innerHTML=`<p class="err">The latest reports did not load (${e.message}). Reload the page to try again.</p>`})});
 
 // ---- signal archive (loads when it nears the screen)
@@ -595,7 +637,7 @@ def main():
     try:
         if not exists('favicon.svg') or rd('favicon.svg') != ICON_SVG or not exists('favicon.ico') or not exists('apple-touch-icon.png'): make_icons()
     except Exception as e: print('icons skipped:', e)
-    try: make_og(M, B, G, FL, k_img)
+    try: make_og(M, B, G, FL)
     except Exception as e: print('og.png skipped:', e)
     if exists('index.html'):
         idx = unwrap(rd('index.html'))
