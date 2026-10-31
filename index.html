@@ -433,7 +433,7 @@ function card(o){return `<article class="desk"><div class="top"><h2>${o.name}</h
   <a class="go" href="${o.href}">Open the ${o.short} desk <span aria-hidden="true">→</span></a></article>`}
 Promise.all([fetch('flagship/report.json').then(r=>{if(!r.ok)throw 0;return r.json()}),fetch('flagship/equity.csv').then(r=>r.ok?r.text():'')]).then(([F,eqt])=>{
   const el=document.getElementById('flagcard');if(!el)return;const w=F.weights,A=['SPY','QQQ','BTC','GLD','CASH'],RU=F.rules;
-  const C={SPY:'#719B82',QQQ:'#4E7360',BTC:'#D9D7CE',GLD:'#A69779',CASH:'#3A3F44'},L={SPY:'SPY',QQQ:'QQQ',BTC:'Bitcoin',GLD:'Gold',CASH:'T-bills'};
+  const C={SPY:'#B9A98A',QQQ:'#857A63',BTC:'#E7E4DC',GLD:'#5E6468',CASH:'#33373B'},L={SPY:'SPY',QQQ:'QQQ',BTC:'Bitcoin',GLD:'Gold',CASH:'T-bills'};
   const p1=(v,d=1)=>(v>0?'+':v<0?'−':'')+Math.abs(v*100).toFixed(d)+'%',ud=v=>v>0?'up':v<0?'dn':'';
   const b=F.backtest.flagship['2005–26'],s=F.backtest.spy['2005–26'],Lv=F.live;
   const mix=`${Math.round((RU.stocks.SPY+RU.stocks.QQQ)*100)}% stocks · ${Math.round(RU.btc*100)}% Bitcoin · ${Math.round(RU.gold*100)}% gold`;
@@ -447,7 +447,7 @@ Promise.all([fetch('flagship/report.json').then(r=>{if(!r.ok)throw 0;return r.js
    <div class="col"><div class="kv">${live}
      <div><span>Backtest 2005–26 · per year</span><b>${(b.cagr*100).toFixed(1)}%</b><em>S&amp;P 500 ${(s.cagr*100).toFixed(1)}%</em></div>
      <div><span>Backtest · worst drop</span><b>−${Math.abs(b.maxdd*100).toFixed(0)}%</b><em>S&amp;P 500 −${Math.abs(s.maxdd*100).toFixed(0)}%</em></div></div>
-     <div class="mini chart" id="flmini"></div><p class="note" style="margin:0">Backtest growth of $10,000 since 2005, log scale: <span style="color:#8DB39C">flagship</span> vs <span style="color:#A4A9AD">S&amp;P 500</span>. Hypothetical; nobody held this portfolio before ${fmtD(F.live_since)}.</p></div>`;
+     <div class="mini chart" id="flmini"></div><p class="note" style="margin:0">Backtest growth of $10,000 since 2005, log scale: <span style="color:#B9A98A">flagship</span> vs <span style="color:#858B90">S&amp;P 500</span>. Hypothetical; nobody held this portfolio before ${fmtD(F.live_since)}.</p></div>`;
   const kp=document.getElementById('kpis');
   if(kp){const pf=v=>(v<0?'−':'')+Math.abs(v*100).toFixed(1)+'%';
     kp.innerHTML=`<div class="k-kpi"><span>Annualized return</span><b>${pf(b.cagr)}</b><em>Backtest 2005–26 · S&amp;P 500 ${pf(s.cagr)}</em></div>
@@ -462,7 +462,7 @@ Promise.all([fetch('flagship/report.json').then(r=>{if(!r.ok)throw 0;return r.js
     const X=v=>m.l+(v-x0)/(x1-x0)*(W-m.l-m.r),Y=v=>m.t+(Math.log(y1)-Math.log(v))/(Math.log(y1)-Math.log(y0))*(H-m.t-m.b);let g='';
     [1,10,100].filter(v=>v>=y0&&v<=y1).forEach(v=>{g+=`<line class="grid" x1="${m.l}" x2="${W-m.r}" y1="${Y(v)}" y2="${Y(v)}"/><text class="ax" x="${W-m.r+5}" y="${Y(v)+3.5}">${k(v)}</text>`});
     [2005,2010,2015,2020,2025].forEach(y=>{const x=X(Date.UTC(y,0,1));if(x>m.l+10&&x<W-m.r-10)g+=`<text class="ax" x="${x}" y="${H-4}" text-anchor="middle">${y}</text>`});
-    [['s','#868C91',1.25],['f','#8DB39C',1.75]].forEach(([k,c,wd])=>{let d='';rows.forEach((r,i)=>{d+=(i?'L':'M')+X(r.t).toFixed(1)+','+Y(r[k]).toFixed(1)});g+=`<path d="${d}" fill="none" stroke="${c}" stroke-width="${wd}" stroke-linejoin="round"/>`});
+    [['s','#858B90',1.25],['f','#B9A98A',1.75]].forEach(([k,c,wd])=>{let d='';rows.forEach((r,i)=>{d+=(i?'L':'M')+X(r.t).toFixed(1)+','+Y(r[k]).toFixed(1)});g+=`<path d="${d}" fill="none" stroke="${c}" stroke-width="${wd}" stroke-linejoin="round"/>`});
     host.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Backtest growth of $10,000 since 2005">${g}</svg>`};
   draw();let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(draw,150)});
 }).catch(()=>{const el=document.getElementById('flagcard');if(el)el.innerHTML='<p class="note" style="margin:0">The flagship portfolio is published at <a href="https://kerdoscapital.xyz/flagship.html">kerdoscapital.xyz</a>.</p>'});

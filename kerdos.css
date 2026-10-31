@@ -10,24 +10,24 @@
 :root{
   /* ---- ground & type ---- */
   --bg-0:#0E1012;           /* page edge */
-  --bg-1:#111315;           /* primary background */
-  --bg-2:#202428;           /* secondary background, raised controls */
-  --panel:#15181B;          /* panel fill: one step above the ground */
-  --ink:#E8E9E5;            /* warm ivory, primary text */
-  --ink-2:#A4A9AD;          /* muted silver, secondary text */
-  --muted:#80868B;          /* labels and captions (AA on --panel) */
-  --faint:#4A5055;          /* decoration only, never text */
-  --hair:#24282C;           /* hairline */
-  --hair-2:#30353A;         /* stronger hairline */
+  --bg-1:#111315;           /* graphite: main background */
+  --bg-2:#22262A;           /* raised controls */
+  --panel:#191C1F;          /* elevated charcoal: cards and panels */
+  --ink:#E7E4DC;            /* warm ivory: headlines and primary text */
+  --ink-2:#A3A5A3;          /* reading text (slate lifted for long paragraphs) */
+  --muted:#858B90;          /* cool slate: secondary text and data labels */
+  --faint:#555B60;          /* muted stone */
+  --hair:rgba(85,91,96,.38);/* muted stone, as a hairline */
+  --hair-2:rgba(85,91,96,.7);/* muted stone, stronger divider */
 
   /* ---- accent & semantics ---- */
-  --sage:#719B82;           /* the only accent */
-  --sage-hi:#8DB39C;        /* sage for small text and hover */
-  --sage-lo:#4E7360;        /* deep sage, second data series */
-  --red:#C46A5F;            /* negative performance and risk, used sparingly */
+  --sage:#B9A98A;           /* muted champagne: the only accent (token name kept for the page scripts) */
+  --sage-hi:#CBBD9F;        /* champagne for small text and hover */
+  --sage-lo:#857A63;        /* deep champagne, second data series */
+  --red:#A9705F;            /* muted rust: negative figures and risk, used sparingly */
   --c-bull:var(--sage);     /* Bullish · 100% */
   --c-rec:var(--c-bull);
-  --c-neut:#A4A9AD;         /* Neutral · 50% */
+  --c-neut:#858B90;         /* Neutral · 50% */
   --c-corr:var(--c-neut);
   --c-bear:var(--red);      /* Bearish · 0% */
   --up:var(--sage-hi);
@@ -68,14 +68,14 @@
   --rise:8px;
 
   /* ---- names used by page scripts (charts read these; keep hex where noted) ---- */
-  --bg:var(--bg-1); --surface:#15181B; --sunk:#1C2023;
+  --bg:var(--bg-1); --surface:#191C1F; --sunk:#23272B;
   --ink2:var(--ink-2); --line:var(--hair); --line2:var(--hair-2); --white:#F2F2EE;
   --stroke:var(--hair); --stroke-2:var(--hair-2);
   --bull:var(--c-bull); --rec:var(--c-rec); --neut:var(--c-neut); --corr:var(--c-corr); --bear:var(--c-bear);
-  --bull-bg:rgba(113,155,130,.12); --rec-bg:rgba(113,155,130,.12); --neut-bg:rgba(164,169,173,.08); --corr-bg:rgba(164,169,173,.08); --bear-bg:rgba(196,106,95,.12);
-  --band-bull:rgba(113,155,130,.11); --band-rec:rgba(113,155,130,.11); --band-neut:rgba(164,169,173,.05); --band-corr:rgba(164,169,173,.05); --band-bear:rgba(196,106,95,.13);
-  --s1:#719B82; --s2:#868C91; --s3:#D9D7CE; --s4:#4E7360;   /* hex: chart series */
-  --pos:#55806A; --neg:#9E5148; --mid:#1C2023;               /* hex: parsed by heat-map code */
+  --bull-bg:rgba(185,169,138,.10); --rec-bg:rgba(185,169,138,.10); --neut-bg:rgba(133,139,144,.08); --corr-bg:rgba(133,139,144,.08); --bear-bg:rgba(169,112,95,.10);
+  --band-bull:rgba(185,169,138,.09); --band-rec:rgba(185,169,138,.09); --band-neut:rgba(133,139,144,.05); --band-corr:rgba(133,139,144,.05); --band-bear:rgba(169,112,95,.10);
+  --s1:#B9A98A; --s2:#858B90; --s3:#E7E4DC; --s4:#857A63;   /* hex: chart series */
+  --pos:#7D7258; --neg:#7A5046; --mid:#202427;               /* hex: parsed by heat-map code */
   --accent-ink:#111315;
   --f-display:var(--f-ui); --f-body:var(--f-ui); --f-mono:var(--f-num);
   --r:var(--r-card);
@@ -86,7 +86,7 @@
 [data-regime="Bearish"],[data-regime="Breakdown"]{--accent:var(--c-bear)}
 
 /* =========================== base =========================== */
-html{background:var(--bg-1);-webkit-text-size-adjust:100%;scroll-padding-top:calc(var(--nav-h) + 16px)}
+html{background:var(--bg-1);overflow-x:clip;-webkit-text-size-adjust:100%;scroll-padding-top:calc(var(--nav-h) + 16px)}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 html body{
   margin:0;min-height:100vh;color:var(--ink);font-family:var(--f-ui);font-size:var(--fs-body);line-height:1.6;font-weight:400;
@@ -100,7 +100,7 @@ p{margin:0}
 [class*="mono"],.chg,.stat b,.px,.big{font-variant-numeric:tabular-nums}
 a{color:var(--sage-hi);text-decoration-thickness:1px;text-underline-offset:3px;text-decoration-color:color-mix(in oklab,currentColor 45%,transparent);transition:color var(--dur-1),text-decoration-color var(--dur-1)}
 a:hover{color:var(--ink);text-decoration-color:currentColor}
-::selection{background:rgba(113,155,130,.35);color:var(--ink)}
+::selection{background:rgba(185,169,138,.3);color:var(--ink)}
 :focus-visible{outline:1px solid var(--sage-hi);outline-offset:3px;border-radius:2px}
 button:focus-visible{outline:1px solid var(--sage-hi);outline-offset:2px}
 b,strong{font-weight:600}
@@ -143,7 +143,7 @@ main#main{gap:var(--gap)!important}
 }
 
 /* =========================== nav =========================== */
-.k-nav{position:fixed;top:0;left:0;right:0;z-index:50;height:var(--nav-h);background:rgba(17,19,21,.92);
+.k-nav{position:fixed;top:0;left:0;right:0;z-index:50;height:var(--nav-h);background:rgba(17,19,21,.94);
   -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:border-color var(--dur-2) var(--ease-out),background var(--dur-2)}
 .k-nav.is-scrolled{border-bottom-color:var(--hair);background:rgba(17,19,21,.96)}
 .k-nav .k-bar{max-width:var(--maxw);height:100%;margin:0 auto;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;gap:var(--s-6);
@@ -281,7 +281,7 @@ th:first-child,td:first-child{padding-left:0} th:last-child,td:last-child{paddin
 .panel th:first-child,.panel td:first-child,.ox th:first-child,.ox td:first-child{padding-left:0}
 tr:last-child td{border-bottom:0}
 tbody tr{transition:background var(--dur-1)}
-@media (hover:hover){tbody tr:hover{background:rgba(232,233,229,.022)}}
+@media (hover:hover){tbody tr:hover{background:rgba(231,228,220,.022)}}
 td.n,th.n{text-align:right;white-space:nowrap;font-family:var(--f-num)}
 th.n{font-family:var(--f-ui)}
 td.hl{color:var(--ink);font-weight:500}
@@ -323,7 +323,7 @@ tr.grp td{background:transparent;font-family:var(--f-ui);font-size:10.5px;letter
 
 /* charts */
 .chart .ax,.gauge .ax{font-family:var(--f-num);font-size:10.5px;fill:var(--muted)}
-.chart .grid{stroke:rgba(232,233,229,.055)}
+.chart .grid{stroke:rgba(231,228,220,.055)}
 .chart .base{stroke:var(--hair-2)}
 .legend{font-size:12px;color:var(--ink-2);gap:6px 20px!important;margin-bottom:12px!important}
 .legend i{height:2px;border-radius:0}
@@ -554,8 +554,8 @@ tr.grp td{background:transparent;font-family:var(--f-ui);font-size:10.5px;letter
 
 /* home hero (Atelier) */
 .k-hero-home{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--s-8) var(--s-10);align-items:end;padding:var(--s-6) 0 var(--s-10)}
-.k-hero-home::before{content:"";position:absolute;z-index:-1;inset:calc(-1 * (var(--nav-h) + var(--s-9))) -100vw 0;pointer-events:none;
-  background-image:linear-gradient(rgba(232,233,229,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(232,233,229,.03) 1px,transparent 1px);background-size:72px 72px;background-position:center top;
+.k-hero-home::before{content:"";position:absolute;z-index:-1;top:calc(-1 * (var(--nav-h) + var(--s-9)));bottom:0;left:calc(50% - 50vw);right:calc(50% - 50vw);pointer-events:none;
+  background-image:linear-gradient(rgba(231,228,220,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(231,228,220,.03) 1px,transparent 1px);background-size:72px 72px;background-position:center top;
   -webkit-mask-image:linear-gradient(180deg,#000 25%,transparent 100%);mask-image:linear-gradient(180deg,#000 25%,transparent 100%)}
 .k-hero-home>.k-head{grid-column:1/-1;display:grid;gap:var(--s-7);justify-items:start}
 .k-hero-home h1{font-family:var(--f-serif);font-weight:400;font-size:clamp(50px,7.6vw,118px);line-height:.95;letter-spacing:-.02em;color:var(--ink);margin:0}
@@ -595,7 +595,7 @@ tr.grp td{background:transparent;font-family:var(--f-ui);font-size:10.5px;letter
 .feat-card .kv em{font-family:var(--f-num);font-size:11.5px!important;color:var(--ink-2)!important}
 .feat-card .up{color:var(--sage-hi)!important} .feat-card .dn{color:var(--red)!important}
 .feat-card .mini .ax{font-family:var(--f-num)}
-.feat-card .mini .grid{stroke:rgba(232,233,229,.055)!important}
+.feat-card .mini .grid{stroke:rgba(231,228,220,.055)!important}
 
 /* overview tables sit on the page with hairlines, no card */
 #mport>.tblwrap,#record,.ox[data-mode="summary"]{position:relative;padding:0;border-radius:0;background:none;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:none}
@@ -710,3 +710,46 @@ tr.grp td{background:transparent;font-family:var(--f-ui);font-size:10.5px;letter
 .k-arch .ph.live{color:var(--sage-hi);border-color:color-mix(in oklab,var(--sage) 45%,transparent)}
 .k-more{appearance:none;font:inherit;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);background:transparent;border:1px solid var(--hair-2);border-radius:var(--r-sm);padding:10px 16px;cursor:pointer;margin-top:var(--s-4)}
 .k-more:hover{border-color:var(--ink)}
+
+/* =====================================================================
+   Refinement pass: desk pages follow the flagship chart page.
+   Big figures in the serif, smaller sizes, no boxed pills, a monochrome gauge.
+   ===================================================================== */
+.mast.sub h1{font-size:clamp(40px,4.4vw,64px)!important}
+.mast .meta{gap:0 14px}
+.mast .meta span{border:0;padding:0;font-size:11px;color:var(--muted)}
+.mast .meta span+span::before{content:"·";margin-right:14px;color:var(--faint)}
+.k-regime{font-size:clamp(64px,7vw,104px)!important}
+.k-expo .v,.k-score-val,.k-price .big,.k-quotes .big,.k-stat b,.desk .expo b,.expo b,.q .px,.quote .big,.feat-card .kv b,.ox .st b{
+  font-family:var(--f-serif)!important;font-weight:400!important;letter-spacing:-.01em!important;font-variant-numeric:lining-nums}
+.k-score-val{font-size:clamp(44px,4vw,58px)!important}
+.k-score-val small{font-family:var(--f-num);font-size:11.5px!important;vertical-align:middle}
+.k-expo .v{font-size:40px!important}
+.k-price .big,.k-quotes .big{font-size:clamp(34px,3vw,44px)!important}
+.k-stat b{font-size:clamp(28px,2.4vw,36px)!important}
+.k-stat span{font-size:11.5px}
+.desk .expo b,.expo b{font-size:26px!important}
+.q .px{font-size:28px!important}
+.feat-card .kv b{font-size:34px!important}
+.ox .st b{font-size:24px!important}
+/* deltas and state pills: text, not boxes */
+.k-pills{gap:4px 14px}
+.k-delta,.k-delta.up,.k-delta.dn{border:0;padding:0;background:none;font-size:11.5px}
+.k-delta small{color:var(--muted);opacity:1}
+.pill,.k-chip{border:0!important;padding:0!important;background:none!important;font-size:10.5px;letter-spacing:.14em}
+.pill::before,.k-chip.dot::before{width:5px;height:5px}
+.k-flip .k-dist span{border:0;padding:0;margin-right:14px}
+/* the score gauge: one stone hairline, ivory ticks, a champagne marker */
+.k-gauge .trk{height:1px}
+.k-gauge .fill{background:var(--faint)!important}
+.k-gauge .tick{top:-6px;bottom:-6px;background:var(--muted)}
+.k-gauge .mk i{width:11px;height:11px;margin:-5.5px 0 0 -5.5px;background:var(--sage);box-shadow:0 0 0 3px var(--panel)}
+.k-gauge .mk.ghost i{background:var(--panel);border-color:var(--muted)}
+.k-gauge-key i{background:var(--sage)}
+.k-gauge .mk em{color:var(--sage-hi)}
+/* state history track and exposure bars: tonal, thin */
+.k-hist .trk{height:3px}
+.k-expo .bar{height:2px}
+.desk .meter{height:2px!important}
+.track{height:4px!important}
+.k-seg div.on{background:transparent;box-shadow:inset 0 -1px 0 var(--c)}

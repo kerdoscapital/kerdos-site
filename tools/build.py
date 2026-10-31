@@ -27,7 +27,7 @@ TAG = 'Independent Quantitative Investment Research'
 GH = 'https://github.com/kerdoscapital/kerdos-site'
 FONTS_CSS = ('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400'
              '&family=Instrument+Serif:ital@0;1&display=swap')
-BG, INK, INK2, MUTED, SAGE, RED, PANEL, HAIR = '#111315', '#E8E9E5', '#A4A9AD', '#80868B', '#719B82', '#C46A5F', '#15181B', '#24282C'
+BG, INK, INK2, MUTED, SAGE, RED, PANEL, HAIR = '#111315', '#E7E4DC', '#858B90', '#858B90', '#B9A98A', '#A9705F', '#191C1F', '#2A2E32'
 PAGES = {   # file: (title, description, nav label)
     'index.html': (f'{NAME} · {TAG}',
                    'A systematic approach to navigating the markets: the Kerdos flagship model portfolio of US stocks, Bitcoin and gold, tracked live against the S&P 500, and the rules-based regime models behind it, updated daily.', 'Overview'),
@@ -349,8 +349,8 @@ def st_since(path, mp):
 
 # K monogram: a stem and a chevron that stops short of it; ivory stem, sage chevron
 ICON_SVG = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="8" fill="#111315"/>'
-            '<path d="M22 14V50" fill="none" stroke="#E8E9E5" stroke-width="7"/>'
-            '<path d="M45 14L28 32L45 50" fill="none" stroke="#719B82" stroke-width="7" stroke-linejoin="miter" stroke-miterlimit="10"/></svg>')
+            '<path d="M22 14V50" fill="none" stroke="#E7E4DC" stroke-width="7"/>'
+            '<path d="M45 14L28 32L45 50" fill="none" stroke="#B9A98A" stroke-width="7" stroke-linejoin="miter" stroke-miterlimit="10"/></svg>')
 
 
 def k_img(n, pad=0.0, bg=True):
@@ -390,7 +390,7 @@ def make_og(M, B, G, FL, k_img=None):
     if M: rows.append(('US stocks', st3(M['regime'], M.get('exposure_map')), f"{round(M['exposure'] * 100)}%"))
     if B: rows.append(('Bitcoin', st3(B['regime'], B.get('exposure_map')), f"{round(B['exposure'] * 100)}%"))
     if G: rows.append(('High beta', st3(G['regime'], G.get('exposure_map')), f"{round(G['exposure'] * 100)}%"))
-    y = 362; d.line([(72, y), (W - 72, y)], fill='#30353A')
+    y = 362; d.line([(72, y), (W - 72, y)], fill='#3A3F43')
     cw = (W - 144) // max(1, len(rows[:4]))
     for i, (name, reg, ex) in enumerate(rows[:4]):
         x = 72 + i * cw

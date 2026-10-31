@@ -227,7 +227,7 @@
       const X = i => m.l + i / (ys.length - 1) * (W - m.l - m.r), Y = v => m.t + (hi - v) / (hi - lo) * (H - m.t - m.b);
       const line = 'M' + ys.map((v, i) => X(i).toFixed(1) + ',' + Y(v).toFixed(1)).join('L');
       const area = line + `L${X(ys.length - 1).toFixed(1)},${H - m.b}L${X(0)},${H - m.b}Z`;
-      const ac = o.color || cssv('--accent') || '#719B82', last = ys[ys.length - 1], id = 'k' + Math.random().toString(36).slice(2, 7);
+      const ac = o.color || cssv('--accent') || '#B9A98A', last = ys[ys.length - 1], id = 'k' + Math.random().toString(36).slice(2, 7);
       const fmt = o.fmt || (v => sn(v, 2));
       host.classList.add('k-spark');
       host.innerHTML = `<div class="hd"><span class="label">${o.title || ''}</span><span class="mono" style="font-size:12px;color:var(--ink-2)">${ds(pts[0].date)} – ${ds(pts[pts.length - 1].date)}</span></div>
@@ -236,13 +236,13 @@
         </defs>
         ${lines.map(l => `<line class="thr" x1="0" x2="${W - m.r}" y1="${Y(l.v).toFixed(1)}" y2="${Y(l.v).toFixed(1)}" stroke="${l.color}" opacity=".6"/><text class="tx" x="${W - m.r + 8}" y="${(Y(l.v) + 3.5).toFixed(1)}">${l.label ?? fmt(l.v)}</text>`).join('')}
         <path class="area" d="${area}" fill="url(#${id}a)"/><path class="ln" d="${line}" stroke="${ac}" pathLength="1"/>
-        <circle cx="${X(ys.length - 1).toFixed(1)}" cy="${Y(last).toFixed(1)}" r="3.5" fill="${cssv('--ink') || '#E8E9E5'}" stroke="${cssv('--panel') || '#15181B'}" stroke-width="2"/></svg>`;
+        <circle cx="${X(ys.length - 1).toFixed(1)}" cy="${Y(last).toFixed(1)}" r="3.5" fill="${cssv('--ink') || '#E7E4DC'}" stroke="${cssv('--panel') || '#191C1F'}" stroke-width="2"/></svg>`;
     };
     draw(); redraws.add(() => host.isConnected && draw());
   };
 
   /* Regime history as one continuous track. rows = [{date, regime}] */
-  const RC = { Bullish: 'var(--c-bull)', Neutral: '#6A7075', Bearish: 'var(--c-bear)' };
+  const RC = { Bullish: 'var(--c-bull)', Neutral: '#5E6468', Bearish: '#33373B' };
   K.hist = (rows, o = {}) => {
     rows = rows.filter(r => r.regime).map(r => ({ date: r.date, regime: o.map ? K.st(r.regime, o.map) : r.regime }));
     if (!rows.length) return '';
