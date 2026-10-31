@@ -502,33 +502,28 @@ function render(R,S,H,EQ){
   const dl=(v,lab)=>`<span class="k-delta ${cls(v)}">${sgn(v)}<small>${lab}</small></span>`;
   const RG=['Bullish','Recovery','Neutral','Correction','Bearish'];
   const T=R.thresholds;const sn=(v,d=3)=>(v>0?'+':v<0?'−':'')+Math.abs(v).toFixed(d);
-  const hero=h('section',{class:'k-hero','aria-label':'Today’s call'});
-  hero.innerHTML=`<div class="k-glow" aria-hidden="true"></div>
-   <div class="panel k-main">
-     <div class="label">Model state · 1–3 month outlook</div>
-     <div><h2 class="k-regime">${S3}</h2>
-       <div class="k-since" style="margin-top:14px"><span>Since <span class="num">${fmtD(RUN.since)}</span> · ${RUN.n} day${RUN.n===1?'':'s'}</span>${RUN.prev?`<span class="muted">previously</span><span class="pill ${RUN.prev}">${RUN.prev}</span>`:''}</div></div>
-     <div class="k-expo"><span class="v" data-cu="${Math.round(R.exposure*100)}" data-fmt="pct">${Math.round(R.exposure*100)}%</span><span class="bar" aria-hidden="true"><i style="--x:${R.exposure}"></i></span><span class="cap">Model exposure to Bitcoin · the rest earns 3-month T-bills</span></div>
-     <div class="k-seg" role="list" aria-label="Exposure by state">${Kerdos.STATES.map(k=>`<div role="listitem" data-r="${k}" class="${k===S3?'on':''}"${k===S3?' aria-current="true"':''}><b>${k}</b><span>${Math.round(Kerdos.EXPO[k]*100)}%</span></div>`).join('')}</div>
-     <div class="k-price"><span class="big" data-cu="${R.price}" data-from="${(R.price*0.97).toFixed(0)}" data-fmt="usd">${usd(R.price)}</span><span class="k-pills">${dl(R.chg1,'1D')}${dl(R.chg7,'7D')}${dl(R.chg30,'30D')}${dl(R.ytd,'YTD')}</span></div>
-     ${Kerdos.hist(H,{map:EXB})}
-   </div>
-   <div class="panel k-score">
-     <div class="k-score-head"><div><div class="label">Composite score · 5-day smoothed</div><div class="k-score-val" style="margin-top:12px"><span data-cu="${R.score}" data-fmt="snum" data-dec="3">${sn(R.score)}</span><small>${R.score_pctile}th percentile since 2015</small></div></div></div>
-     <div><div id="gauge"></div>
-       <div class="k-gauge-key"><span><i></i>Today <span class="num">${sn(R.score)}</span></span>${R.score_30d_ago!=null?`<span><i class="g"></i>30 days ago <span class="num">${sn(R.score_30d_ago)}</span></span>`:''}<span><i class="t"></i>State lines</span></div></div>
-     <div class="k-stats">
-       <div class="k-stat"><b data-cu="${A.med30}" data-fmt="spct" data-dec="1">${sgn(A.med30)}</b><span>Median next 30d</span></div>
-       <div class="k-stat"><b data-cu="${A.pos30}" data-fmt="pct">${A.pos30}%</b><span>Rose over 30d</span></div>
-       <div class="k-stat"><b data-cu="${A.med90}" data-fmt="spct" data-dec="1">${sgn(A.med90)}</b><span>Median next 90d</span></div>
-       <div class="k-stat"><b data-cu="${R.move30}" data-fmt="pm" data-dec="1">±${R.move30}%</b><span>1σ 30-day move</span></div>
-     </div>
-     <div class="k-spark" id="spark"></div>
-     <p class="note" style="margin:0">Stats use ${A.n.toLocaleString()} days since 2015 with a score within ±0.10 of today; their 30-day outcomes ranged ${sgn(A.q10_30)} to ${sgn(A.q90_30)} (10th–90th percentile).</p>
-   </div>`;
-  M.append(hero);
-  Kerdos.gauge($('#gauge'),{value:R.score,ghost:R.score_30d_ago,ticks:[{v:T.bear,label:`Bearish <b>${sn(T.bear,2)}</b>`,side:'l'},{v:T.bull,label:`Bullish <b>${sn(T.bull,2)}</b>`}],label:`Composite score ${sn(R.score,2)} on a scale from −1 to +1. Bullish above ${sn(T.bull,2)}, Bearish below ${sn(T.bear,2)}.`});
-  Kerdos.spark($('#spark'),H.filter(r=>r.score!==''&&r.score!=null).slice(-90).map(r=>({date:r.date,v:+r.score})),{title:'Score · last 90 days',lines:[{v:T.bull,color:css('--c-bull')},{v:T.bear,color:css('--c-bear')}]});
+  const BH=H.filter(r=>r.score!==''&&r.score!=null&&r.regime).map(r=>({date:r.date,y:+r.score,p:+r.price,st:ST(r.regime)}));
+  const usd0=v=>'$'+Math.round(v).toLocaleString('en-US'),pk=v=>'$'+Math.round(v/1000)+'k';
+  const REP=Kerdos.report({
+    kpis:[{l:'Model state',b:S3,c:'c-'+S3,i:`${Math.round(R.exposure*100)}% invested · since ${fmtD(RUN.since).replace(/, \d{4}$/,'')}${RUN.prev?' · was '+RUN.prev:''}`},
+      {l:'Composite score',b:sn(R.score),i:`${R.score_pctile}th pct · 30d ago ${R.score_30d_ago!=null?sn(R.score_30d_ago):'—'}`},
+      {l:'Bitcoin',b:usd0(R.price),i:`${sgn(R.chg1)} 1d · ${sgn(R.chg7)} 7d · ${sgn(R.ytd)} YTD`},
+      {l:'Median next 90 days',b:sgn(A.med90),c:A.med90>0?'up':'dn',i:`${A.pos90}% rose · ${A.n.toLocaleString()} similar days`},
+      {l:'From all-time high',b:sgn(R.cycle.dd),c:R.cycle.dd<0?'dn':'',i:`${R.cycle.days_since_ath} days since the high`}],
+    chart:{title:'Score and state',sub:'5-day smoothed composite · state lines at '+sn(T.bull,2)+' and '+sn(T.bear,2),rows:BH,mode:'score',
+      lines:[{v:T.bull,label:'Bullish '+sn(T.bull,2)},{v:T.bear,label:'Bearish '+sn(T.bear,2)}],yName:'Composite score',pName:'Bitcoin price',
+      yfmt:(v,t)=>sn(v,t?3:2),pfmt:(v,t)=>t?usd0(v):pk(v)},
+    why:{title:`Why it reads ${S3}`,tag:'group signal −1 … +1'},
+    side:{title:'What similar scores led to',tag:'since 2015',html:`<dl class="k-kv">
+      <dt>Days since 2015 with a similar score</dt><dd>${A.n.toLocaleString()}</dd>
+      <dt>Median next 30 days</dt><dd>${sgn(A.med30)}</dd><dt>Rose over 30 days</dt><dd>${A.pos30}%</dd>
+      <dt>30-day range, 10th–90th percentile</dt><dd>${sgn(A.q10_30)} to ${sgn(A.q90_30)}</dd>
+      <dt>Median next 90 days</dt><dd>${sgn(A.med90)}</dd><dt>Rose over 90 days</dt><dd>${A.pos90}%</dd>
+      <dt>1σ 30-day move</dt><dd>±${R.move30}%</dd>
+      <dt>Score that turns it Bullish</dt><dd>${sn(T.bull,2)} <span class="muted">(${sn(R.need_bull)} away)</span></dd>
+      <dt>Score that turns it Bearish</dt><dd>${sn(T.bear,2)} <span class="muted">(${sn(R.need_bear)} away)</span></dd></dl>
+      <p class="note">Outcomes on past days since 2015 whose score was within ±0.10 of today’s. Bitcoin has had only four full cycles; read these as context, not a forecast.</p>`}});
+  M.append(REP.el);
   /* drivers: one scannable row per group, plus what flips the call */
   const rd=k=>{const f=F.find(x=>x.key===k);return f?esc(f.reading):''};
   const word2=v=>v>.35?'Strongly positive':v>.1?'Positive':v<-.35?'Strongly negative':v<-.1?'Negative':'Flat';
@@ -544,10 +539,10 @@ function render(R,S,H,EQ){
     if(isBull)return d<0?`<span class="to-bull">${name} above ${sn(line,2)} · needs <b>${sn(-d,3)}</b></span>`:`<span class="to-bull">${name} line ${sn(line,2)} · <b>${d.toFixed(3)}</b> cushion</span>`;
     return d>0?`<span class="to-bear">${name} below ${sn(line,2)} · <b>${sn(-d,3)}</b> away</span>`:`<span class="to-bear">${name} line ${sn(line,2)} · needs <b>${sn(-d,3)}</b> to leave</span>`};
   const flipText=flip0||(R.regime==='Bearish'?deepTxt+(V2.deep&&V2.macro<=V2.bottom_macro?' Macro ('+sgn(V2.macro,2,'')+') confirms the signal, so the model stays in cash until price closes above the 20-week average ('+usd(V2.m20w)+').':''):deepTxt);
-  M.append(h('section',{class:'panel','aria-label':'Why the model reads this way'},`<div class="phead"><h2>Why it reads ${S3}</h2><span class="label">group signal −1 … +1</span></div>
+  REP.why.innerHTML=`
     <div class="k-drivers">${ORDER.map(g=>{const v=G[g];const s=v>.1?'pos':v<-.1?'neg':'flat';const det=DET[g]||F.filter(f=>f.group===g).map(f=>esc(f.reading)).slice(0,3).join(' · ');
       return `<div class="k-drv" data-s="${s}"><div class="nm"><i></i>${g[0].toUpperCase()+g.slice(1)}<span class="mono muted" style="font-size:11px;font-weight:400">${Math.round(R.group_weights[g]*100)}% wt</span></div><div class="val">${sn(v,2)}</div><div class="tx"><b>${word2(v)}.</b> ${det}</div></div>`}).join('')}</div>
-    <div class="k-flip"><div class="label" style="padding-top:7px">What flips it</div><div style="display:grid;gap:10px"><div class="k-dist">${chip(T.bull,'Bullish',true)}${chip(T.bear,'Bearish',false)}</div><p>${flipText}</p></div></div>`));
+    <div class="k-flip"><div class="label" style="padding-top:7px">What flips it</div><div style="display:grid;gap:10px"><div class="k-dist">${chip(T.bull,'Bullish',true)}${chip(T.bear,'Bearish',false)}</div><p>${flipText}</p></div></div>`;
   if(R.notes&&R.notes.length){const safe=u=>/^https:\/\//.test(u||'')?u:'';
     const arrow='<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.5 8.5l5-5M4.5 3.5h4v4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     const when=t=>{const m=String(t).match(/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.? \d{1,2}(, \d{4})?/);return m?m[0]:''};

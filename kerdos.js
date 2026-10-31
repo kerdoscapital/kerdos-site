@@ -264,4 +264,63 @@
       <div class="ax"><span>${dy(rows[0].date)}</span><span>${dy(rows[n - 1].date)}</span></div></div>`;
   };
 
+  /* ================= desk report (layout A) =================
+     One continuous report: a row of serif key figures, the score (or level) history as the centrepiece,
+     then "why it reads" beside the supporting figures. o = {
+       kpis:[{l,b,i,c}], chart:{title,sub,rows:[{date,y,p,st,ref}],lines:[{v,label}],mode:'score'|'level',yfmt,pfmt,yName,pName,refName,unit},
+       why:{title,tag}, side:{title,tag,html} }  Returns {el, why, side}. */
+  const BANDS = { Bullish: 'rgba(185,169,138,.10)', Neutral: 'rgba(133,139,144,.065)', Bearish: 'rgba(169,112,95,.11)' };
+  K.report = o => {
+    const el = d.createElement('section'); el.className = 'k-rp'; el.setAttribute('aria-label', 'Today’s call');
+    const C = o.chart, kp = x => `<div class="k-rp-kpi"><span>${x.l}</span><b class="${x.c || ''}">${x.b}</b><i>${x.i || ''}</i></div>`;
+    const R = [[90, '90D'], [180, '6M'], [365, '1Y'], [1095, '3Y']].filter(([n]) => n <= C.rows.length + 30);
+    const sw = (c, t, b) => `<span><i class="${b ? 'b' : ''}" style="background:${c}"></i>${t}</span>`;
+    el.innerHTML = `<div class="k-rp-kpis">${o.kpis.map(kp).join('')}</div>
+      <div class="k-rp-chart"><div class="k-rp-sub"><h2>${C.title}</h2><span class="label">${C.sub || ''}</span></div>
+        <div class="k-rp-ctl"><div class="k-rp-leg">${sw('var(--sage)', C.yName)}${C.pName ? sw('#858B90', C.pName) : ''}${C.refName ? sw('repeating-linear-gradient(90deg,#858B90 0 4px,transparent 4px 7px)', C.refName) : ''}${sw('rgba(185,169,138,.55)', 'Bullish', 1)}${sw('rgba(133,139,144,.45)', 'Neutral', 1)}${sw('rgba(169,112,95,.6)', 'Bearish', 1)}</div>
+        <div class="seg" role="group" aria-label="Time range">${R.map(([n, t], i) => `<button type="button" data-n="${n}" aria-pressed="${i === 0}">${t}</button>`).join('')}</div></div>
+        <div class="chart k-rp-svg"></div></div>
+      <div class="k-rp-two"><div class="k-rp-col"><div class="k-rp-sub"><h2>${o.why.title}</h2><span class="label">${o.why.tag || ''}</span></div><div data-why></div></div>
+        <div class="k-rp-col"><div class="k-rp-sub"><h2>${o.side.title}</h2><span class="label">${o.side.tag || ''}</span></div>${o.side.html}</div></div>`;
+    const host = el.querySelector('.k-rp-svg'); let N = R.length ? R[0][0] : 90;
+    const draw = () => {
+      const D = C.rows.slice(-N); if (D.length < 2) return;
+      const W = Math.max(320, host.clientWidth || 900), small = W < 600, Ht = small ? 260 : 380, m = { t: 16, r: C.pName ? (small ? 46 : 62) : 12, b: 26, l: small ? 44 : 54 };
+      const X = i => m.l + i / (D.length - 1) * (W - m.l - m.r);
+      const ys = D.map(r => r.y).concat((C.lines || []).map(l => l.v)).concat(D.map(r => r.ref).filter(v => v != null));
+      let y0 = Math.min(...ys), y1 = Math.max(...ys); const pad = (y1 - y0) * .1 || .05; y0 -= pad; y1 += pad;
+      const Y = v => m.t + (y1 - v) / (y1 - y0) * (Ht - m.t - m.b);
+      let g = '', i0 = 0;
+      for (let i = 1; i <= D.length; i++) if (i === D.length || D[i].st !== D[i0].st) {
+        const a = i0 ? (X(i0 - 1) + X(i0)) / 2 : m.l, b = i < D.length ? (X(i - 1) + X(i)) / 2 : W - m.r;
+        g += `<rect x="${a.toFixed(1)}" y="${m.t}" width="${(b - a).toFixed(1)}" height="${Ht - m.t - m.b}" fill="${BANDS[D[i0].st] || 'transparent'}"/>`; i0 = i; }
+      const rng = y1 - y0, raw = rng / 5, mag = 10 ** Math.floor(Math.log10(raw)), stp = [1, 2, 2.5, 5, 10].map(k => k * mag).find(k => k >= raw);
+      for (let v = Math.ceil(y0 / stp) * stp; v <= y1; v += stp) g += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(v).toFixed(1)}" y2="${Y(v).toFixed(1)}" stroke="rgba(231,228,220,.05)"/><text class="ax" x="${m.l - 10}" y="${(Y(v) + 3.5).toFixed(1)}" text-anchor="end">${C.yfmt(v)}</text>`;
+      (C.lines || []).forEach(l => { g += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(l.v).toFixed(1)}" y2="${Y(l.v).toFixed(1)}" stroke="#555B60" stroke-dasharray="3 4"/><text class="ax" x="${m.l + 6}" y="${(Y(l.v) - 6).toFixed(1)}" style="fill:var(--ink-2)">${l.label}</text>`; });
+      let YP = null;
+      if (C.pName) { const ps = D.map(r => r.p).filter(v => v != null), p0 = Math.min(...ps) * .97, p1 = Math.max(...ps) * 1.02; YP = v => m.t + (p1 - v) / (p1 - p0) * (Ht - m.t - m.b);
+        [.1, .5, .9].forEach(f => { const v = p0 + (p1 - p0) * f; g += `<text class="ax" x="${W - m.r + 10}" y="${(YP(v) + 3.5).toFixed(1)}">${C.pfmt(v)}</text>`; });
+        g += `<path d="M${D.map((r, i) => X(i).toFixed(1) + ',' + YP(r.p).toFixed(1)).join('L')}" fill="none" stroke="#858B90" stroke-width="1.1" opacity=".75"/>`; }
+      if (C.refName) { let dd = '', on = false; D.forEach((r, i) => { if (r.ref == null) { on = false; return; } dd += (on ? 'L' : 'M') + X(i).toFixed(1) + ',' + Y(r.ref).toFixed(1); on = true; });
+        g += `<path d="${dd}" fill="none" stroke="#858B90" stroke-width="1.2" stroke-dasharray="4 3"/>`; }
+      const every = Math.ceil(D.length / (small ? 4 : 7)), yr = N > 300;
+      D.forEach((r, i) => { if (i % every === 0 && i < D.length - every / 2) g += `<text class="ax" x="${X(i).toFixed(1)}" y="${Ht - 6}" text-anchor="middle">${ds(r.date)}${yr ? ' ’' + r.date.slice(2, 4) : ''}</text>`; });
+      g += `<path d="M${D.map((r, i) => X(i).toFixed(1) + ',' + Y(r.y).toFixed(1)).join('L')}" fill="none" stroke="#B9A98A" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+      const L = D[D.length - 1];
+      g += `<circle cx="${X(D.length - 1).toFixed(1)}" cy="${Y(L.y).toFixed(1)}" r="4" fill="#B9A98A" stroke="#111315" stroke-width="2"/>`;
+      g += `<line class="hx" x1="0" x2="0" y1="${m.t}" y2="${Ht - m.b}" stroke="#858B90" opacity="0"/><rect x="${m.l}" y="${m.t}" width="${W - m.l - m.r}" height="${Ht - m.t - m.b}" fill="transparent"/>`;
+      host.innerHTML = `<svg viewBox="0 0 ${W} ${Ht}" role="img" aria-label="${K.esc(C.title)}: ${C.yName} ${C.yfmt(L.y)} on ${ds(L.date)}">${g}</svg><div class="tip" hidden></div>`;
+      const svg = host.querySelector('svg'), tip = host.querySelector('.tip'), hx = svg.querySelector('.hx');
+      svg.addEventListener('pointermove', e => { const b = svg.getBoundingClientRect(), xv = (e.clientX - b.left) * W / b.width;
+        const i = Math.max(0, Math.min(D.length - 1, Math.round((xv - m.l) / (W - m.l - m.r) * (D.length - 1)))), r = D[i];
+        hx.setAttribute('x1', X(i)); hx.setAttribute('x2', X(i)); hx.setAttribute('opacity', .5);
+        tip.innerHTML = `<div class="h">${ds(r.date)}, ${r.date.slice(0, 4)}</div><div class="r"><span>${C.yName}</span><b class="mono">${C.yfmt(r.y, 1)}</b></div>${C.pName && r.p != null ? `<div class="r"><span>${C.pName}</span><b class="mono">${C.pfmt(r.p, 1)}</b></div>` : ''}${C.refName && r.ref != null ? `<div class="r"><span>${C.refName}</span><b class="mono">${C.yfmt(r.ref, 1)}</b></div>` : ''}<div class="r"><span>State</span><b class="c-${r.st}">${r.st}</b></div>`;
+        tip.hidden = false; const tx = X(i) / W * b.width; tip.style.top = '8px'; tip.style.left = (tx > b.width / 2 ? Math.max(0, tx - tip.offsetWidth - 14) : tx + 14) + 'px'; });
+      svg.addEventListener('pointerleave', () => { tip.hidden = true; hx.setAttribute('opacity', 0); });
+    };
+    el.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => { el.querySelectorAll('.seg button').forEach(x => x.setAttribute('aria-pressed', x === b)); N = +b.dataset.n; draw(); }));
+    requestAnimationFrame(draw); redraws.add(() => el.isConnected && draw());
+    return { el, why: el.querySelector('[data-why]'), side: el };
+  };
+
 })();

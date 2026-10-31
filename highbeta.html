@@ -339,37 +339,28 @@ function render(R,H,EQ){
   const sn=(v,d=2)=>(v>0?'+':v<0?'−':'')+Math.abs(v).toFixed(d);
   const dl=(v,lab)=>`<span class="k-delta ${cls(v)}">${pf(v)}<small>${lab}</small></span>`;
   const RG=['Bullish','Neutral','Recovery','Correction','Lagging','Crash','Bearish','Breakdown'];
-  const hero=h('section',{class:'k-hero','aria-label':'Today’s call'});
-  hero.innerHTML=`<div class="k-glow" aria-hidden="true"></div>
-   <div class="panel k-main">
-     <div class="label">Model state · stock desk backdrop, with high beta’s own cuts</div>
-     <div><h2 class="k-regime">${S3}</h2>
-       <div class="k-since" style="margin-top:14px"><span>Since <span class="num">${fmtD(RUN.since)}</span> · ${RUN.n} session${RUN.n===1?'':'s'}</span>${RUN.prev?`<span class="muted">previously</span><span class="pill ${RUN.prev}">${RUN.prev}</span>`:''}</div></div>
-     <div class="k-expo"><span class="v" data-cu="${Math.round(R.exposure*100)}" data-fmt="pct">${Math.round(R.exposure*100)}%</span><span class="bar" aria-hidden="true"><i style="--x:${R.exposure}"></i></span><span class="cap">Model exposure · equal weight across the 25 names</span></div>
-     <div class="k-seg" role="list" aria-label="Exposure by state">${Kerdos.STATES.map(k=>`<div role="listitem" data-r="${k}" class="${k===S3?'on':''}"${k===S3?' aria-current="true"':''}><b>${k}</b><span>${Math.round(Kerdos.EXPO[k]*100)}%</span></div>`).join('')}</div>
-     <div class="k-quotes">
-       <div><div class="tk">Basket index · Dec 2017 = 1</div><span class="big" data-cu="${R.level}" data-from="${(R.level*.97).toFixed(2)}" data-fmt="num" data-dec="2">${R.level.toFixed(2)}</span><span class="k-pills">${dl(C.d1,'1D')}${dl(C.d5,'1W')}${dl(C.d21,'1M')}${dl(C.ytd,'YTD')}</span></div>
-       <div><div class="tk">QQQ</div><span class="big" data-cu="${R.qqq}" data-from="${(R.qqq*.97).toFixed(2)}" data-fmt="usd" data-dec="2">${usd2(R.qqq)}</span><span class="k-pills">${dl(R.qqq_chg.d1,'1D')}${dl(R.qqq_chg.d5,'1W')}${dl(R.qqq_chg.d21,'1M')}${dl(R.qqq_chg.ytd,'YTD')}</span></div>
-     </div>
-     ${Kerdos.hist(H,{unit:'sessions',map:EX})}
-   </div>
-   <div class="panel k-score">
-     <div class="k-score-head"><div><div class="label">High beta vs the S&amp;P 500 · strength score</div><div class="k-score-val" style="margin-top:12px"><span data-cu="${S.score}" data-fmt="snum" data-dec="2">${sn(S.score)}</span><small>${S.state}${S.since?` since ${fmtD(S.since)}`:''}</small></div></div><span class="pill ${mkS}">Stock desk: ${mkS}</span></div>
-     <div><div id="gauge"></div>
-       <div class="k-gauge-key"><span><i></i>Today <span class="num">${sn(S.score)}</span></span><span><i class="t"></i>Lagging line · needs ${S.confirm} closes to switch</span></div></div>
-     <div class="k-stats">
-       <div class="k-stat"><b data-cu="${T.vs200*100}" data-fmt="spct" data-dec="1">${pf(T.vs200)}</b><span>vs 200-day average</span></div>
-       <div class="k-stat"><b data-cu="${S.rel_3m*100}" data-fmt="spct" data-dec="1">${pf(S.rel_3m)}</b><span>vs SPY · 3M</span></div>
-       <div class="k-stat"><b data-cu="${K.r10*100}" data-fmt="spct" data-dec="1">${pf(K.r10)}</b><span>10 sessions · cut at −12%</span></div>
-       <div class="k-stat"><b data-cu="${T.hi52*100}" data-fmt="spct" data-dec="1">${pf(T.hi52)}</b><span>From 52-week high</span></div>
-     </div>
-     <div id="spark"></div>
-     <dl class="k-kv"><dt>Basket 200-day average (index)</dt><dd>${T.ma200.toFixed(2)}</dd><dt>Crash rule: cut to 50% on a close below</dt><dd>${K.trigger_below.toFixed(2)}</dd><dt>Days below the 200-day, last 60</dt><dd>${T.days_below}</dd><dt>Basket 3-month return</dt><dd class="${cls(C.d63)}">${pf(C.d63)}</dd><dt>Next re-rank (first trading day)</dt><dd>${nextQ(R.asof)}</dd></dl>
-   </div>`;
-  M.append(hero);
-  Kerdos.gauge($('#gauge'),{value:S.score,ticks:[{v:-S.threshold,label:`Lagging below <b>−${S.threshold.toFixed(2)}</b>`,side:'l'}],label:`Strength score ${sn(S.score)} on a scale from −1 to +1; high beta counts as lagging below −${S.threshold.toFixed(2)}.`});
-  Kerdos.spark($('#spark'),H.filter(r=>r.level).slice(-90).map(r=>({date:r.date,v:+r.level})),{title:'Basket index · last 90 sessions',fmt:v=>v.toFixed(2),lines:[{v:T.ma200,color:css('--c-neut'),label:'200d'}]});
-  M.append(h('section',{class:'panel','aria-label':'What the desk is doing'},`<div class="phead"><h2>Why it reads ${S3}</h2><span class="label">rules in play today</span></div><div class="k-flip" style="margin-top:0"><div class="label" style="padding-top:2px">The call</div><p>${narr}</p></div>`));
+  const GH=H.filter(r=>r.level&&r.regime).map(r=>({date:r.date,y:+r.level,ref:r.ma200?+r.ma200:null,st:ST(r.regime)}));
+  const REP=Kerdos.report({
+    kpis:[{l:'Model state',b:S3,c:'c-'+S3,i:`${Math.round(R.exposure*100)}% invested · since ${fmtD(RUN.since).replace(/, \d{4}$/,'')}${RUN.prev?' · was '+RUN.prev:''}`},
+      {l:'Strength vs S&amp;P 500',b:sn(S.score),c:S.score<0?'dn':'',i:`${S.state}${S.since?' since '+fmtD(S.since).replace(/, \d{4}$/,''):''} · lagging below −${S.threshold.toFixed(2)}`},
+      {l:'Basket index',b:R.level.toFixed(2),i:`${pf(C.d1)} 1d · ${pf(C.d21)} 1m · ${pf(C.ytd)} YTD`},
+      {l:'vs 200-day average',b:pf(T.vs200),c:T.vs200<0?'dn':'',i:`200-day at ${T.ma200.toFixed(2)} · ${T.days_below} of 60 days below`},
+      {l:'QQQ',b:usd2(R.qqq),i:`${pf(R.qqq_chg.d1)} 1d · ${pf(R.qqq_chg.ytd)} YTD · stock desk ${mkS}`}],
+    chart:{title:'Basket and state',sub:'basket index (Dec 2017 = 1) with its 200-day average',rows:GH,mode:'level',
+      yName:'Basket index',refName:'200-day average',yfmt:(v,t)=>v.toFixed(t?2:1)},
+    why:{title:`Why it reads ${S3}`,tag:'rules in play today'},
+    side:{title:'Levels that change the call',tag:'basket index',html:`<dl class="k-kv">
+      <dt>Stock desk (the starting state)</dt><dd class="c-${mkS}">${mkS}</dd>
+      <dt>Strength score · lagging below</dt><dd>${sn(S.score)} / −${S.threshold.toFixed(2)}</dd>
+      <dt>Basket vs SPY · 3 months</dt><dd>${pf(S.rel_3m)}</dd>
+      <dt>Basket, last 10 sessions (cut at −12%)</dt><dd>${pf(K.r10)}</dd>
+      <dt>Crash rule: cut to 50% on a close below</dt><dd>${K.trigger_below.toFixed(2)}</dd>
+      <dt>Basket 200-day average</dt><dd>${T.ma200.toFixed(2)}</dd>
+      <dt>From 52-week high</dt><dd>${pf(T.hi52)}</dd>
+      <dt>Basket 3-month return</dt><dd>${pf(C.d63)}</dd>
+      <dt>Next re-rank (first trading day)</dt><dd>${nextQ(R.asof)}</dd></dl>`}});
+  M.append(REP.el);
+  REP.why.innerHTML=`<div class="k-prose" style="font-size:15px"><p>${narr}</p></div>`;
   // members
   const B0=R.backtest.basket;
   const mx=Math.max(...R.members.map(m=>m.weight));

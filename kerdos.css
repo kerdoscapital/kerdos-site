@@ -753,3 +753,43 @@ tr.grp td{background:transparent;font-family:var(--f-ui);font-size:10.5px;letter
 .desk .meter{height:2px!important}
 .track{height:4px!important}
 .k-seg div.on{background:transparent;box-shadow:inset 0 -1px 0 var(--c)}
+
+/* =====================================================================
+   Desk report (layout A): one continuous report, no hero cards
+   ===================================================================== */
+.k-rp{display:grid;gap:36px}
+.k-rp-kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0 28px}
+.k-rp-kpi{border-top:1px solid var(--hair-2);padding-top:12px;min-width:0}
+.k-rp-kpi span{display:block;font-size:10.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.k-rp-kpi b{display:block;font-family:var(--f-serif);font-weight:400;font-size:clamp(32px,3vw,46px);line-height:1.05;letter-spacing:-.01em;color:var(--ink);margin:8px 0 6px;white-space:nowrap}
+.k-rp-kpi b.up{color:var(--sage-hi)} .k-rp-kpi b.dn{color:var(--red)}
+.k-rp-kpi i{font-style:normal;font-family:var(--f-num);font-size:11.5px;color:var(--muted);line-height:1.5;display:block}
+@media (max-width:1080px){.k-rp-kpis{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px 24px}}
+@media (max-width:620px){.k-rp-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.k-rp-sub{display:flex;justify-content:space-between;align-items:baseline;gap:8px 16px;flex-wrap:wrap}
+.k-rp-sub h2{font-family:var(--f-serif)!important;font-weight:400!important;font-size:clamp(26px,2.4vw,32px)!important;line-height:1.1!important;color:var(--ink)!important}
+.k-rp-chart{display:grid;gap:14px}
+.k-rp-ctl{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 20px}
+.k-rp-leg{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:12px;color:var(--ink-2)}
+.k-rp-leg i{display:inline-block;width:14px;height:2px;vertical-align:middle;margin-right:7px}
+.k-rp-leg i.b{width:9px;height:9px}
+.k-rp-svg{position:relative}.k-rp-svg svg{display:block;width:100%;height:auto}
+.k-rp-svg .tip{position:absolute;min-width:150px}
+.k-rp-two{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);padding-top:32px;border-top:1px solid var(--hair)}
+.k-rp-col{display:grid;gap:14px;align-content:start;min-width:0;padding-right:32px}
+.k-rp-col+.k-rp-col{padding:0 0 0 32px;border-left:1px solid var(--hair)}
+@media (max-width:900px){.k-rp-two{grid-template-columns:minmax(0,1fr);gap:32px}.k-rp-col{padding:0}.k-rp-col+.k-rp-col{padding:32px 0 0;border-left:0;border-top:1px solid var(--hair)}}
+.k-rp .k-drv{grid-template-columns:140px 52px minmax(0,1fr);padding:11px 0}
+.k-rp .k-flip{margin-top:6px}
+/* the rest of a desk page reads as one report: sections divided by rules, not cards */
+main#main{gap:56px!important}
+main#main>section.panel,main#main>.grid2>.panel,main#main>.grid3>.panel,main#main>section>.panel{background:transparent;border:0;border-top:1px solid var(--hair);border-radius:0;padding:32px 0 0!important}
+main#main>.grid2,main#main>.grid3{gap:0 40px!important}
+main#main .phead{border-bottom:0;padding-bottom:0;margin-bottom:18px}
+main#main .phead h2{font-family:var(--f-serif)!important;font-weight:400!important;font-size:clamp(26px,2.4vw,32px)!important;line-height:1.1!important}
+.k-rp-kpi b.c-Bullish,.k-rp-kpi b.c-Recovery{color:var(--c-bull)} .k-rp-kpi b.c-Neutral{color:var(--c-neut)} .k-rp-kpi b.c-Bearish{color:var(--c-bear)}
+.k-rp .k-drv{grid-template-columns:170px 52px minmax(0,1fr)}
+@media (max-width:640px){.k-rp .k-drv{grid-template-columns:minmax(0,1fr) auto}}
+@media (max-width:620px){.mast .meta span+span::before{content:none}.mast .meta{gap:2px 14px}}
+main#main .grid2 .panel,main#main .grid3 .panel{background:transparent;border:0;border-top:1px solid var(--hair);border-radius:0;padding:32px 0 0!important}
+main#main .grid2>div,main#main .grid3>div{gap:40px!important}

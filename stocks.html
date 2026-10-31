@@ -509,33 +509,28 @@ function render(R,S,H,EQ){
   const dl=(v,lab)=>`<span class="k-delta ${cls(v)}">${sgn(v)}<small>${lab}</small></span>`;
   const kq=(t,p,c)=>`<div><div class="tk">${t}</div><span class="big" data-cu="${p}" data-from="${(p*.97).toFixed(2)}" data-fmt="usd" data-dec="2">${usd2(p)}</span><span class="k-pills">${dl(c.d1,'1D')}${dl(c.d5,'1W')}${dl(c.d21,'1M')}${dl(c.ytd,'YTD')}</span></div>`;
   const RG=['Bullish','Neutral','Recovery','Correction','Bearish'];
-  const hero=h('section',{class:'k-hero','aria-label':'Today’s call'});
-  hero.innerHTML=`<div class="k-glow" aria-hidden="true"></div>
-   <div class="panel k-main">
-     <div class="label">Model state · 1–3 month risk backdrop</div>
-     <div><h2 class="k-regime">${S3}</h2>
-       <div class="k-since" style="margin-top:14px"><span>Since <span class="num">${fmtD(RUN.since)}</span> · ${RUN.n} session${RUN.n===1?'':'s'}</span>${RUN.prev?`<span class="muted">previously</span><span class="pill ${RUN.prev}">${RUN.prev}</span>`:''}</div></div>
-     <div class="k-expo"><span class="v" data-cu="${Math.round(R.exposure*100)}" data-fmt="pct">${Math.round(R.exposure*100)}%</span><span class="bar" aria-hidden="true"><i style="--x:${R.exposure}"></i></span><span class="cap">Model exposure to SPY and QQQ${R.exposure_enhanced!==R.exposure?` · ${Math.round(R.exposure_enhanced*100)}% in the enhanced version`:''} · the rest earns T-bills</span></div>
-     <div class="k-seg" role="list" aria-label="Exposure by state">${Kerdos.STATES.map(k=>`<div role="listitem" data-r="${k}" class="${k===S3?'on':''}"${k===S3?' aria-current="true"':''}><b>${k}</b><span>${Math.round(Kerdos.EXPO[k]*100)}%</span></div>`).join('')}</div>
-     <div class="k-quotes">${kq('SPY',R.spy,R.spy_chg)}${kq('QQQ',R.qqq,R.qqq_chg)}</div>
-     ${Kerdos.hist(H,{map:EX})}
-   </div>
-   <div class="panel k-score">
-     <div class="k-score-head"><div><div class="label">Composite score · 5-day smoothed</div><div class="k-score-val" style="margin-top:12px"><span data-cu="${R.score}" data-fmt="snum" data-dec="3">${kn(R.score)}</span><small>${ord(R.score_pctile)} percentile since 2003</small></div></div></div>
-     <div><div id="gauge"></div>
-       <div class="k-gauge-key"><span><i></i>Today <span class="num">${kn(R.score)}</span></span>${R.score_21d!=null?`<span><i class="g"></i>1 month ago <span class="num">${kn(R.score_21d)}</span></span>`:''}<span><i class="t"></i>Cut line</span></div></div>
-     <div class="k-stats">
-       <div class="k-stat"><b data-cu="${A.dd10}" data-fmt="pct">${A.dd10}%</b><span>Odds of a 10% drop · 6M</span></div>
-       <div class="k-stat"><b data-cu="${A.med63}" data-fmt="spct" data-dec="1">${sgn(A.med63)}</b><span>Median SPY · next 3M</span></div>
-       <div class="k-stat"><b data-cu="${A.pos63}" data-fmt="pct">${A.pos63}%</b><span>Rose over 3M</span></div>
-       <div class="k-stat"><b data-cu="${R.vol.move21}" data-fmt="pm" data-dec="1">±${R.vol.move21}%</b><span>1σ move · 1M (VIX)</span></div>
-     </div>
-     <div id="spark"></div>
-     <p class="note" style="margin:0">Stats use ${A.n.toLocaleString()} trading days since 2003 with a score within ±0.08 of today; their 3-month SPY returns ranged ${sgn(A.q10_63)} to ${sgn(A.q90_63)} (10th–90th percentile). Across all days, 10%+ drops followed ${S.deciles[0].dd}% of the time in the bottom score decile and ${S.deciles[9].dd}% in the top.</p>
-   </div>`;
-  M.append(hero);
-  Kerdos.gauge($('#gauge'),{value:R.score,ghost:R.score_21d,ticks:[{v:T.bear,label:`Cut <b>${kn(T.bear,2)}</b>`,side:'l'}],label:`Composite score ${kn(R.score,2)} on a scale from −1 to +1. Exposure is cut below ${kn(T.bear,2)}.`});
-  Kerdos.spark($('#spark'),H.filter(r=>r.score!==''&&r.score!=null).slice(-90).map(r=>({date:r.date,v:+r.score})),{title:'Score · last 90 sessions',lines:[{v:T.bear,color:css('--c-bear')}]});
+  const SH=H.filter(r=>r.score!==''&&r.score!=null&&r.regime).map(r=>({date:r.date,y:+r.score,p:+r.spy,st:ST(r.regime)}));
+  const REP=Kerdos.report({
+    kpis:[{l:'Model state',b:S3,c:'c-'+S3,i:`${Math.round(R.exposure*100)}% invested · since ${fmtD(RUN.since).replace(/, \d{4}$/,'')}${RUN.prev?' · was '+RUN.prev:''}`},
+      {l:'Composite score',b:kn(R.score),i:`${ord(R.score_pctile)} pct · 1 month ago ${R.score_21d!=null?kn(R.score_21d):'—'}`},
+      {l:'SPY',b:usd2(R.spy),i:`${sgn(R.spy_chg.d1)} 1d · ${sgn(R.spy_chg.d21)} 1m · ${sgn(R.spy_chg.ytd)} YTD`},
+      {l:'QQQ',b:usd2(R.qqq),i:`${sgn(R.qqq_chg.d1)} 1d · ${sgn(R.qqq_chg.d21)} 1m · ${sgn(R.qqq_chg.ytd)} YTD`},
+      {l:'Odds of a 10% drop · 6M',b:A.dd10+'%',i:`at similar scores · median SPY next 3M ${sgn(A.med63)}`}],
+    chart:{title:'Score and state',sub:'5-day smoothed composite · cut line at '+kn(T.bear,2),rows:SH,mode:'score',
+      lines:[{v:T.bear,label:'Cut line '+kn(T.bear,2)}],yName:'Composite score',pName:'SPY',
+      yfmt:(v,t)=>kn(v,t?3:2),pfmt:(v,t)=>t?usd2(v):'$'+Math.round(v)},
+    why:{title:`Why it reads ${S3}`,tag:'group signal −1 … +1'},
+    side:{title:'What similar scores led to',tag:'since 2003',html:`<dl class="k-kv">
+      <dt>Trading days since 2003 with a similar score</dt><dd>${A.n.toLocaleString()}</dd>
+      <dt>Chance of a 10% drop within 6 months</dt><dd>${A.dd10}%</dd>
+      <dt>Median SPY return, next 3 months</dt><dd>${sgn(A.med63)}</dd><dt>Rose over 3 months</dt><dd>${A.pos63}%</dd>
+      <dt>3-month range, 10th–90th percentile</dt><dd>${sgn(A.q10_63)} to ${sgn(A.q90_63)}</dd>
+      <dt>1σ move, next month (VIX)</dt><dd>±${R.vol.move21}%</dd>
+      <dt>10%+ drops: bottom vs top score decile</dt><dd>${S.deciles[0].dd}% / ${S.deciles[9].dd}%</dd>
+      <dt>Distance to the cut line (${kn(T.bear,2)})</dt><dd>${kn(R.score-T.bear)}</dd>
+      <dt>Macro group vs the cash gate</dt><dd>${kn(MG.value,2)} / ${kn(MG.threshold,2)}</dd></dl>
+      <p class="note">Outcomes on past trading days since 2003 whose score was within ±0.08 of today’s. Context, not a forecast.</p>`}});
+  M.append(REP.el);
   /* drivers */
   const E=Kerdos.esc;const word2=v=>v>.35?'Strongly positive':v>.1?'Positive':v<-.35?'Strongly negative':v<-.1?'Negative':'Flat';
   const ORDER=['trend','momentum','internals','macro','volatility','calendar'].filter(g=>g in G).concat(Object.keys(G).filter(g=>!['trend','momentum','internals','macro','volatility','calendar'].includes(g)));
@@ -544,10 +539,10 @@ function render(R,S,H,EQ){
     if(isBull)return d<0?`<span class="to-bull">${name} above ${kn(line,2)} · needs <b>${kn(-d,3)}</b></span>`:`<span class="to-bull">${name} line ${kn(line,2)} · <b>${d.toFixed(3)}</b> cushion</span>`;
     return d>0?`<span class="to-bear">${name} below ${kn(line,2)} · <b>${kn(-d,3)}</b> away</span>`:`<span class="to-bear">${name} line ${kn(line,2)} · needs <b>${kn(-d,3)}</b> to leave</span>`};
   const flipText=flip;
-  M.append(h('section',{class:'panel','aria-label':'Why the model reads this way'},`<div class="phead"><h2>Why it reads ${S3}</h2><span class="label">group signal −1 … +1</span></div>
+  REP.why.innerHTML=`
     <div class="k-drivers">${ORDER.map(g=>{const v=G[g];const s=v>.1?'pos':v<-.1?'neg':'flat';
       return `<div class="k-drv" data-s="${s}"><div class="nm"><i></i>${g[0].toUpperCase()+g.slice(1)}<span class="mono muted" style="font-size:11px;font-weight:400">${Math.round(R.group_weights[g]*100)}% wt</span></div><div class="val">${kn(v,2)}</div><div class="tx"><b>${word2(v)}.</b> ${det(g)}</div></div>`}).join('')}</div>
-    <div class="k-flip"><div class="label" style="padding-top:7px">What flips it</div><div style="display:grid;gap:10px"><div class="k-dist">${chip(T.bear,'Cut line',false)}<span>Macro gate ${kn(MG.threshold,2)} · now <b>${kn(MG.value,2)}</b></span></div><p>${flipText}</p></div></div>`));
+    <div class="k-flip"><div class="label" style="padding-top:7px">What flips it</div><div style="display:grid;gap:10px"><div class="k-dist">${chip(T.bear,'Cut line',false)}<span>Macro gate ${kn(MG.threshold,2)} · now <b>${kn(MG.value,2)}</b></span></div><p>${flipText}</p></div></div>`;
   if(R.crash_watch){const W=R.crash_watch,O=W.odds,E=Kerdos.esc,TS=W.tested;
     const PC={Quiet:'Bullish',Watch:'Neutral',Warning:'Bearish'}[W.status]||'Neutral';
     const why=W.status==='Warning'?`The late-cycle warning fired on ${fmtD(W.last_fired)} and SPY has since closed below its 50-day average. Historically that pairing was followed by a 10%+ drop within 6 months ${O.alarm}% of the time, against ${O.base}% on an ordinary day near a high.`:
