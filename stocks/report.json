@@ -1,6 +1,6 @@
 {
  "asof": "2026-10-30",
- "generated": "2026-10-31 21:32 UTC",
+ "generated": "2026-10-31 23:23 UTC",
  "spy": 755.72,
  "qqq": 690.49,
  "spy_chg": {
@@ -1067,6 +1067,36 @@
     "reading": "Baa\u201310y 1.48 pt (\u22120.11 in 3 months)"
    }
   ],
+  "confirm": {
+   "items": [
+    {
+     "key": "part60",
+     "label": "Under 60% of major risk assets above their 200-day average",
+     "seen": 3,
+     "on": true,
+     "reading": "56% of 9 assets above their 200-day"
+    },
+    {
+     "key": "partfall",
+     "label": "That share has fallen 20 points or more in 3 months",
+     "seen": 5,
+     "on": true,
+     "reading": "\u221222 points in 3 months"
+    },
+    {
+     "key": "credithy",
+     "label": "Credit proxy (high yield vs Treasuries) in its worst quintile",
+     "seen": 2,
+     "on": true,
+     "reading": "HYG/IEF \u22121.2% in 3 months (worst-quintile cut \u22120.9%)"
+    }
+   ],
+   "on": 3,
+   "total": 3,
+   "episodes": 7,
+   "study": "the 7 SPY declines of 10%+ from a running high since Oct 2006",
+   "caveat": "Candidate confirmation signals, chosen from 21 tested against 24 warning episodes \u2014 far more tests than events. Unvalidated; they do not change exposure."
+  },
   "warn_today": false,
   "last_fired": "2026-10-21",
   "below50": true,
