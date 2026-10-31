@@ -1,6 +1,6 @@
 /* Kerdos Capital — shared interaction layer.
-   Ambient background, floating nav with a sliding active pill, scroll reveals,
-   count-up numbers, plus the shared chart kit (gauge, sparkline, regime track). No dependencies; safe to load with defer. */
+   Fixed nav with a sliding underline, scroll reveals, count-up numbers,
+   plus the shared chart kit (gauge, sparkline, regime track). No dependencies; safe to load with defer. */
 (() => {
   const d = document, root = d.documentElement;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -8,14 +8,6 @@
   root.classList.add('k-js');
   const K = (window.Kerdos = window.Kerdos || {});
   const boot = () => {
-
-  /* ---------- ambient background ---------- */
-  if (!d.querySelector('.k-bg')) {
-    const bg = d.createElement('div');
-    bg.className = 'k-bg'; bg.setAttribute('aria-hidden', 'true');
-    bg.innerHTML = '<i class="o1"></i><i class="o2"></i><i class="o3"></i><span class="k-grain"></span>';
-    d.body.prepend(bg);
-  }
 
   /* ---------- nav ---------- */
   const nav = d.querySelector('.k-nav');
@@ -235,22 +227,22 @@
       const X = i => m.l + i / (ys.length - 1) * (W - m.l - m.r), Y = v => m.t + (hi - v) / (hi - lo) * (H - m.t - m.b);
       const line = 'M' + ys.map((v, i) => X(i).toFixed(1) + ',' + Y(v).toFixed(1)).join('L');
       const area = line + `L${X(ys.length - 1).toFixed(1)},${H - m.b}L${X(0)},${H - m.b}Z`;
-      const ac = o.color || cssv('--accent') || '#6E9BD8', last = ys[ys.length - 1], id = 'k' + Math.random().toString(36).slice(2, 7);
+      const ac = o.color || cssv('--accent') || '#719B82', last = ys[ys.length - 1], id = 'k' + Math.random().toString(36).slice(2, 7);
       const fmt = o.fmt || (v => sn(v, 2));
       host.classList.add('k-spark');
       host.innerHTML = `<div class="hd"><span class="label">${o.title || ''}</span><span class="mono" style="font-size:12px;color:var(--ink-2)">${ds(pts[0].date)} – ${ds(pts[pts.length - 1].date)}</span></div>
         <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${K.esc(o.title || 'Trend')}: from ${fmt(ys[0])} to ${fmt(last)}">
-        <defs><linearGradient id="${id}a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${ac}" stop-opacity=".26"/><stop offset="1" stop-color="${ac}" stop-opacity="0"/></linearGradient>
-        <linearGradient id="${id}l" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${ac}" stop-opacity=".35"/><stop offset="1" stop-color="${ac}"/></linearGradient></defs>
+        <defs><linearGradient id="${id}a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${ac}" stop-opacity=".16"/><stop offset="1" stop-color="${ac}" stop-opacity="0"/></linearGradient>
+        </defs>
         ${lines.map(l => `<line class="thr" x1="0" x2="${W - m.r}" y1="${Y(l.v).toFixed(1)}" y2="${Y(l.v).toFixed(1)}" stroke="${l.color}" opacity=".6"/><text class="tx" x="${W - m.r + 8}" y="${(Y(l.v) + 3.5).toFixed(1)}">${l.label ?? fmt(l.v)}</text>`).join('')}
-        <path class="area" d="${area}" fill="url(#${id}a)"/><path class="ln" d="${line}" stroke="url(#${id}l)" pathLength="1"/>
-        <circle cx="${X(ys.length - 1).toFixed(1)}" cy="${Y(last).toFixed(1)}" r="4" fill="#fff" style="filter:drop-shadow(0 0 6px ${ac})"/></svg>`;
+        <path class="area" d="${area}" fill="url(#${id}a)"/><path class="ln" d="${line}" stroke="${ac}" pathLength="1"/>
+        <circle cx="${X(ys.length - 1).toFixed(1)}" cy="${Y(last).toFixed(1)}" r="3.5" fill="${cssv('--ink') || '#E8E9E5'}" stroke="${cssv('--panel') || '#15181B'}" stroke-width="2"/></svg>`;
     };
     draw(); redraws.add(() => host.isConnected && draw());
   };
 
-  /* Regime history as one continuous glass track. rows = [{date, regime}] */
-  const RC = { Bullish: 'var(--c-bull)', Neutral: '#7E8796', Bearish: 'var(--c-bear)' };
+  /* Regime history as one continuous track. rows = [{date, regime}] */
+  const RC = { Bullish: 'var(--c-bull)', Neutral: '#6A7075', Bearish: 'var(--c-bear)' };
   K.hist = (rows, o = {}) => {
     rows = rows.filter(r => r.regime).map(r => ({ date: r.date, regime: o.map ? K.st(r.regime, o.map) : r.regime }));
     if (!rows.length) return '';
@@ -258,9 +250,9 @@
     rows = rows.filter(r => Date.parse(r.date) > end - (o.days || 365) * 864e5);
     const segs = []; let c = null;
     rows.forEach(r => { if (!c || c.g !== r.regime) { c = { g: r.regime, n: 0, from: r.date }; segs.push(c); } c.n++; c.to = r.date; });
-    const n = rows.length, b = .35; let pos = 0; const stops = [];
+    const n = rows.length, b = 0; let pos = 0; const stops = [];
     segs.forEach((s, i) => {
-      const a = pos / n * 100, e = (pos + s.n) / n * 100, col = RC[s.g] || '#5C6272';
+      const a = pos / n * 100, e = (pos + s.n) / n * 100, col = RC[s.g] || '#4A5055';
       stops.push(`${col} ${(i ? Math.min(a + b, (a + e) / 2) : 0).toFixed(2)}%`, `${col} ${(i < segs.length - 1 ? Math.max(e - b, (a + e) / 2) : 100).toFixed(2)}%`);
       pos += s.n;
     });

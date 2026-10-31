@@ -18,11 +18,11 @@
 .hyp{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);border:1px solid var(--line2);border-radius:999px;padding:3px 9px;white-space:nowrap}
 </style>
 <title>About · Kerdos Capital</title>
-<meta name="description" content="What Kerdos Capital is, how its models are built and run, and what it is not.">
+<meta name="description" content="What Kerdos Capital is, why it publishes its research in the open, how its models are built and run, and what it is not.">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap">
 <style>
 /* Kerdos Capital. Deep navy ground, lavender for up, red for down.
    Everything else is grey. One dark look by design. */
@@ -190,77 +190,105 @@ td.hl{color:var(--white);font-weight:600}
 .feat-card .mini .grid{stroke:var(--line);stroke-width:1}
 </style>
 <link rel="stylesheet" href="kerdos.css">
-<style>.about .prose{display:grid;gap:12px;max-width:72ch;color:var(--ink2,#a9adb8);font-size:.98rem;line-height:1.6}.about .prose p{margin:0}.about .prose a{color:var(--accent,#7DA6DD)}</style>
 <!--kerdos-head-->
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="canonical" href="https://kerdoscapital.xyz/about.html">
-<meta name="theme-color" content="#131621">
+<meta name="theme-color" content="#111315">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Kerdos Capital">
 <meta property="og:title" content="About · Kerdos Capital">
-<meta property="og:description" content="What Kerdos Capital is, how its models are built and run, and what it is not.">
+<meta property="og:description" content="What Kerdos Capital is, why it publishes its research in the open, how its models are built and run, and what it is not.">
 <meta property="og:url" content="https://kerdoscapital.xyz/about.html">
 <meta property="og:image" content="https://kerdoscapital.xyz/og.png?v=20261029">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="About · Kerdos Capital">
-<meta name="twitter:description" content="What Kerdos Capital is, how its models are built and run, and what it is not.">
+<meta name="twitter:description" content="What Kerdos Capital is, why it publishes its research in the open, how its models are built and run, and what it is not.">
 <meta name="twitter:image" content="https://kerdoscapital.xyz/og.png?v=20261029">
 <!--/kerdos-head-->
 </head>
 <body>
 <script src="kerdos.js"></script>
 <div class="wrap">
-  <header class="k-nav"><div class="k-bar"><a class="k-word" href="index.html" aria-label="Kerdos Capital, overview"><b>Kerdos</b><span>Capital</span></a><button class="k-menu-btn" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 6h12M3 12h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button><nav class="k-links" aria-label="Site"><span class="k-ind" aria-hidden="true"></span><a href="index.html">Overview</a><a href="flagship.html">Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a><a href="about.html" aria-current="page">About</a></nav></div></header>
+  <header class="k-nav"><div class="k-bar"><a class="k-word" href="index.html" aria-label="Kerdos Capital, overview"><svg class="k-mono" viewBox="0 0 64 64" aria-hidden="true"><rect x="1" y="1" width="62" height="62" fill="none" stroke="currentColor" stroke-opacity=".3" stroke-width="2"/><path d="M23 16V48" fill="none" stroke="currentColor" stroke-width="4"/><path class="k-mk" d="M44 16L29 32L44 48" fill="none" stroke-width="4" stroke-linejoin="miter"/></svg><span class="k-wt">Kerdos Capital</span></a><div class="k-right"><nav class="k-links" aria-label="Site"><span class="k-ind" aria-hidden="true"></span><a href="index.html">Overview</a><a href="flagship.html">Flagship Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a><a href="methodology.html">Methodology</a><a href="about.html" aria-current="page">About</a></nav><a class="k-gh" href="https://github.com/kerdoscapital/kerdos-site" rel="noopener" aria-label="Kerdos Capital on GitHub: source and model history"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span>GitHub</span></a><button class="k-menu-btn" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 6h12M3 12h12" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"/></svg></button></div></div></header>
   <section class="intro">
     <div class="label">About</div>
-    <h1>About Kerdos Capital</h1>
+    <h1>Independent research, <em>built in the open.</em></h1>
     <p>Kerdos Capital is an independent quantitative investment research project. It builds systematic, rules-based models that decide how much a hypothetical portfolio should hold in US stocks, Bitcoin and other assets, and it publishes every call with the rules, the backtest and the limits behind it.</p>
     <div><span class="hyp">Independent research · not investment advice</span></div>
   </section>
-  <section class="sec about">
-    <h2>Philosophy</h2>
-    <div class="rules">
-      <div class="rule"><h3>Rules before opinions</h3><ul>
-        <li>Every exposure decision comes from written rules that read prices and published economic data after the close.</li>
-        <li>No discretionary overrides. News is shown for context and never changes a call.</li></ul></div>
-      <div class="rule"><h3>Risk first</h3><ul>
-        <li>The models are built to avoid deep drawdowns, then to get back in quickly after a bottom.</li>
-        <li>A rule is kept only if it helps across different periods, not just in the years it was tuned on.</li></ul></div>
-      <div class="rule"><h3>Show the work</h3><ul>
-        <li>Methods, factor weights and backtest assumptions are published on each desk page, including the ideas that were tested and rejected.</li>
-        <li>Backtests are labeled as backtests. Live results are tracked separately from the day a model goes live.</li></ul></div>
-    </div>
-  </section>
-  <section class="sec about">
-    <h2>How it runs</h2>
-    <div class="prose">
-      <p>Each desk updates every weekday before the US open using the previous session's closing prices, and Bitcoin updates daily. Data comes from Robinhood (prices, index levels, options open interest), FRED (rates, inflation, jobs) and Robert Shiller's dataset (long-run S&amp;P history and valuation).</p>
-      <p>Every update is a public, timestamped commit in the <a href="https://github.com/kerdoscapital/kerdos-site/commits/main" rel="noopener">site's GitHub history</a>, so the record of what each model said, and when, cannot be rewritten after the fact.</p>
-      <p>The backtests start in 2003 for stocks and 2015 for Bitcoin. Their rules were chosen with that history in view, so they are in-sample: treat them as evidence of how the rules behave, not as a forecast of returns.</p>
-    </div>
-  </section>
-  <section class="sec about">
-    <h2>The name</h2>
-    <div class="prose"><p><i>Kerdos</i> (κέρδος) is Greek for gain or profit. The aim is gain that survives the bad years: compounding by avoiding the large losses that take years to recover.</p></div>
-  </section>
-  <section class="sec about">
-    <h2>What Kerdos is not</h2>
-    <div class="prose">
-      <p>Kerdos Capital is not a registered investment adviser or broker-dealer. It manages no money, takes no fees and sells no subscriptions. The model portfolios are hypothetical, their daily changes are not instructions to trade, and nothing on this site is a recommendation to buy or sell any security or digital asset.</p>
+
+  <section class="sec about tight" aria-label="Principles">
+    <div class="k-pillars">
+      <div><h3>Transparency <em>over promises.</em></h3><p>Every call, rule and assumption is published, and every daily update is a timestamped public record. The work is judged on what it said and when, not on what it claims it will do.</p></div>
+      <div><h3>Methodology <em>over speculation.</em></h3><p>Exposure comes from written rules that read prices and published economic data. A rule is kept only if it helps across different periods, not just in the years it was tuned on.</p></div>
+      <div><h3>Discipline <em>over emotion.</em></h3><p>No discretionary overrides. Headlines are shown for context and never change a call, so the models act the same way in a calm market and a frightening one.</p></div>
     </div>
   </section>
 
+  <section class="sec about" aria-label="Why Kerdos exists">
+    <div class="k-split"><h2><small>01</small>Why Kerdos exists</h2>
+      <div class="k-prose">
+        <p>Most market commentary is opinion delivered with confidence and checked by no one. Kerdos takes the other route: write the rules down, test them against history, publish them, and then let a public, timestamped record show how they behave from one day to the next.</p>
+        <p>The aim is not to predict every turn. It is to stay invested through healthy markets, step back when the evidence of risk builds, and get back in quickly after a bottom, with every decision visible and checkable.</p>
+      </div></div>
+  </section>
+
+  <section class="sec about" aria-label="Systematic investing">
+    <div class="k-split"><h2><small>02</small>Why systematic</h2>
+      <div class="k-prose">
+        <p>A systematic model makes the same decision from the same evidence every time. That consistency is the point: it removes the temptation to sell after a scare or chase after a rally, and it makes the approach testable, because a rule that is written down can be run over decades of data and measured.</p>
+        <p>The models are built risk-first. They are designed to avoid deep drawdowns, the losses that take years to recover, and their methods, factor weights and backtest assumptions are published on each desk page, including the ideas that were tested and rejected.</p>
+      </div></div>
+  </section>
+
+  <section class="sec about" aria-label="Disciplined modeling and speculation">
+    <div class="k-split"><h2><small>03</small>Modeling, not speculating</h2>
+      <dl class="k-dl">
+        <div><dt>Evidence, then exposure</dt><dd>Positions follow a score built from trend, momentum, market internals, macro data, valuation, volatility and calendar effects, never a hunch or a headline.</dd></div>
+        <div><dt>Honest about the past</dt><dd>Backtests are labeled as backtests and kept apart from the live record. Their rules were chosen with that history in view, so they are treated as evidence of how the rules behave, not as a forecast of returns.</dd></div>
+        <div><dt>Limits stated up front</dt><dd>Small samples, in-sample tuning and the outsized role of Bitcoin are spelled out on the <a href="methodology.html#limits">methodology page</a>, not buried.</dd></div>
+      </dl></div>
+  </section>
+
+  <section class="sec about" aria-label="How it runs">
+    <div class="k-split"><h2><small>04</small>How it runs</h2>
+      <div class="k-prose">
+        <p>Each model runs once a day on the latest completed session’s closing data; the Bitcoin desk also runs on weekends. This site refreshes once a day, by about 10:00 a.m. ET. Data comes from Robinhood (prices, index levels, options open interest), FRED (rates, inflation, jobs), Robert Shiller’s dataset (long-run S&amp;P history and valuation) and Coin Metrics (Bitcoin history).</p>
+        <p>Every update is a public, timestamped commit in the <a href="https://github.com/kerdoscapital/kerdos-site/commits/main" rel="noopener">site’s GitHub history</a>, so the record of what each model said, and when, cannot be rewritten after the fact.</p>
+      </div></div>
+  </section>
+
+  <section class="sec about" aria-label="Independence">
+    <div class="k-split"><h2><small>05</small>Independent by design</h2>
+      <div class="k-prose">
+        <p>Kerdos Capital is not a registered investment adviser or broker-dealer. It manages no money, takes no fees and sells no subscriptions, so there is nothing to sell and no reason to dress up a result. The model portfolios are hypothetical, their daily changes are not instructions to trade, and nothing on this site is a recommendation to buy or sell any security or digital asset.</p>
+      </div></div>
+  </section>
+
+  <section class="sec about" aria-label="The long term">
+    <div class="k-split"><h2><small>06</small>The long view</h2>
+      <div class="k-prose">
+        <p>The goal is a durable public research record: models that run every day, a live track record that lengthens with every session, and methods published in enough detail for anyone to check, reproduce or challenge. New desks are added only when they can meet the same standard of rules, testing and disclosure.</p>
+      </div></div>
+  </section>
+
+  <section class="sec about" aria-label="The name">
+    <div class="k-split"><h2><small>07</small>The name</h2>
+      <div class="k-prose"><p><i>Kerdos</i> (κέρδος) is Greek for gain or profit. The aim is gain that survives the bad years: compounding by avoiding the large losses that take years to recover.</p></div></div>
+  </section>
+
   <footer class="foot pub">
-    <div class="ft"><a class="wordmark" href="index.html">Kerdos <span>Capital</span></a><nav class="fl" aria-label="Footer"><a href="index.html">Overview</a><a href="flagship.html">Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a><a href="about.html">About</a></nav></div>
+    <div class="kf-top"><div class="kf-brand"><a class="k-word" href="index.html" aria-label="Kerdos Capital, overview"><svg class="k-mono" viewBox="0 0 64 64" aria-hidden="true"><rect x="1" y="1" width="62" height="62" fill="none" stroke="currentColor" stroke-opacity=".3" stroke-width="2"/><path d="M23 16V48" fill="none" stroke="currentColor" stroke-width="4"/><path class="k-mk" d="M44 16L29 32L44 48" fill="none" stroke-width="4" stroke-linejoin="miter"/></svg><span class="k-wt">Kerdos Capital</span></a><p class="k-pos">Transparency over promises. <i>Methodology over speculation.</i> Discipline over emotion.</p></div><nav class="kf-col fl" aria-label="Footer"><span class="label">Research</span><a href="index.html">Overview</a><a href="flagship.html">Flagship Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html">Bitcoin</a><a href="highbeta.html">High Beta</a></nav><div class="kf-col"><span class="label">Method</span><a href="methodology.html">Methodology</a><a href="methodology.html#archive">Signal archive</a><a href="methodology.html#limits">Model limitations</a><a href="about.html">About</a></div><div class="kf-col"><span class="label">In the open</span><a href="https://github.com/kerdoscapital/kerdos-site" rel="noopener">GitHub repository</a><a href="https://github.com/kerdoscapital/kerdos-site/commits/main" rel="noopener">Daily update history</a><a href="https://github.com/kerdoscapital/kerdos-site/issues" rel="noopener">Contact &amp; corrections</a></div></div>
     <div class="disc">
-      <p><b>Important information.</b> Kerdos Capital is an independent research project that publishes rules-based market models for education and discussion. Nothing on this site is investment, tax or legal advice, or a recommendation to buy or sell any security or digital asset. The model portfolio is hypothetical: it manages no money, and its daily changes are not instructions to trade.</p>
-      <p>Backtested results are hypothetical. They were computed with hindsight, from rules chosen with that history in view, and they leave out taxes and most real-world trading frictions. Past and backtested performance does not guarantee future results. Bitcoin and high-beta stocks are highly volatile, and any investment can lose money. Do your own research, or speak with a licensed professional, before investing.</p>
-      <p>Data: Robinhood (prices, index levels, options open interest), FRED, Robert Shiller and CME CF Bitcoin Reference Rate via Robinhood. Prices may be delayed or contain errors. The models update after each US market close.</p>
+      <p><b>Important information.</b> Kerdos Capital is an independent research project that publishes rules-based market models for education and discussion. It is not a registered investment adviser or broker-dealer. Nothing on this site is investment, tax or legal advice, or a recommendation to buy or sell any security or digital asset. The model portfolio is hypothetical: it manages no money, and its daily changes are not instructions to trade.</p>
+      <p><b>Hypothetical performance.</b> Backtested results are hypothetical and are not the returns of any investor. They were computed with hindsight, from rules chosen with that history in view, and they leave out taxes and most real-world trading frictions. The flagship portfolio’s live record began at the open on Oct 26, 2026; every result before that date is a backtest. Past and backtested performance does not guarantee future results. Bitcoin and high-beta stocks are highly volatile, and any investment can lose money. Do your own research, or speak with a licensed professional, before investing.</p>
+      <p><b>Data and timing.</b> Robinhood (prices, index levels, options open interest), FRED, Robert Shiller’s dataset, Coin Metrics, and the CME CF Bitcoin Real Time Index via Robinhood. Prices may be delayed or contain errors. Each model runs once a day on the latest completed session’s closing data, and this site refreshes once a day, by about 10:00 a.m. ET.</p>
     </div>
+    <div class="kf-base"><span>© 2026 Kerdos Capital. Independent research.</span><span>Models as of the Oct 29, 2026 close · Hypothetical models, not investment advice</span></div>
   </footer>
 </div>
 </body>

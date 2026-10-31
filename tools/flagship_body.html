@@ -1,6 +1,6 @@
   <section class="intro">
     <div class="label" id="fasof">Flagship portfolio</div>
-    <h1>Kerdos Flagship Portfolio</h1>
+    <h1>The Flagship <em>Portfolio</em></h1>
     <p>Our model portfolio: 60% US stocks, 30% Bitcoin and 10% gold. Each day the Kerdos regime desks size the stock and Bitcoin sleeves, gold is always held, and anything not invested waits in T-bills. The benchmark is the S&amp;P 500.</p>
     <div><span class="hyp">Hypothetical model · not investment advice</span></div>
   </section>
@@ -50,8 +50,8 @@ const pc=(v,d=1)=>v==null?'—':(v<0?'−':'')+Math.abs(v*100).toFixed(d)+'%';
 const pcs=(v,d=1)=>v==null?'—':(v>0?'+':v<0?'−':'')+Math.abs(v*100).toFixed(d)+'%';
 const sc=v=>v>0?'fl-pos':v<0?'fl-neg':'';
 const NAMES={SPY:'S&P 500 (SPY)',QQQ:'Nasdaq-100 (QQQ)',BTC:'Bitcoin',GLD:'Gold (GLD)',CASH:'T-bills'};
-const COLS={SPY:'#7DA6DD',QQQ:'#4F72A8',BTC:'#C3CAD5',GLD:'#9C9384',CASH:'#3A404B'};
-const FC='#7DA6DD',SC='#9AA1AC';
+const COLS={SPY:'#719B82',QQQ:'#4E7360',BTC:'#D9D7CE',GLD:'#A69779',CASH:'#3A3F44'};
+const FC='#8DB39C',SC='#868C91';
 const A=['SPY','QQQ','BTC','GLD','CASH'];
 const parse=t=>{const[h,...r]=t.trim().split(/\r?\n/);const k=h.split(',');return r.map(x=>{const c=x.split(',');const o={};k.forEach((kk,i)=>o[kk]=c[i]);return o})};
 Promise.all([fetch('flagship/report.json').then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}),fetch('flagship/equity.csv').then(r=>r.text())])
@@ -62,7 +62,7 @@ function render(R,EQ){
   const w=R.weights,RU=R.rules,stk=Math.round((RU.stocks.SPY+RU.stocks.QQQ)*100);
   const bar=k=>`<div class="fl-row"><span>${NAMES[k]}</span><span class="t"><i style="width:${(w[k]*100).toFixed(1)}%;background:${COLS[k]}"></i></span><span class="v">${Math.round(w[k]*100)}%</span></div>`;
   M.insertAdjacentHTML('beforeend',`<section class="panel" aria-label="Current allocation"><div class="fl-now">
-    <div><div class="label">Allocation now</div><div class="fl-call ${R.regime}" style="margin-top:8px">${Math.round((1-w.CASH)*100)}% invested</div>
+    <div><div class="label">Allocation now · as of the ${fmtD(R.asof)} close</div><div class="fl-call ${R.regime}" style="margin-top:8px">${Math.round((1-w.CASH)*100)}% invested</div>
       <div class="fl-sub">Stocks desk <b>${Kerdos.st(R.stocks_regime,RU.stocks_exposure)}</b> · Bitcoin desk <b>${Kerdos.st(R.btc_regime,RU.btc_exposure)||'—'}</b></div>
       <div class="fl-sub">Stocks ${Math.round(R.equity_weight*100)}% of ${stk}% · Bitcoin ${Math.round(w.BTC*100)}% of ${Math.round(RU.btc*100)}% · gold ${Math.round(w.GLD*100)}% · T-bills ${Math.round(w.CASH*100)}%</div></div>
     <div><div class="fl-alloc">${A.map(bar).join('')}</div></div></div></section>
@@ -70,30 +70,45 @@ function render(R,EQ){
   // live record
   const L=R.live;
   if(L){const f=L.flagship.total,s=L.spy.total,d=f-s;
-    M.insertAdjacentHTML('beforeend',`<section class="sec" aria-label="Since inception"><h2>Since inception</h2>
-    <div class="panel" style="display:grid;gap:16px">
+    M.insertAdjacentHTML('beforeend',`<section class="sec" aria-label="Since inception"><div class="k-sh"><div><span class="eyebrow">Live record · actual model performance</span><h2>Since inception</h2></div><span class="fl-tag live">Live since ${fmtD(L.since)}</span></div>
+    <div class="panel" style="display:grid;gap:20px">
       <div class="label">Live record · from the ${fmtD(L.since)} open · ${L.sessions} session${L.sessions===1?'':'s'} through the ${fmtD(L.asof)} close</div>
       <div class="fl-big"><div class="k"><span>Flagship</span><b class="${sc(f)}">${pcs(f,2)}</b><i>worst drop ${pc(L.flagship.maxdd)}</i></div>
         <div class="k"><span>S&amp;P 500 (SPY)</span><b>${pcs(s,2)}</b><i>worst drop ${pc(L.spy.maxdd)}</i></div>
         <div class="k"><span>Flagship vs S&amp;P 500</span><b class="${sc(d)}">${(d>0?'+':d<0?'−':'')+Math.abs(d*100).toFixed(2)} pts</b><i>difference in total return</i></div></div>
-      <div class="fl-legend"><span><i style="background:#7DA6DD"></i>Flagship</span><span><i style="background:#9AA1AC"></i>S&amp;P 500</span></div>
+      <div class="fl-legend"><span><i style="background:${FC}"></i>Flagship</span><span><i style="background:${SC}"></i>S&amp;P 500</span></div>
       <div class="fl-chart chart" id="flive"></div>
       <p class="note" style="margin:0">Started at the open on ${fmtD(L.since)} with the allocation set by the ${L.start_signals?`previous close (stocks desk ${Kerdos.st(L.start_signals.stocks,RU.stocks_exposure)}, Bitcoin desk ${Kerdos.st(L.start_signals.bitcoin,RU.btc_exposure)})`:'previous close'}: ${A.filter(k=>L.start_weights[k]>0).map(k=>`${k==='CASH'?'T-bills':k} ${Math.round(L.start_weights[k]*100)}%`).join(', ')}. Opening prices: SPY $${L.start_prices.SPY.toFixed(2)}, QQQ $${L.start_prices.QQQ.toFixed(2)}, GLD $${L.start_prices.GLD.toFixed(2)}, Bitcoin $${Math.round(L.start_prices.BTC).toLocaleString('en-US')} (CME CF Bitcoin Real Time Index at 9:30 ET). Updated after each close; each day's file is a commit in the public GitHub history. Dividends approximated, T-bill interest included, no taxes.</p>
     </div></section>`);
     drawLive($('#flive'),L.series);}
   // backtest
-  const B=R.backtest,P=['2005–26','2005–14','2015–26'],N={flagship:'Flagship',spy:'S&P 500 (SPY)'};
-  const rows=Object.keys(N).map(k=>`<tr${k==='flagship'?' style="font-weight:600"':''}><td>${N[k]}</td>${P.map(p=>{const s=B[k][p];return `<td class="n">${pc(s.cagr)}</td><td class="n">${pc(s.maxdd,0)}</td><td class="n">${s.sharpe.toFixed(2)}</td>`}).join('')}</tr>`).join('');
-  M.insertAdjacentHTML('beforeend',`<section class="sec"><h2>Backtest vs the S&amp;P 500</h2>
+  const B=R.backtest,P=['2005–26','2005–14','2015–26'],N={flagship:'Flagship',spy:'S&P 500 (SPY)'},b=B.flagship['2005–26'],sp=B.spy['2005–26'];
+  const usd=v=>'$'+Math.round(v).toLocaleString('en-US');
+  const rows=Object.keys(N).map(k=>`<tr${k==='flagship'?' style="font-weight:500"':''}><td>${N[k]}</td>${P.map(p=>{const s=B[k][p];return `<td class="n">${pc(s.cagr)}</td><td class="n">${pc(s.maxdd,0)}</td><td class="n">${s.sharpe.toFixed(2)}</td>`}).join('')}</tr>`).join('');
+  const RG=[['all','All'],['10','10Y'],['5','5Y'],['3','3Y'],['1','1Y']];
+  M.insertAdjacentHTML('beforeend',`<section class="sec"><div class="k-sh"><div><span class="eyebrow">Backtest · hypothetical</span><h2>Backtest vs the S&amp;P 500</h2></div><span class="fl-tag">Hypothetical · not investor returns</span></div>
     <p class="fl-sub" style="margin:0;max-width:78ch">How the same rules would have done since 2005. Nobody held this portfolio over those years, and the desks' rules were chosen with this history in view, so read it as a test of the rules, not a track record.</p>
-    <div class="panel"><div class="fl-legend"><span><i style="background:#7DA6DD"></i>Flagship</span><span><i style="background:#9AA1AC"></i>S&amp;P 500</span></div><div class="fl-chart chart" id="flchart"></div>
-    <p class="note" style="margin-top:8px">Growth of $1 since January 2005, log scale. Hypothetical.</p></div>
+    <div class="panel" style="display:grid;gap:24px">
+      <div class="fl-big four">
+        <div class="k"><span>Annualized return</span><b>${pc(b.cagr)}</b><i>S&amp;P 500 ${pc(sp.cagr)}</i></div>
+        <div class="k"><span>$10,000 in Jan 2005</span><b>${usd(1e4*(1+b.total))}</b><i>S&amp;P 500 ${usd(1e4*(1+sp.total))}</i></div>
+        <div class="k"><span>Maximum drawdown</span><b>${pc(b.maxdd,0)}</b><i>S&amp;P 500 ${pc(sp.maxdd,0)}</i></div>
+        <div class="k"><span>Sharpe ratio</span><b>${b.sharpe.toFixed(2)}</b><i>S&amp;P 500 ${sp.sharpe.toFixed(2)}</i></div></div>
+      <div><div class="fl-ctrl"><div class="fl-legend"><span><i style="background:${FC}"></i>Flagship</span><span><i style="background:${SC}"></i>S&amp;P 500</span></div>
+        <div class="seg" role="group" aria-label="Time range" id="flrange">${RG.map(([k,n],i)=>`<button type="button" data-r="${k}" aria-pressed="${i===0}">${n}</button>`).join('')}</div></div>
+        <div class="fl-chart chart" id="flchart"></div>
+        <p class="note" style="margin-top:10px" id="flcap">Growth of $10,000, weekly closes. Hypothetical.</p></div>
+    </div>
+    <div class="fl-two">
+      <div class="panel"><div class="phead"><h2>Drawdown</h2><span class="label">Decline from the running high</span></div><div class="fl-chart chart" id="fldd"></div></div>
+      <div class="panel"><div class="phead"><h2>Rolling 12-month return</h2><span class="label">Trailing 52 weeks</span></div><div class="fl-chart chart" id="flroll"></div></div>
+    </div>
     <div class="tblwrap"><table><thead><tr><th rowspan="2">Backtest</th>${P.map(p=>`<th class="n" colspan="3">${p}</th>`).join('')}</tr><tr>${P.map(()=>'<th class="n">Per year</th><th class="n">Worst drop</th><th class="n">Sharpe</th>').join('')}</tr></thead><tbody>${rows}</tbody></table></div>
-    <p class="note">Bitcoin, which has a desk only from 2014, accounts for most of the gap since 2015. Without the Bitcoin sleeve the model returned ${pc(B.no_btc['2005–26'].cagr)} a year from 2005 to 2026 against ${pc(B.spy['2005–26'].cagr)} for the S&amp;P 500, with a worst drop of ${pc(B.no_btc['2005–26'].maxdd,0)} against ${pc(B.spy['2005–26'].maxdd,0)}. Turnover about ${Math.round(R.turnover*100)}% a year.</p></section>`);
-  drawChart($('#flchart'),EQ);
+    <p class="note">Bitcoin, which has a desk only from 2014, accounts for most of the gap since 2015. Without the Bitcoin sleeve the model returned ${pc(B.no_btc['2005–26'].cagr)} a year from 2005 to 2026 against ${pc(B.spy['2005–26'].cagr)} for the S&amp;P 500, with a worst drop of ${pc(B.no_btc['2005–26'].maxdd,0)} against ${pc(B.spy['2005–26'].maxdd,0)}. Turnover about ${Math.round(R.turnover*100)}% a year. The summary figures use daily data; the charts use weekly closes.</p></section>`);
+  backtestCharts(EQ);
   // rules
   const rrow=(n,wt,by,m)=>`<tr><td>${n}</td><td class="n">${wt}</td><td>${by}</td><td>${m?'Bullish':'Always'}</td><td>${m?'Neutral':'—'}</td><td>${m?'Bearish':'—'}</td></tr>`;
-  M.insertAdjacentHTML('beforeend',`<section class="sec"><h2>The rules</h2>
+  M.insertAdjacentHTML('beforeend',`<section class="sec"><div class="k-sh"><div><span class="eyebrow">How it is sized</span><h2>The rules</h2></div><a class="feat-link" href="methodology.html#allocation">Methodology <span aria-hidden="true">→</span></a></div>
     <div class="tblwrap"><table><thead><tr><th>Sleeve</th><th class="n">Target</th><th>Sized by</th><th>Full (100%)</th><th>Half (50%)</th><th>None (0%)</th></tr></thead><tbody>
     ${rrow(`Stocks: SPY ${Math.round(RU.stocks.SPY*100)}% + QQQ ${Math.round(RU.stocks.QQQ*100)}%`,stk+'%','<a href="stocks.html">Stocks desk</a>',RU.stocks_exposure)}
     ${rrow('Bitcoin',Math.round(RU.btc*100)+'%','<a href="bitcoin.html">Bitcoin desk</a>',RU.btc_exposure)}
@@ -103,13 +118,13 @@ function render(R,EQ){
     <p class="note">A desk's new call is acted on at the next close, and the portfolio is also rebalanced to target at each month start. Before 2014, when the Bitcoin desk has no history, the Bitcoin sleeve is added to the stocks sleeve.</p></section>`);
   const ch=R.changes||[];const f=v=>Math.round(v*100)+'%';
   const diff=c=>A.filter(k=>Math.abs(c.weights[k]-c.before[k])>1e-6).map(k=>`${k==='CASH'?'T-bills':k} ${f(c.before[k])} → ${f(c.weights[k])}`).join(', ');
-  M.insertAdjacentHTML('beforeend',`<section class="sec"><h2>Recent allocation changes</h2><div class="tblwrap"><table><thead><tr><th>Date</th><th>Desks</th><th>What changed</th></tr></thead><tbody>
+  M.insertAdjacentHTML('beforeend',`<section class="sec"><div class="k-sh"><div><span class="eyebrow">Signal history</span><h2>Recent allocation changes</h2></div><a class="feat-link" href="methodology.html#archive">Full signal archive <span aria-hidden="true">→</span></a></div><div class="tblwrap"><table><thead><tr><th>Date</th><th>Desks</th><th>What changed</th></tr></thead><tbody>
     ${ch.map(c=>`<tr><td class="mono" style="white-space:nowrap">${fmtD(c.date)}</td><td>Stocks ${Kerdos.st(c.stocks,RU.stocks_exposure)} · Bitcoin ${Kerdos.st(c.bitcoin,RU.btc_exposure)||'—'}</td><td>${diff(c)}</td></tr>`).join('')}</tbody></table></div>
-    <p class="note">Dates are the close that produced each change; it is traded at the next close.</p></section>`);
+    <p class="note">Dates are the close that produced each change; it is traded at the next close. Changes dated before ${fmtD(R.live_since)} come from the backtest.</p></section>`);
   const Y=R.yearly;
-  M.insertAdjacentHTML('beforeend',`<section class="sec"><h2>Year by year (backtest)</h2><div class="tblwrap"><table><thead><tr><th>Year</th><th class="n">Flagship</th><th class="n">S&amp;P 500</th><th class="n">Difference</th></tr></thead><tbody>
+  M.insertAdjacentHTML('beforeend',`<section class="sec"><div class="k-sh"><div><span class="eyebrow">Backtest · hypothetical</span><h2>Year by year</h2></div><p>Calendar-year returns. The current year runs to date.</p></div><div class="tblwrap"><table><thead><tr><th>Year</th><th class="n">Flagship</th><th class="n">S&amp;P 500</th><th class="n">Difference</th></tr></thead><tbody>
     ${Y.slice().reverse().map(y=>{const d=y.flagship-y.spy;return `<tr><td class="mono">${y.year}${y.year===+R.asof.slice(0,4)?' YTD':''}</td><td class="n">${pcs(y.flagship/100,0)}</td><td class="n">${pcs(y.spy/100,0)}</td><td class="n ${sc(d)}">${(d>0?'+':d<0?'−':'')+Math.abs(d).toFixed(0)} pts</td></tr>`}).join('')}</tbody></table></div></section>`);
-  M.insertAdjacentHTML('beforeend',`<section class="sec"><h2>Method and limits</h2><div class="fl-method">
+  M.insertAdjacentHTML('beforeend',`<section class="sec"><div class="k-sh"><div><span class="eyebrow">Read before relying on it</span><h2>Method and limits</h2></div><a class="feat-link" href="methodology.html#limits">All model limitations <span aria-hidden="true">→</span></a></div><div class="fl-method">
     <p>The flagship adds no new forecasting signals. It reuses the two published desks: the US stocks desk sizes the ${stk}% stock sleeve, the Bitcoin desk sizes the ${Math.round(RU.btc*100)}% Bitcoin sleeve, a ${Math.round(RU.gold*100)}% gold slice is always held, and the rest waits in T-bills.</p>
     <p>Backtest: a call made at one close is traded at the next close, and the portfolio rebalances to target at each month start, at 0.05% per unit traded. T-bills earn the 3-month rate; dividends are approximated. The live record starts at the open on Monday, Oct 26, 2026 and follows the same rules after its first day.</p>
     <p>Limits: the stocks desk's rules were chosen with the 2003–2026 history in view and the Bitcoin desk's with 2014–2026, so the backtest is optimistic. Bitcoin accounts for most of the backtest's lead over the S&amp;P 500 since 2015 and drives about 70% of the portfolio's swings, and its early gains are unlikely to repeat; gold's 2024–26 rally flatters the gold slice. 2022, when stocks, bonds and Bitcoin all fell, was the worst calendar year. Earlier drafts of this portfolio were replaced before the live record began; any later change will be dated here and will not rewrite the live record. This is a hypothetical model, not investment advice.</p></div></section>`);
@@ -120,7 +135,7 @@ function drawLive(host,S){
     const n=S.length,vals=S.flatMap(r=>[r.flagship,r.spy]);let y0=Math.min(...vals),y1=Math.max(...vals);const pad=Math.max(.004,(y1-y0)*.15);y0-=pad;y1+=pad;
     const X=i=>m.l+(n>1?i/(n-1):0)*(W-m.l-m.r),Y=v=>m.t+(y1-v)/(y1-y0)*(H-m.t-m.b);
     const step=(y1-y0)>.06?.02:(y1-y0)>.03?.01:.005;let s='';
-    for(let g=Math.ceil(y0/step)*step;g<=y1;g+=step){const lab=(g-1)*100;s+=`<line class="grid" x1="${m.l}" x2="${W-m.r}" y1="${Y(g)}" y2="${Y(g)}"/><text class="ax" x="${W-m.r+6}" y="${Y(g)+3.5}">${lab>0?'+':lab<0?'−':''}${Math.abs(lab).toFixed(1)}%</text>`}
+    for(let g=Math.ceil(y0/step)*step;g<=y1;g+=step){const lab=(g-1)*100;s+=`<line class="grid" x1="${m.l}" x2="${W-m.r}" y1="${Y(g)}" y2="${Y(g)}"/><text class="ax" x="${W-m.r+8}" y="${Y(g)+3.5}">${lab>0?'+':lab<0?'−':''}${Math.abs(lab).toFixed(1)}%</text>`}
     const lab=i=>i===0?'Open':fmtD(S[i].date).replace(/, \d{4}$/,'');
     const every=W<500?Math.max(1,Math.ceil((n-1)/4)):Math.max(1,Math.ceil((n-1)/8));for(let i=0;i<n;i++){if(i!==0&&i!==n-1&&i%every)continue;if(i!==n-1&&i>0&&n-1-i<every)continue;s+=`<text class="ax" x="${X(i)}" y="${H-6}" text-anchor="${i===0?'start':i===n-1?'end':'middle'}">${lab(i)}</text>`}
     [['spy',SC,1.5],['flagship',FC,2.2]].forEach(([k,c,wd])=>{let d='';S.forEach((r,i)=>{d+=(i?'L':'M')+X(i).toFixed(1)+','+Y(r[k]).toFixed(1)});s+=`<path d="${d}" fill="none" stroke="${c}" stroke-width="${wd}" stroke-linejoin="round" stroke-linecap="round"/>`;s+=`<circle cx="${X(n-1)}" cy="${Y(S[n-1][k])}" r="3.5" fill="${c}"/>`});
@@ -128,29 +143,58 @@ function drawLive(host,S){
   };
   draw();let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(draw,150)});
 }
-function drawChart(host,EQ){
-  const S=[['flagship',FC,2.2],['spy',SC,1.5]];
+function lineChart(host,xs,S,o){
+  // xs: timestamps; S: [{name,color,width,vals,area}]; o: {log, h, fmt(v), tick(v), zero, base}
   const draw=()=>{
-    host.innerHTML='';const W=Math.max(300,host.clientWidth||600),H=W<500?240:300,m={t:10,r:46,b:24,l:6};
-    const xs=EQ.map(r=>Date.parse(r.date+'T00:00:00Z'));const x0=xs[0],x1=xs[xs.length-1];
-    const vals=EQ.flatMap(r=>S.map(([k])=>+r[k])).filter(v=>v>0);const y0=Math.min(...vals)*.95,y1=Math.max(...vals)*1.05;
-    const X=v=>m.l+(v-x0)/(x1-x0)*(W-m.l-m.r),Y=v=>m.t+(Math.log(y1)-Math.log(v))/(Math.log(y1)-Math.log(y0))*(H-m.t-m.b);
-    let s='';
-    [0.5,1,2,5,10,20,50,100,200].filter(v=>v>=y0&&v<=y1).forEach(v=>{s+=`<line class="grid" x1="${m.l}" x2="${W-m.r}" y1="${Y(v)}" y2="${Y(v)}"/><text class="ax" x="${W-m.r+6}" y="${Y(v)+3.5}">$${v}</text>`});
-    const ya=new Date(x0).getUTCFullYear(),yb=new Date(x1).getUTCFullYear(),st=W<500?5:3;
-    for(let y=Math.ceil((ya+1)/st)*st;y<=yb;y+=st){const x=X(Date.UTC(y,0,1));s+=`<text class="ax" x="${x}" y="${H-6}" text-anchor="middle">${y}</text>`}
-    S.slice().reverse().forEach(([k,c,wd])=>{let d='';EQ.forEach((r,i)=>{d+=(i?'L':'M')+X(xs[i]).toFixed(1)+','+Y(+r[k]).toFixed(1)});s+=`<path d="${d}" fill="none" stroke="${c}" stroke-width="${wd}" stroke-linejoin="round" stroke-linecap="round"/>`});
-    const L=EQ[EQ.length-1];S.forEach(([k,c])=>{s+=`<circle cx="${X(x1)}" cy="${Y(+L[k])}" r="3.5" fill="${c}"/>`});
-    s+=`<line id="flx" x1="0" x2="0" y1="${m.t}" y2="${H-m.b}" stroke="#a9adb8" opacity="0"/><rect x="${m.l}" y="${m.t}" width="${W-m.l-m.r}" height="${H-m.t-m.b}" fill="transparent"/>`;
-    host.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Growth of one dollar since 2005: flagship ${(+L.flagship).toFixed(1)}, S&P 500 ${(+L.spy).toFixed(1)}">${s}</svg><div class="fl-tip" hidden></div>`;
-    const svg=host.querySelector('svg'),tip=host.querySelector('.fl-tip'),ln=svg.querySelector('#flx');
-    svg.addEventListener('pointermove',e=>{const r=svg.getBoundingClientRect();const xv=x0+((e.clientX-r.left)*W/r.width-m.l)/(W-m.l-m.r)*(x1-x0);let i=0;while(i<xs.length-1&&xs[i+1]<xv)i++;const R=EQ[i];
-      ln.setAttribute('x1',X(xs[i]));ln.setAttribute('x2',X(xs[i]));ln.setAttribute('opacity',.5);
-      tip.innerHTML=`<div class="mono" style="color:#7a7e8a">${fmtD(R.date)}</div>`+S.map(([k,c])=>`<div class="r"><span style="color:${c}">${k==='flagship'?'Flagship':'S&P 500'}</span><b class="mono">$${(+R[k]).toFixed(2)}</b></div>`).join('');
-      tip.hidden=false;const tx=X(xs[i])/W*r.width;tip.style.left=(tx>r.width/2?Math.max(0,tx-tip.offsetWidth-10):tx+10)+'px'});
+    host.innerHTML='';const W=Math.max(300,host.clientWidth||600),H=(W<500?o.h*.8:o.h)|0,m={t:10,r:56,b:24,l:4};
+    const n=xs.length,x0=xs[0],x1=xs[n-1],all=S.flatMap(s=>s.vals).filter(v=>v!=null&&isFinite(v)&&(!o.log||v>0));
+    let y0=Math.min(...all),y1=Math.max(...all);if(o.zero){y0=Math.min(y0,0);y1=Math.max(y1,0)}
+    if(o.log){y0*=.94;y1*=1.06}else{const p=(y1-y0)*.08||.01;y0-=o.base!=null&&y0>=o.base?0:p;y1+=p}
+    const f=v=>o.log?Math.log(v):v,X=v=>m.l+(v-x0)/(x1-x0||1)*(W-m.l-m.r),Y=v=>m.t+(f(y1)-f(v))/(f(y1)-f(y0))*(H-m.t-m.b);
+    let g='';
+    let ticks=[];if(o.log){for(let e=Math.floor(Math.log10(y0));e<=Math.ceil(Math.log10(y1));e++)[1,2,5].forEach(k=>{const v=k*10**e;if(v>=y0&&v<=y1)ticks.push(v)});if(ticks.length>7)ticks=ticks.filter(v=>/^1/.test(String(v)));}
+    if(!o.log||ticks.length<3){ticks=[];const r=y1-y0,st=10**Math.floor(Math.log10(r/4)),k=[1,2,2.5,5,10].find(k=>r/(k*st)<=5)*st;for(let v=Math.ceil(y0/k)*k;v<=y1+1e-9;v+=k)ticks.push(+v.toPrecision(10))}
+    ticks.forEach(v=>{g+=`<line class="grid" x1="${m.l}" x2="${W-m.r}" y1="${Y(v).toFixed(1)}" y2="${Y(v).toFixed(1)}"/><text class="ax" x="${W-m.r+8}" y="${(Y(v)+3.5).toFixed(1)}">${o.tick(v)}</text>`});
+    if(o.zero)g+=`<line class="base" x1="${m.l}" x2="${W-m.r}" y1="${Y(0).toFixed(1)}" y2="${Y(0).toFixed(1)}"/>`;
+    const ya=new Date(x0).getUTCFullYear(),yb=new Date(x1).getUTCFullYear(),span=yb-ya,st=span>12?(W<500?6:3):span>6?(W<500?3:2):1;
+    if(span>=2){for(let y=Math.ceil((ya+1)/st)*st;y<=yb;y+=st){const x=X(Date.UTC(y,0,1));if(x>m.l+16&&x<W-m.r-16)g+=`<text class="ax" x="${x.toFixed(1)}" y="${H-6}" text-anchor="middle">${y}</text>`}}
+    else{const MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];let d=new Date(x0);d=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+1,1));const sm=W<500?3:2;for(;d.getTime()<=x1;d=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+sm,1))){const x=X(d.getTime());if(x>m.l+16&&x<W-m.r-16)g+=`<text class="ax" x="${x.toFixed(1)}" y="${H-6}" text-anchor="middle">${MN[d.getUTCMonth()]} ’${String(d.getUTCFullYear()).slice(2)}</text>`}}
+    S.slice().reverse().forEach(s=>{let d='',st=false;s.vals.forEach((v,i)=>{if(v==null||!isFinite(v)){st=false;return}d+=(st?'L':'M')+X(xs[i]).toFixed(1)+','+Y(v).toFixed(1);st=true});
+      if(s.area){g+=`<path d="${d}L${X(x1).toFixed(1)},${Y(o.zero?0:y0).toFixed(1)}L${X(xs[s.vals.findIndex(v=>v!=null)]).toFixed(1)},${Y(o.zero?0:y0).toFixed(1)}Z" fill="${s.color}" fill-opacity=".14" stroke="none"/>`}
+      g+=`<path d="${d}" fill="none" stroke="${s.color}" stroke-width="${s.width}" stroke-linejoin="round" stroke-linecap="round"/>`});
+    S.forEach(s=>{const v=s.vals[n-1];if(v!=null)g+=`<circle cx="${X(x1).toFixed(1)}" cy="${Y(v).toFixed(1)}" r="3" fill="${s.color}"/>`});
+    g+=`<line class="hx" x1="0" x2="0" y1="${m.t}" y2="${H-m.b}" stroke="#A4A9AD" opacity="0"/><rect x="${m.l}" y="${m.t}" width="${W-m.l-m.r}" height="${H-m.t-m.b}" fill="transparent"/>`;
+    host.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${o.label}">${g}</svg><div class="fl-tip" hidden></div>`;
+    const svg=host.querySelector('svg'),tip=host.querySelector('.fl-tip'),ln=svg.querySelector('.hx');
+    svg.addEventListener('pointermove',e=>{const r=svg.getBoundingClientRect();const xv=x0+((e.clientX-r.left)*W/r.width-m.l)/(W-m.l-m.r)*(x1-x0);let i=0;while(i<n-1&&xs[i+1]<xv)i++;if(i<n-1&&xv-xs[i]>xs[i+1]-xv)i++;
+      ln.setAttribute('x1',X(xs[i]));ln.setAttribute('x2',X(xs[i]));ln.setAttribute('opacity',.45);
+      tip.innerHTML=`<div class="mono" style="color:var(--muted)">${fmtD(new Date(xs[i]).toISOString())}</div>`+S.map(s=>`<div class="r"><span style="color:${s.color}">${s.name}</span><b class="mono">${s.vals[i]==null?'—':o.fmt(s.vals[i])}</b></div>`).join('');
+      tip.hidden=false;const tx=X(xs[i])/W*r.width;tip.style.left=(tx>r.width/2?Math.max(0,tx-tip.offsetWidth-12):tx+12)+'px'});
     svg.addEventListener('pointerleave',()=>{tip.hidden=true;ln.setAttribute('opacity',0)});
   };
-  draw();let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(draw,150)});
+  draw();(host._kr&&removeEventListener('resize',host._kr));let rt;host._kr=()=>{clearTimeout(rt);rt=setTimeout(draw,150)};addEventListener('resize',host._kr);
+}
+function backtestCharts(EQ){
+  const T=EQ.map(r=>Date.parse(r.date+'T00:00:00Z')),F=EQ.map(r=>+r.flagship),Sv=EQ.map(r=>+r.spy);
+  const roll=a=>a.map((v,i)=>i>=52&&a[i-52]>0?v/a[i-52]-1:null);
+  const RF=roll(F),RS=roll(Sv);
+  const k$=v=>v>=1e6?'$'+(v/1e6).toFixed(v>=1e7?0:1).replace(/\.0$/,'')+'M':'$'+(v/1e3).toFixed(v>=1e5?0:v>=1e4?0:1).replace(/\.0$/,'')+'k';
+  const pcs1=v=>(v>0?'+':v<0?'−':'')+Math.abs(v*100).toFixed(1)+'%';
+  const draw=yrs=>{
+    const end=T[T.length-1],from=yrs==='all'?T[0]:end-(+yrs)*365.25*864e5;let i0=T.findIndex(t=>t>=from);if(i0<0)i0=0;
+    const xs=T.slice(i0),f=F.slice(i0),s=Sv.slice(i0);
+    const g=a=>a.map(v=>v/a[0]*1e4),dd=a=>{let p=-1e18;return a.map(v=>{p=Math.max(p,v);return v/p-1})};
+    const log=yrs==='all'||+yrs>=10;
+    lineChart($('#flchart'),xs,[{name:'Flagship',color:FC,width:2,vals:g(f)},{name:'S&P 500',color:SC,width:1.4,vals:g(s)}],
+      {log,h:320,fmt:v=>'$'+Math.round(v).toLocaleString('en-US'),tick:k$,label:'Backtest growth of $10,000: flagship vs S&P 500'});
+    lineChart($('#fldd'),xs,[{name:'Flagship',color:FC,width:1.5,vals:dd(f),area:true},{name:'S&P 500',color:SC,width:1.2,vals:dd(s)}],
+      {h:210,zero:true,base:0,fmt:pcs1,tick:v=>Math.round(v*100)+'%',label:'Backtest drawdown from the running high'});
+    lineChart($('#flroll'),xs,[{name:'Flagship',color:FC,width:1.5,vals:RF.slice(i0)},{name:'S&P 500',color:SC,width:1.2,vals:RS.slice(i0)}],
+      {h:210,zero:true,fmt:pcs1,tick:v=>(v>0?'+':'')+Math.round(v*100)+'%',label:'Backtest rolling 12-month return'});
+    const cap=$('#flcap');if(cap)cap.textContent=`Growth of $10,000 from ${fmtD(new Date(xs[0]).toISOString())}, weekly closes${log?', log scale':''}. Hypothetical backtest; not the returns of any investor.`;
+  };
+  draw('all');
+  document.querySelectorAll('#flrange button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#flrange button').forEach(x=>x.setAttribute('aria-pressed',x===b));draw(b.dataset.r)}));
 }
 })();
 </script>
