@@ -250,13 +250,13 @@ tr.adopt td:first-child{font-weight:600} tr.rej td{color:var(--muted)} tr.sens t
 <meta property="og:title" content="Bitcoin Desk · Kerdos Capital">
 <meta property="og:description" content="Daily regime model for Bitcoin: trend, momentum and macro signals, with a backtest since 2015.">
 <meta property="og:url" content="https://kerdoscapital.xyz/bitcoin.html">
-<meta property="og:image" content="https://kerdoscapital.xyz/og.png?v=20261029">
+<meta property="og:image" content="https://kerdoscapital.xyz/og.png?v=20261030">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Bitcoin Desk · Kerdos Capital">
 <meta name="twitter:description" content="Daily regime model for Bitcoin: trend, momentum and macro signals, with a backtest since 2015.">
-<meta name="twitter:image" content="https://kerdoscapital.xyz/og.png?v=20261029">
+<meta name="twitter:image" content="https://kerdoscapital.xyz/og.png?v=20261030">
 <!--/kerdos-head-->
 </head>
 <body>
@@ -268,7 +268,7 @@ tr.adopt td:first-child{font-weight:600} tr.rej td{color:var(--muted)} tr.sens t
     <div><h1>Bitcoin</h1><div class="label" id="asof">Daily close · loading</div></div>
     <div class="meta" id="fresh"></div>
   </header>
-  <div class="loading" id="loading"><!--pre:loading--><span style="display:block;font-size:1.05rem;color:var(--ink,#d1d4dc)"><b>Bitcoin: Neutral</b> · 50% invested · BTC $77,194</span><span style="display:block;margin-top:6px">As of the Oct 30, 2026 close. Loading the full report…</span><!--/pre:loading--></div>
+  <div class="loading" id="loading"><!--pre:loading--><span style="display:block;font-size:1.05rem;color:var(--ink,#d1d4dc)"><b>Bitcoin: Balanced</b> · 50% invested · BTC $77,194</span><span style="display:block;margin-top:6px">As of the Oct 30, 2026 close. Loading the full report…</span><!--/pre:loading--></div>
   <main id="main" hidden style="display:grid;gap:18px"></main>
   <!--ox-->
   <section class="sec ox-wrap"><div class="ox" id="ox" data-assets="IBIT" data-mode="full"></div></section>
@@ -389,7 +389,7 @@ function summary(R,have){
       <p><b>Hypothetical performance.</b> Backtested results are hypothetical and are not the returns of any investor. They were computed with hindsight, from rules chosen with that history in view, and they leave out taxes and most real-world trading frictions. The flagship portfolio’s live record began at the open on Oct 26, 2026; every result before that date is a backtest. Past and backtested performance does not guarantee future results. Bitcoin and high-beta stocks are highly volatile, and any investment can lose money. Do your own research, or speak with a licensed professional, before investing.</p>
       <p><b>Data and timing.</b> Robinhood (prices, index levels, options open interest), FRED, Robert Shiller’s dataset, Coin Metrics, and the CME CF Bitcoin Real Time Index via Robinhood. Prices may be delayed or contain errors. Each model runs once a day on the latest completed session’s closing data, and this site refreshes once a day, by about 10:00 a.m. ET.</p>
     </div>
-    <div class="kf-base"><span>© 2026 Kerdos Capital. Independent research.</span><span>Models as of the Oct 29, 2026 close · Hypothetical models, not investment advice</span></div>
+    <div class="kf-base"><span>© 2026 Kerdos Capital. Independent research.</span><span>Models as of the Oct 30, 2026 close · Hypothetical models, not investment advice</span></div>
   </footer>
 </div>
 
@@ -492,9 +492,9 @@ function render(R,S,H,EQ){
   if(posm.length)narr+=`${neg.length?'; ':', '}helped by ${posm.map(f=>PH[f.key][0]).join(' and ')}`;
   narr+=`. Momentum is ${word(G.momentum)}, valuation ${word(G.valuation)}, cycle ${word(G.cycle)}.`;
   const V2=R.v2;const V3=R.v3||{};const deepTxt=V2.deep?`Bitcoin is ${sgn(V2.dd,0)} from its high, deep enough for the bottoming rules to apply.`:`Bitcoin is ${sgn(V2.dd,0)} from its high; the bear-market rules only apply ${Math.round(-V2.deep_dd*100)}% or more below it.`;
-  const flip0=(V3.floor&&V3.floor.active&&R.regime==='Correction')?`The score is Bearish, but Bitcoin is below its 200-week average (${usd(V3.floor.m200w)}), the zone where past cycles bottomed, so the model holds half (Neutral) instead of going to cash. It returns to cash if Bitcoin closes ${Math.round(V3.floor.stop*100)}% below where this started.`:(V3.pi&&V3.pi.active&&R.regime==='Neutral'&&R.signal!=='Neutral')?`The Pi-cycle top signal fired on ${fmtD(V3.pi.last_cross)}, so the model holds at most half for ${V3.pi.days} days after it, even though the score is ${R.signal}.`:R.regime==='Recovery'?`The score has not turned up yet, but Bitcoin is ${sgn(V2.dd,0)} below its high and has closed above its 20-week average (${usd(V2.m20w)}), so the model is fully back in (Bullish). It stays in while price holds above that average.`:
-    R.regime==='Correction'?`The score is Bearish, but Bitcoin is already ${sgn(V2.dd,0)} below its high and macro (${sgn(V2.macro,2,'')}) is above the ${sgn(V2.bottom_macro,2,'')} line, so the model holds half (Neutral) instead of going to cash. It goes fully back in on a close above the 20-week average (${usd(V2.m20w)}).`:'';
-  const flip=flip0?flip0:R.regime==='Bullish'?`It drops to Neutral below +${R.thresholds.bull.toFixed(2)} (a fall of ${(R.score-R.thresholds.bull).toFixed(2)}). ${deepTxt}`:R.regime==='Bearish'?`It leaves Bearish above ${sgn(R.thresholds.bear,2,'')} (needs +${(R.thresholds.bear-R.score).toFixed(2)}). ${deepTxt}${V2.deep&&V2.macro<=V2.bottom_macro?' Macro ('+sgn(V2.macro,2,'')+') confirms the signal, so the model stays in cash until price closes above the 20-week average ('+usd(V2.m20w)+').':''}`:`It turns Bullish above +${R.thresholds.bull.toFixed(2)} (needs ${sgn(R.need_bull,2,'')}) and Bearish below ${sgn(R.thresholds.bear,2,'')} (needs ${sgn(R.need_bear,2,'')}). ${deepTxt}`;
+  const flip0=(V3.floor&&V3.floor.active&&R.regime==='Correction')?`The score is Risk Off, but Bitcoin is below its 200-week average (${usd(V3.floor.m200w)}), the zone where past cycles bottomed, so the model holds half (Balanced) instead of going to cash. It returns to cash if Bitcoin closes ${Math.round(V3.floor.stop*100)}% below where this started.`:(V3.pi&&V3.pi.active&&R.regime==='Neutral'&&R.signal!=='Neutral')?`The Pi-cycle top signal fired on ${fmtD(V3.pi.last_cross)}, so the model holds at most half for ${V3.pi.days} days after it, even though the score is ${R.signal}.`:R.regime==='Recovery'?`The score has not turned up yet, but Bitcoin is ${sgn(V2.dd,0)} below its high and has closed above its 20-week average (${usd(V2.m20w)}), so the model is fully back in (Risk On). It stays in while price holds above that average.`:
+    R.regime==='Correction'?`The score is Risk Off, but Bitcoin is already ${sgn(V2.dd,0)} below its high and macro (${sgn(V2.macro,2,'')}) is above the ${sgn(V2.bottom_macro,2,'')} line, so the model holds half (Balanced) instead of going to cash. It goes fully back in on a close above the 20-week average (${usd(V2.m20w)}).`:'';
+  const flip=flip0?flip0:R.regime==='Bullish'?`It drops to Balanced below +${R.thresholds.bull.toFixed(2)} (a fall of ${(R.score-R.thresholds.bull).toFixed(2)}). ${deepTxt}`:R.regime==='Bearish'?`It leaves Risk Off above ${sgn(R.thresholds.bear,2,'')} (needs +${(R.thresholds.bear-R.score).toFixed(2)}). ${deepTxt}${V2.deep&&V2.macro<=V2.bottom_macro?' Macro ('+sgn(V2.macro,2,'')+') confirms the signal, so the model stays in cash until price closes above the 20-week average ('+usd(V2.m20w)+').':''}`:`It turns Risk On above +${R.thresholds.bull.toFixed(2)} (needs ${sgn(R.need_bull,2,'')}) and Risk Off below ${sgn(R.thresholds.bear,2,'')} (needs ${sgn(R.need_bear,2,'')}). ${deepTxt}`;
   const A=R.analog;
   const EXB=R.exposure_map,ST=r=>Kerdos.st(r,EXB),RUN=Kerdos.stRun(H,EXB)||{state:ST(R.regime),since:R.regime_since,n:R.regime_days,prev:null},S3=RUN.state;
   document.documentElement.dataset.regime=S3;
@@ -505,23 +505,23 @@ function render(R,S,H,EQ){
   const BH=H.filter(r=>r.score!==''&&r.score!=null&&r.regime).map(r=>({date:r.date,y:+r.score,p:+r.price,st:ST(r.regime)}));
   const usd0=v=>'$'+Math.round(v).toLocaleString('en-US'),pk=v=>'$'+Math.round(v/1000)+'k';
   const REP=Kerdos.report({
-    kpis:[{l:'Model state',b:S3,c:'c-'+S3,i:`${Math.round(R.exposure*100)}% invested · since ${fmtD(RUN.since).replace(/, \d{4}$/,'')}${RUN.prev?' · was '+RUN.prev:''}`},
+    kpis:[{l:'Model state',b:Kerdos.lab(S3),c:'c-'+S3,i:`${Math.round(R.exposure*100)}% invested · since ${fmtD(RUN.since).replace(/, \d{4}$/,'')}${RUN.prev?' · was '+Kerdos.lab(RUN.prev):''}`},
       {l:'Composite score',b:sn(R.score),i:`${R.score_pctile}th pct · 30d ago ${R.score_30d_ago!=null?sn(R.score_30d_ago):'—'}`},
       {l:'Bitcoin',b:usd0(R.price),i:`${sgn(R.chg1)} 1d · ${sgn(R.chg7)} 7d · ${sgn(R.ytd)} YTD`},
       {l:'Median next 90 days',b:sgn(A.med90),c:A.med90>0?'up':'dn',i:`${A.pos90}% rose · ${A.n.toLocaleString()} similar days`},
       {l:'From all-time high',b:sgn(R.cycle.dd),c:R.cycle.dd<0?'dn':'',i:`${R.cycle.days_since_ath} days since the high`}],
     chart:{title:'Score and state',sub:'5-day smoothed composite · state lines at '+sn(T.bull,2)+' and '+sn(T.bear,2),rows:BH,mode:'score',
-      lines:[{v:T.bull,label:'Bullish '+sn(T.bull,2)},{v:T.bear,label:'Bearish '+sn(T.bear,2)}],yName:'Composite score',pName:'Bitcoin price',
+      lines:[{v:T.bull,label:'Risk On '+sn(T.bull,2)},{v:T.bear,label:'Risk Off '+sn(T.bear,2)}],yName:'Composite score',pName:'Bitcoin price',
       yfmt:(v,t)=>sn(v,t?3:2),pfmt:(v,t)=>t?usd0(v):pk(v)},
-    why:{title:`Why it reads ${S3}`,tag:'group signal −1 … +1'},
+    why:{title:`Why it reads ${Kerdos.lab(S3)}`,tag:'group signal −1 … +1'},
     side:{title:'What similar scores led to',tag:'since 2015',html:`<dl class="k-kv">
       <dt>Days since 2015 with a similar score</dt><dd>${A.n.toLocaleString()}</dd>
       <dt>Median next 30 days</dt><dd>${sgn(A.med30)}</dd><dt>Rose over 30 days</dt><dd>${A.pos30}%</dd>
       <dt>30-day range, 10th–90th percentile</dt><dd>${sgn(A.q10_30)} to ${sgn(A.q90_30)}</dd>
       <dt>Median next 90 days</dt><dd>${sgn(A.med90)}</dd><dt>Rose over 90 days</dt><dd>${A.pos90}%</dd>
       <dt>1σ 30-day move</dt><dd>±${R.move30}%</dd>
-      <dt>Score that turns it Bullish</dt><dd>${sn(T.bull,2)} <span class="muted">(${sn(R.need_bull)} away)</span></dd>
-      <dt>Score that turns it Bearish</dt><dd>${sn(T.bear,2)} <span class="muted">(${sn(R.need_bear)} away)</span></dd></dl>
+      <dt>Score that turns it Risk On</dt><dd>${sn(T.bull,2)} <span class="muted">(${sn(R.need_bull)} away)</span></dd>
+      <dt>Score that turns it Risk Off</dt><dd>${sn(T.bear,2)} <span class="muted">(${sn(R.need_bear)} away)</span></dd></dl>
       <p class="note">Outcomes on past days since 2015 whose score was within ±0.10 of today’s. Bitcoin has had only four full cycles; read these as context, not a forecast.</p>`}});
   M.append(REP.el);
   /* drivers: one scannable row per group, plus what flips the call */
@@ -542,7 +542,7 @@ function render(R,S,H,EQ){
   REP.why.innerHTML=`
     <div class="k-drivers">${ORDER.map(g=>{const v=G[g];const s=v>.1?'pos':v<-.1?'neg':'flat';const det=DET[g]||F.filter(f=>f.group===g).map(f=>esc(f.reading)).slice(0,3).join(' · ');
       return `<div class="k-drv" data-s="${s}"><div class="nm"><i></i>${g[0].toUpperCase()+g.slice(1)}<span class="mono muted" style="font-size:11px;font-weight:400">${Math.round(R.group_weights[g]*100)}% wt</span></div><div class="val">${sn(v,2)}</div><div class="tx"><b>${word2(v)}.</b> ${det}</div></div>`}).join('')}</div>
-    <div class="k-flip"><div class="label" style="padding-top:7px">What flips it</div><div style="display:grid;gap:10px"><div class="k-dist">${chip(T.bull,'Bullish',true)}${chip(T.bear,'Bearish',false)}</div><p>${flipText}</p></div></div>`;
+    <div class="k-flip"><div class="label" style="padding-top:7px">What flips it</div><div style="display:grid;gap:10px"><div class="k-dist">${chip(T.bull,'Risk On',true)}${chip(T.bear,'Risk Off',false)}</div><p>${flipText}</p></div></div>`;
   if(R.notes&&R.notes.length){const safe=u=>/^https:\/\//.test(u||'')?u:'';
     const arrow='<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.5 8.5l5-5M4.5 3.5h4v4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     const when=t=>{const m=String(t).match(/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.? \d{1,2}(, \d{4})?/);return m?m[0]:''};
@@ -605,10 +605,10 @@ function render(R,S,H,EQ){
     const bands=[];let cur=null;rows.forEach(r=>{if(!cur||cur.g!==r.g){if(cur)cur.x1=r.t;cur={g:r.g,x0:r.t,x1:r.t};bands.push(cur)}});if(cur)cur.x1=rows[rows.length-1].t;
     const bc={Bullish:css('--band-bull'),Neutral:css('--band-neut'),Bearish:css('--band-bear')};
     lineChart($('#pchart'),{xType:'time',log:range==='all',h:300,aria:'Bitcoin price with state shading',series:[{name:'BTC price',color:css('--ink'),w:1.6,data:sm.map(r=>({x:r.t,y:r.p})),endLabel:true}],bands:bands.filter(b=>b.g).map(b=>({x0:b.x0,x1:b.x1,color:bc[b.g]})),yFmt:v=>'$'+kfmt(v),tipFmt:v=>usd(v),
-      legendExtra:[{name:'Bullish 100%',color:bc.Bullish},{name:'Neutral 50%',color:bc.Neutral},{name:'Bearish 0%',color:bc.Bearish}],
-      tipExtra:(i,x)=>{const r=rows.find(q=>q.t===x)||sm[i];return r?`<div class="r"><span>State</span><b>${r.g||'—'}${r.g&&Kerdos.EXPO[r.g]!=null?' · '+Math.round(Kerdos.EXPO[r.g]*100)+'%':''}</b></div><div class="r"><span>Score</span><b class="mono">${r.s==null?'—':r.s.toFixed(2)}</b></div>`:''}});
+      legendExtra:[{name:'Risk On 100%',color:bc.Bullish},{name:'Balanced 50%',color:bc.Neutral},{name:'Risk Off 0%',color:bc.Bearish}],
+      tipExtra:(i,x)=>{const r=rows.find(q=>q.t===x)||sm[i];return r?`<div class="r"><span>State</span><b>${r.g?Kerdos.lab(r.g):'—'}${r.g&&Kerdos.EXPO[r.g]!=null?' · '+Math.round(Kerdos.EXPO[r.g]*100)+'%':''}</b></div><div class="r"><span>Score</span><b class="mono">${r.s==null?'—':r.s.toFixed(2)}</b></div>`:''}});
     lineChart($('#schart'),{xType:'time',h:150,aria:'Composite score history',series:[{name:'Composite score',color:css('--accent'),w:1.6,data:sm.map(r=>({x:r.t,y:r.s}))}],yMin:-.8,yMax:.8,yTicks:4,yFmt:v=>(v>0?'+':'')+v.toFixed(1),tipFmt:v=>(v>0?'+':'')+v.toFixed(2),
-      hlines:[{y:R.thresholds.bull,label:'Bullish above +0.20',color:css('--bull'),tcolor:css('--bull')},{y:R.thresholds.bear,label:'Bearish below −0.15',color:css('--bear'),tcolor:css('--bear')}]});
+      hlines:[{y:R.thresholds.bull,label:'Risk On above +0.20',color:css('--bull'),tcolor:css('--bull')},{y:R.thresholds.bear,label:'Risk Off below −0.15',color:css('--bear'),tcolor:css('--bear')}]});
   };
   hp.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{range=b.dataset.r;localSet('range',range);drawHist()}));drawHist();
   /* backtest */
@@ -616,7 +616,7 @@ function render(R,S,H,EQ){
   const BT=(k,f)=>['strategy','buyhold'].map(x=>`<td class="n">${f(bt[x],x)}</td>`).join('');
   const pcm=(v,d=0)=>v==null?'—':(v<0?'−':'')+Math.abs(v*100).toFixed(d)+'%';
   const YR=R.yearly||S.yearly;
-  bp.innerHTML=`<div class="phead"><h2>Does it work? Backtest since 2015</h2><span class="label">Bullish 100% · Neutral 50% · Bearish cash</span></div>
+  bp.innerHTML=`<div class="phead"><h2>Does it work? Backtest since 2015</h2><span class="label">Risk On 100% · Balanced 50% · Risk Off cash</span></div>
    <div class="grid2" style="gap:22px"><div style="min-width:0"><div class="chart" id="eqchart"></div><p class="note" style="margin-top:6px">Growth of $1, log scale, 0.1% cost per trade, positions taken at the next day’s close, cash earns the 3-month T-bill. Every factor uses only data available on that date.</p></div>
    <div style="min-width:0;display:grid;gap:14px;align-content:start">
     <div class="tblwrap"><table><thead><tr><th>2015–${R.asof.slice(0,4)}</th><th class="n">Model</th><th class="n">Buy & hold</th></tr></thead><tbody>
@@ -628,7 +628,7 @@ function render(R,S,H,EQ){
      <tr><td>Years ahead of BTC</td><td class="n">${YR.filter(y=>y.strategy>y.buyhold+.05).length} of ${YR.length}</td><td class="n">—</td></tr></tbody></table></div>
     <div class="tblwrap"><table><thead><tr><th>State</th><th class="n">Invested</th><th class="n">Days</th><th class="n">90d median</th><th class="n">Rose</th></tr></thead><tbody>
      ${(()=>{const px=H.map(r=>+r.price),Q=[];H.forEach((r,i)=>{if(!r.regime||i+90>=H.length||!(px[i]>0))return;Q.push({s:ST(r.regime),f:px[i+90]/px[i]-1})});const med=a=>{a=a.slice().sort((x,y)=>x-y);return a[Math.floor(a.length/2)]};
-       return Kerdos.STATES.map(k=>{const g=Q.filter(x=>x.s===k);return g.length?`<tr><td><span class="pill ${k}">${k}</span></td><td class="n">${Math.round(Kerdos.EXPO[k]*100)}%</td><td class="n">${Math.round(g.length/Q.length*100)}%</td><td class="n">${sgn(med(g.map(x=>x.f))*100,0)}</td><td class="n">${Math.round(g.filter(x=>x.f>0).length/g.length*100)}%</td></tr>`:''}).join('')})()}</tbody></table></div>
+       return Kerdos.STATES.map(k=>{const g=Q.filter(x=>x.s===k);return g.length?`<tr><td><span class="pill ${k}">${Kerdos.lab(k)}</span></td><td class="n">${Math.round(Kerdos.EXPO[k]*100)}%</td><td class="n">${Math.round(g.length/Q.length*100)}%</td><td class="n">${sgn(med(g.map(x=>x.f))*100,0)}</td><td class="n">${Math.round(g.filter(x=>x.f>0).length/g.length*100)}%</td></tr>`:''}).join('')})()}</tbody></table></div>
    </div></div>
    <div class="grid2" style="gap:22px;margin-top:18px">
     <div style="min-width:0"><h3 style="margin-bottom:8px">Year by year</h3><div class="tblwrap"><table><thead><tr><th>Year</th><th class="n">Model</th><th class="n">BTC</th><th class="n">Difference</th></tr></thead><tbody>${YR.map(y=>`<tr><td class="mono">${y.year}${y.year===new Date(R.asof).getUTCFullYear()?' YTD':''}</td><td class="n">${sgn(y.strategy,0)}</td><td class="n">${sgn(y.buyhold,0)}</td><td class="n ${cls(Math.round(y.strategy-y.buyhold))}">${sgn(Math.round(y.strategy-y.buyhold),0,' pts')}</td></tr>`).join('')}</tbody></table></div>
@@ -655,7 +655,7 @@ function drawGauge(host,R){const draw=()=>{const W=Math.max(300,host.clientWidth
   const seg=(a,b,c)=>`<rect x="${X(a)}" y="${y-7}" width="${X(b)-X(a)}" height="14" fill="${c}"/>`;
   let s=seg(-1,R.thresholds.bear,css('--bear-bg'))+seg(R.thresholds.bear,R.thresholds.bull,css('--neut-bg'))+seg(R.thresholds.bull,1,css('--bull-bg'));
   [-1,-.5,0,.5,1].forEach(v=>s+=`<text class="ax" x="${X(v)}" y="${y+28}" text-anchor="${v===-1?'start':v===1?'end':'middle'}">${v>0?'+':''}${v}</text>`);
-  s+=`<text class="ax" x="${(X(-1)+X(R.thresholds.bear))/2}" y="${y+4}" text-anchor="middle" style="fill:${css('--bear')};font-weight:600">BEARISH</text><text class="ax" x="${(X(R.thresholds.bear)+X(R.thresholds.bull))/2}" y="${y+4}" text-anchor="middle" style="fill:${css('--neut')};font-weight:600">NEUTRAL</text><text class="ax" x="${(X(R.thresholds.bull)+X(1))/2}" y="${y+4}" text-anchor="middle" style="fill:${css('--bull')};font-weight:600">BULLISH</text>`;
+  s+=`<text class="ax" x="${(X(-1)+X(R.thresholds.bear))/2}" y="${y+4}" text-anchor="middle" style="fill:${css('--bear')};font-weight:600">RISK OFF</text><text class="ax" x="${(X(R.thresholds.bear)+X(R.thresholds.bull))/2}" y="${y+4}" text-anchor="middle" style="fill:${css('--neut')};font-weight:600">BALANCED</text><text class="ax" x="${(X(R.thresholds.bull)+X(1))/2}" y="${y+4}" text-anchor="middle" style="fill:${css('--bull')};font-weight:600">RISK ON</text>`;
   const g=(v,lab,op)=>`<g opacity="${op}"><line x1="${X(v)}" x2="${X(v)}" y1="${y-14}" y2="${y+12}" stroke="${css('--ink')}" stroke-width="${op===1?2.5:1.5}"/><text class="ax" x="${X(v)}" y="${y-18}" text-anchor="middle" style="fill:${css('--ink')}">${lab}</text></g>`;
   if(R.score_30d_ago!=null)s+=g(R.score_30d_ago,'30d ago',.35);if(R.score_5d_ago!=null&&Math.abs(R.score_5d_ago-R.score)>.04)s+=g(R.score_5d_ago,'5d',.55);s+=g(R.score,'today',1);
   host.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Score gauge: ${R.score.toFixed(2)} on a scale from −1 to +1">${s}</svg>`};draw();host._draw=draw;charts.add(host)}
@@ -775,8 +775,8 @@ function method(el,R,S){
    <h3>How the daily call is made</h3>
    <ul>
     <li>Eighteen factors are each scaled to a signal between −1 and +1, then averaged within five groups: trend ${gw.trend*100}%, macro ${gw.macro*100}%, momentum ${gw.momentum*100}%, valuation ${gw.valuation*100}%, cycle and seasonality ${gw.cycle*100}%. Group weights were set from the research before backtesting, not optimised.</li>
-    <li>The score is smoothed over 5 days. Above +0.20 is Bullish, below −0.15 Bearish, in between Neutral. A new regime needs 3 consecutive days to take effect, to cut whipsaw. Backtest results were similar for every threshold pair tried (Sharpe 1.26–1.30).</li>
-    <li>Two bottoming rules apply once Bitcoin is 50% or more below its all-time high, and stay on until it is back within 45% of it. A Bearish signal holds half (Neutral) unless the macro group is at or below −0.20. A close above the 20-week average goes fully invested (Bullish), so the model buys back soon after a bear-market low instead of waiting for the whole score to turn. A third rule holds half (Neutral) whenever a Bearish signal comes while Bitcoin trades below its 200-week average, the zone where past cycles bottomed; it returns to cash if Bitcoin then closes 25% below where that started. Exposure: Bullish 100%, Neutral 50%, Bearish 0%.</li>
+    <li>The score is smoothed over 5 days. Above +0.20 is Risk On, below −0.15 Risk Off, in between Balanced. A new regime needs 3 consecutive days to take effect, to cut whipsaw. Backtest results were similar for every threshold pair tried (Sharpe 1.26–1.30).</li>
+    <li>Two bottoming rules apply once Bitcoin is 50% or more below its all-time high, and stay on until it is back within 45% of it. A Risk Off signal holds half (Balanced) unless the macro group is at or below −0.20. A close above the 20-week average goes fully invested (Risk On), so the model buys back soon after a bear-market low instead of waiting for the whole score to turn. A third rule holds half (Balanced) whenever a Risk Off signal comes while Bitcoin trades below its 200-week average, the zone where past cycles bottomed; it returns to cash if Bitcoin then closes 25% below where that started. Exposure: Risk On 100%, Balanced 50%, Risk Off 0%.</li>
     <li>Faster exits after tops were tested and left out. Rules that sell 15–50% below the high and buy back 20–100% above the low all trailed the model, because Bitcoin bull markets keep producing 30–50% pullbacks. A halving-cycle timed exit and a Mayer-multiple trim also failed out of sample. One top signal was kept: the Pi-cycle top (the 111-day average crossing above twice the 350-day average), published in 2019, which fired within days of the 2013, 2017 and April 2021 highs and has not fired since. For 120 days after it fires, the model holds at most half.</li>
     <li>No look-ahead: cycle phase uses the running all-time high (not hindsight peaks), seasonality uses only earlier years, M2 is lagged 55 days for publication, Fed balance-sheet data 1 day.</li>
     <li>A walk-forward logistic regression on the same factors did no better than always being long out of sample (57.6% hit rate vs 57.5% base rate), so the call uses the transparent scorecard.</li>

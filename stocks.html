@@ -239,13 +239,13 @@ tr.adopt td:first-child{font-weight:600} tr.rej td{color:var(--muted)} tr.sens t
 <meta property="og:title" content="US Stocks Desk · Kerdos Capital">
 <meta property="og:description" content="Daily regime model for US stocks (SPY and QQQ): trend, momentum, internals, macro and volatility, with a backtest since 2003.">
 <meta property="og:url" content="https://kerdoscapital.xyz/stocks.html">
-<meta property="og:image" content="https://kerdoscapital.xyz/og.png?v=20261029">
+<meta property="og:image" content="https://kerdoscapital.xyz/og.png?v=20261030">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="US Stocks Desk · Kerdos Capital">
 <meta name="twitter:description" content="Daily regime model for US stocks (SPY and QQQ): trend, momentum, internals, macro and volatility, with a backtest since 2003.">
-<meta name="twitter:image" content="https://kerdoscapital.xyz/og.png?v=20261029">
+<meta name="twitter:image" content="https://kerdoscapital.xyz/og.png?v=20261030">
 <!--/kerdos-head-->
 </head>
 <body>
@@ -257,7 +257,7 @@ tr.adopt td:first-child{font-weight:600} tr.rej td{color:var(--muted)} tr.sens t
     <div><h1>US Stocks · SPY &amp; QQQ</h1><div class="label" id="asof">Market close · loading</div></div>
     <div class="meta" id="fresh"></div>
   </header>
-  <div class="loading" id="loading"><!--pre:loading--><span style="display:block;font-size:1.05rem;color:var(--ink,#d1d4dc)"><b>US stocks: Bullish</b> · 100% invested · SPY $769.36 (−0.4%) · QQQ $715.34</span><span style="display:block;margin-top:6px">As of the Oct 29, 2026 close. Loading the full report…</span><!--/pre:loading--></div>
+  <div class="loading" id="loading"><!--pre:loading--><span style="display:block;font-size:1.05rem;color:var(--ink,#d1d4dc)"><b>US stocks: Risk On</b> · 100% invested · SPY $755.72 (−1.8%) · QQQ $690.49</span><span style="display:block;margin-top:6px">As of the Oct 30, 2026 close. Loading the full report…</span><!--/pre:loading--></div>
   <main id="main" hidden style="display:grid;gap:18px"></main>
   <!--ox-->
   <section class="sec ox-wrap"><div class="ox" id="ox" data-assets="SPY,QQQ" data-mode="full"></div></section>
@@ -378,7 +378,7 @@ function summary(R,have){
       <p><b>Hypothetical performance.</b> Backtested results are hypothetical and are not the returns of any investor. They were computed with hindsight, from rules chosen with that history in view, and they leave out taxes and most real-world trading frictions. The flagship portfolio’s live record began at the open on Oct 26, 2026; every result before that date is a backtest. Past and backtested performance does not guarantee future results. Bitcoin and high-beta stocks are highly volatile, and any investment can lose money. Do your own research, or speak with a licensed professional, before investing.</p>
       <p><b>Data and timing.</b> Robinhood (prices, index levels, options open interest), FRED, Robert Shiller’s dataset, Coin Metrics, and the CME CF Bitcoin Real Time Index via Robinhood. Prices may be delayed or contain errors. Each model runs once a day on the latest completed session’s closing data, and this site refreshes once a day, by about 10:00 a.m. ET.</p>
     </div>
-    <div class="kf-base"><span>© 2026 Kerdos Capital. Independent research.</span><span>Models as of the Oct 29, 2026 close · Hypothetical models, not investment advice</span></div>
+    <div class="kf-base"><span>© 2026 Kerdos Capital. Independent research.</span><span>Models as of the Oct 30, 2026 close · Hypothetical models, not investment advice</span></div>
   </footer>
 </div>
 
@@ -492,17 +492,17 @@ function render(R,S,H,EQ){
   if(negs.length)narr+=` Biggest drags: ${negs.map(nm).join('; ')}.`;
   if(poss.length)narr+=` Biggest supports: ${poss.map(nm).join('; ')}.`;
   const MG=R.macro_gate,gtxt=sgn(MG.threshold,2,''),mtxt=sgn(MG.value,2,'');
-  const gateLine=MG.confirmed?`Macro (${mtxt}) is at or below the ${gtxt} gate, so a score below ${sgn(R.thresholds.bear,2,'')} would mean Bearish (cash).`:`Macro (${mtxt}) is above the ${gtxt} gate, so a score below ${sgn(R.thresholds.bear,2,'')} would mean Neutral (half invested), not cash.`;
-  const RB=R.rebound||{};const rbLine=RB.low20==null?'':RB.cpi_ok?`A close at or above ${usd2(RB.low20*1.1)} (10% over the 20-session low of ${usd2(RB.low20)}) would put the model back to Bullish (100%).`:`The rebound route is off while CPI inflation (${RB.cpi}%) is above 4%.`;
+  const gateLine=MG.confirmed?`Macro (${mtxt}) is at or below the ${gtxt} gate, so a score below ${sgn(R.thresholds.bear,2,'')} would mean Risk Off (cash).`:`Macro (${mtxt}) is above the ${gtxt} gate, so a score below ${sgn(R.thresholds.bear,2,'')} would mean Balanced (half invested), not cash.`;
+  const RB=R.rebound||{};const rbLine=RB.low20==null?'':RB.cpi_ok?`A close at or above ${usd2(RB.low20*1.1)} (10% over the 20-session low of ${usd2(RB.low20)}) would put the model back to Risk On (100%).`:`The rebound route is off while CPI inflation (${RB.cpi}%) is above 4%.`;
   const cutL=sgn(R.thresholds.bear,2,'');
   const flip=(R.regime==='Bullish'||R.regime==='Neutral')?`The score is above ${cutL}, so the model is fully invested. ${gateLine}`:
-    R.regime==='Recovery'?(RB.active&&R.recovery.route==='rebound'?`On ${fmtD(RB.since)} SPY closed 10% or more above its lowest close of the prior 20 sessions, a panic-reversal rally, so the model went back to Bullish (100%) ahead of the score. It stays fully invested until the score recovers, unless SPY closes below ${usd2(RB.stop_level)}, 7% under that day’s close.`:`SPY is ${sgn(-Math.abs(R.recovery.dd),1)} below its high but has closed above a rising 50-day average, so the model went back to Bullish (100%) ahead of the score.`):
-    R.regime==='Correction'?`The score is below ${cutL}, but macro (${mtxt}) has not confirmed it (the gate is ${gtxt}), so this is treated as a dip inside a bull market: Neutral, half invested. It goes Bearish (cash) if macro falls to ${gtxt}, and back to Bullish once the score rises above ${cutL}. ${rbLine}`:
-    `The score is below ${cutL} and macro (${mtxt}) confirms it (gate ${gtxt}): Bearish, in cash. It moves to Neutral (half) if macro recovers above ${gtxt}, and to Bullish once the score rises above ${cutL}. ${rbLine}`;
+    R.regime==='Recovery'?(RB.active&&R.recovery.route==='rebound'?`On ${fmtD(RB.since)} SPY closed 10% or more above its lowest close of the prior 20 sessions, a panic-reversal rally, so the model went back to Risk On (100%) ahead of the score. It stays fully invested until the score recovers, unless SPY closes below ${usd2(RB.stop_level)}, 7% under that day’s close.`:`SPY is ${sgn(-Math.abs(R.recovery.dd),1)} below its high but has closed above a rising 50-day average, so the model went back to Risk On (100%) ahead of the score.`):
+    R.regime==='Correction'?`The score is below ${cutL}, but macro (${mtxt}) has not confirmed it (the gate is ${gtxt}), so this is treated as a dip inside a bull market: Balanced, half invested. It goes Risk Off (cash) if macro falls to ${gtxt}, and back to Risk On once the score rises above ${cutL}. ${rbLine}`:
+    `The score is below ${cutL} and macro (${mtxt}) confirms it (gate ${gtxt}): Risk Off, in cash. It moves to Balanced (half) if macro recovers above ${gtxt}, and to Risk On once the score rises above ${cutL}. ${rbLine}`;
   const EX=R.exposure_map,EN=R.enhanced_map;
   const ST=r=>Kerdos.st(r,EX),RUN=Kerdos.stRun(H,EX)||{state:ST(R.regime),since:R.regime_since,n:R.regime_days,prev:null},S3=RUN.state;
   const TOK={Bullish:'bull',Neutral:'neut',Recovery:'rec',Correction:'corr',Bearish:'bear'};
-  const lad=['Bullish','Neutral','Recovery','Correction','Bearish'].map(k=>`<div class="${k===R.regime?'on':''}" style="background:var(--${TOK[k]}-bg)"><b style="color:var(--${TOK[k]})">${k}</b>${Math.round(EX[k]*100)}% invested${EN[k]!==EX[k]?` <span class="muted">(${Math.round(EN[k]*100)}% enhanced)</span>`:''}</div>`).join('');
+  const lad=['Bullish','Neutral','Recovery','Correction','Bearish'].map(k=>`<div class="${k===R.regime?'on':''}" style="background:var(--${TOK[k]}-bg)"><b style="color:var(--${TOK[k]})">${Kerdos.lab(k)}</b>${Math.round(EX[k]*100)}% invested${EN[k]!==EX[k]?` <span class="muted">(${Math.round(EN[k]*100)}% enhanced)</span>`:''}</div>`).join('');
   const A=R.analog;const q=(t,p,c)=>`<div class="quote"><div class="tk">${t}</div><div class="big">${usd2(p)}</div><div class="chg"><span class="${cls(c.d1)}">${sgn(c.d1)} 1d</span><span class="${cls(c.d5)}">${sgn(c.d5)} 1w</span><span class="${cls(c.d21)}">${sgn(c.d21)} 1m</span><span class="${cls(c.ytd)}">${sgn(c.ytd)} YTD</span></div></div>`;
   document.documentElement.dataset.regime=S3;
   const kn=(v,d=3)=>(v>0?'+':v<0?'−':'')+Math.abs(v).toFixed(d);const T=R.thresholds;
@@ -511,7 +511,7 @@ function render(R,S,H,EQ){
   const RG=['Bullish','Neutral','Recovery','Correction','Bearish'];
   const SH=H.filter(r=>r.score!==''&&r.score!=null&&r.regime).map(r=>({date:r.date,y:+r.score,p:+r.spy,st:ST(r.regime)}));
   const REP=Kerdos.report({
-    kpis:[{l:'Model state',b:S3,c:'c-'+S3,i:`${Math.round(R.exposure*100)}% invested · since ${fmtD(RUN.since).replace(/, \d{4}$/,'')}${RUN.prev?' · was '+RUN.prev:''}`},
+    kpis:[{l:'Model state',b:Kerdos.lab(S3),c:'c-'+S3,i:`${Math.round(R.exposure*100)}% invested · since ${fmtD(RUN.since).replace(/, \d{4}$/,'')}${RUN.prev?' · was '+Kerdos.lab(RUN.prev):''}`},
       {l:'Composite score',b:kn(R.score),i:`${ord(R.score_pctile)} pct · 1 month ago ${R.score_21d!=null?kn(R.score_21d):'—'}`},
       {l:'SPY',b:usd2(R.spy),i:`${sgn(R.spy_chg.d1)} 1d · ${sgn(R.spy_chg.d21)} 1m · ${sgn(R.spy_chg.ytd)} YTD`},
       {l:'QQQ',b:usd2(R.qqq),i:`${sgn(R.qqq_chg.d1)} 1d · ${sgn(R.qqq_chg.d21)} 1m · ${sgn(R.qqq_chg.ytd)} YTD`},
@@ -519,7 +519,7 @@ function render(R,S,H,EQ){
     chart:{title:'Score and state',sub:'5-day smoothed composite · cut line at '+kn(T.bear,2),rows:SH,mode:'score',
       lines:[{v:T.bear,label:'Cut line '+kn(T.bear,2)}],yName:'Composite score',pName:'SPY',
       yfmt:(v,t)=>kn(v,t?3:2),pfmt:(v,t)=>t?usd2(v):'$'+Math.round(v)},
-    why:{title:`Why it reads ${S3}`,tag:'group signal −1 … +1'},
+    why:{title:`Why it reads ${Kerdos.lab(S3)}`,tag:'group signal −1 … +1'},
     side:{title:'What similar scores led to',tag:'since 2003',html:`<dl class="k-kv">
       <dt>Trading days since 2003 with a similar score</dt><dd>${A.n.toLocaleString()}</dd>
       <dt>Chance of a 10% drop within 6 months</dt><dd>${A.dd10}%</dd>
@@ -567,7 +567,7 @@ function render(R,S,H,EQ){
       return `<li><div><div class="t">${E(n.text)}</div><span class="when">${E(n.source||'')}${w?' · '+E(w):''}</span></div>${u?`<a class="src" href="${E(u)}" target="_blank" rel="noopener" aria-label="Open source: ${E(n.source||'article')}">Source ${arrow}</a>`:''}</li>`}).join('')}</ul>`))}
   const sec2=h('section',{class:'grid2'});M.append(sec2);
   const fp=h('div',{class:'panel'});sec2.append(fp);
-  fp.innerHTML=`<div class="phead"><h2>What’s driving the score</h2><span class="label">signal −1 … +1</span></div><p class="note" style="margin:-4px 0 10px">The tick on the macro bar is the gate: a score below −0.10 only moves to cash (Bearish) when macro is at or left of it.</p>`;
+  fp.innerHTML=`<div class="phead"><h2>What’s driving the score</h2><span class="label">signal −1 … +1</span></div><p class="note" style="margin:-4px 0 10px">The tick on the macro bar is the gate: a score below −0.10 only moves to cash (Risk Off) when macro is at or left of it.</p>`;
   const gm=h('div',{style:'margin-bottom:14px'});fp.append(gm);
   Object.entries(G).forEach(([g,v])=>{const bar=v>=0?`left:50%;width:${v*50}%`:`left:${50+v*50}%;width:${-v*50}%`;gm.append(h('div',{class:'meter'},`<div class="nm">${g}<small>${Math.round(R.group_weights[g]*100)}% weight</small></div><div class="track"><span class="zero"></span><span class="bar ${v>=0?'p':'n'}" style="${bar}"></span>${g==='macro'?`<span class="gate" style="left:${50+R.macro_gate.threshold*50}%" title="Macro gate ${sgn(R.macro_gate.threshold,2,'')}: cuts go to cash only at or below this line"></span>`:''}</div><div class="v">${sgn(v,2,'')}</div>`))});
   let rows='',lg='';F.forEach(f=>{if(f.group!==lg){rows+=`<tr class="grp"><td colspan="4">${f.group}</td></tr>`;lg=f.group}const v=f.signal;const bar=v==null?'':v>=0?`left:50%;width:${v*50}%;background:var(--bull)`:`left:${50+v*50}%;width:${-v*50}%;background:var(--bear)`;
@@ -597,10 +597,10 @@ function render(R,S,H,EQ){
    <dt>CPI inflation (YoY)</dt><dd>${Mc.cpi}%</dd><dt>Real 10-yr yield</dt><dd>${Mc.real10y}%</dd><dt>UMich sentiment</dt><dd>${Mc.sent}</dd></dl>`));
   {const Q=[];const px=H.map(r=>+r.spy);H.forEach((r,i)=>{if(!r.regime||i+126>=H.length||!(px[i]>0))return;let mn=Infinity;for(let j=i+1;j<=i+126;j++)mn=Math.min(mn,px[j]);Q.push({s:ST(r.regime),f63:px[i+63]/px[i]-1,dd:mn/px[i]-1<=-.1})});
    const med=a=>{a=a.slice().sort((x,y)=>x-y);return a.length?a[Math.floor(a.length/2)]:null};
-   const rowsB=Kerdos.STATES.map(k=>{const g=Q.filter(x=>x.s===k);return g.length?`<tr><td><span class="pill ${k}">${k}</span></td><td class="n">${Math.round(Kerdos.EXPO[k]*100)}%</td><td class="n">${Math.round(g.length/Q.length*100)}%</td><td class="n">${sgn(med(g.map(x=>x.f63))*100)}</td><td class="n">${Math.round(g.filter(x=>x.dd).length/g.length*100)}%</td></tr>`:''}).join('');
+   const rowsB=Kerdos.STATES.map(k=>{const g=Q.filter(x=>x.s===k);return g.length?`<tr><td><span class="pill ${k}">${Kerdos.lab(k)}</span></td><td class="n">${Math.round(Kerdos.EXPO[k]*100)}%</td><td class="n">${Math.round(g.length/Q.length*100)}%</td><td class="n">${sgn(med(g.map(x=>x.f63))*100)}</td><td class="n">${Math.round(g.filter(x=>x.dd).length/g.length*100)}%</td></tr>`:''}).join('');
    s3.append(h('div',{class:'panel'},`<div class="phead"><h2>What each state has meant</h2><span class="label">SPY, 2003–${R.asof.slice(0,4)}</span></div>
    <div class="tblwrap"><table><thead><tr><th>State</th><th class="n">Invested</th><th class="n">Days</th><th class="n">3-mo med</th><th class="n">10% drop risk</th></tr></thead><tbody>${rowsB}</tbody></table></div>
-   <p class="note" style="margin-top:8px">SPY’s median return over the next 3 months, and how often it fell 10% or more within the next 6, on the days the model was in each state. Neutral days were mostly dips that macro did not confirm, which were usually worth holding through. The rules were chosen in Oct 2026 with this history in view, so treat these numbers as in-sample.</p>`));}
+   <p class="note" style="margin-top:8px">SPY’s median return over the next 3 months, and how often it fell 10% or more within the next 6, on the days the model was in each state. Balanced days were mostly dips that macro did not confirm, which were usually worth holding through. The rules were chosen in Oct 2026 with this history in view, so treat these numbers as in-sample.</p>`));}
   // history
   const hp=h('section',{class:'panel'});M.append(hp);
   hp.innerHTML=`<div class="phead"><h2>Price and state history</h2><div style="display:flex;gap:8px;flex-wrap:wrap"><div class="seg" role="group" aria-label="Ticker"><button data-t="spy" aria-pressed="true">SPY</button><button data-t="qqq" aria-pressed="false">QQQ</button></div><div class="seg" role="group" aria-label="Range"><button data-r="365" aria-pressed="false">1Y</button><button data-r="1825" aria-pressed="true">5Y</button><button data-r="all" aria-pressed="false">Since 2003</button></div></div></div><div class="chart" id="pchart"></div><div class="chart" id="schart" style="margin-top:12px"></div>`;
@@ -611,10 +611,10 @@ function render(R,S,H,EQ){
     const bands=[];let cur=null;rows.forEach(r=>{if(!cur||cur.g!==r.g){if(cur)cur.x1=r.t;cur={g:r.g,x0:r.t,x1:r.t};bands.push(cur)}});if(cur)cur.x1=rows[rows.length-1].t;
     const bc={Bullish:css('--band-bull'),Neutral:css('--band-neut'),Bearish:css('--band-bear')};
     lineChart($('#pchart'),{xType:'time',log:range==='all',h:300,aria:tk.toUpperCase()+' price with state shading',series:[{name:tk.toUpperCase(),color:css('--ink'),w:1.6,data:smp.map(r=>({x:r.t,y:r[tk]})),endLabel:true}],bands:bands.filter(b=>b.g).map(b=>({x0:b.x0,x1:b.x1,color:bc[b.g]})),yFmt:v=>'$'+kfmt(v),tipFmt:v=>usd2(v),
-      legendExtra:[{name:'Bullish 100%',color:bc.Bullish},{name:'Neutral 50%',color:bc.Neutral},{name:'Bearish 0%',color:bc.Bearish}],
-      tipExtra:(i,x)=>{const r=rows.find(q=>q.t===x)||smp[i];return r?`<div class="r"><span>State</span><b>${r.g||'—'}${r.g?' · '+Math.round(Kerdos.EXPO[r.g]*100)+'%':''}</b></div><div class="r"><span>Score</span><b class="mono">${r.s==null?'—':r.s.toFixed(2)}</b></div>`:''}});
+      legendExtra:[{name:'Risk On 100%',color:bc.Bullish},{name:'Balanced 50%',color:bc.Neutral},{name:'Risk Off 0%',color:bc.Bearish}],
+      tipExtra:(i,x)=>{const r=rows.find(q=>q.t===x)||smp[i];return r?`<div class="r"><span>State</span><b>${r.g?Kerdos.lab(r.g):'—'}${r.g?' · '+Math.round(Kerdos.EXPO[r.g]*100)+'%':''}</b></div><div class="r"><span>Score</span><b class="mono">${r.s==null?'—':r.s.toFixed(2)}</b></div>`:''}});
     lineChart($('#schart'),{xType:'time',h:150,aria:'Composite score history',series:[{name:'Composite score',color:css('--accent'),w:1.6,data:smp.map(r=>({x:r.t,y:r.s}))}],yMin:-.9,yMax:.7,yTicks:4,yFmt:v=>(v>0?'+':'')+v.toFixed(1),tipFmt:v=>(v>0?'+':'')+v.toFixed(2),
-      hlines:[{y:R.thresholds.bear,label:'Cut line −0.10: Neutral, or Bearish if macro confirms',color:css('--bear'),tcolor:css('--bear')}]})};
+      hlines:[{y:R.thresholds.bear,label:'Cut line −0.10: Balanced, or Risk Off if macro confirms',color:css('--bear'),tcolor:css('--bear')}]})};
   hp.querySelectorAll('[data-r]').forEach(b=>b.addEventListener('click',()=>{range=b.dataset.r;localSet('range',range);drawHist()}));
   hp.querySelectorAll('[data-t]').forEach(b=>b.addEventListener('click',()=>{tk=b.dataset.t;localSet('tk',tk);drawHist()}));drawHist();
   // backtest
@@ -624,7 +624,7 @@ function render(R,S,H,EQ){
    <tr><td>Annual return</td>${c('cagr',v=>pc(v.cagr,1))}</tr><tr><td>Worst drawdown</td>${c('dd',v=>pcm(v.maxdd,0))}</tr>
    <tr><td>Volatility</td>${c('vol',v=>pc(v.vol,0))}</tr><tr><td>Sharpe</td>${c('sh',v=>v.sharpe.toFixed(2))}</tr>
    <tr><td>Avg. invested</td>${c('ex',(v,x)=>x==='buyhold'?'100%':pc(x==='strategy'?b.exposure:b.enh_exposure,0))}</tr></tbody></table>`};
-  bp.innerHTML=`<div class="phead"><h2>Does it work? Backtest since 2003</h2><span class="label">Bullish 100% · Neutral 50% · Bearish T-bills</span></div>
+  bp.innerHTML=`<div class="phead"><h2>Does it work? Backtest since 2003</h2><span class="label">Risk On 100% · Balanced 50% · Risk Off T-bills</span></div>
    <div class="grid2" style="gap:22px"><div style="min-width:0"><div class="seg" role="group" aria-label="Backtest ticker" style="margin-bottom:8px"><button data-b="SPY" aria-pressed="true">SPY</button><button data-b="QQQ" aria-pressed="false">QQQ</button></div><div class="chart" id="eqchart"></div>
     <p class="note" style="margin-top:6px">Growth of $1, log scale. Dividends approximated (1.7%/yr SPY, 0.7% QQQ), cash earns the 3-month T-bill, 0.05% per trade, positions taken at the next close. “1.25x” adds 25% leverage when the score is above +0.15, financed at the T-bill + 0.5%. Factors use only data published by each date.</p></div>
    <div style="min-width:0;display:grid;gap:14px;align-content:start"><div class="tblwrap">${btab('SPY')}</div><div class="tblwrap">${btab('QQQ')}</div></div></div>
@@ -651,7 +651,7 @@ function drawGauge(host,R){const draw=()=>{const W=Math.max(300,host.clientWidth
   const seg=(a,b,c)=>`<rect x="${X(a)}" y="${y-7}" width="${X(b)-X(a)}" height="14" fill="${c}"/>`;
   let s=seg(-1,R.thresholds.bear,css('--bear-bg'))+seg(R.thresholds.bear,R.thresholds.bull,css('--neut-bg'))+seg(R.thresholds.bull,1,css('--bull-bg'));
   [-1,-.5,0,.5,1].forEach(v=>s+=`<text class="ax" x="${X(v)}" y="${y+28}" text-anchor="${v===-1?'start':v===1?'end':'middle'}">${v>0?'+':''}${v}</text>`);
-  s+=`<text class="ax" x="${(X(-1)+X(R.thresholds.bear))/2}" y="${y+4}" text-anchor="middle" style="fill:${css('--bear')};font-weight:600">BEARISH</text><text class="ax" x="${(X(R.thresholds.bull)+X(1))/2}" y="${y+4}" text-anchor="middle" style="fill:${css('--bull')};font-weight:600">BULLISH</text>`;
+  s+=`<text class="ax" x="${(X(-1)+X(R.thresholds.bear))/2}" y="${y+4}" text-anchor="middle" style="fill:${css('--bear')};font-weight:600">RISK OFF</text><text class="ax" x="${(X(R.thresholds.bull)+X(1))/2}" y="${y+4}" text-anchor="middle" style="fill:${css('--bull')};font-weight:600">RISK ON</text>`;
   const g=(v,lab,op)=>`<g opacity="${op}"><line x1="${X(v)}" x2="${X(v)}" y1="${y-14}" y2="${y+12}" stroke="${css('--ink')}" stroke-width="${op===1?2.5:1.5}"/><text class="ax" x="${X(v)}" y="${y-18}" text-anchor="middle" style="fill:${css('--ink')}">${lab}</text></g>`;
   if(R.score_21d!=null&&Math.abs(R.score_21d-R.score)>.04)s+=g(R.score_21d,'1m ago',.35);s+=g(R.score,'today',1);
   host.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Score gauge: ${R.score.toFixed(2)} on a scale from −1 to +1">${s}</svg>`};draw();host._draw=draw;charts.add(host)}
@@ -760,7 +760,7 @@ function recov(el,R,S){
   el.append(h('div',{},`<h3 style="margin-bottom:4px">Every 10% rally off a 20-session low, 1953–2026</h3><p class="note" style="margin-bottom:8px">S&P 500 to 2019, SPY after. Grey rows had CPI inflation above 4%; the model skips those.</p>
    <div class="tblwrap"><table><thead><tr><th>Date</th><th class="n">3 months</th><th class="n">1 year</th><th class="n">Held the low</th><th class="n">CPI</th></tr></thead><tbody>${ev.map(e=>`<tr${e.cpi>4?' class="muted"':''}><td class="mono">${e.date}</td><td class="n ${cls(e.f63)}">${e.f63==null?'—':sgn(e.f63,1)}</td><td class="n ${cls(e.f252)}">${e.f252==null?'—':sgn(e.f252,1)}</td><td class="n">${e.held?'Yes':'<b class="neg">No</b>'}</td><td class="n">${e.cpi.toFixed(1)}%</td></tr>`).join('')}</tbody></table></div>`));
   el.append(h('div',{class:'prose'},`<h3>Tested and not used</h3><ul>
-   <li>Faster re-entry from Neutral (a close above the 10-day average, or a risk-appetite composite of cyclicals, semis, transports, credit and small caps): added 0.5–1 point a year in 2003–26, added nothing on 1954–1999 data, and deepened the 2000–19 drawdown of a stand-in model from 28% to 39%.</li>
+   <li>Faster re-entry from Balanced (a close above the 10-day average, or a risk-appetite composite of cyclicals, semis, transports, credit and small caps): added 0.5–1 point a year in 2003–26, added nothing on 1954–1999 data, and deepened the 2000–19 drawdown of a stand-in model from 28% to 39%.</li>
    <li>Not cutting to half when the market is already oversold (RSI below 30): helped in 2003–26, hurt in 1954–79.</li>
    <li>An unemployment (Sahm) filter on rebounds: it would have skipped the March 2009 bottom.</li>
    <li>Rallies scaled to volatility, 5–7% rallies, and Fed-hiking or credit-spread filters: no consistent edge across periods.</li>
@@ -772,11 +772,11 @@ function method(el,R,S){
   el.append(h('div',{class:'prose'},`<h3>How the daily call is made</h3><ul>
    <li>Twenty-four factors are scaled to signals between −1 and +1 and averaged within six groups: trend ${gw.trend*100}%, macro ${gw.macro*100}%, internals ${gw.internals*100}%, momentum ${gw.momentum*100}%, volatility & sentiment ${gw.volatility*100}%, calendar ${gw.calendar*100}%. Weights were set from the research before backtesting.</li>
    <li>The score is smoothed over 5 days. Below −0.10 is a cut signal; a new signal needs 3 straight days. Nearby thresholds gave similar results.</li>
-   <li>A cut signal goes to cash (Bearish) only when the macro group is at or below −0.25. Otherwise the model goes Neutral and halves exposure, because cut signals without macro confirmation were usually dips inside bull markets. Gate levels from −0.10 to −0.40 gave similar results.</li>
+   <li>A cut signal goes to cash (Risk Off) only when the macro group is at or below −0.25. Otherwise the model goes Balanced and halves exposure, because cut signals without macro confirmation were usually dips inside bull markets. Gate levels from −0.10 to −0.40 gave similar results.</li>
    <li>Scores between −0.10 and +0.15 stay fully invested: those days carried about the same drawdown risk as an average day.</li>
    <li>Early re-entry, trend route: after SPY has fallen 20% or more from its high, a close above a rising 50-day average puts the model at 100% before the score turns.</li>
    <li>Early re-entry, rebound route: while the model is at 50% or 0%, a close 10% or more above the lowest close of the last 20 sessions puts it at 100%, unless CPI inflation is above 4%. It holds until the model is fully invested on its own, and ends early if SPY closes 7% below the close that triggered it. See the Recoveries tab for the evidence.</li>
-   <li>Exposure: Bullish 100%, Neutral 50%, Bearish 0% (T-bills). The optional 1.25x version holds 125% when the score is above +0.15.</li>
+   <li>Exposure: Risk On 100%, Balanced 50%, Risk Off 0% (T-bills). The optional 1.25x version holds 125% when the score is above +0.15.</li>
    <li>No look-ahead: monthly macro data enter only after publication (jobs 36 days after the month starts, CPI 46, industrial production 47); the presidential-cycle table uses 1950–1999 data only; month-of-year tilts use earlier years only; trades happen at the next close.</li>
    <li>The model is built to avoid large drawdowns. Its scores separate the odds of a 10% decline far better than they separate returns, so on its own it is slow after V-shaped lows; the rebound route is there for those.</li></ul>
    <h3>Data</h3><ul>

@@ -1,23 +1,23 @@
 {
- "asof": "2026-10-29",
- "generated": "2026-10-30 15:43 UTC",
- "spy": 769.36,
- "qqq": 715.34,
+ "asof": "2026-10-30",
+ "generated": "2026-10-31 21:32 UTC",
+ "spy": 755.72,
+ "qqq": 690.49,
  "spy_chg": {
-  "d1": -0.4,
-  "d5": 0.7,
-  "d21": 0.9,
-  "ytd": 12.8
+  "d1": -1.8,
+  "d5": -0.6,
+  "d21": -1.1,
+  "ytd": 10.8
  },
  "qqq_chg": {
-  "d1": -1.4,
-  "d5": 1.5,
-  "d21": -3.3,
-  "ytd": 16.4
+  "d1": -3.5,
+  "d5": -2.0,
+  "d21": -6.9,
+  "ytd": 12.4
  },
  "regime": "Bullish",
  "regime_since": "2026-04-15",
- "regime_days": 198,
+ "regime_days": 199,
  "prev_regime": "Neutral",
  "signal": "Bullish",
  "exposure": 1.0,
@@ -37,14 +37,14 @@
   "Bearish": 0.0
  },
  "macro_gate": {
-  "value": -0.229,
+  "value": -0.187,
   "threshold": -0.25,
   "confirmed": false
  },
  "recovery": {
   "threshold": -0.2,
-  "dd": -1.2,
-  "above_m50": true,
+  "dd": -3.0,
+  "above_m50": false,
   "m50_rising": false,
   "active": false,
   "route": null
@@ -54,8 +54,8 @@
   "window": 20,
   "cpi_max": 0.04,
   "stop": 0.07,
-  "low20": 759.97,
-  "off_low": 1.2,
+  "low20": 755.72,
+  "off_low": 0.0,
   "cpi": 3.7,
   "cpi_ok": true,
   "active": false,
@@ -172,21 +172,21 @@
    ]
   }
  ],
- "score": 0.263,
- "score_5d": 0.216,
- "score_21d": 0.182,
- "score_pctile": 46,
+ "score": 0.214,
+ "score_5d": 0.2,
+ "score_21d": 0.208,
+ "score_pctile": 40,
  "thresholds": {
   "bull": 0.15,
   "bear": -0.1,
   "gate": -0.25
  },
  "groups": {
-  "trend": 0.721,
-  "momentum": 0.584,
-  "internals": -0.273,
-  "macro": -0.229,
-  "volatility": 0.567,
+  "trend": 0.498,
+  "momentum": 0.25,
+  "internals": -0.484,
+  "macro": -0.187,
+  "volatility": 0.507,
   "calendar": 0.728
  },
  "group_weights": {
@@ -203,26 +203,26 @@
    "group": "trend",
    "label": "SPY vs 200-day MA",
    "weight": 0.105,
-   "signal": 0.89,
-   "reading": "+5.6% vs $728.53",
-   "contribution": 0.093
+   "signal": 0.73,
+   "reading": "+3.7% vs $728.85",
+   "contribution": 0.076
   },
   {
    "key": "f_vs50",
    "group": "trend",
    "label": "SPY vs 50-day MA",
    "weight": 0.06,
-   "signal": 0.09,
-   "reading": "+0.2% vs $767.63",
-   "contribution": 0.005
+   "signal": -0.55,
+   "reading": "\u22121.5% vs $767.49",
+   "contribution": -0.033
   },
   {
    "key": "f_slope",
    "group": "trend",
    "label": "200-day MA slope",
    "weight": 0.045,
-   "signal": 0.85,
-   "reading": "+1.24% over a month",
+   "signal": 0.84,
+   "reading": "+1.23% over a month",
    "contribution": 0.038
   },
   {
@@ -239,71 +239,71 @@
    "group": "trend",
    "label": "Distance from 52-week high",
    "weight": 0.06,
-   "signal": 0.83,
-   "reading": "\u22121.2% from the 52-week high",
-   "contribution": 0.05
+   "signal": 0.64,
+   "reading": "\u22123.0% from the 52-week high",
+   "contribution": 0.038
   },
   {
    "key": "f_mom63",
    "group": "momentum",
    "label": "3-month return",
    "weight": 0.05,
-   "signal": 0.46,
-   "reading": "+3.0%",
-   "contribution": 0.023
+   "signal": -0.04,
+   "reading": "\u22120.3%",
+   "contribution": -0.002
   },
   {
    "key": "f_mom126",
    "group": "momentum",
    "label": "6-month return",
    "weight": 0.05,
-   "signal": 0.71,
-   "reading": "+7.1%",
-   "contribution": 0.035
+   "signal": 0.54,
+   "reading": "+4.9%",
+   "contribution": 0.027
   },
   {
    "key": "f_semis",
    "group": "internals",
    "label": "Semiconductors vs S&P (SMH/SPY)",
    "weight": 0.05,
-   "signal": 0.15,
-   "reading": "SMH/SPY +0.9% in 3 months",
-   "contribution": 0.007
+   "signal": -0.58,
+   "reading": "SMH/SPY \u22124.0% in 3 months",
+   "contribution": -0.029
   },
   {
    "key": "f_breadth",
    "group": "internals",
    "label": "Equal-weight vs cap-weight (RSP/SPY)",
    "weight": 0.04,
-   "signal": -0.25,
-   "reading": "RSP/SPY \u22120.6% in 3 months",
-   "contribution": -0.01
+   "signal": 0.31,
+   "reading": "RSP/SPY +0.8% in 3 months",
+   "contribution": 0.013
   },
   {
    "key": "f_credit",
    "group": "internals",
    "label": "High-yield vs Treasuries (HYG/IEF)",
    "weight": 0.04,
-   "signal": -0.22,
-   "reading": "HYG/IEF \u22120.6% in 3 months",
-   "contribution": -0.009
+   "signal": -0.46,
+   "reading": "HYG/IEF \u22121.2% in 3 months",
+   "contribution": -0.018
   },
   {
    "key": "f_cyclic",
    "group": "internals",
    "label": "Discretionary vs staples (XLY/XLP)",
    "weight": 0.03,
-   "signal": -0.6,
-   "reading": "XLY/XLP \u22123.5% in 3 months",
-   "contribution": -0.018
+   "signal": -0.9,
+   "reading": "XLY/XLP \u22127.4% in 3 months",
+   "contribution": -0.027
   },
   {
    "key": "f_global",
    "group": "internals",
    "label": "Emerging markets vs S&P (EEM/SPY)",
    "weight": 0.02,
-   "signal": -0.76,
-   "reading": "EEM/SPY \u22125.0% in 3 months",
+   "signal": -0.75,
+   "reading": "EEM/SPY \u22124.9% in 3 months",
    "contribution": -0.015
   },
   {
@@ -311,9 +311,9 @@
    "group": "internals",
    "label": "Distribution days (25 sessions)",
    "weight": 0.02,
-   "signal": -0.5,
-   "reading": "7 in the last 25 sessions",
-   "contribution": -0.01
+   "signal": -1.0,
+   "reading": "8 in the last 25 sessions",
+   "contribution": -0.02
   },
   {
    "key": "f_fed",
@@ -338,9 +338,9 @@
    "group": "macro",
    "label": "Corporate credit spread trend (Baa \u2013 10y)",
    "weight": 0.045,
-   "signal": 0.2,
-   "reading": "Baa\u201310y 1.48 pt (\u22120.05 in 3 months)",
-   "contribution": 0.009
+   "signal": 0.41,
+   "reading": "Baa\u201310y 1.48 pt (\u22120.11 in 3 months)",
+   "contribution": 0.019
   },
   {
    "key": "f_labor",
@@ -356,9 +356,9 @@
    "group": "macro",
    "label": "US dollar trend (UUP, inverted)",
    "weight": 0.0325,
-   "signal": -0.65,
-   "reading": "UUP +3.1% in 3 months",
-   "contribution": -0.021
+   "signal": -0.63,
+   "reading": "UUP +2.9% in 3 months",
+   "contribution": -0.02
   },
   {
    "key": "f_infl",
@@ -374,9 +374,9 @@
    "group": "volatility",
    "label": "Realized volatility (21-day)",
    "weight": 0.045,
-   "signal": 0.71,
-   "reading": "9.9% annualized",
-   "contribution": 0.032
+   "signal": 0.58,
+   "reading": "11.7% annualized",
+   "contribution": 0.026
   },
   {
    "key": "f_vix",
@@ -384,7 +384,7 @@
    "label": "VIX capitulation (contrarian)",
    "weight": 0.03,
    "signal": 0.0,
-   "reading": "VIX 17.2",
+   "reading": "VIX 19.4",
    "contribution": 0.0
   },
   {
@@ -416,12 +416,12 @@
   }
  ],
  "analog": {
-  "n": 1353,
-  "med21": 1.4,
-  "med63": 3.0,
-  "pos63": 71.0,
-  "q10_63": -5.6,
-  "q90_63": 8.8,
+  "n": 1068,
+  "med21": 1.6,
+  "med63": 3.3,
+  "pos63": 72.0,
+  "q10_63": -5.5,
+  "q90_63": 9.7,
   "dd10": 20.0
  },
  "by_regime": {
@@ -433,7 +433,7 @@
    "dd10": 70.0
   },
   "Bullish": {
-   "days": 3961,
+   "days": 3962,
    "med63": 3.2,
    "pos63": 74.0,
    "med126": 6.1,
@@ -464,19 +464,19 @@
  "levels": {
   "ath": 779.09,
   "ath_date": "2026-10-06",
-  "dd": -1.2,
-  "m20": 771.16,
-  "m50": 767.63,
-  "m100": 759.03,
-  "m200": 728.53,
-  "q_m50": 725.41,
-  "q_m200": 679.16,
-  "q_dd": -5.8
+  "dd": -3.0,
+  "m20": 770.47,
+  "m50": 767.49,
+  "m100": 759.22,
+  "m200": 728.85,
+  "q_m50": 725.0,
+  "q_m200": 679.52,
+  "q_dd": -9.1
  },
  "vol": {
-  "rv21": 9.9,
-  "vix": 17.2,
-  "move21": 5.0
+  "rv21": 11.7,
+  "vix": 19.4,
+  "move21": 5.6
  },
  "macro": {
   "tb3": 3.94,
@@ -494,81 +494,81 @@
  "cycle": {
   "pres_year": 2,
   "bull_start": "2022-10-12",
-  "bull_days": 1478,
-  "bull_gain": 115.8
+  "bull_days": 1479,
+  "bull_gain": 111.9
  },
  "backtest": {
   "SPY": {
    "strategy": {
-    "cagr": 0.1404,
-    "vol": 0.137,
-    "sharpe": 0.9019,
+    "cagr": 0.1395,
+    "vol": 0.1371,
+    "sharpe": 0.896,
     "maxdd": -0.1941,
-    "multiple": 22.7423
+    "multiple": 22.3406
    },
    "enhanced": {
-    "cagr": 0.1544,
-    "vol": 0.1556,
-    "sharpe": 0.8898,
+    "cagr": 0.1532,
+    "vol": 0.1557,
+    "sharpe": 0.8834,
     "maxdd": -0.2211,
-    "multiple": 30.3615
+    "multiple": 29.6898
    },
    "old": {
-    "cagr": 0.0896,
-    "vol": 0.1038,
-    "sharpe": 0.7128,
+    "cagr": 0.0888,
+    "vol": 0.1039,
+    "sharpe": 0.7051,
     "maxdd": -0.1441,
-    "multiple": 7.6988
+    "multiple": 7.5628
    },
    "buyhold": {
-    "cagr": 0.1141,
+    "cagr": 0.1133,
     "vol": 0.1861,
-    "sharpe": 0.5811,
+    "sharpe": 0.577,
     "maxdd": -0.5542,
-    "multiple": 13.0619
+    "multiple": 12.8312
    },
    "exposure": 0.876,
    "enh_exposure": 1.041,
    "old_exposure": 0.735,
    "trades": 90,
    "old_trades": 130,
-   "years": 23.778
+   "years": 23.782
   },
   "QQQ": {
    "strategy": {
-    "cagr": 0.1838,
-    "vol": 0.1708,
-    "sharpe": 0.9726,
+    "cagr": 0.182,
+    "vol": 0.1709,
+    "sharpe": 0.963,
     "maxdd": -0.2403,
-    "multiple": 55.2254
+    "multiple": 53.3085
    },
    "enhanced": {
-    "cagr": 0.2002,
-    "vol": 0.1973,
-    "sharpe": 0.9366,
+    "cagr": 0.1979,
+    "vol": 0.1975,
+    "sharpe": 0.9262,
     "maxdd": -0.2673,
-    "multiple": 76.6779
+    "multiple": 73.3476
    },
    "old": {
-    "cagr": 0.1123,
-    "vol": 0.138,
-    "sharpe": 0.7156,
+    "cagr": 0.1106,
+    "vol": 0.1382,
+    "sharpe": 0.704,
     "maxdd": -0.1893,
-    "multiple": 12.5656
+    "multiple": 12.1295
    },
    "buyhold": {
-    "cagr": 0.1608,
-    "vol": 0.2153,
-    "sharpe": 0.7204,
+    "cagr": 0.1591,
+    "vol": 0.2154,
+    "sharpe": 0.7131,
     "maxdd": -0.5321,
-    "multiple": 34.6663
+    "multiple": 33.463
    },
    "exposure": 0.876,
    "enh_exposure": 1.041,
    "old_exposure": 0.735,
    "trades": 90,
    "old_trades": 130,
-   "years": 23.778
+   "years": 23.782
   }
  },
  "yearly": {
@@ -736,10 +736,10 @@
    },
    {
     "year": 2026,
-    "strategy": 14.4,
-    "enhanced": 14.9,
-    "old": 10.2,
-    "buyhold": 14.4
+    "strategy": 12.4,
+    "enhanced": 12.4,
+    "old": 8.2,
+    "buyhold": 12.4
    }
   ],
   "QQQ": [
@@ -906,10 +906,10 @@
    },
    {
     "year": 2026,
-    "strategy": 17.1,
-    "enhanced": 17.6,
-    "old": 12.0,
-    "buyhold": 17.1
+    "strategy": 13.1,
+    "enhanced": 12.5,
+    "old": 8.1,
+    "buyhold": 13.1
    }
   ]
  },
@@ -918,7 +918,7 @@
    {
     "start": "2003",
     "cagr": 14.0,
-    "bh": 11.4,
+    "bh": 11.3,
     "maxdd": -19.0,
     "bh_dd": -55.0,
     "sharpe": 0.9,
@@ -926,74 +926,74 @@
    },
    {
     "start": "2010",
-    "cagr": 13.9,
-    "bh": 14.1,
+    "cagr": 13.8,
+    "bh": 14.0,
     "maxdd": -19.0,
     "bh_dd": -34.0,
-    "sharpe": 0.91,
+    "sharpe": 0.9,
     "bh_sharpe": 0.77
    },
    {
     "start": "2016",
-    "cagr": 17.0,
-    "bh": 14.9,
+    "cagr": 16.8,
+    "bh": 14.7,
     "maxdd": -19.0,
     "bh_dd": -34.0,
-    "sharpe": 1.03,
-    "bh_sharpe": 0.75
+    "sharpe": 1.01,
+    "bh_sharpe": 0.74
    },
    {
     "start": "2020",
-    "cagr": 19.0,
-    "bh": 15.6,
+    "cagr": 18.7,
+    "bh": 15.3,
     "maxdd": -19.0,
     "bh_dd": -34.0,
-    "sharpe": 1.03,
-    "bh_sharpe": 0.68
+    "sharpe": 1.01,
+    "bh_sharpe": 0.67
    }
   ],
   "QQQ": [
    {
     "start": "2003",
-    "cagr": 18.4,
-    "bh": 16.1,
+    "cagr": 18.2,
+    "bh": 15.9,
     "maxdd": -24.0,
     "bh_dd": -53.0,
-    "sharpe": 0.97,
-    "bh_sharpe": 0.72
+    "sharpe": 0.96,
+    "bh_sharpe": 0.71
    },
    {
     "start": "2010",
-    "cagr": 18.5,
-    "bh": 18.6,
+    "cagr": 18.2,
+    "bh": 18.4,
     "maxdd": -24.0,
     "bh_dd": -35.0,
-    "sharpe": 0.99,
-    "bh_sharpe": 0.86
+    "sharpe": 0.97,
+    "bh_sharpe": 0.85
    },
    {
     "start": "2016",
-    "cagr": 22.2,
-    "bh": 19.4,
+    "cagr": 21.8,
+    "bh": 19.0,
     "maxdd": -24.0,
     "bh_dd": -35.0,
-    "sharpe": 1.07,
-    "bh_sharpe": 0.81
+    "sharpe": 1.05,
+    "bh_sharpe": 0.79
    },
    {
     "start": "2020",
-    "cagr": 24.6,
-    "bh": 20.3,
+    "cagr": 24.0,
+    "bh": 19.7,
     "maxdd": -24.0,
     "bh_dd": -35.0,
-    "sharpe": 1.07,
-    "bh_sharpe": 0.76
+    "sharpe": 1.04,
+    "bh_sharpe": 0.74
    }
   ]
  },
  "crash_watch": {
-  "status": "Watch",
-  "on": 6,
+  "status": "Warning",
+  "on": 5,
   "total": 10,
   "items": [
    {
@@ -1001,21 +1001,21 @@
     "label": "VIX lifting off its low while SPY is near its high after a strong year",
     "seen": 8,
     "on": true,
-    "reading": "VIX 17.2 vs 3-month low 14.2 (+21%); last fired 2026-10-21"
+    "reading": "VIX 19.4 vs 3-month low 14.2 (+37%); last fired 2026-10-21"
    },
    {
     "key": "run",
     "label": "12-month gain of 12% or more",
     "seen": 10,
-    "on": true,
-    "reading": "SPY +12.0% over 12 months"
+    "on": false,
+    "reading": "SPY +9.9% over 12 months"
    },
    {
     "key": "ext",
     "label": "SPY 6% or more above its 200-day average",
     "seen": 9,
     "on": false,
-    "reading": "+5.6% vs the 200-day"
+    "reading": "+3.7% vs the 200-day"
    },
    {
     "key": "b50",
@@ -1029,7 +1029,7 @@
     "label": "Close below the 200-day average",
     "seen": 9,
     "on": false,
-    "reading": "+5.6% vs the 200-day"
+    "reading": "+3.7% vs the 200-day"
    },
    {
     "key": "fed",
@@ -1050,7 +1050,7 @@
     "label": "Narrow leadership: equal-weight trailing by 2% or more over 3 months",
     "seen": 6,
     "on": false,
-    "reading": "RSP/SPY \u22120.6% in 3 months"
+    "reading": "RSP/SPY +0.8% in 3 months"
    },
    {
     "key": "curve",
@@ -1064,12 +1064,12 @@
     "label": "Credit spreads widening: Baa\u201310y up 0.2 pt or more in 3 months",
     "seen": 3,
     "on": false,
-    "reading": "Baa\u201310y 1.48 pt (\u22120.05 in 3 months)"
+    "reading": "Baa\u201310y 1.48 pt (\u22120.11 in 3 months)"
    }
   ],
   "warn_today": false,
   "last_fired": "2026-10-21",
-  "below50": false,
+  "below50": true,
   "params": {
    "near": -0.02,
    "vix": 1.2,
@@ -1078,7 +1078,7 @@
   },
   "odds": {
    "base": 18.0,
-   "base_days": 2893,
+   "base_days": 2894,
    "warn": 33.0,
    "warn_days": 363,
    "alarm": 36.0,
@@ -1126,11 +1126,11 @@
   "study": "S&P 500 declines of 10%+ since Oct 2006"
  },
  "freshness": {
-  "SPY": "2026-10-29",
-  "QQQ": "2026-10-29",
-  "SMH": "2026-10-29",
-  "HYG": "2026-10-29",
-  "VIX": "2026-10-29",
+  "SPY": "2026-10-30",
+  "QQQ": "2026-10-30",
+  "SMH": "2026-10-30",
+  "HYG": "2026-10-30",
+  "VIX": "2026-10-30",
   "TB3MS": "2026-09",
   "GS10": "2026-09",
   "BAA": "2026-09",
@@ -1140,24 +1140,24 @@
  },
  "notes": [
   {
-   "text": "On Friday, Oct 30, the Nasdaq fell about 2.5% and the S&P 500 about 1.3% at the open as Intel dropped roughly 29% on a weak fourth-quarter outlook and Amazon fell about 4% after a rare earnings miss (Yahoo Finance, Oct 30).",
+   "text": "On Friday, Oct 30, the S&P 500 fell 1.82% to 7,580.07 and the Nasdaq Composite fell 2.86%, its biggest one-day drop since June, leaving the Nasdaq down about 5% for October (Yahoo Finance, Oct 30).",
    "source": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/markets/live/stock-market-today-friday-october-30-dow-sp-500-nasdaq-083236552.html"
+   "url": "https://finance.yahoo.com/markets/live/stock-market-today-friday-october-30-dow-sp-500-nasdaq-amazon-intel-ai-sell-off-191429143.html"
   },
   {
-   "text": "The US Employment Cost Index rose 0.8% in the third quarter, matching the 0.8% forecast (investingLive, Oct 30).",
-   "source": "investingLive",
-   "url": "https://investinglive.com/news/us-employment-cost-index-for-q3-0-8-vs-0-8-expected/"
+   "text": "Intel fell 28.6% to $65.76 after a weak current-quarter outlook tied to soft PC demand, and the Philadelphia Semiconductor Index dropped 7.2% (TradingKey, Oct 30).",
+   "source": "TradingKey",
+   "url": "https://www.tradingkey.com/analysis/stocks/us-stocks/262262171-us-stock-market-today-nasdaq-drop-intel-amazon-chip-tradingkey"
   },
   {
-   "text": "Before Friday's open, S&P 500 futures were down about 1.1% and Nasdaq futures about 2.6%, with crude oil near $104 and worries that energy-led price pressures in Europe will slow rate cuts (Yahoo Finance, Oct 30).",
+   "text": "Rare earnings misses from Amazon and Alphabet revived worries about Big Tech's AI spending; Amazon's free cash flow outflow over the past twelve months was a record (Yahoo Finance, Oct 30).",
    "source": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/markets/stocks/articles/us-stock-market-today-p-121018878.html"
+   "url": "https://finance.yahoo.com/markets/live/stock-market-today-friday-october-30-dow-sp-500-nasdaq-amazon-intel-ai-sell-off-191429143.html"
   },
   {
-   "text": "US stocks fell for a second straight day on Thursday, Oct 29, after Alphabet and Amazon earnings disappointed, with Alphabet having its worst day in over 20 years (Yahoo Finance, Oct 30).",
+   "text": "The VIX rose about 13% to 19.42, gold fell about 3.6%, and WTI crude rose to roughly $103 on signs the US could resume strikes on Iran (Yahoo Finance, Oct 30).",
    "source": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/markets/live/stock-market-today-friday-october-30-dow-sp-500-nasdaq-083236552.html"
+   "url": "https://finance.yahoo.com/markets/live/stock-market-today-friday-october-30-dow-sp-500-nasdaq-amazon-intel-ai-sell-off-191429143.html"
   },
   {
    "text": "Coming up: ISM manufacturing on Mon, Nov 2 (Apple reports after the close), the October jobs report on Fri, Nov 6 at 8:30 AM ET, and October CPI on Tue, Nov 10 (SimianX).",

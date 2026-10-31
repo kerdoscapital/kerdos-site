@@ -223,7 +223,7 @@ def flag_card(F):
     live = (f'<div><span>Since inception · Flagship</span><b>{p1(L["flagship"]["total"], 2)}</b><em>from the {E(fmt_d(L["since"]))} open</em></div>'
             f'<div><span>Since inception · S&amp;P 500</span><b>{p1(L["spy"]["total"], 2)}</b><em>to the {E(fmt_d(L["asof"]))} close</em></div>') if L else ''
     return (f'<div class="col"><div class="mix">{mix}</div><div class="big">{round((1 - w["CASH"]) * 100)}% invested</div><div class="leg">{leg}</div>'
-            f'<div class="sub">Stocks desk <b>{E(st3(F["stocks_regime"], RU.get("stocks_exposure")))}</b> · Bitcoin desk <b>{E(st3(F.get("btc_regime"), RU.get("btc_exposure")) or "—")}</b> · as of the {E(fmt_d(F["asof"]))} close</div>'
+            f'<div class="sub">Stocks desk <b>{E(lab(st3(F["stocks_regime"], RU.get("stocks_exposure"))))}</b> · Bitcoin desk <b>{E(lab(st3(F.get("btc_regime"), RU.get("btc_exposure"))) or "—")}</b> · as of the {E(fmt_d(F["asof"]))} close</div>'
             f'<a class="go" href="flagship.html">Open the flagship portfolio <span aria-hidden="true">→</span></a></div>'
             f'<div class="col"><div class="kv">{live}<div><span>Backtest 2005–26 · per year</span><b>{b["cagr"] * 100:.1f}%</b><em>S&amp;P 500 {sp["cagr"] * 100:.1f}%</em></div>'
             f'<div><span>Backtest · worst drop</span><b>−{abs(b["maxdd"]) * 100:.0f}%</b><em>S&amp;P 500 −{abs(sp["maxdd"]) * 100:.0f}%</em></div></div></div>')
@@ -249,7 +249,7 @@ def prerender_index(s, M, B, G, FL):
                    lambda m: m.group(1) + E(f'Models as of the {fmt_d(M["asof"])} close' if M['asof'] == B['asof'] else f'Stocks as of {fmt_d(M["asof"])} · Bitcoin as of {fmt_d(B["asof"])}') + m.group(2), s, count=1)
     cards = []
     def card(name, reg, expo, since, quote, href, short):
-        return (f'<article class="desk"><div class="top"><h2>{E(name)}</h2></div><div><div class="call c-{E(reg)}">{E(reg)}</div></div>'
+        return (f'<article class="desk"><div class="top"><h2>{E(name)}</h2></div><div><div class="call c-{E(reg)}">{E(lab(reg))}</div></div>'
                 f'<div class="expo"><span>Exposure</span><b>{round(expo * 100)}%</b><span>since {E(fmt_d(since))}</span></div>'
                 f'<div class="meter" aria-hidden="true"><i style="width:{expo * 100:.0f}%"></i></div><div class="quotes">{quote}</div>'
                 f'<a class="go" href="{href}">Open the {short} desk <span aria-hidden="true">→</span></a></article>')
@@ -329,6 +329,10 @@ SANS_M = [('ibm-plex-sans', 'ibm-plex-sans-latin-500-normal.woff2'), '/usr/share
 SANS_R = [('ibm-plex-sans', 'ibm-plex-sans-latin-400-normal.woff2'), '/usr/share/fonts/truetype/google-fonts/Poppins-Regular.ttf', '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf']
 MONO_F = [('ibm-plex-mono', 'ibm-plex-mono-latin-400-normal.woff2'), '/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf']
 COL = {'Bullish': SAGE, 'Neutral': INK2, 'Bearish': RED}
+LAB = {'Bullish': 'Risk On', 'Neutral': 'Balanced', 'Bearish': 'Risk Off', 'Risk-On': 'Risk On', 'Risk-Off': 'Risk Off'}   # what visitors read; the keys above stay (CSS, data)
+
+
+def lab(s): return LAB.get(s, s)
 BODONI = [('bodoni-moda', 'bodoni-moda-latin-500-normal.woff2'), '/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf']
 CAPS = [('cormorant-garamond', 'cormorant-garamond-latin-500-normal.woff2'), '/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf']
 
@@ -438,7 +442,7 @@ def make_og(M, B, G, FL):
         x = 72 + i * cw
         if i: d.line([(x - 20, y + 24), (x - 20, y + 150)], fill=HAIR)
         d.text((x, y + 28), name.upper(), font=font(SANS_M, 17), fill=MUTED)
-        d.text((x, y + 60), reg, font=font(SERIF, 54 if len(reg) < 10 else 44), fill=COL.get(reg, INK))
+        d.text((x, y + 60), lab(reg), font=font(SERIF, 54 if len(lab(reg)) < 10 else 44), fill=COL.get(reg, INK))
         if ex: d.text((x, y + 128), f'{ex} invested', font=font(MONO_F, 20), fill=INK2)
     asof = fmt_d(M['asof']) if M else ''
     d.line([(72, H - 78), (W - 72, H - 78)], fill=HAIR)
@@ -482,8 +486,8 @@ METHOD_BODY = r'''  <section class="intro">
       <div><span class="n">01</span><b>Data</b><p>Closing prices, index levels and published economic series: Robinhood, FRED, Robert Shiller’s long-run S&amp;P data, Coin Metrics.</p></div>
       <div><span class="n">02</span><b>Factors</b><p>Each input becomes a signal between −1 and +1: trend, momentum, internals, macro, volatility, valuation, calendar and cycle.</p></div>
       <div><span class="n">03</span><b>Score</b><p>Signals are averaged within groups, the groups are weighted into one composite score, and the score is smoothed over 5 days.</p></div>
-      <div><span class="n">04</span><b>State</b><p>Thresholds map the score to Bullish, Neutral or Bearish. A new signal needs 3 straight days, to cut whipsaw.</p></div>
-      <div><span class="n">05</span><b>Exposure</b><p>Bullish holds 100%, Neutral 50%, Bearish 0%. Money not invested earns the 3-month T-bill rate.</p></div>
+      <div><span class="n">04</span><b>State</b><p>Thresholds map the score to Risk On, Balanced or Risk Off. A new signal needs 3 straight days, to cut whipsaw.</p></div>
+      <div><span class="n">05</span><b>Exposure</b><p>Risk On holds 100%, Balanced 50%, Risk Off 0%. Money not invested earns the 3-month T-bill rate.</p></div>
     </div>
   </section>
 
@@ -495,12 +499,12 @@ METHOD_BODY = r'''  <section class="intro">
         <div class="k-wbar" id="w-stocks"><p class="note">Loading weights…</p></div>
         <a class="k-tl" href="stocks.html#method">Full method and data <span aria-hidden="true">→</span></a></article>
       <article class="panel"><span class="label">Bitcoin</span><h3>Bitcoin desk</h3>
-        <p>Eighteen factors in five groups. Above +0.20 is Bullish, below −0.15 Bearish, in between Neutral. Bottoming rules apply once Bitcoin is 50% or more below its high, and a top signal caps exposure at half.</p>
+        <p>Eighteen factors in five groups. Above +0.20 is Risk On, below −0.15 Risk Off, in between Balanced. Bottoming rules apply once Bitcoin is 50% or more below its high, and a top signal caps exposure at half.</p>
         <div class="k-wbar" id="w-btc"><p class="note">Loading weights…</p></div>
         <a class="k-tl" href="bitcoin.html#method">Full method and data <span aria-hidden="true">→</span></a></article>
       <article class="panel"><span class="label">Satellite sleeve</span><h3>High-beta desk</h3>
         <p>The 25 Nasdaq-100 stocks with the highest beta to QQQ over two years, equal weight, re-ranked each quarter. It takes the stocks desk’s state, then its own rules can cut it further; the lowest exposure wins. It is not part of the flagship.</p>
-        <dl class="k-dl"><div><dt>Half (50%)</dt><dd>The basket is clearly lagging the S&amp;P 500, or falls 12% or more in 10 sessions.</dd></div><div><dt>None (0%)</dt><dd>The stocks desk is Bearish, or the basket closes below its 200-day average while the stock score is not firmly positive.</dd></div></dl>
+        <dl class="k-dl"><div><dt>Half (50%)</dt><dd>The basket is clearly lagging the S&amp;P 500, or falls 12% or more in 10 sessions.</dd></div><div><dt>None (0%)</dt><dd>The stocks desk is Risk Off, or the basket closes below its 200-day average while the stock score is not firmly positive.</dd></div></dl>
         <a class="k-tl" href="highbeta.html">Open the high-beta desk <span aria-hidden="true">→</span></a></article>
     </div>
   </section>
@@ -586,7 +590,7 @@ Promise.all([J('stocks/report.json'),J('bitcoin/report.json'),J('highbeta/report
   wbar($('#w-stocks'),M.group_weights);wbar($('#w-btc'),B.group_weights);
   const up=$('#m-upd');if(up)up.innerHTML=`Latest reports: stocks ${gen(M.generated)} · Bitcoin ${gen(B.generated)} · high beta ${gen(G.generated)} · flagship ${gen(F.generated)}`;
   const RU=F.rules,stk=Math.round((RU.stocks.SPY+RU.stocks.QQQ)*100);
-  const rrow=(n,wt,by,m)=>`<tr><td>${n}</td><td class="n">${wt}</td><td>${by}</td><td>${m?'Bullish':'Always'}</td><td>${m?'Neutral':'—'}</td><td>${m?'Bearish':'—'}</td></tr>`;
+  const rrow=(n,wt,by,m)=>`<tr><td>${n}</td><td class="n">${wt}</td><td>${by}</td><td>${m?'Risk On':'Always'}</td><td>${m?'Balanced':'—'}</td><td>${m?'Risk Off':'—'}</td></tr>`;
   $('#m-rules').innerHTML=`<table><thead><tr><th>Sleeve</th><th class="n">Target</th><th>Sized by</th><th>Full (100%)</th><th>Half (50%)</th><th>None (0%)</th></tr></thead><tbody>
     ${rrow(`Stocks: SPY ${Math.round(RU.stocks.SPY*100)}% + QQQ ${Math.round(RU.stocks.QQQ*100)}%`,stk+'%','<a href="stocks.html">Stocks desk</a>',RU.stocks_exposure)}
     ${rrow('Bitcoin',Math.round(RU.btc*100)+'%','<a href="bitcoin.html">Bitcoin desk</a>',RU.btc_exposure)}
@@ -612,7 +616,7 @@ function build(H){
 function draw(){
   const R=rows.filter(r=>desk==='all'||r.desk===desk),V=R.slice(0,shown);
   $('#arch-n').textContent=`${R.length.toLocaleString('en-US')} changes`;
-  host.innerHTML=`<table><thead><tr><th>Date</th><th>Desk</th><th>Change</th><th class="n">Exposure</th><th class="n">Basis</th></tr></thead><tbody>${V.map(r=>`<tr><td class="mono" style="white-space:nowrap">${fmtD(r.date)}</td><td>${r.desk}</td><td>${r.txt?r.txt:`<span class="st c-${r.from}">${r.from}</span> → <b class="st c-${r.to}">${r.to}</b>`}</td><td class="n">${r.ex}</td><td class="n"><span class="ph${r.basis==='live'?' live':''}">${r.basis==='live'?'Live period':'Backtest'}</span></td></tr>`).join('')}</tbody></table>`
+  host.innerHTML=`<table><thead><tr><th>Date</th><th>Desk</th><th>Change</th><th class="n">Exposure</th><th class="n">Basis</th></tr></thead><tbody>${V.map(r=>`<tr><td class="mono" style="white-space:nowrap">${fmtD(r.date)}</td><td>${r.desk}</td><td>${r.txt?r.txt:`<span class="st c-${r.from}">${Kerdos.lab(r.from)}</span> → <b class="st c-${r.to}">${Kerdos.lab(r.to)}</b>`}</td><td class="n">${r.ex}</td><td class="n"><span class="ph${r.basis==='live'?' live':''}">${r.basis==='live'?'Live period':'Backtest'}</span></td></tr>`).join('')}</tbody></table>`
    +(R.length>shown?`<button class="k-more" type="button" id="arch-more">Show ${Math.min(80,R.length-shown)} more</button>`:'');
   const mb=$('#arch-more');if(mb)mb.addEventListener('click',()=>{shown+=80;draw()});
 }
@@ -653,13 +657,13 @@ def main():
         s = fix_page(f, rd(f), img_v)
         if f == 'index.html': s = prerender_index(s, M, B, G, FL)
         elif f == 'stocks.html' and M:
-            s = prerender_loading(s, summary_line('US stocks', M['regime'], M['exposure'], f"SPY {usd(M['spy'])} ({sg(M['spy_chg']['d1'])}) · QQQ {usd(M['qqq'])}", M['asof']))
+            s = prerender_loading(s, summary_line('US stocks', lab(st3(M['regime'], M.get('exposure_map'))), M['exposure'], f"SPY {usd(M['spy'])} ({sg(M['spy_chg']['d1'])}) · QQQ {usd(M['qqq'])}", M['asof']))
         elif f == 'bitcoin.html' and B:
-            s = prerender_loading(s, summary_line('Bitcoin', B['regime'], B['exposure'], f"BTC {usd(B.get('price'), 0)}", B['asof']))
+            s = prerender_loading(s, summary_line('Bitcoin', lab(st3(B['regime'], B.get('exposure_map'))), B['exposure'], f"BTC {usd(B.get('price'), 0)}", B['asof']))
         elif f == 'highbeta.html' and G:
-            s = prerender_loading(s, summary_line('High beta', G['regime'], G['exposure'], f"basket {G['level']:.2f}", G['asof']))
+            s = prerender_loading(s, summary_line('High beta', lab(st3(G['regime'], G.get('exposure_map'))), G['exposure'], f"basket {G['level']:.2f}", G['asof']))
         elif f == 'flagship.html' and FL:
-            s = prerender_loading(s, summary_line('Flagship portfolio', f"stocks desk {FL['stocks_regime']}, Bitcoin desk {FL.get('btc_regime')}", 1 - FL.get('weights', {}).get('CASH', 0), '60% stocks / 30% Bitcoin / 10% gold target', FL['asof']))
+            s = prerender_loading(s, summary_line('Flagship portfolio', f"stocks desk {lab(st3(FL['stocks_regime'], FL.get('rules', {}).get('stocks_exposure')))}, Bitcoin desk {lab(st3(FL.get('btc_regime'), FL.get('rules', {}).get('btc_exposure'))) or '—'}", 1 - FL.get('weights', {}).get('CASH', 0), '60% stocks / 30% Bitcoin / 10% gold target', FL['asof']))
         wr(f, s)
     for old, new in RETIRED.items():
         title = PAGES[new][0]

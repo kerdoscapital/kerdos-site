@@ -63,7 +63,7 @@ function render(R,EQ){
   const bar=k=>`<div class="fl-row"><span>${NAMES[k]}</span><span class="t"><i style="width:${(w[k]*100).toFixed(1)}%;background:${COLS[k]}"></i></span><span class="v">${Math.round(w[k]*100)}%</span></div>`;
   M.insertAdjacentHTML('beforeend',`<section class="panel" aria-label="Current allocation"><div class="fl-now">
     <div><div class="label">Allocation now · as of the ${fmtD(R.asof)} close</div><div class="fl-call ${R.regime}" style="margin-top:8px">${Math.round((1-w.CASH)*100)}% invested</div>
-      <div class="fl-sub">Stocks desk <b>${Kerdos.st(R.stocks_regime,RU.stocks_exposure)}</b> · Bitcoin desk <b>${Kerdos.st(R.btc_regime,RU.btc_exposure)||'—'}</b></div>
+      <div class="fl-sub">Stocks desk <b>${Kerdos.stl(R.stocks_regime,RU.stocks_exposure)}</b> · Bitcoin desk <b>${Kerdos.stl(R.btc_regime,RU.btc_exposure)||'—'}</b></div>
       <div class="fl-sub">Stocks ${Math.round(R.equity_weight*100)}% of ${stk}% · Bitcoin ${Math.round(w.BTC*100)}% of ${Math.round(RU.btc*100)}% · gold ${Math.round(w.GLD*100)}% · T-bills ${Math.round(w.CASH*100)}%</div></div>
     <div><div class="fl-alloc">${A.map(bar).join('')}</div></div></div></section>
     <div class="fl-own"><b>Use your own stock holdings.</b> The model's ${stk}% stock sleeve is SPY ${Math.round(RU.stocks.SPY*100)}% and QQQ ${Math.round(RU.stocks.QQQ*100)}%: a simple, low-cost stand-in for large US stocks that the backtest can measure. You don't have to hold those two funds. The stock sleeve can be any stocks or stock funds you choose, sized up and down with the stocks desk's calls in the same way. Your results will then differ from the model's, and the stocks desk's signals were tested on SPY and QQQ.</div>`);
@@ -78,7 +78,7 @@ function render(R,EQ){
         <div class="k"><span>Flagship vs S&amp;P 500</span><b class="${sc(d)}">${(d>0?'+':d<0?'−':'')+Math.abs(d*100).toFixed(2)} pts</b><i>difference in total return</i></div></div>
       <div class="fl-legend"><span><i style="background:${FC}"></i>Flagship</span><span><i style="background:${SC}"></i>S&amp;P 500</span></div>
       <div class="fl-chart chart" id="flive"></div>
-      <p class="note" style="margin:0">Started at the open on ${fmtD(L.since)} with the allocation set by the ${L.start_signals?`previous close (stocks desk ${Kerdos.st(L.start_signals.stocks,RU.stocks_exposure)}, Bitcoin desk ${Kerdos.st(L.start_signals.bitcoin,RU.btc_exposure)})`:'previous close'}: ${A.filter(k=>L.start_weights[k]>0).map(k=>`${k==='CASH'?'T-bills':k} ${Math.round(L.start_weights[k]*100)}%`).join(', ')}. Opening prices: SPY $${L.start_prices.SPY.toFixed(2)}, QQQ $${L.start_prices.QQQ.toFixed(2)}, GLD $${L.start_prices.GLD.toFixed(2)}, Bitcoin $${Math.round(L.start_prices.BTC).toLocaleString('en-US')} (CME CF Bitcoin Real Time Index at 9:30 ET). Updated after each close; each day's update is saved as a dated version of the site. Dividends approximated, T-bill interest included, no taxes.</p>
+      <p class="note" style="margin:0">Started at the open on ${fmtD(L.since)} with the allocation set by the ${L.start_signals?`previous close (stocks desk ${Kerdos.stl(L.start_signals.stocks,RU.stocks_exposure)}, Bitcoin desk ${Kerdos.stl(L.start_signals.bitcoin,RU.btc_exposure)})`:'previous close'}: ${A.filter(k=>L.start_weights[k]>0).map(k=>`${k==='CASH'?'T-bills':k} ${Math.round(L.start_weights[k]*100)}%`).join(', ')}. Opening prices: SPY $${L.start_prices.SPY.toFixed(2)}, QQQ $${L.start_prices.QQQ.toFixed(2)}, GLD $${L.start_prices.GLD.toFixed(2)}, Bitcoin $${Math.round(L.start_prices.BTC).toLocaleString('en-US')} (CME CF Bitcoin Real Time Index at 9:30 ET). Updated after each close; each day's update is saved as a dated version of the site. Dividends approximated, T-bill interest included, no taxes.</p>
     </div></section>`);
     drawLive($('#flive'),L.series);}
   // backtest
@@ -107,7 +107,7 @@ function render(R,EQ){
     <p class="note">Bitcoin, which has a desk only from 2014, accounts for most of the gap since 2015. Without the Bitcoin sleeve the model returned ${pc(B.no_btc['2005–26'].cagr)} a year from 2005 to 2026 against ${pc(B.spy['2005–26'].cagr)} for the S&amp;P 500, with a worst drop of ${pc(B.no_btc['2005–26'].maxdd,0)} against ${pc(B.spy['2005–26'].maxdd,0)}. Turnover about ${Math.round(R.turnover*100)}% a year. The summary figures use daily data; the charts use weekly closes.</p></section>`);
   backtestCharts(EQ);
   // rules
-  const rrow=(n,wt,by,m)=>`<tr><td>${n}</td><td class="n">${wt}</td><td>${by}</td><td>${m?'Bullish':'Always'}</td><td>${m?'Neutral':'—'}</td><td>${m?'Bearish':'—'}</td></tr>`;
+  const rrow=(n,wt,by,m)=>`<tr><td>${n}</td><td class="n">${wt}</td><td>${by}</td><td>${m?'Risk On':'Always'}</td><td>${m?'Balanced':'—'}</td><td>${m?'Risk Off':'—'}</td></tr>`;
   M.insertAdjacentHTML('beforeend',`<section class="sec"><div class="k-sh"><div><span class="eyebrow">How it is sized</span><h2>The rules</h2></div><a class="feat-link" href="methodology.html#allocation">Methodology <span aria-hidden="true">→</span></a></div>
     <div class="tblwrap"><table><thead><tr><th>Sleeve</th><th class="n">Target</th><th>Sized by</th><th>Full (100%)</th><th>Half (50%)</th><th>None (0%)</th></tr></thead><tbody>
     ${rrow(`Stocks: SPY ${Math.round(RU.stocks.SPY*100)}% + QQQ ${Math.round(RU.stocks.QQQ*100)}%`,stk+'%','<a href="stocks.html">Stocks desk</a>',RU.stocks_exposure)}
@@ -119,7 +119,7 @@ function render(R,EQ){
   const ch=R.changes||[];const f=v=>Math.round(v*100)+'%';
   const diff=c=>A.filter(k=>Math.abs(c.weights[k]-c.before[k])>1e-6).map(k=>`${k==='CASH'?'T-bills':k} ${f(c.before[k])} → ${f(c.weights[k])}`).join(', ');
   M.insertAdjacentHTML('beforeend',`<section class="sec"><div class="k-sh"><div><span class="eyebrow">Signal history</span><h2>Recent allocation changes</h2></div><a class="feat-link" href="methodology.html#archive">Full signal archive <span aria-hidden="true">→</span></a></div><div class="tblwrap"><table><thead><tr><th>Date</th><th>Desks</th><th>What changed</th></tr></thead><tbody>
-    ${ch.map(c=>`<tr><td class="mono" style="white-space:nowrap">${fmtD(c.date)}</td><td>Stocks ${Kerdos.st(c.stocks,RU.stocks_exposure)} · Bitcoin ${Kerdos.st(c.bitcoin,RU.btc_exposure)||'—'}</td><td>${diff(c)}</td></tr>`).join('')}</tbody></table></div>
+    ${ch.map(c=>`<tr><td class="mono" style="white-space:nowrap">${fmtD(c.date)}</td><td>Stocks ${Kerdos.stl(c.stocks,RU.stocks_exposure)} · Bitcoin ${Kerdos.stl(c.bitcoin,RU.btc_exposure)||'—'}</td><td>${diff(c)}</td></tr>`).join('')}</tbody></table></div>
     <p class="note">Dates are the close that produced each change; it is traded at the next close. Changes dated before ${fmtD(R.live_since)} come from the backtest.</p></section>`);
   const Y=R.yearly;
   M.insertAdjacentHTML('beforeend',`<section class="sec"><div class="k-sh"><div><span class="eyebrow">Backtest · hypothetical</span><h2>Year by year</h2></div><p>Calendar-year returns. The current year runs to date.</p></div><div class="tblwrap"><table><thead><tr><th>Year</th><th class="n">Flagship</th><th class="n">S&amp;P 500</th><th class="n">Difference</th></tr></thead><tbody>

@@ -204,13 +204,13 @@ td.hl{color:var(--white);font-weight:600}
 <meta property="og:title" content="Methodology · Kerdos Capital">
 <meta property="og:description" content="How the Kerdos models work: the inputs they read, how a score becomes a state and a position, how risk is managed, when they update, the signal archive and their limits.">
 <meta property="og:url" content="https://kerdoscapital.xyz/methodology.html">
-<meta property="og:image" content="https://kerdoscapital.xyz/og.png?v=20261029">
+<meta property="og:image" content="https://kerdoscapital.xyz/og.png?v=20261030">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Methodology · Kerdos Capital">
 <meta name="twitter:description" content="How the Kerdos models work: the inputs they read, how a score becomes a state and a position, how risk is managed, when they update, the signal archive and their limits.">
-<meta name="twitter:image" content="https://kerdoscapital.xyz/og.png?v=20261029">
+<meta name="twitter:image" content="https://kerdoscapital.xyz/og.png?v=20261030">
 <!--/kerdos-head-->
 </head>
 <body>
@@ -232,8 +232,8 @@ td.hl{color:var(--white);font-weight:600}
       <div><span class="n">01</span><b>Data</b><p>Closing prices, index levels and published economic series: Robinhood, FRED, Robert Shiller’s long-run S&amp;P data, Coin Metrics.</p></div>
       <div><span class="n">02</span><b>Factors</b><p>Each input becomes a signal between −1 and +1: trend, momentum, internals, macro, volatility, valuation, calendar and cycle.</p></div>
       <div><span class="n">03</span><b>Score</b><p>Signals are averaged within groups, the groups are weighted into one composite score, and the score is smoothed over 5 days.</p></div>
-      <div><span class="n">04</span><b>State</b><p>Thresholds map the score to Bullish, Neutral or Bearish. A new signal needs 3 straight days, to cut whipsaw.</p></div>
-      <div><span class="n">05</span><b>Exposure</b><p>Bullish holds 100%, Neutral 50%, Bearish 0%. Money not invested earns the 3-month T-bill rate.</p></div>
+      <div><span class="n">04</span><b>State</b><p>Thresholds map the score to Risk On, Balanced or Risk Off. A new signal needs 3 straight days, to cut whipsaw.</p></div>
+      <div><span class="n">05</span><b>Exposure</b><p>Risk On holds 100%, Balanced 50%, Risk Off 0%. Money not invested earns the 3-month T-bill rate.</p></div>
     </div>
   </section>
 
@@ -245,12 +245,12 @@ td.hl{color:var(--white);font-weight:600}
         <div class="k-wbar" id="w-stocks"><p class="note">Loading weights…</p></div>
         <a class="k-tl" href="stocks.html#method">Full method and data <span aria-hidden="true">→</span></a></article>
       <article class="panel"><span class="label">Bitcoin</span><h3>Bitcoin desk</h3>
-        <p>Eighteen factors in five groups. Above +0.20 is Bullish, below −0.15 Bearish, in between Neutral. Bottoming rules apply once Bitcoin is 50% or more below its high, and a top signal caps exposure at half.</p>
+        <p>Eighteen factors in five groups. Above +0.20 is Risk On, below −0.15 Risk Off, in between Balanced. Bottoming rules apply once Bitcoin is 50% or more below its high, and a top signal caps exposure at half.</p>
         <div class="k-wbar" id="w-btc"><p class="note">Loading weights…</p></div>
         <a class="k-tl" href="bitcoin.html#method">Full method and data <span aria-hidden="true">→</span></a></article>
       <article class="panel"><span class="label">Satellite sleeve</span><h3>High-beta desk</h3>
         <p>The 25 Nasdaq-100 stocks with the highest beta to QQQ over two years, equal weight, re-ranked each quarter. It takes the stocks desk’s state, then its own rules can cut it further; the lowest exposure wins. It is not part of the flagship.</p>
-        <dl class="k-dl"><div><dt>Half (50%)</dt><dd>The basket is clearly lagging the S&amp;P 500, or falls 12% or more in 10 sessions.</dd></div><div><dt>None (0%)</dt><dd>The stocks desk is Bearish, or the basket closes below its 200-day average while the stock score is not firmly positive.</dd></div></dl>
+        <dl class="k-dl"><div><dt>Half (50%)</dt><dd>The basket is clearly lagging the S&amp;P 500, or falls 12% or more in 10 sessions.</dd></div><div><dt>None (0%)</dt><dd>The stocks desk is Risk Off, or the basket closes below its 200-day average while the stock score is not firmly positive.</dd></div></dl>
         <a class="k-tl" href="highbeta.html">Open the high-beta desk <span aria-hidden="true">→</span></a></article>
     </div>
   </section>
@@ -336,7 +336,7 @@ Promise.all([J('stocks/report.json'),J('bitcoin/report.json'),J('highbeta/report
   wbar($('#w-stocks'),M.group_weights);wbar($('#w-btc'),B.group_weights);
   const up=$('#m-upd');if(up)up.innerHTML=`Latest reports: stocks ${gen(M.generated)} · Bitcoin ${gen(B.generated)} · high beta ${gen(G.generated)} · flagship ${gen(F.generated)}`;
   const RU=F.rules,stk=Math.round((RU.stocks.SPY+RU.stocks.QQQ)*100);
-  const rrow=(n,wt,by,m)=>`<tr><td>${n}</td><td class="n">${wt}</td><td>${by}</td><td>${m?'Bullish':'Always'}</td><td>${m?'Neutral':'—'}</td><td>${m?'Bearish':'—'}</td></tr>`;
+  const rrow=(n,wt,by,m)=>`<tr><td>${n}</td><td class="n">${wt}</td><td>${by}</td><td>${m?'Risk On':'Always'}</td><td>${m?'Balanced':'—'}</td><td>${m?'Risk Off':'—'}</td></tr>`;
   $('#m-rules').innerHTML=`<table><thead><tr><th>Sleeve</th><th class="n">Target</th><th>Sized by</th><th>Full (100%)</th><th>Half (50%)</th><th>None (0%)</th></tr></thead><tbody>
     ${rrow(`Stocks: SPY ${Math.round(RU.stocks.SPY*100)}% + QQQ ${Math.round(RU.stocks.QQQ*100)}%`,stk+'%','<a href="stocks.html">Stocks desk</a>',RU.stocks_exposure)}
     ${rrow('Bitcoin',Math.round(RU.btc*100)+'%','<a href="bitcoin.html">Bitcoin desk</a>',RU.btc_exposure)}
@@ -362,7 +362,7 @@ function build(H){
 function draw(){
   const R=rows.filter(r=>desk==='all'||r.desk===desk),V=R.slice(0,shown);
   $('#arch-n').textContent=`${R.length.toLocaleString('en-US')} changes`;
-  host.innerHTML=`<table><thead><tr><th>Date</th><th>Desk</th><th>Change</th><th class="n">Exposure</th><th class="n">Basis</th></tr></thead><tbody>${V.map(r=>`<tr><td class="mono" style="white-space:nowrap">${fmtD(r.date)}</td><td>${r.desk}</td><td>${r.txt?r.txt:`<span class="st c-${r.from}">${r.from}</span> → <b class="st c-${r.to}">${r.to}</b>`}</td><td class="n">${r.ex}</td><td class="n"><span class="ph${r.basis==='live'?' live':''}">${r.basis==='live'?'Live period':'Backtest'}</span></td></tr>`).join('')}</tbody></table>`
+  host.innerHTML=`<table><thead><tr><th>Date</th><th>Desk</th><th>Change</th><th class="n">Exposure</th><th class="n">Basis</th></tr></thead><tbody>${V.map(r=>`<tr><td class="mono" style="white-space:nowrap">${fmtD(r.date)}</td><td>${r.desk}</td><td>${r.txt?r.txt:`<span class="st c-${r.from}">${Kerdos.lab(r.from)}</span> → <b class="st c-${r.to}">${Kerdos.lab(r.to)}</b>`}</td><td class="n">${r.ex}</td><td class="n"><span class="ph${r.basis==='live'?' live':''}">${r.basis==='live'?'Live period':'Backtest'}</span></td></tr>`).join('')}</tbody></table>`
    +(R.length>shown?`<button class="k-more" type="button" id="arch-more">Show ${Math.min(80,R.length-shown)} more</button>`:'');
   const mb=$('#arch-more');if(mb)mb.addEventListener('click',()=>{shown+=80;draw()});
 }
@@ -383,7 +383,7 @@ if('IntersectionObserver' in window&&location.hash!=='#archive'){const io=new In
       <p><b>Hypothetical performance.</b> Backtested results are hypothetical and are not the returns of any investor. They were computed with hindsight, from rules chosen with that history in view, and they leave out taxes and most real-world trading frictions. The flagship portfolio’s live record began at the open on Oct 26, 2026; every result before that date is a backtest. Past and backtested performance does not guarantee future results. Bitcoin and high-beta stocks are highly volatile, and any investment can lose money. Do your own research, or speak with a licensed professional, before investing.</p>
       <p><b>Data and timing.</b> Robinhood (prices, index levels, options open interest), FRED, Robert Shiller’s dataset, Coin Metrics, and the CME CF Bitcoin Real Time Index via Robinhood. Prices may be delayed or contain errors. Each model runs once a day on the latest completed session’s closing data, and this site refreshes once a day, by about 10:00 a.m. ET.</p>
     </div>
-    <div class="kf-base"><span>© 2026 Kerdos Capital. Independent research.</span><span>Models as of the Oct 29, 2026 close · Hypothetical models, not investment advice</span></div>
+    <div class="kf-base"><span>© 2026 Kerdos Capital. Independent research.</span><span>Models as of the Oct 30, 2026 close · Hypothetical models, not investment advice</span></div>
   </footer>
 </div>
 </body>

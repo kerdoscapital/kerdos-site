@@ -181,6 +181,9 @@
      Bullish = 100% invested, Neutral = 50%, Bearish = 0% (T-bills). map = the desk's exposure_map. */
   K.STATES = ['Bullish', 'Neutral', 'Bearish'];
   K.EXPO = { Bullish: 1, Neutral: .5, Bearish: 0 };
+  /* What visitors read: Bullish / Neutral / Bearish are shown as Risk On / Balanced / Risk Off. The keys stay as they are (CSS classes, data). */
+  K.LBL = { Bullish: 'Risk On', Neutral: 'Balanced', Bearish: 'Risk Off', 'Risk-On': 'Risk On', 'Risk-Off': 'Risk Off' };
+  K.lab = s => (s && K.LBL[s]) || s;
   K.st = (reg, map) => {
     if (!reg) return reg;
     const e = map && map[reg] != null ? +map[reg] : null;
@@ -188,6 +191,7 @@
     return e >= .99 ? 'Bullish' : e > 0 ? 'Neutral' : 'Bearish';
   };
   /* Current state run from a history (rows with .date and .regime): {state, since, n, prev} */
+  K.stl = (reg, map) => K.lab(K.st(reg, map));
   K.stRun = (rows, map) => {
     const s = rows.filter(r => r.regime).map(r => ({ d: r.date, s: K.st(r.regime, map) }));
     if (!s.length) return null;
@@ -257,10 +261,10 @@
       pos += s.n;
     });
     const days = {}; segs.forEach(s => days[s.g] = (days[s.g] || 0) + s.n);
-    const top = Object.entries(days).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([g, k]) => `${g} ${Math.round(k / n * 100)}%`).join(' · ');
+    const top = Object.entries(days).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([g, k]) => `${K.lab(g)} ${Math.round(k / n * 100)}%`).join(' · ');
     return `<div class="k-hist"><div class="hd"><span class="label">${o.title || 'State · last 12 months'}</span><span class="mono">${top}</span></div>
       <div class="trk" role="img" aria-label="State over the last 12 months: ${top}"><span class="fill" style="background:linear-gradient(90deg,${stops.join(',')})"></span>
-      <span class="hits">${segs.map(s => `<i style="flex:${s.n}" title="${s.g} · ${ds(s.from)} – ${ds(s.to)} (${s.n} ${o.unit || 'days'})"></i>`).join('')}</span><span class="end"></span></div>
+      <span class="hits">${segs.map(s => `<i style="flex:${s.n}" title="${K.lab(s.g)} · ${ds(s.from)} – ${ds(s.to)} (${s.n} ${o.unit || 'days'})"></i>`).join('')}</span><span class="end"></span></div>
       <div class="ax"><span>${dy(rows[0].date)}</span><span>${dy(rows[n - 1].date)}</span></div></div>`;
   };
 
@@ -277,7 +281,7 @@
     const sw = (c, t, b) => `<span><i class="${b ? 'b' : ''}" style="background:${c}"></i>${t}</span>`;
     el.innerHTML = `<div class="k-rp-kpis">${o.kpis.map(kp).join('')}</div>
       <div class="k-rp-chart"><div class="k-rp-sub"><h2>${C.title}</h2><span class="label">${C.sub || ''}</span></div>
-        <div class="k-rp-ctl"><div class="k-rp-leg">${sw('var(--sage)', C.yName)}${C.pName ? sw('#858B90', C.pName) : ''}${C.refName ? sw('repeating-linear-gradient(90deg,#858B90 0 4px,transparent 4px 7px)', C.refName) : ''}${sw('rgba(185,169,138,.55)', 'Bullish', 1)}${sw('rgba(133,139,144,.45)', 'Neutral', 1)}${sw('rgba(169,112,95,.6)', 'Bearish', 1)}</div>
+        <div class="k-rp-ctl"><div class="k-rp-leg">${sw('var(--sage)', C.yName)}${C.pName ? sw('#858B90', C.pName) : ''}${C.refName ? sw('repeating-linear-gradient(90deg,#858B90 0 4px,transparent 4px 7px)', C.refName) : ''}${sw('rgba(185,169,138,.55)', 'Risk On', 1)}${sw('rgba(133,139,144,.45)', 'Balanced', 1)}${sw('rgba(169,112,95,.6)', 'Risk Off', 1)}</div>
         <div class="seg" role="group" aria-label="Time range">${R.map(([n, t], i) => `<button type="button" data-n="${n}" aria-pressed="${i === 0}">${t}</button>`).join('')}</div></div>
         <div class="chart k-rp-svg"></div></div>
       <div class="k-rp-two"><div class="k-rp-col"><div class="k-rp-sub"><h2>${o.why.title}</h2><span class="label">${o.why.tag || ''}</span></div><div data-why></div></div>
