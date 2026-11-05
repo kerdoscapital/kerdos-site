@@ -8,7 +8,9 @@ Rules (version 3, set Oct 30 2026):
   Stocks sleeve 60%  = SPY 35% + QQQ 25%, scaled by the US stocks desk: 100% when Bullish / Neutral / Recovery,
                        50% in a Correction, 0 when Bearish.
   Bitcoin sleeve 30% = scaled by the Bitcoin desk: 100% when Bullish / Recovery, 50% when Neutral / Correction, 0 when Bearish.
-                       Before 2014 (no Bitcoin desk history) it is added to the stocks sleeve.
+                       Held only from 2021-10-19, the launch of the first US Bitcoin ETF; before that date its weight is
+                       added to the stocks sleeve, so no backtested return comes from Bitcoin held before it was investable
+                       through an ordinary brokerage account.
   Gold 10%           = held at all times.
   Anything not invested sits in 3-month T-bills. Benchmark: the S&P 500 (SPY, dividends approximated).
 Backtest: a signal at one close is traded at the next close; the portfolio also rebalances at each month start; 0.05% per
@@ -27,6 +29,15 @@ REG = {'Bullish': 'Risk-On', 'Neutral': 'Risk-On', 'Recovery': 'Risk-On', 'Corre
 ASSETS = ['SPY', 'QQQ', 'BTC', 'GLD', 'CASH']
 DIV = dict(SPY=.017, QQQ=.007)
 COST, START = .0005, '2005-01-01'
+# The Bitcoin sleeve is held only once it could be bought in a normal brokerage account. 2021-10-19 is the first US
+# Bitcoin ETF (ProShares BITO, futures-based); the spot ETFs followed on 2024-01-11. The Bitcoin desk's history runs
+# from 2014, but those years are deliberately excluded from the sleeve: before BTC_START the 30% goes to the stocks
+# sleeve, exactly as it used to before 2014.
+BTC_START = '2021-10-19'
+BTC_NOTE = ('Past performance is not inclusive of Bitcoin returns prior to the ETFs launching. The Bitcoin sleeve is '
+            'held only from 19 October 2021, when the first US Bitcoin ETF launched; before that date its 30% sits in '
+            'the stocks sleeve, so no part of the backtest before then comes from Bitcoin returns — including '
+            'Bitcoin’s much larger 2014–2021 gains.')
 LIVE = '2026-10-26'                                     # inception: the open of this session
 OPEN = dict(SPY=762.25, QQQ=707.06, GLD=367.295, BTC=79804.14)   # inception prices (Oct 26 2026, 9:30 ET)
 VERSION = 4
@@ -55,6 +66,8 @@ def load(a):
     X = X[X.index <= H.index.max()]
     X['BTC'] = B.price.reindex(X.index, method='ffill')
     X['btc_reg'] = B.regime.reindex(X.index, method='ffill')
+    pre = X.index < pd.Timestamp(BTC_START)                   # Bitcoin was not investable through an ETF before this
+    X.loc[pre, 'BTC'] = np.nan; X.loc[pre, 'btc_reg'] = None  # every "have Bitcoin" test below follows from these two
     X['stk_reg'] = H.regime.reindex(X.index).ffill()
     s = M['TB3MS'].dropna(); s.index = s.index + pd.offsets.MonthEnd(0)
     X['tb3ms'] = s.reindex(X.index, method='ffill').bfill() / 100
@@ -86,15 +99,24 @@ def v4_signals(X):
     return out
 
 
+def sleeve_weights(index, have):
+    """The fixed v4 sleeve at full exposure. On days Bitcoin is not held its 30% is added to the stocks sleeve
+    pro-rata, the same convention the v3 model uses, so the pre-ETF years are a stocks-and-gold portfolio rather
+    than a portfolio carrying 30% idle cash."""
+    sw = V4_W['SPY'] + V4_W['QQQ']
+    extra = (~have).astype(float) * V4_W['BTC']
+    W = pd.DataFrame(0.0, index=index, columns=ASSETS)
+    for a in ['SPY', 'QQQ']: W[a] = V4_W[a] + extra * V4_W[a] / sw
+    W['GLD'] = V4_W['GLD']
+    W['BTC'] = V4_W['BTC'] * have.astype(float)
+    return W
+
+
 def targets_v4(X, sig):
-    """Fixed sleeve scaled by the v4 exposure. Bitcoin's weight goes to cash before Bitcoin exists."""
+    """The fixed sleeve scaled by the v4 exposure; the remainder waits in T-bills."""
     e = sig.exposure
-    have = X.BTC.notna()
-    T = pd.DataFrame(0.0, index=X.index, columns=ASSETS)
-    for a, w in V4_W.items():
-        if a == 'BTC': continue
-        T[a] = w * e
-    T['BTC'] = (V4_W['BTC'] * e).where(have, 0.0)
+    W = sleeve_weights(X.index, X.BTC.notna())
+    T = W.mul(e, axis=0)
     T['CASH'] = 1 - T.drop(columns='CASH').sum(axis=1)
     T[e.isna()] = 0.0; T.loc[e.isna(), 'CASH'] = 1.0
     return T.clip(lower=0.0)
@@ -181,12 +203,12 @@ def main():
     X = load(a); R = returns(X)
     T, reg = targets(X); Tn, _ = targets(X, btc=False); Ts = spy_only(X.index)
     SIG = v4_signals(X); T4 = targets_v4(X, SIG)
-    Tfull = pd.DataFrame(0.0, index=X.index, columns=ASSETS)     # the sleeve held at 100%, the v4 benchmark
-    for k, w in V4_W.items(): Tfull[k] = w if k != 'BTC' else float(w) * X.BTC.notna()
+    Tfull = sleeve_weights(X.index, X.BTC.notna())               # the sleeve held at 100%, the v4 benchmark
     Tfull['CASH'] = 1 - Tfull.drop(columns='CASH').sum(axis=1)
     curves = {'flagship': T, 'no_btc': Tn, 'spy': Ts, 'v4': T4, 'sleeve_100': Tfull}
+    # '2021–26' starts at the Bitcoin ETF launch: the only window in which all four sleeves were actually holdable.
     periods = {'2005–26': (START, None), '2005–14': (START, '2014-12-31'), '2015–26': ('2015-01-01', None),
-               '2014–26': ('2014-01-01', None), '2022–26': ('2022-01-01', None)}
+               '2014–26': ('2014-01-01', None), '2021–26': (BTC_START, None), '2022–26': ('2022-01-01', None)}
     bt, eqs, turnover = {}, {}, None
     for name, TT in curves.items():
         bt[name] = {}
@@ -256,6 +278,7 @@ def main():
                weights={k: round(float(T.loc[t, k]), 4) for k in ASSETS}, equity_weight=round(float(T.loc[t, 'SPY'] + T.loc[t, 'QQQ']), 4),
                rules=dict(stocks=STOCKS, btc=BTC_W, gold=GLD_W, stocks_exposure=STK_E, btc_exposure=BTC_E), regime_map=REG,
                backtest=bt, yearly=yearly, turnover=turnover, live_since=LIVE, live=live,
+               btc_start=BTC_START, btc_note=BTC_NOTE,
                changes=changes, days={k: int(v) for k, v in reg.loc[START:].value_counts().items()}, v4=v4,
                prices={k: round(float(X[k].iloc[-1]), 2) for k in ['SPY', 'QQQ', 'GLD', 'BTC']})
     json.dump(out, open(os.path.join(a.out, 'report.json'), 'w'), indent=1, allow_nan=False, default=str)

@@ -1,6 +1,6 @@
 {
  "asof": "2026-11-03",
- "generated": "2026-11-05 00:44 UTC",
+ "generated": "2026-11-05 04:57 UTC",
  "version": 4,
  "regime": "Risk-On",
  "regime_since": "2025-04-09",
@@ -46,36 +46,44 @@
  "backtest": {
   "flagship": {
    "2005\u201326": {
-    "cagr": 0.2573,
-    "total": 145.7332,
-    "vol": 0.1697,
-    "sharpe": 1.33,
-    "maxdd": -0.2397,
+    "cagr": 0.1535,
+    "total": 21.4512,
+    "vol": 0.1418,
+    "sharpe": 0.95,
+    "maxdd": -0.2024,
     "days": 5490
    },
    "2005\u201314": {
-    "cagr": 0.1131,
-    "total": 1.9111,
-    "vol": 0.1309,
-    "sharpe": 0.77,
+    "cagr": 0.1287,
+    "total": 2.346,
+    "vol": 0.1296,
+    "sharpe": 0.89,
     "maxdd": -0.1579,
     "days": 2514
    },
    "2015\u201326": {
-    "cagr": 0.3939,
-    "total": 49.4287,
-    "vol": 0.1964,
-    "sharpe": 1.68,
-    "maxdd": -0.2397,
+    "cagr": 0.1751,
+    "total": 5.7162,
+    "vol": 0.1514,
+    "sharpe": 1.0,
+    "maxdd": -0.2024,
     "days": 2975
    },
    "2014\u201326": {
-    "cagr": 0.3552,
-    "total": 48.0116,
-    "vol": 0.1916,
-    "sharpe": 1.58,
-    "maxdd": -0.2397,
+    "cagr": 0.1704,
+    "total": 6.4991,
+    "vol": 0.1483,
+    "sharpe": 1.01,
+    "maxdd": -0.2024,
     "days": 3227
+   },
+   "2021\u201326": {
+    "cagr": 0.1865,
+    "total": 1.3592,
+    "vol": 0.1611,
+    "sharpe": 0.91,
+    "maxdd": -0.2024,
+    "days": 1265
    },
    "2022\u201326": {
     "cagr": 0.2022,
@@ -119,6 +127,14 @@
     "maxdd": -0.1935,
     "days": 3227
    },
+   "2021\u201326": {
+    "cagr": 0.1628,
+    "total": 1.1323,
+    "vol": 0.1326,
+    "sharpe": 0.92,
+    "maxdd": -0.1462,
+    "days": 1265
+   },
    "2022\u201326": {
     "cagr": 0.1558,
     "total": 1.0078,
@@ -161,6 +177,14 @@
     "maxdd": -0.34,
     "days": 3227
    },
+   "2021\u201326": {
+    "cagr": 0.1271,
+    "total": 0.823,
+    "vol": 0.1715,
+    "sharpe": 0.56,
+    "maxdd": -0.2437,
+    "days": 1265
+   },
    "2022\u201326": {
     "cagr": 0.1184,
     "total": 0.7137,
@@ -172,78 +196,94 @@
   },
   "v4": {
    "2005\u201326": {
-    "cagr": 0.1859,
-    "total": 40.0564,
-    "vol": 0.1547,
-    "sharpe": 1.07,
-    "maxdd": -0.3361,
+    "cagr": 0.1031,
+    "total": 7.4769,
+    "vol": 0.1243,
+    "sharpe": 0.71,
+    "maxdd": -0.2888,
     "days": 5490
    },
    "2005\u201314": {
-    "cagr": 0.0433,
-    "total": 0.5265,
-    "vol": 0.0784,
-    "sharpe": 0.4,
-    "maxdd": -0.1763,
+    "cagr": 0.0689,
+    "total": 0.9443,
+    "vol": 0.1004,
+    "sharpe": 0.57,
+    "maxdd": -0.2614,
     "days": 2514
    },
    "2015\u201326": {
-    "cagr": 0.3216,
-    "total": 25.8956,
-    "vol": 0.1972,
-    "sharpe": 1.41,
-    "maxdd": -0.3361,
+    "cagr": 0.1328,
+    "total": 3.3599,
+    "vol": 0.1414,
+    "sharpe": 0.81,
+    "maxdd": -0.2888,
     "days": 2975
    },
    "2014\u201326": {
-    "cagr": 0.2891,
-    "total": 24.8314,
-    "vol": 0.1929,
-    "sharpe": 1.31,
-    "maxdd": -0.3361,
+    "cagr": 0.1289,
+    "total": 3.7219,
+    "vol": 0.1368,
+    "sharpe": 0.81,
+    "maxdd": -0.2888,
     "days": 3227
    },
+   "2021\u201326": {
+    "cagr": 0.2196,
+    "total": 1.7089,
+    "vol": 0.1524,
+    "sharpe": 1.13,
+    "maxdd": -0.187,
+    "days": 1265
+   },
    "2022\u201326": {
-    "cagr": 0.2227,
-    "total": 1.6323,
-    "vol": 0.1556,
-    "sharpe": 1.12,
+    "cagr": 0.2343,
+    "total": 1.7546,
+    "vol": 0.1547,
+    "sharpe": 1.19,
     "maxdd": -0.187,
     "days": 1213
    }
   },
   "sleeve_100": {
    "2005\u201326": {
-    "cagr": 0.1929,
-    "total": 45.6333,
-    "vol": 0.2083,
-    "sharpe": 0.87,
-    "maxdd": -0.4379,
+    "cagr": 0.124,
+    "total": 11.7658,
+    "vol": 0.1908,
+    "sharpe": 0.62,
+    "maxdd": -0.4893,
     "days": 5490
    },
    "2005\u201314": {
-    "cagr": 0.0486,
-    "total": 0.6056,
-    "vol": 0.1365,
-    "sharpe": 0.31,
-    "maxdd": -0.345,
+    "cagr": 0.0932,
+    "total": 1.4317,
+    "vol": 0.1818,
+    "sharpe": 0.5,
+    "maxdd": -0.4893,
     "days": 2514
    },
    "2015\u201326": {
-    "cagr": 0.3308,
-    "total": 28.1819,
-    "vol": 0.2535,
-    "sharpe": 1.17,
+    "cagr": 0.1509,
+    "total": 4.2547,
+    "vol": 0.1981,
+    "sharpe": 0.7,
     "maxdd": -0.4379,
     "days": 2975
    },
    "2014\u201326": {
-    "cagr": 0.2869,
-    "total": 24.2861,
-    "vol": 0.2506,
-    "sharpe": 1.06,
+    "cagr": 0.1502,
+    "total": 4.9989,
+    "vol": 0.1925,
+    "sharpe": 0.72,
     "maxdd": -0.4379,
     "days": 3227
+   },
+   "2021\u201326": {
+    "cagr": 0.1329,
+    "total": 0.8711,
+    "vol": 0.2317,
+    "sharpe": 0.49,
+    "maxdd": -0.4379,
+    "days": 1265
    },
    "2022\u201326": {
     "cagr": 0.1525,
@@ -261,143 +301,143 @@
    "flagship": 6.0,
    "no_btc": 6.0,
    "spy": 5.3,
-   "v4": 7.7,
-   "sleeve_100": 5.7
+   "v4": 9.5,
+   "sleeve_100": 6.0
   },
   {
    "year": 2006,
    "flagship": 12.2,
    "no_btc": 12.2,
    "spy": 15.7,
-   "v4": 8.8,
-   "sleeve_100": 11.2
+   "v4": 10.2,
+   "sleeve_100": 13.5
   },
   {
    "year": 2007,
    "flagship": 7.7,
    "no_btc": 7.7,
    "spy": 5.8,
-   "v4": 7.5,
-   "sleeve_100": 11.6
+   "v4": 8.0,
+   "sleeve_100": 13.8
   },
   {
    "year": 2008,
    "flagship": 6.1,
    "no_btc": 6.1,
    "spy": -37.7,
-   "v4": -10.9,
-   "sleeve_100": -24.1
+   "v4": -16.4,
+   "sleeve_100": -35.5
   },
   {
    "year": 2009,
    "flagship": 47.1,
    "no_btc": 47.1,
    "spy": 25.6,
-   "v4": 21.0,
-   "sleeve_100": 24.9
+   "v4": 31.3,
+   "sleeve_100": 36.5
   },
   {
    "year": 2010,
    "flagship": 12.0,
    "no_btc": 12.0,
    "spy": 14.8,
-   "v4": 5.9,
-   "sleeve_100": 13.3
+   "v4": 8.0,
+   "sleeve_100": 18.3
   },
   {
    "year": 2011,
    "flagship": -6.2,
    "no_btc": -6.2,
    "spy": 1.5,
-   "v4": 1.1,
-   "sleeve_100": 2.8
+   "v4": 0.8,
+   "sleeve_100": 3.3
   },
   {
    "year": 2012,
    "flagship": 13.9,
    "no_btc": 13.9,
    "spy": 15.4,
-   "v4": 2.7,
-   "sleeve_100": 10.5
+   "v4": 4.0,
+   "sleeve_100": 15.4
   },
   {
    "year": 2013,
    "flagship": 26.0,
    "no_btc": 26.0,
    "spy": 31.9,
-   "v4": 6.6,
-   "sleeve_100": 15.6
+   "v4": 11.2,
+   "sleeve_100": 26.0
   },
   {
    "year": 2014,
-   "flagship": -3.4,
+   "flagship": 11.0,
    "no_btc": 11.0,
    "spy": 13.2,
-   "v4": -4.1,
-   "sleeve_100": -13.3
+   "v4": 8.0,
+   "sleeve_100": 13.5
   },
   {
    "year": 2015,
-   "flagship": 18.2,
+   "flagship": -0.2,
    "no_btc": -0.2,
    "spy": 1.9,
-   "v4": 2.0,
-   "sleeve_100": 15.0
+   "v4": -1.7,
+   "sleeve_100": 4.0
   },
   {
    "year": 2016,
-   "flagship": 37.1,
+   "flagship": 6.0,
    "no_btc": 6.0,
    "spy": 10.4,
-   "v4": 36.9,
-   "sleeve_100": 39.1
+   "v4": 3.9,
+   "sleeve_100": 8.6
   },
   {
    "year": 2017,
-   "flagship": 213.0,
+   "flagship": 24.6,
    "no_btc": 24.6,
    "spy": 21.4,
-   "v4": 162.1,
-   "sleeve_100": 198.5
+   "v4": 13.7,
+   "sleeve_100": 24.6
   },
   {
    "year": 2018,
-   "flagship": -8.1,
+   "flagship": 0.1,
    "no_btc": 0.1,
    "spy": -4.7,
-   "v4": -13.3,
-   "sleeve_100": -28.7
+   "v4": -1.6,
+   "sleeve_100": -2.5
   },
   {
    "year": 2019,
-   "flagship": 55.1,
+   "flagship": 30.4,
    "no_btc": 30.4,
    "spy": 31.0,
-   "v4": 24.6,
-   "sleeve_100": 56.6
+   "v4": 14.9,
+   "sleeve_100": 32.7
   },
   {
    "year": 2020,
-   "flagship": 92.0,
+   "flagship": 39.6,
    "no_btc": 39.6,
    "spy": 18.2,
-   "v4": 65.1,
-   "sleeve_100": 92.1
+   "v4": 11.7,
+   "sleeve_100": 30.1
   },
   {
    "year": 2021,
-   "flagship": 49.1,
+   "flagship": 14.8,
    "no_btc": 25.1,
    "spy": 29.2,
-   "v4": 56.3,
-   "sleeve_100": 42.7
+   "v4": 8.0,
+   "sleeve_100": 11.5
   },
   {
    "year": 2022,
    "flagship": -13.7,
    "no_btc": -13.2,
    "spy": -18.1,
-   "v4": -1.9,
+   "v4": 2.5,
    "sleeve_100": -35.6
   },
   {
@@ -433,7 +473,7 @@
    "sleeve_100": 4.1
   }
  ],
- "turnover": 2.63,
+ "turnover": 2.35,
  "live_since": "2026-10-26",
  "live": {
   "since": "2026-10-26",
@@ -507,6 +547,8 @@
    "bitcoin": "Neutral"
   }
  },
+ "btc_start": "2021-10-19",
+ "btc_note": "Past performance is not inclusive of Bitcoin returns prior to the ETFs launching. The Bitcoin sleeve is held only from 19 October 2021, when the first US Bitcoin ETF launched; before that date its 30% sits in the stocks sleeve, so no part of the backtest before then comes from Bitcoin returns \u2014 including Bitcoin\u2019s much larger 2014\u20132021 gains.",
  "changes": [
   {
    "date": "2026-10-16",
@@ -701,78 +743,94 @@
   "backtest": {
    "v4": {
     "2005\u201326": {
-     "cagr": 0.1859,
-     "total": 40.0564,
-     "vol": 0.1547,
-     "sharpe": 1.07,
-     "maxdd": -0.3361,
+     "cagr": 0.1031,
+     "total": 7.4769,
+     "vol": 0.1243,
+     "sharpe": 0.71,
+     "maxdd": -0.2888,
      "days": 5490
     },
     "2005\u201314": {
-     "cagr": 0.0433,
-     "total": 0.5265,
-     "vol": 0.0784,
-     "sharpe": 0.4,
-     "maxdd": -0.1763,
+     "cagr": 0.0689,
+     "total": 0.9443,
+     "vol": 0.1004,
+     "sharpe": 0.57,
+     "maxdd": -0.2614,
      "days": 2514
     },
     "2015\u201326": {
-     "cagr": 0.3216,
-     "total": 25.8956,
-     "vol": 0.1972,
-     "sharpe": 1.41,
-     "maxdd": -0.3361,
+     "cagr": 0.1328,
+     "total": 3.3599,
+     "vol": 0.1414,
+     "sharpe": 0.81,
+     "maxdd": -0.2888,
      "days": 2975
     },
     "2014\u201326": {
-     "cagr": 0.2891,
-     "total": 24.8314,
-     "vol": 0.1929,
-     "sharpe": 1.31,
-     "maxdd": -0.3361,
+     "cagr": 0.1289,
+     "total": 3.7219,
+     "vol": 0.1368,
+     "sharpe": 0.81,
+     "maxdd": -0.2888,
      "days": 3227
     },
+    "2021\u201326": {
+     "cagr": 0.2196,
+     "total": 1.7089,
+     "vol": 0.1524,
+     "sharpe": 1.13,
+     "maxdd": -0.187,
+     "days": 1265
+    },
     "2022\u201326": {
-     "cagr": 0.2227,
-     "total": 1.6323,
-     "vol": 0.1556,
-     "sharpe": 1.12,
+     "cagr": 0.2343,
+     "total": 1.7546,
+     "vol": 0.1547,
+     "sharpe": 1.19,
      "maxdd": -0.187,
      "days": 1213
     }
    },
    "sleeve_100": {
     "2005\u201326": {
-     "cagr": 0.1929,
-     "total": 45.6333,
-     "vol": 0.2083,
-     "sharpe": 0.87,
-     "maxdd": -0.4379,
+     "cagr": 0.124,
+     "total": 11.7658,
+     "vol": 0.1908,
+     "sharpe": 0.62,
+     "maxdd": -0.4893,
      "days": 5490
     },
     "2005\u201314": {
-     "cagr": 0.0486,
-     "total": 0.6056,
-     "vol": 0.1365,
-     "sharpe": 0.31,
-     "maxdd": -0.345,
+     "cagr": 0.0932,
+     "total": 1.4317,
+     "vol": 0.1818,
+     "sharpe": 0.5,
+     "maxdd": -0.4893,
      "days": 2514
     },
     "2015\u201326": {
-     "cagr": 0.3308,
-     "total": 28.1819,
-     "vol": 0.2535,
-     "sharpe": 1.17,
+     "cagr": 0.1509,
+     "total": 4.2547,
+     "vol": 0.1981,
+     "sharpe": 0.7,
      "maxdd": -0.4379,
      "days": 2975
     },
     "2014\u201326": {
-     "cagr": 0.2869,
-     "total": 24.2861,
-     "vol": 0.2506,
-     "sharpe": 1.06,
+     "cagr": 0.1502,
+     "total": 4.9989,
+     "vol": 0.1925,
+     "sharpe": 0.72,
      "maxdd": -0.4379,
      "days": 3227
+    },
+    "2021\u201326": {
+     "cagr": 0.1329,
+     "total": 0.8711,
+     "vol": 0.2317,
+     "sharpe": 0.49,
+     "maxdd": -0.4379,
+     "days": 1265
     },
     "2022\u201326": {
      "cagr": 0.1525,
@@ -1227,7 +1285,7 @@
    },
    {
     "date": "2014-02-28",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2014-03-31",
@@ -1291,11 +1349,11 @@
    },
    {
     "date": "2015-06-30",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2015-07-31",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2015-08-31",
@@ -1303,11 +1361,11 @@
    },
    {
     "date": "2015-09-30",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2015-10-31",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2015-11-30",
@@ -1327,15 +1385,15 @@
    },
    {
     "date": "2016-03-31",
-    "exposure": 1.0
+    "exposure": 0.5
    },
    {
     "date": "2016-04-30",
-    "exposure": 1.0
+    "exposure": 0.5
    },
    {
     "date": "2016-05-31",
-    "exposure": 1.0
+    "exposure": 0.5
    },
    {
     "date": "2016-06-30",
@@ -1347,7 +1405,7 @@
    },
    {
     "date": "2016-08-31",
-    "exposure": 1.0
+    "exposure": 0.5
    },
    {
     "date": "2016-09-30",
@@ -1359,11 +1417,11 @@
    },
    {
     "date": "2016-11-30",
-    "exposure": 1.0
+    "exposure": 0.5
    },
    {
     "date": "2016-12-31",
-    "exposure": 1.0
+    "exposure": 0.5
    },
    {
     "date": "2017-01-31",
@@ -1375,11 +1433,11 @@
    },
    {
     "date": "2017-03-31",
-    "exposure": 1.0
+    "exposure": 0.5
    },
    {
     "date": "2017-04-30",
-    "exposure": 1.0
+    "exposure": 0.5
    },
    {
     "date": "2017-05-31",
@@ -1387,7 +1445,7 @@
    },
    {
     "date": "2017-06-30",
-    "exposure": 1.0
+    "exposure": 0.5
    },
    {
     "date": "2017-07-31",
@@ -1407,11 +1465,11 @@
    },
    {
     "date": "2017-11-30",
-    "exposure": 1.0
+    "exposure": 0.5
    },
    {
     "date": "2017-12-31",
-    "exposure": 1.0
+    "exposure": 0.5
    },
    {
     "date": "2018-01-31",
@@ -1431,11 +1489,11 @@
    },
    {
     "date": "2018-05-31",
-    "exposure": 1.0
+    "exposure": 0.5
    },
    {
     "date": "2018-06-30",
-    "exposure": 1.0
+    "exposure": 0.5
    },
    {
     "date": "2018-07-31",
@@ -1455,7 +1513,7 @@
    },
    {
     "date": "2018-11-30",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2018-12-31",
@@ -1463,7 +1521,7 @@
    },
    {
     "date": "2019-01-31",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2019-02-28",
@@ -1475,15 +1533,15 @@
    },
    {
     "date": "2019-04-30",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2019-05-31",
-    "exposure": 1.0
+    "exposure": 0.5
    },
    {
     "date": "2019-06-30",
-    "exposure": 1.0
+    "exposure": 0.5
    },
    {
     "date": "2019-07-31",
@@ -1535,7 +1593,7 @@
    },
    {
     "date": "2020-07-31",
-    "exposure": 1.0
+    "exposure": 0.5
    },
    {
     "date": "2020-08-31",
@@ -1551,15 +1609,15 @@
    },
    {
     "date": "2020-11-30",
-    "exposure": 1.0
+    "exposure": 0.5
    },
    {
     "date": "2020-12-31",
-    "exposure": 1.0
+    "exposure": 0.5
    },
    {
     "date": "2021-01-31",
-    "exposure": 1.0
+    "exposure": 0.5
    },
    {
     "date": "2021-02-28",
@@ -1567,7 +1625,7 @@
    },
    {
     "date": "2021-03-31",
-    "exposure": 1.0
+    "exposure": 0.5
    },
    {
     "date": "2021-04-30",
@@ -1587,23 +1645,23 @@
    },
    {
     "date": "2021-08-31",
-    "exposure": 1.0
+    "exposure": 0.5
    },
    {
     "date": "2021-09-30",
-    "exposure": 1.0
+    "exposure": 0.5
    },
    {
     "date": "2021-10-31",
-    "exposure": 1.0
+    "exposure": 0.5
    },
    {
     "date": "2021-11-30",
-    "exposure": 0.5
+    "exposure": 0.0
    },
    {
     "date": "2021-12-31",
-    "exposure": 0.5
+    "exposure": 0.0
    },
    {
     "date": "2022-01-31",

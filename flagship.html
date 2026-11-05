@@ -303,12 +303,13 @@ function render(R,EQ){
     </div></section>`);
     drawLive($('#flive'),L.series);}
   // backtest
-  const B=R.backtest,P=['2005–26','2005–14','2015–26'],N={flagship:'Flagship',spy:'S&P 500 (SPY)'},b=B.flagship['2005–26'],sp=B.spy['2005–26'];
+  const B=R.backtest,P=['2005–26','2005–14','2015–26','2021–26'].filter(p=>B.flagship[p]),N={flagship:'Flagship',spy:'S&P 500 (SPY)'},b=B.flagship['2005–26'],sp=B.spy['2005–26'];
   const usd=v=>'$'+Math.round(v).toLocaleString('en-US');
   const rows=Object.keys(N).map(k=>`<tr${k==='flagship'?' style="font-weight:500"':''}><td>${N[k]}</td>${P.map(p=>{const s=B[k][p];return `<td class="n">${pc(s.cagr)}</td><td class="n">${pc(s.maxdd,0)}</td><td class="n">${s.sharpe.toFixed(2)}</td>`}).join('')}</tr>`).join('');
   const RG=[['all','All'],['10','10Y'],['5','5Y'],['3','3Y'],['1','1Y']];
   M.insertAdjacentHTML('beforeend',`<section class="sec"><div class="k-sh"><div><span class="eyebrow">Backtest · hypothetical</span><h2>Backtest vs the S&amp;P 500</h2></div><span class="fl-tag">Hypothetical · not investor returns</span></div>
     <p class="fl-sub" style="margin:0;max-width:78ch">How the same rules would have done since 2005. Nobody held this portfolio over those years, and the desks' rules were chosen with this history in view, so read it as a test of the rules, not a track record.</p>
+    <p class="note" style="margin:10px 0 0;max-width:78ch">${(n=>n?`<b>${Kerdos.esc(n.slice(0,n.indexOf('. ')+1))}</b>${Kerdos.esc(n.slice(n.indexOf('. ')+1))}`:'')(R.btc_note||'')}</p>
     <div class="panel" style="display:grid;gap:24px">
       <div class="fl-big four">
         <div class="k"><span>Annualized return</span><b>${pc(b.cagr)}</b><i>S&amp;P 500 ${pc(sp.cagr)}</i></div>
@@ -325,7 +326,7 @@ function render(R,EQ){
       <div class="panel"><div class="phead"><h2>Rolling 12-month return</h2><span class="label">Trailing 52 weeks</span></div><div class="fl-chart chart" id="flroll"></div></div>
     </div>
     <div class="tblwrap"><table><thead><tr><th rowspan="2">Backtest</th>${P.map(p=>`<th class="n" colspan="3">${p}</th>`).join('')}</tr><tr>${P.map(()=>'<th class="n">Per year</th><th class="n">Worst drop</th><th class="n">Sharpe</th>').join('')}</tr></thead><tbody>${rows}</tbody></table></div>
-    <p class="note">Bitcoin, which has a desk only from 2014, accounts for most of the gap since 2015. Without the Bitcoin sleeve the model returned ${pc(B.no_btc['2005–26'].cagr)} a year from 2005 to 2026 against ${pc(B.spy['2005–26'].cagr)} for the S&amp;P 500, with a worst drop of ${pc(B.no_btc['2005–26'].maxdd,0)} against ${pc(B.spy['2005–26'].maxdd,0)}. Turnover about ${Math.round(R.turnover*100)}% a year. The summary figures use daily data; the charts use weekly closes.</p></section>`);
+    <p class="note">The Bitcoin sleeve is held only from ${fmtD(R.btc_start)}, so it affects the last ${B.flagship['2021–26']?'four years':'years'} of this test and nothing before. Over that stretch the model returned ${pc(B.flagship['2021–26']&&B.flagship['2021–26'].cagr)} a year with the sleeve against ${pc(B.no_btc['2021–26']&&B.no_btc['2021–26'].cagr)} without it, so Bitcoin adds less to the record than its 30% weight suggests while driving most of the portfolio's swings. Without the Bitcoin sleeve at all the model returned ${pc(B.no_btc['2005–26'].cagr)} a year from 2005 to 2026 against ${pc(B.spy['2005–26'].cagr)} for the S&amp;P 500, with a worst drop of ${pc(B.no_btc['2005–26'].maxdd,0)} against ${pc(B.spy['2005–26'].maxdd,0)}. Turnover about ${Math.round(R.turnover*100)}% a year. The summary figures use daily data; the charts use weekly closes.</p></section>`);
   backtestCharts(EQ);
   // rules
   const rrow=(n,wt,by,m)=>`<tr><td>${n}</td><td class="n">${wt}</td><td>${by}</td><td>${m?'Risk On':'Always'}</td><td>${m?'Balanced':'—'}</td><td>${m?'Risk Off':'—'}</td></tr>`;
@@ -349,8 +350,8 @@ function render(R,EQ){
         <p class="note" style="margin:0 0 12px">A second model runs alongside the one above. It holds the same sleeve — Risk On 35% SPY, 25% QQQ, 30% Bitcoin, 10% gold — and does only one thing: set total exposure to 100%, 50% or 0% on a majority vote of four signals. Today <b>${on} of ${nav}</b> ${on===1?'is':'are'} positive, so it would hold <b>${Math.round(V.exposure*100)}%</b>.</p>
         <div class="tblwrap" style="max-width:560px"><table><thead><tr><th>Signal</th><th class="n">Now</th></tr></thead><tbody>${rows}</tbody></table></div>
         <div class="k-stats" style="margin-top:16px">
-          <div class="k-stat"><span>Backtest 2014–26 · v4</span><b>${bt(SB.v4&&SB.v4['2014–26'])}</b><em>return · Sharpe · worst drop</em></div>
-          <div class="k-stat"><span>Backtest 2014–26 · sleeve at 100%</span><b>${bt(SB.sleeve_100&&SB.sleeve_100['2014–26'])}</b><em>return · Sharpe · worst drop</em></div>
+          <div class="k-stat"><span>Backtest 2021–26 · v4</span><b>${bt(SB.v4&&(SB.v4['2021–26']||SB.v4['2014–26']))}</b><em>return · Sharpe · worst drop</em></div>
+          <div class="k-stat"><span>Backtest 2021–26 · sleeve at 100%</span><b>${bt(SB.sleeve_100&&(SB.sleeve_100['2021–26']||SB.sleeve_100['2014–26']))}</b><em>return · Sharpe · worst drop</em></div>
         </div>
         <h3 style="margin:18px 0 8px;font-size:1rem">Live head-to-head</h3>${lv}
         <p class="note" style="margin-top:14px">${Kerdos.esc(V.note||'')} Both models are published daily from here so the comparison is on the record. Backtested figures are hypothetical and the candidate does not manage the allocation shown above.</p>
@@ -363,7 +364,7 @@ function render(R,EQ){
     ${rrow('Gold (GLD)',Math.round(RU.gold*100)+'%','Fixed',null)}
     <tr><td>T-bills</td><td class="n">Rest</td><td colspan="4">Whatever the sleeves above don't hold</td></tr>
     </tbody></table></div>
-    <p class="note">A desk's new call is acted on at the next close, and the portfolio is also rebalanced to target at each month start. Before 2014, when the Bitcoin desk has no history, the Bitcoin sleeve is added to the stocks sleeve.</p></section>`);
+    <p class="note">A desk's new call is acted on at the next close, and the portfolio is also rebalanced to target at each month start. Before ${fmtD(R.btc_start)}, when no US Bitcoin ETF existed, the Bitcoin sleeve is added to the stocks sleeve instead.</p></section>`);
   const ch=R.changes||[];const f=v=>Math.round(v*100)+'%';
   const diff=c=>A.filter(k=>Math.abs(c.weights[k]-c.before[k])>1e-6).map(k=>`${k==='CASH'?'T-bills':k} ${f(c.before[k])} → ${f(c.weights[k])}`).join(', ');
   M.insertAdjacentHTML('beforeend',`<section class="sec"><div class="k-sh"><div><span class="eyebrow">Signal history</span><h2>Recent allocation changes</h2></div><a class="feat-link" href="methodology.html#archive">Full signal archive <span aria-hidden="true">→</span></a></div><div class="tblwrap"><table><thead><tr><th>Date</th><th>Desks</th><th>What changed</th></tr></thead><tbody>
@@ -375,7 +376,7 @@ function render(R,EQ){
   M.insertAdjacentHTML('beforeend',`<section class="sec"><div class="k-sh"><div><span class="eyebrow">Read before relying on it</span><h2>Method and limits</h2></div><a class="feat-link" href="methodology.html#limits">All model limitations <span aria-hidden="true">→</span></a></div><div class="fl-method">
     <p>The flagship adds no new forecasting signals. It reuses the two published desks: the US stocks desk sizes the ${stk}% stock sleeve, the Bitcoin desk sizes the ${Math.round(RU.btc*100)}% Bitcoin sleeve, a ${Math.round(RU.gold*100)}% gold slice is always held, and the rest waits in T-bills.</p>
     <p>Backtest: a call made at one close is traded at the next close, and the portfolio rebalances to target at each month start, at 0.05% per unit traded. T-bills earn the 3-month rate; dividends are approximated. The live record starts at the open on Monday, Oct 26, 2026 and follows the same rules after its first day.</p>
-    <p>Limits: the stocks desk's rules were chosen with the 2003–2026 history in view and the Bitcoin desk's with 2014–2026, so the backtest is optimistic. Bitcoin accounts for most of the backtest's lead over the S&amp;P 500 since 2015 and drives about 70% of the portfolio's swings, and its early gains are unlikely to repeat; gold's 2024–26 rally flatters the gold slice. 2022, when stocks, bonds and Bitcoin all fell, was the worst calendar year. Earlier drafts of this portfolio were replaced before the live record began; any later change will be dated here and will not rewrite the live record. This is a hypothetical model, not investment advice.</p></div></section>`);
+    <p>Limits: the stocks desk's rules were chosen with the 2003–2026 history in view and the Bitcoin desk's with 2014–2026, so the backtest is optimistic. The Bitcoin sleeve is counted only from ${fmtD(R.btc_start)}, the first US Bitcoin ETF, so Bitcoin's much larger 2014–2021 gains are deliberately left out of every figure on this page; it still drives about 70% of the portfolio's swings. Taking those early years out cut the 2005–2026 backtest from about 26% a year to ${pc(B.flagship['2005–26'].cagr)}, which is the more honest number. Gold's 2024–26 rally flatters the gold slice. 2022, when stocks, bonds and Bitcoin all fell, was the worst calendar year. Earlier drafts of this portfolio were replaced before the live record began; any later change will be dated here and will not rewrite the live record. This is a hypothetical model, not investment advice.</p></div></section>`);
 }
 function drawLive(host,S){
   const draw=()=>{
