@@ -108,6 +108,32 @@ function render(R,EQ){
   backtestCharts(EQ);
   // rules
   const rrow=(n,wt,by,m)=>`<tr><td>${n}</td><td class="n">${wt}</td><td>${by}</td><td>${m?'Risk On':'Always'}</td><td>${m?'Balanced':'—'}</td><td>${m?'Risk Off':'—'}</td></tr>`;
+  // ---- v4 candidate: live head-to-head against the current model
+  if(R.v4){try{const V=R.v4,SB=V.backtest,L4=V.live;
+    const pcx=(v,d=1)=>v==null?'—':(v>0?'+':v<0?'−':'')+Math.abs(v*100).toFixed(d)+'%';
+    const NM={btc_above10m:'Bitcoin above its 10-month average',dollar_weak:'Dollar weakening over 3 months',
+              gld_above10m:'Gold above its 10-month average',spread_narrowing:'Credit spreads not widening'};
+    const on=Object.entries(V.signals).filter(([k,v])=>v).length;
+    const rows=Object.entries(V.signals).map(([k,v])=>`<tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px;background:${v?'var(--c-bull)':'var(--stroke)'}"></span>${NM[k]||k}</td><td class="n">${v?'<b>Yes</b>':'<span class="muted">No</span>'}</td></tr>`).join('');
+    const bt=(o)=>o?`${(o.cagr*100).toFixed(1)}% · ${o.sharpe.toFixed(2)} · ${(o.maxdd*100).toFixed(0)}%`:'—';
+    const lv=L4?`<div class="k-stats" style="margin-top:14px">
+        <div class="k-stat"><span>Candidate v4</span><b class="${L4.v4.total>=0?'up':'dn'}">${pcx(L4.v4.total,2)}</b><em>worst drop ${pcx(L4.v4.maxdd,1)}</em></div>
+        <div class="k-stat"><span>Current model v3</span><b class="${L4.v3.total>=0?'up':'dn'}">${pcx(L4.v3.total,2)}</b><em>worst drop ${pcx(L4.v3.maxdd,1)}</em></div>
+        <div class="k-stat"><span>Sleeve held at 100%</span><b class="${L4.sleeve.total>=0?'up':'dn'}">${pcx(L4.sleeve.total,2)}</b><em>worst drop ${pcx(L4.sleeve.maxdd,1)}</em></div>
+        <div class="k-stat"><span>Sessions</span><b>${L4.sessions}</b><em>since ${fmtD(L4.since)}</em></div></div>`
+      :`<p class="note" style="margin-top:12px">The forward test begins on ${fmtD(V.live_since)}. No live data yet — this panel will fill in from that date.</p>`;
+    M.insertAdjacentHTML('beforeend',`<section class="sec" aria-label="Candidate model"><div class="k-sh"><div><span class="eyebrow">Candidate · being tested forward against the live model</span><h2>Model v4 — exposure from four signals</h2></div><span class="fl-tag">Not the published allocation</span></div>
+      <div class="panel">
+        <p class="note" style="margin:0 0 12px">A second model runs alongside the one above. It holds the same sleeve — Risk On 35% SPY, 25% QQQ, 30% Bitcoin, 10% gold — and does only one thing: set total exposure to 100%, 50% or 0% on a majority vote of four signals. Today <b>${on} of 4</b> ${on===1?'is':'are'} positive, so it would hold <b>${Math.round(V.exposure*100)}%</b>.</p>
+        <div class="tblwrap" style="max-width:560px"><table><thead><tr><th>Signal</th><th class="n">Now</th></tr></thead><tbody>${rows}</tbody></table></div>
+        <div class="k-stats" style="margin-top:16px">
+          <div class="k-stat"><span>Backtest 2014–26 · v4</span><b>${bt(SB.v4&&SB.v4['2014–26'])}</b><em>return · Sharpe · worst drop</em></div>
+          <div class="k-stat"><span>Backtest 2014–26 · sleeve at 100%</span><b>${bt(SB.sleeve_100&&SB.sleeve_100['2014–26'])}</b><em>return · Sharpe · worst drop</em></div>
+        </div>
+        <h3 style="margin:18px 0 8px;font-size:1rem">Live head-to-head</h3>${lv}
+        <p class="note" style="margin-top:14px">${Kerdos.esc(V.note||'')} Both models are published daily from here so the comparison is on the record. Backtested figures are hypothetical and the candidate does not manage the allocation shown above.</p>
+      </div></section>`);}catch(err){console.error('v4 panel failed:',err&&err.message);}}
+
   M.insertAdjacentHTML('beforeend',`<section class="sec"><div class="k-sh"><div><span class="eyebrow">How it is sized</span><h2>The rules</h2></div><a class="feat-link" href="methodology.html#allocation">Methodology <span aria-hidden="true">→</span></a></div>
     <div class="tblwrap"><table><thead><tr><th>Sleeve</th><th class="n">Target</th><th>Sized by</th><th>Full (100%)</th><th>Half (50%)</th><th>None (0%)</th></tr></thead><tbody>
     ${rrow(`Stocks: SPY ${Math.round(RU.stocks.SPY*100)}% + QQQ ${Math.round(RU.stocks.QQQ*100)}%`,stk+'%','<a href="stocks.html">Stocks desk</a>',RU.stocks_exposure)}

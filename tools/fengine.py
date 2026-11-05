@@ -29,7 +29,20 @@ DIV = dict(SPY=.017, QQQ=.007)
 COST, START = .0005, '2005-01-01'
 LIVE = '2026-10-26'                                     # inception: the open of this session
 OPEN = dict(SPY=762.25, QQQ=707.06, GLD=367.295, BTC=79804.14)   # inception prices (Oct 26 2026, 9:30 ET)
-VERSION = 3
+VERSION = 4
+
+# --- v4 candidate (adopted 2026-10-31, forward test starts 2026-11-01) -----------------------------
+# Fixed sleeve SPY 35 / QQQ 25 / BTC 30 / GLD 10. The model's only job is total exposure: 100%, 50% or 0%,
+# set by a majority vote of four monthly, point-in-time signals:
+#   1. Bitcoin above its 10-month average      (trend on the asset carrying ~70% of the sleeve's risk)
+#   2. the dollar weakening over 3 months      (Bitcoin and gold are both inverse-dollar)
+#   3. gold above its 10-month average         (trend on the diversifier)
+#   4. Baa-10y credit spread not widening      (credit conditions)
+# Chosen on signal frequency and economic logic, NOT on backtest rank: of 10,879 combinations searched,
+# those that beat the fully-invested sleeve on all three metrics in 2014-2021 were LESS likely to repeat in
+# 2022-2026 (8%) than a combination picked at random (28%). See journal/research_log.md, 2026-10-31.
+V4_W = dict(SPY=.35, QQQ=.25, BTC=.30, GLD=.10)
+V4_LIVE = '2026-11-01'                                  # forward test begins here; everything before is backtest
 
 
 def load(a):
@@ -37,14 +50,48 @@ def load(a):
     M = pd.read_csv(a.macro, parse_dates=['month']).set_index('month')
     H = pd.read_csv(a.stocks, parse_dates=['date']).set_index('date')
     B = pd.read_csv(a.btc, parse_dates=['date']).set_index('date')
-    X = S[['SPY', 'QQQ', 'GLD']].dropna(subset=['SPY']).loc['2004-11-18':].ffill(limit=3)
+    X = S[['SPY', 'QQQ', 'GLD', 'UUP']].dropna(subset=['SPY']).loc['2004-11-18':].ffill(limit=3)
     X = X[X.index <= H.index.max()]
     X['BTC'] = B.price.reindex(X.index, method='ffill')
     X['btc_reg'] = B.regime.reindex(X.index, method='ffill')
     X['stk_reg'] = H.regime.reindex(X.index).ffill()
     s = M['TB3MS'].dropna(); s.index = s.index + pd.offsets.MonthEnd(0)
     X['tb3ms'] = s.reindex(X.index, method='ffill').bfill() / 100
+    sp = (M['BAA'] - M['GS10']).dropna(); sp.index = sp.index + pd.DateOffset(months=1) + pd.offsets.MonthEnd(0)
+    X['baa10'] = sp.reindex(X.index, method='ffill')
     return X
+
+
+def v4_signals(X):
+    """Four monthly point-in-time signals. A month's signal is computed from that month's close and applied
+    from the following month, so nothing uses information it would not have had."""
+    mo = X[['BTC', 'GLD', 'UUP', 'baa10']].resample('ME').last()
+    sig = pd.DataFrame(index=mo.index)
+    sig['btc_above10m'] = mo.BTC > mo.BTC.rolling(10).mean()
+    sig['dollar_weak'] = mo.UUP.pct_change(3) < 0
+    sig['gld_above10m'] = mo.GLD > mo.GLD.rolling(10).mean()
+    sig['spread_narrowing'] = (mo.baa10 - mo.baa10.shift(3)) <= 0
+    sig = sig.astype(float).shift(1)                       # apply from the next month
+    share = sig.mean(axis=1)
+    expo = (share * 2).round() / 2                         # -> 0.0 / 0.5 / 1.0
+    out = sig.reindex(X.index, method='ffill')
+    out['share'] = share.reindex(X.index, method='ffill')
+    out['exposure'] = expo.reindex(X.index, method='ffill')
+    return out
+
+
+def targets_v4(X, sig):
+    """Fixed sleeve scaled by the v4 exposure. Bitcoin's weight goes to cash before Bitcoin exists."""
+    e = sig.exposure
+    have = X.BTC.notna()
+    T = pd.DataFrame(0.0, index=X.index, columns=ASSETS)
+    for a, w in V4_W.items():
+        if a == 'BTC': continue
+        T[a] = w * e
+    T['BTC'] = (V4_W['BTC'] * e).where(have, 0.0)
+    T['CASH'] = 1 - T.drop(columns='CASH').sum(axis=1)
+    T[e.isna()] = 0.0; T.loc[e.isna(), 'CASH'] = 1.0
+    return T.clip(lower=0.0)
 
 
 def returns(X):
@@ -127,8 +174,13 @@ def main():
     a = ap.parse_args(); os.makedirs(a.out, exist_ok=True)
     X = load(a); R = returns(X)
     T, reg = targets(X); Tn, _ = targets(X, btc=False); Ts = spy_only(X.index)
-    curves = {'flagship': T, 'no_btc': Tn, 'spy': Ts}
-    periods = {'2005–26': (START, None), '2005–14': (START, '2014-12-31'), '2015–26': ('2015-01-01', None)}
+    SIG = v4_signals(X); T4 = targets_v4(X, SIG)
+    Tfull = pd.DataFrame(0.0, index=X.index, columns=ASSETS)     # the sleeve held at 100%, the v4 benchmark
+    for k, w in V4_W.items(): Tfull[k] = w if k != 'BTC' else float(w) * X.BTC.notna()
+    Tfull['CASH'] = 1 - Tfull.drop(columns='CASH').sum(axis=1)
+    curves = {'flagship': T, 'no_btc': Tn, 'spy': Ts, 'v4': T4, 'sleeve_100': Tfull}
+    periods = {'2005–26': (START, None), '2005–14': (START, '2014-12-31'), '2015–26': ('2015-01-01', None),
+               '2014–26': ('2014-01-01', None), '2022–26': ('2022-01-01', None)}
     bt, eqs, turnover = {}, {}, None
     for name, TT in curves.items():
         bt[name] = {}
@@ -147,8 +199,39 @@ def main():
                     series=[dict(date=d, flagship=round(x, 5), spy=round(y, 5)) for (d, x), (_, y) in zip(fv, sv)],
                     start_weights={k: round(float(T.loc[prev, k]), 4) for k in ASSETS},
                     start_prices=OPEN, start_signals=dict(stocks=X.stk_reg[prev], bitcoin=X.btc_reg[prev]))
+    # --- v4 head-to-head, both models from the v4 forward-test start
+    v4live = None
+    i4 = X.index[X.index >= pd.Timestamp(V4_LIVE)]
+    if len(i4) > 1:
+        def track(TT):
+            e, _ = simulate(TT, R, V4_LIVE, None); return e / e.iloc[0]
+        a4, a3, asl = track(T4), track(T), track(Tfull)
+        v4live = dict(since=V4_LIVE, sessions=len(a4) - 1, asof=str(a4.index[-1].date()),
+                      v4=dict(total=round(float(a4.iloc[-1]) - 1, 5), maxdd=round(float((a4 / a4.cummax() - 1).min()), 5)),
+                      v3=dict(total=round(float(a3.iloc[-1]) - 1, 5), maxdd=round(float((a3 / a3.cummax() - 1).min()), 5)),
+                      sleeve=dict(total=round(float(asl.iloc[-1]) - 1, 5), maxdd=round(float((asl / asl.cummax() - 1).min()), 5)),
+                      series=[dict(date=str(d.date()), v4=round(float(a4[d]), 5), v3=round(float(a3[d]), 5), sleeve=round(float(asl[d]), 5))
+                              for d in a4.index])
+    SK = ['btc_above10m', 'dollar_weak', 'gld_above10m', 'spread_narrowing']
+    v4 = dict(live_since=V4_LIVE, sleeve=V4_W, exposure=float(SIG.exposure.iloc[-1]), share=round(float(SIG.share.iloc[-1]), 3),
+              signals={k: bool(SIG[k].iloc[-1]) for k in SK},
+              weights={k: round(float(T4.loc[t_, k]), 4) for k in ASSETS} if (t_ := X.index[-1]) is not None else {},
+              backtest=dict(v4=bt['v4'], sleeve_100=bt['sleeve_100']),
+              history=[dict(date=str(d.date()), exposure=float(v)) for d, v in
+                       SIG.exposure.resample('ME').last().dropna().items()],
+              live=v4live,
+              note=('Forward test from ' + V4_LIVE + '. Everything before that date is a backtest. Chosen on signal '
+                    'frequency and economic logic, not backtest rank: of 10,879 combinations searched, those that beat '
+                    'the fully-invested sleeve on all three metrics in 2014-2021 were less likely to repeat in 2022-2026 '
+                    '(8%) than one picked at random (28%).'))
+    # daily comparison log, appended by the capture task
+    cmp = pd.DataFrame({'v3_equity_weight': (T.SPY + T.QQQ + T.BTC).round(4), 'v4_exposure': SIG.exposure,
+                        'v3_regime': reg, **{f'sig_{k}': SIG[k] for k in SK}}).loc['2014-01-01':]
+    cmp.index.name = 'date'; cmp.to_csv(os.path.join(a.out, 'compare.csv'))
     E = pd.DataFrame({k: eqs[k] for k in ['flagship', 'spy']}).resample('W-FRI').last().round(4); E.index.name = 'date'
-    E.to_csv(os.path.join(a.out, 'equity.csv'))
+    E.to_csv(os.path.join(a.out, 'equity.csv'))                 # schema unchanged: existing charts depend on it
+    E4 = pd.DataFrame({k: eqs[k] for k in ['v4', 'sleeve_100', 'flagship']}).resample('W-FRI').last().round(4)
+    E4.index.name = 'date'; E4.to_csv(os.path.join(a.out, 'equity_v4.csv'))
     ye = pd.DataFrame(eqs).groupby(lambda d: d.year).last()
     ye = ye / pd.concat([pd.DataFrame(1.0, index=[ye.index[0] - 1], columns=ye.columns), ye]).shift(1).iloc[1:] - 1
     yearly = [dict(year=int(y), **{k: round(float(v) * 100, 1) for k, v in r.items()}) for y, r in ye.iterrows()]
@@ -166,10 +249,12 @@ def main():
                weights={k: round(float(T.loc[t, k]), 4) for k in ASSETS}, equity_weight=round(float(T.loc[t, 'SPY'] + T.loc[t, 'QQQ']), 4),
                rules=dict(stocks=STOCKS, btc=BTC_W, gold=GLD_W, stocks_exposure=STK_E, btc_exposure=BTC_E), regime_map=REG,
                backtest=bt, yearly=yearly, turnover=turnover, live_since=LIVE, live=live,
-               changes=changes, days={k: int(v) for k, v in reg.loc[START:].value_counts().items()},
+               changes=changes, days={k: int(v) for k, v in reg.loc[START:].value_counts().items()}, v4=v4,
                prices={k: round(float(X[k].iloc[-1]), 2) for k in ['SPY', 'QQQ', 'GLD', 'BTC']})
     json.dump(out, open(os.path.join(a.out, 'report.json'), 'w'), indent=1, allow_nan=False, default=str)
-    print(json.dumps({k: out[k] for k in ['asof', 'regime', 'weights', 'turnover']} | {'live': live and {k: live[k] for k in ['sessions', 'flagship', 'spy']}}))
+    print(json.dumps({k: out[k] for k in ['asof', 'regime', 'weights']} | {'v4': {k: v4[k] for k in ['exposure', 'signals']},
+                      'v4_backtest_2014_26': bt['v4'].get('2014–26'), 'sleeve_2014_26': bt['sleeve_100'].get('2014–26'),
+                      'head_to_head': v4live and {k: v4live[k] for k in ['sessions', 'v4', 'v3', 'sleeve']}}))
 
 
 if __name__ == '__main__':
