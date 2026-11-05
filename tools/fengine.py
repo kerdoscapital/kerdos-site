@@ -257,8 +257,10 @@ def main():
     cmp = pd.DataFrame({'v3_equity_weight': (T.SPY + T.QQQ + T.BTC).round(4), 'v4_exposure': SIG.exposure,
                         'v3_regime': reg, **{f'sig_{k}': SIG[k] for k in SK}}).loc['2014-01-01':]
     cmp.index.name = 'date'; cmp.to_csv(os.path.join(a.out, 'compare.csv'))
-    E = pd.DataFrame({k: eqs[k] for k in ['flagship', 'spy']}).resample('W-FRI').last().round(4); E.index.name = 'date'
-    E.to_csv(os.path.join(a.out, 'equity.csv'))                 # schema unchanged: existing charts depend on it
+    # 'sleeve' is appended last on purpose: the charts read flagship at column 1 and spy at column 2 by position,
+    # so adding a column at the end is safe where inserting one is not.
+    E = pd.DataFrame({'flagship': eqs['flagship'], 'spy': eqs['spy'], 'sleeve': eqs['sleeve_100']}).resample('W-FRI').last().round(4)
+    E.index.name = 'date'; E.to_csv(os.path.join(a.out, 'equity.csv'))
     E4 = pd.DataFrame({k: eqs[k] for k in ['v4', 'sleeve_100', 'flagship']}).resample('W-FRI').last().round(4)
     E4.index.name = 'date'; E4.to_csv(os.path.join(a.out, 'equity_v4.csv'))
     ye = pd.DataFrame(eqs).groupby(lambda d: d.year).last()

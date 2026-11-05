@@ -51,7 +51,7 @@ const pcs=(v,d=1)=>v==null?'—':(v>0?'+':v<0?'−':'')+Math.abs(v*100).toFixed(
 const sc=v=>v>0?'fl-pos':v<0?'fl-neg':'';
 const NAMES={SPY:'S&P 500 (SPY)',QQQ:'Nasdaq-100 (QQQ)',BTC:'Bitcoin',GLD:'Gold (GLD)',CASH:'T-bills'};
 const COLS={SPY:'#B9A98A',QQQ:'#857A63',BTC:'#E7E4DC',GLD:'#5E6468',CASH:'#33373B'};
-const FC='#B9A98A',SC='#858B90';
+const FC='#B9A98A',SC='#858B90',HC='#7E6BB0';
 const A=['SPY','QQQ','BTC','GLD','CASH'];
 const parse=t=>{const[h,...r]=t.trim().split(/\r?\n/);const k=h.split(',');return r.map(x=>{const c=x.split(',');const o={};k.forEach((kk,i)=>o[kk]=c[i]);return o})};
 Promise.all([fetch('flagship/report.json').then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}),fetch('flagship/equity.csv').then(r=>r.text())])
@@ -82,9 +82,11 @@ function render(R,EQ){
     </div></section>`);
     drawLive($('#flive'),L.series);}
   // backtest
-  const B=R.backtest,P=['2005–26','2005–14','2015–26','2021–26'].filter(p=>B.flagship[p]),N={flagship:'Flagship',spy:'S&P 500 (SPY)'},b=B.flagship['2005–26'],sp=B.spy['2005–26'];
+  const B=R.backtest,P=['2005–26','2005–14','2015–26','2021–26'].filter(p=>B.flagship[p]),b=B.flagship['2005–26'],sp=B.spy['2005–26'];
+  // Three-way comparison: the regime model, the same assets bought and held, and the index.
+  const N={flagship:'Flagship · regime model',...(B.sleeve_100?{sleeve_100:'Same assets, bought and held'}:{}),spy:'S&P 500 (SPY)'};
   const usd=v=>'$'+Math.round(v).toLocaleString('en-US');
-  const rows=Object.keys(N).map(k=>`<tr${k==='flagship'?' style="font-weight:500"':''}><td>${N[k]}</td>${P.map(p=>{const s=B[k][p];return `<td class="n">${pc(s.cagr)}</td><td class="n">${pc(s.maxdd,0)}</td><td class="n">${s.sharpe.toFixed(2)}</td>`}).join('')}</tr>`).join('');
+  const rows=Object.keys(N).map(k=>`<tr${k==='flagship'?' style="font-weight:500"':''}><td>${N[k]}</td>${P.map(p=>{const s=B[k]&&B[k][p];return s?`<td class="n">${pc(s.cagr)}</td><td class="n">${pc(s.maxdd,0)}</td><td class="n">${s.sharpe.toFixed(2)}</td>`:'<td class="n">—</td><td class="n">—</td><td class="n">—</td>'}).join('')}</tr>`).join('');
   const RG=[['all','All'],['10','10Y'],['5','5Y'],['3','3Y'],['1','1Y']];
   M.insertAdjacentHTML('beforeend',`<section class="sec"><div class="k-sh"><div><span class="eyebrow">Backtest · hypothetical</span><h2>Backtest vs the S&amp;P 500</h2></div><span class="fl-tag">Hypothetical · not investor returns</span></div>
     <p class="fl-sub" style="margin:0;max-width:78ch">How the same rules would have done since 2005. Nobody held this portfolio over those years, and the desks' rules were chosen with this history in view, so read it as a test of the rules, not a track record.</p>
@@ -95,7 +97,7 @@ function render(R,EQ){
         <div class="k"><span>$10,000 in Jan 2005</span><b>${usd(1e4*(1+b.total))}</b><i>S&amp;P 500 ${usd(1e4*(1+sp.total))}</i></div>
         <div class="k"><span>Maximum drawdown</span><b>${pc(b.maxdd,0)}</b><i>S&amp;P 500 ${pc(sp.maxdd,0)}</i></div>
         <div class="k"><span>Sharpe ratio</span><b>${b.sharpe.toFixed(2)}</b><i>S&amp;P 500 ${sp.sharpe.toFixed(2)}</i></div></div>
-      <div><div class="fl-ctrl"><div class="fl-legend"><span><i style="background:${FC}"></i>Flagship</span><span><i style="background:${SC}"></i>S&amp;P 500</span></div>
+      <div><div class="fl-ctrl"><div class="fl-legend"><span><i style="background:${FC}"></i>Flagship</span><span><i style="background:${HC}"></i>Bought and held</span><span><i style="background:${SC}"></i>S&amp;P 500</span></div>
         <div class="seg" role="group" aria-label="Time range" id="flrange">${RG.map(([k,n],i)=>`<button type="button" data-r="${k}" aria-pressed="${i===0}">${n}</button>`).join('')}</div></div>
         <div class="fl-chart chart" id="flchart"></div>
         <p class="note" style="margin-top:10px" id="flcap">Growth of $10,000, weekly closes. Hypothetical.</p></div>
@@ -105,6 +107,7 @@ function render(R,EQ){
       <div class="panel"><div class="phead"><h2>Rolling 12-month return</h2><span class="label">Trailing 52 weeks</span></div><div class="fl-chart chart" id="flroll"></div></div>
     </div>
     <div class="tblwrap"><table><thead><tr><th rowspan="2">Backtest</th>${P.map(p=>`<th class="n" colspan="3">${p}</th>`).join('')}</tr><tr>${P.map(()=>'<th class="n">Per year</th><th class="n">Worst drop</th><th class="n">Sharpe</th>').join('')}</tr></thead><tbody>${rows}</tbody></table></div>
+    ${B.sleeve_100?`<p class="note"><b>Reading the three rows.</b> "Bought and held" is the same four assets at the same weights — ${Math.round(RU.stocks.SPY*100)}% SPY, ${Math.round(RU.stocks.QQQ*100)}% QQQ, ${Math.round(RU.btc*100)}% Bitcoin, ${Math.round(RU.gold*100)}% gold — rebalanced monthly and never sized down. The gap between it and the S&amp;P 500 is what the <em>asset mix</em> did; the gap between the flagship and it is what the <em>regime timing</em> did. Since 2005 the mix returned ${pc(B.sleeve_100['2005–26'].cagr)} a year against ${pc(B.spy['2005–26'].cagr)} for the index, and the timing took that to ${pc(B.flagship['2005–26'].cagr)} while cutting the worst drop from ${pc(B.sleeve_100['2005–26'].maxdd,0)} to ${pc(B.flagship['2005–26'].maxdd,0)}. Most of what the model adds is in the drawdown, not the return.</p>`:''}
     <p class="note">The Bitcoin sleeve is held only from ${fmtD(R.btc_start)}, so it affects the last ${B.flagship['2021–26']?'four years':'years'} of this test and nothing before. Over that stretch the model returned ${pc(B.flagship['2021–26']&&B.flagship['2021–26'].cagr)} a year with the sleeve against ${pc(B.no_btc['2021–26']&&B.no_btc['2021–26'].cagr)} without it, so Bitcoin adds less to the record than its 30% weight suggests while driving most of the portfolio's swings. Without the Bitcoin sleeve at all the model returned ${pc(B.no_btc['2005–26'].cagr)} a year from 2005 to 2026 against ${pc(B.spy['2005–26'].cagr)} for the S&amp;P 500, with a worst drop of ${pc(B.no_btc['2005–26'].maxdd,0)} against ${pc(B.spy['2005–26'].maxdd,0)}. Turnover about ${Math.round(R.turnover*100)}% a year. The summary figures use daily data; the charts use weekly closes.</p></section>`);
   backtestCharts(EQ);
   // rules
@@ -204,20 +207,24 @@ function lineChart(host,xs,S,o){
 }
 function backtestCharts(EQ){
   const T=EQ.map(r=>Date.parse(r.date+'T00:00:00Z')),F=EQ.map(r=>+r.flagship),Sv=EQ.map(r=>+r.spy);
+  // Third line: the same assets bought and held. Older equity.csv files have no 'sleeve' column, so it is optional.
+  const hasSl=EQ.length&&EQ[0].sleeve!=null&&EQ.every(r=>isFinite(+r.sleeve)),Hv=hasSl?EQ.map(r=>+r.sleeve):null;
   const roll=a=>a.map((v,i)=>i>=52&&a[i-52]>0?v/a[i-52]-1:null);
-  const RF=roll(F),RS=roll(Sv);
+  const RF=roll(F),RS=roll(Sv),RH=Hv?roll(Hv):null;
   const k$=v=>v>=1e6?'$'+(v/1e6).toFixed(v>=1e7?0:1).replace(/\.0$/,'')+'M':'$'+(v/1e3).toFixed(v>=1e5?0:v>=1e4?0:1).replace(/\.0$/,'')+'k';
   const pcs1=v=>(v>0?'+':v<0?'−':'')+Math.abs(v*100).toFixed(1)+'%';
   const draw=yrs=>{
     const end=T[T.length-1],from=yrs==='all'?T[0]:end-(+yrs)*365.25*864e5;let i0=T.findIndex(t=>t>=from);if(i0<0)i0=0;
-    const xs=T.slice(i0),f=F.slice(i0),s=Sv.slice(i0);
+    const xs=T.slice(i0),f=F.slice(i0),s=Sv.slice(i0),hv=Hv?Hv.slice(i0):null;
     const g=a=>a.map(v=>v/a[0]*1e4),dd=a=>{let p=-1e18;return a.map(v=>{p=Math.max(p,v);return v/p-1})};
     const log=yrs==='all'||+yrs>=10;
-    lineChart($('#flchart'),xs,[{name:'Flagship',color:FC,width:2,vals:g(f)},{name:'S&P 500',color:SC,width:1.4,vals:g(s)}],
-      {log,h:320,fmt:v=>'$'+Math.round(v).toLocaleString('en-US'),tick:k$,label:'Backtest growth of $10,000: flagship vs S&P 500'});
-    lineChart($('#fldd'),xs,[{name:'Flagship',color:FC,width:1.5,vals:dd(f),area:true},{name:'S&P 500',color:SC,width:1.2,vals:dd(s)}],
+    const BH='Bought and held';
+    const ser=(w1,w2,tf,ts,th)=>[{name:'Flagship',color:FC,width:w1,vals:tf},...(hv?[{name:BH,color:HC,width:w2,vals:th}]:[]),{name:'S&P 500',color:SC,width:w2,vals:ts}];
+    lineChart($('#flchart'),xs,ser(2,1.4,g(f),g(s),hv&&g(hv)),
+      {log,h:320,fmt:v=>'$'+Math.round(v).toLocaleString('en-US'),tick:k$,label:'Backtest growth of $10,000: the flagship regime model, the same assets bought and held, and the S&P 500'});
+    lineChart($('#fldd'),xs,ser(1.5,1.2,dd(f),dd(s),hv&&dd(hv)).map(x=>x.name==='Flagship'?{...x,area:true}:x),
       {h:210,zero:true,base:0,fmt:pcs1,tick:v=>Math.round(v*100)+'%',label:'Backtest drawdown from the running high'});
-    lineChart($('#flroll'),xs,[{name:'Flagship',color:FC,width:1.5,vals:RF.slice(i0)},{name:'S&P 500',color:SC,width:1.2,vals:RS.slice(i0)}],
+    lineChart($('#flroll'),xs,ser(1.5,1.2,RF.slice(i0),RS.slice(i0),RH&&RH.slice(i0)),
       {h:210,zero:true,fmt:pcs1,tick:v=>(v>0?'+':'')+Math.round(v*100)+'%',label:'Backtest rolling 12-month return'});
     const cap=$('#flcap');if(cap)cap.textContent=`Growth of $10,000 from ${fmtD(new Date(xs[0]).toISOString())}, weekly closes${log?', log scale':''}. Hypothetical backtest; not the returns of any investor.`;
   };
