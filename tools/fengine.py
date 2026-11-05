@@ -50,15 +50,19 @@ def load(a):
     M = pd.read_csv(a.macro, parse_dates=['month']).set_index('month')
     H = pd.read_csv(a.stocks, parse_dates=['date']).set_index('date')
     B = pd.read_csv(a.btc, parse_dates=['date']).set_index('date')
-    X = S[['SPY', 'QQQ', 'GLD', 'UUP']].dropna(subset=['SPY']).loc['2004-11-18':].ffill(limit=3)
+    X = S[[c for c in ['SPY', 'QQQ', 'GLD', 'UUP'] if c in S]].dropna(subset=['SPY']).loc['2004-11-18':].ffill(limit=3)
+    if 'UUP' not in X: X['UUP'] = np.nan                  # v4's dollar signal degrades rather than failing the build
     X = X[X.index <= H.index.max()]
     X['BTC'] = B.price.reindex(X.index, method='ffill')
     X['btc_reg'] = B.regime.reindex(X.index, method='ffill')
     X['stk_reg'] = H.regime.reindex(X.index).ffill()
     s = M['TB3MS'].dropna(); s.index = s.index + pd.offsets.MonthEnd(0)
     X['tb3ms'] = s.reindex(X.index, method='ffill').bfill() / 100
-    sp = (M['BAA'] - M['GS10']).dropna(); sp.index = sp.index + pd.DateOffset(months=1) + pd.offsets.MonthEnd(0)
-    X['baa10'] = sp.reindex(X.index, method='ffill')
+    if {'BAA', 'GS10'} <= set(M.columns):
+        sp = (M['BAA'] - M['GS10']).dropna(); sp.index = sp.index + pd.DateOffset(months=1) + pd.offsets.MonthEnd(0)
+        X['baa10'] = sp.reindex(X.index, method='ffill')
+    else:
+        X['baa10'] = np.nan                               # same: a missing input drops one vote, it does not crash
     return X
 
 
@@ -71,8 +75,10 @@ def v4_signals(X):
     sig['dollar_weak'] = mo.UUP.pct_change(3) < 0
     sig['gld_above10m'] = mo.GLD > mo.GLD.rolling(10).mean()
     sig['spread_narrowing'] = (mo.baa10 - mo.baa10.shift(3)) <= 0
+    sig = sig.where(mo.notna().rename(columns={'BTC': 'btc_above10m', 'UUP': 'dollar_weak',
+                                               'GLD': 'gld_above10m', 'baa10': 'spread_narrowing'}))
     sig = sig.astype(float).shift(1)                       # apply from the next month
-    share = sig.mean(axis=1)
+    share = sig.mean(axis=1)                               # mean skips missing inputs
     expo = (share * 2).round() / 2                         # -> 0.0 / 0.5 / 1.0
     out = sig.reindex(X.index, method='ffill')
     out['share'] = share.reindex(X.index, method='ffill')
@@ -214,7 +220,8 @@ def main():
                               for d in a4.index])
     SK = ['btc_above10m', 'dollar_weak', 'gld_above10m', 'spread_narrowing']
     v4 = dict(live_since=V4_LIVE, sleeve=V4_W, exposure=float(SIG.exposure.iloc[-1]), share=round(float(SIG.share.iloc[-1]), 3),
-              signals={k: bool(SIG[k].iloc[-1]) for k in SK},
+              signals={k: (None if pd.isna(SIG[k].iloc[-1]) else bool(SIG[k].iloc[-1])) for k in SK},
+              signals_available=int(SIG[SK].iloc[-1].notna().sum()),
               weights={k: round(float(T4.loc[t_, k]), 4) for k in ASSETS} if (t_ := X.index[-1]) is not None else {},
               backtest=dict(v4=bt['v4'], sleeve_100=bt['sleeve_100']),
               history=[dict(date=str(d.date()), exposure=float(v)) for d, v in

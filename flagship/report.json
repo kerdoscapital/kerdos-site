@@ -1,6 +1,6 @@
 {
  "asof": "2026-11-03",
- "generated": "2026-11-05 00:37 UTC",
+ "generated": "2026-11-05 00:44 UTC",
  "version": 4,
  "regime": "Risk-On",
  "regime_since": "2025-04-09",
@@ -172,19 +172,19 @@
   },
   "v4": {
    "2005\u201326": {
-    "cagr": 0.188,
-    "total": 41.6804,
-    "vol": 0.1526,
-    "sharpe": 1.09,
+    "cagr": 0.1859,
+    "total": 40.0564,
+    "vol": 0.1547,
+    "sharpe": 1.07,
     "maxdd": -0.3361,
     "days": 5490
    },
    "2005\u201314": {
-    "cagr": 0.0474,
-    "total": 0.5869,
-    "vol": 0.0689,
-    "sharpe": 0.5,
-    "maxdd": -0.1169,
+    "cagr": 0.0433,
+    "total": 0.5265,
+    "vol": 0.0784,
+    "sharpe": 0.4,
+    "maxdd": -0.1763,
     "days": 2514
    },
    "2015\u201326": {
@@ -261,7 +261,7 @@
    "flagship": 6.0,
    "no_btc": 6.0,
    "spy": 5.3,
-   "v4": 4.7,
+   "v4": 7.7,
    "sleeve_100": 5.7
   },
   {
@@ -269,7 +269,7 @@
    "flagship": 12.2,
    "no_btc": 12.2,
    "spy": 15.7,
-   "v4": 6.4,
+   "v4": 8.8,
    "sleeve_100": 11.2
   },
   {
@@ -277,7 +277,7 @@
    "flagship": 7.7,
    "no_btc": 7.7,
    "spy": 5.8,
-   "v4": 6.5,
+   "v4": 7.5,
    "sleeve_100": 11.6
   },
   {
@@ -285,7 +285,7 @@
    "flagship": 6.1,
    "no_btc": 6.1,
    "spy": -37.7,
-   "v4": -5.6,
+   "v4": -10.9,
    "sleeve_100": -24.1
   },
   {
@@ -293,7 +293,7 @@
    "flagship": 47.1,
    "no_btc": 47.1,
    "spy": 25.6,
-   "v4": 26.2,
+   "v4": 21.0,
    "sleeve_100": 24.9
   },
   {
@@ -309,7 +309,7 @@
    "flagship": -6.2,
    "no_btc": -6.2,
    "spy": 1.5,
-   "v4": 3.9,
+   "v4": 1.1,
    "sleeve_100": 2.8
   },
   {
@@ -317,7 +317,7 @@
    "flagship": 13.9,
    "no_btc": 13.9,
    "spy": 15.4,
-   "v4": 1.5,
+   "v4": 2.7,
    "sleeve_100": 10.5
   },
   {
@@ -325,7 +325,7 @@
    "flagship": 26.0,
    "no_btc": 26.0,
    "spy": 31.9,
-   "v4": 4.9,
+   "v4": 6.6,
    "sleeve_100": 15.6
   },
   {
@@ -690,6 +690,7 @@
    "gld_above10m": false,
    "spread_narrowing": false
   },
+  "signals_available": 4,
   "weights": {
    "SPY": 0.0,
    "QQQ": 0.0,
@@ -700,19 +701,19 @@
   "backtest": {
    "v4": {
     "2005\u201326": {
-     "cagr": 0.188,
-     "total": 41.6804,
-     "vol": 0.1526,
-     "sharpe": 1.09,
+     "cagr": 0.1859,
+     "total": 40.0564,
+     "vol": 0.1547,
+     "sharpe": 1.07,
      "maxdd": -0.3361,
      "days": 5490
     },
     "2005\u201314": {
-     "cagr": 0.0474,
-     "total": 0.5869,
-     "vol": 0.0689,
-     "sharpe": 0.5,
-     "maxdd": -0.1169,
+     "cagr": 0.0433,
+     "total": 0.5265,
+     "vol": 0.0784,
+     "sharpe": 0.4,
+     "maxdd": -0.1763,
      "days": 2514
     },
     "2015\u201326": {
@@ -798,23 +799,23 @@
    },
    {
     "date": "2005-03-31",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2005-04-30",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2005-05-31",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2005-06-30",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2005-07-31",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2005-08-31",
@@ -822,55 +823,55 @@
    },
    {
     "date": "2005-09-30",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2005-10-31",
-    "exposure": 0.5
+    "exposure": 1.0
    },
    {
     "date": "2005-11-30",
-    "exposure": 0.5
+    "exposure": 1.0
    },
    {
     "date": "2005-12-31",
-    "exposure": 0.5
+    "exposure": 1.0
    },
    {
     "date": "2006-01-31",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2006-02-28",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2006-03-31",
-    "exposure": 0.5
+    "exposure": 1.0
    },
    {
     "date": "2006-04-30",
-    "exposure": 0.5
+    "exposure": 1.0
    },
    {
     "date": "2006-05-31",
-    "exposure": 0.5
+    "exposure": 1.0
    },
    {
     "date": "2006-06-30",
-    "exposure": 0.5
+    "exposure": 1.0
    },
    {
     "date": "2006-07-31",
-    "exposure": 0.5
+    "exposure": 1.0
    },
    {
     "date": "2006-08-31",
-    "exposure": 0.5
+    "exposure": 1.0
    },
    {
     "date": "2006-09-30",
-    "exposure": 0.5
+    "exposure": 1.0
    },
    {
     "date": "2006-10-31",
@@ -886,15 +887,15 @@
    },
    {
     "date": "2007-01-31",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2007-02-28",
-    "exposure": 0.5
+    "exposure": 1.0
    },
    {
     "date": "2007-03-31",
-    "exposure": 0.5
+    "exposure": 1.0
    },
    {
     "date": "2007-04-30",
@@ -902,15 +903,15 @@
    },
    {
     "date": "2007-05-31",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2007-06-30",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2007-07-31",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2007-08-31",
@@ -966,7 +967,7 @@
    },
    {
     "date": "2008-09-30",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2008-10-31",
@@ -986,7 +987,7 @@
    },
    {
     "date": "2009-02-28",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2009-03-31",
@@ -1106,7 +1107,7 @@
    },
    {
     "date": "2011-08-31",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2011-09-30",
@@ -1114,15 +1115,15 @@
    },
    {
     "date": "2011-10-31",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2011-11-30",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2011-12-31",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2012-01-31",
@@ -1138,7 +1139,7 @@
    },
    {
     "date": "2012-04-30",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2012-05-31",
@@ -1150,7 +1151,7 @@
    },
    {
     "date": "2012-07-31",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2012-08-31",
@@ -1186,27 +1187,27 @@
    },
    {
     "date": "2013-04-30",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2013-05-31",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2013-06-30",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2013-07-31",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2013-08-31",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2013-09-30",
-    "exposure": 0.0
+    "exposure": 0.5
    },
    {
     "date": "2013-10-31",

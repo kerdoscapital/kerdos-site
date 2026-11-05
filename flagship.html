@@ -334,8 +334,9 @@ function render(R,EQ){
     const pcx=(v,d=1)=>v==null?'—':(v>0?'+':v<0?'−':'')+Math.abs(v*100).toFixed(d)+'%';
     const NM={btc_above10m:'Bitcoin above its 10-month average',dollar_weak:'Dollar weakening over 3 months',
               gld_above10m:'Gold above its 10-month average',spread_narrowing:'Credit spreads not widening'};
-    const on=Object.entries(V.signals).filter(([k,v])=>v).length;
-    const rows=Object.entries(V.signals).map(([k,v])=>`<tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px;background:${v?'var(--c-bull)':'var(--stroke)'}"></span>${NM[k]||k}</td><td class="n">${v?'<b>Yes</b>':'<span class="muted">No</span>'}</td></tr>`).join('');
+    const on=Object.entries(V.signals).filter(([k,v])=>v===true).length;
+    const nav=V.signals_available??4;
+    const rows=Object.entries(V.signals).map(([k,v])=>`<tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px;background:${v===true?'var(--c-bull)':'var(--stroke)'}"></span>${NM[k]||k}</td><td class="n">${v===null?'<span class="muted">no data</span>':v?'<b>Yes</b>':'<span class="muted">No</span>'}</td></tr>`).join('');
     const bt=(o)=>o?`${(o.cagr*100).toFixed(1)}% · ${o.sharpe.toFixed(2)} · ${(o.maxdd*100).toFixed(0)}%`:'—';
     const lv=L4?`<div class="k-stats" style="margin-top:14px">
         <div class="k-stat"><span>Candidate v4</span><b class="${L4.v4.total>=0?'up':'dn'}">${pcx(L4.v4.total,2)}</b><em>worst drop ${pcx(L4.v4.maxdd,1)}</em></div>
@@ -345,7 +346,7 @@ function render(R,EQ){
       :`<p class="note" style="margin-top:12px">The forward test begins on ${fmtD(V.live_since)}. No live data yet — this panel will fill in from that date.</p>`;
     M.insertAdjacentHTML('beforeend',`<section class="sec" aria-label="Candidate model"><div class="k-sh"><div><span class="eyebrow">Candidate · being tested forward against the live model</span><h2>Model v4 — exposure from four signals</h2></div><span class="fl-tag">Not the published allocation</span></div>
       <div class="panel">
-        <p class="note" style="margin:0 0 12px">A second model runs alongside the one above. It holds the same sleeve — Risk On 35% SPY, 25% QQQ, 30% Bitcoin, 10% gold — and does only one thing: set total exposure to 100%, 50% or 0% on a majority vote of four signals. Today <b>${on} of 4</b> ${on===1?'is':'are'} positive, so it would hold <b>${Math.round(V.exposure*100)}%</b>.</p>
+        <p class="note" style="margin:0 0 12px">A second model runs alongside the one above. It holds the same sleeve — Risk On 35% SPY, 25% QQQ, 30% Bitcoin, 10% gold — and does only one thing: set total exposure to 100%, 50% or 0% on a majority vote of four signals. Today <b>${on} of ${nav}</b> ${on===1?'is':'are'} positive, so it would hold <b>${Math.round(V.exposure*100)}%</b>.</p>
         <div class="tblwrap" style="max-width:560px"><table><thead><tr><th>Signal</th><th class="n">Now</th></tr></thead><tbody>${rows}</tbody></table></div>
         <div class="k-stats" style="margin-top:16px">
           <div class="k-stat"><span>Backtest 2014–26 · v4</span><b>${bt(SB.v4&&SB.v4['2014–26'])}</b><em>return · Sharpe · worst drop</em></div>
