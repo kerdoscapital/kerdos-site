@@ -272,7 +272,7 @@ const pcs=(v,d=1)=>v==null?'—':(v>0?'+':v<0?'−':'')+Math.abs(v*100).toFixed(
 const sc=v=>v>0?'fl-pos':v<0?'fl-neg':'';
 const NAMES={SPY:'S&P 500 (SPY)',QQQ:'Nasdaq-100 (QQQ)',BTC:'Bitcoin',GLD:'Gold (GLD)',CASH:'T-bills'};
 const COLS={SPY:'#B9A98A',QQQ:'#857A63',BTC:'#E7E4DC',GLD:'#5E6468',CASH:'#33373B'};
-const FC='#B9A98A',SC='#858B90',HC='#7E6BB0';
+const FC='#B9A98A',SC='#858B90',HC='#FFFFFF';
 const A=['SPY','QQQ','BTC','GLD','CASH'];
 const parse=t=>{const[h,...r]=t.trim().split(/\r?\n/);const k=h.split(',');return r.map(x=>{const c=x.split(',');const o={};k.forEach((kk,i)=>o[kk]=c[i]);return o})};
 Promise.all([fetch('flagship/report.json').then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}),fetch('flagship/equity.csv').then(r=>r.text())])
