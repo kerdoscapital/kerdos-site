@@ -147,6 +147,7 @@ def nav_links(cur, cls_attr):
 def header(cur):
     return (f'<header class="k-nav"><div class="k-bar"><a class="k-word" href="index.html" aria-label="Kerdos Capital, overview">{logo_svg("kgn", lw=3.6, dot=5)}<span class="k-wt">Kerdos Capital</span></a>'
             f'<div class="k-right"><nav class="k-links" aria-label="Site"><span class="k-ind" aria-hidden="true"></span>{nav_links(cur, "site")}</nav>'
+            f'<a class="k-x" href="{X_URL}" target="_blank" rel="noopener" aria-label="Kerdos Capital on X, @kerdoscapital" title="@kerdoscapital on X">{X_ICON}</a>'
             f'{MENU}</div></div></header>')
 
 
@@ -160,7 +161,8 @@ def footer(asof, live_since):
     stamp = f'Models as of the {E(fmt_d(asof))} close' if asof else 'Models update daily'
     return (f'<footer class="foot pub">\n    <div class="kf-top">'
             f'<div class="kf-brand"><a class="k-word" href="index.html" aria-label="Kerdos Capital, overview">{logo_svg("kgf", lw=3.2, dot=4.6)}<span class="k-wt">Kerdos Capital</span></a>'
-            f'<p class="k-pos">Transparency over promises. <i>Methodology over speculation.</i> Discipline over emotion.</p></div>'
+            f'<p class="k-pos">Transparency over promises. <i>Methodology over speculation.</i> Discipline over emotion.</p>'
+            f'<a class="k-xf" href="{X_URL}" target="_blank" rel="noopener">{X_ICON} Follow @kerdoscapital on X</a></div>'
             f'<nav class="kf-col fl" aria-label="Footer"><span class="label">Research</span>' + ''.join(f'<a href="{h}">{t}</a>' for t, h, _ in research) + '</nav>'
             + col('Method', firm) + '</div>\n'
             '    <div class="disc">\n'
@@ -171,7 +173,7 @@ def footer(asof, live_since):
             'and they leave out taxes and most real-world trading frictions.' + live + ' Past and backtested performance does not guarantee future results. '
             'Bitcoin and high-beta stocks are highly volatile, and any investment can lose money. Do your own research, or speak with a licensed professional, before investing.</p>\n'
             '      <p><b>Data and timing.</b> Robinhood (prices, index levels, options open interest), FRED, Robert Shiller’s dataset, Coin Metrics, and the CME CF Bitcoin Real Time Index via Robinhood. '
-            'Prices may be delayed or contain errors. Each model runs once a day on the latest completed session’s closing data, and this site refreshes once a day, by about 10:00 a.m. ET.</p>\n'
+            'Prices may be delayed or contain errors. Each model runs once a day on the latest completed session’s closing data, and this site refreshes once a day after the 4:00 p.m. ET close, by about 4:30 p.m. ET. The Bitcoin desk uses the last completed UTC day.</p>\n'
             '    </div>\n'
             f'    <div class="kf-base"><span>© {year} Kerdos Capital. Independent research.</span><span>{stamp} · Hypothetical models, not investment advice</span></div>\n'
             '  </footer>')
@@ -538,7 +540,7 @@ METHOD_BODY = r'''  <section class="intro">
     <div class="k-split"><h2><small>05 · Timing</small>Updates and assumptions</h2>
       <dl class="k-dl">
         <div><dt>When the models run</dt><dd>Once a day, before the US open, on the latest completed session’s closing data. The Bitcoin desk uses the latest completed day and also runs on weekends.</dd></div>
-        <div><dt>When this site updates</dt><dd>Once a day, by about 10:00 a.m. ET. Each update is saved as a timestamped version.</dd></div>
+        <div><dt>When this site updates</dt><dd>Once a day, after the 4:00 p.m. ET close, by about 4:30 p.m. ET. Each update is saved as a timestamped version.</dd></div>
         <div><dt>When trades are assumed</dt><dd>A call made at one close is traded at the next close, in the backtests and in the flagship’s live record.</dd></div>
         <div><dt>Costs and income</dt><dd>Trading costs are included (0.05% per unit traded in the flagship). Cash earns the 3-month T-bill rate. Dividends on SPY and QQQ are approximated. No taxes.</dd></div>
         <div><dt>No look-ahead</dt><dd>Monthly macro data enter only after their publication dates, seasonal tables use only earlier years, and cycle measures use the running high rather than hindsight peaks.</dd></div>
@@ -812,6 +814,7 @@ def today_block(M, B, FL, TR, CAT):
     share_txt = f'Kerdos {fmt_d(FL["asof"])}: stocks {sl}, Bitcoin {bl}, flagship {inv}% invested.'
     foot = ('<div class="t-foot"><button class="t-btn" type="button" id="k-share">Share today’s call</button>'
             f'<a class="t-btn" href="https://twitter.com/intent/tweet?text={E(__import__("urllib.parse").parse.quote(share_txt))}&amp;url={E(__import__("urllib.parse").parse.quote(SITE + "/"))}" target="_blank" rel="noopener">Post on X</a>'
+            f'<a class="t-btn" href="{X_URL}" target="_blank" rel="noopener">{X_ICON} Follow @kerdoscapital</a>'
             '<a class="t-btn" href="feed.xml" type="application/rss+xml">Follow changes (RSS)</a>'
             '<span class="t-fine">Hypothetical model, not investment advice. Calls are made from the latest close and acted on at the next close.</span></div>'
             '<script>(()=>{const b=document.getElementById("k-share");if(!b)return;b.addEventListener("click",async()=>{const d={title:"Kerdos Capital",text:'
@@ -991,6 +994,130 @@ def momentum_section(M, B, TR, eyebrow='Regime momentum'):
             f'<div class="km-grid">{cards}</div></section>')
 
 
+# ---------------------------------------------------------------- 7. plain-terms explainers (Nov 2026)
+X_URL = 'https://x.com/kerdoscapital'
+X_ICON = '<span aria-hidden="true">&#x1D54F;</span>'   # the double-struck X character, not an image of a logo
+PLAIN_CSS = """<style id="k-plain">
+.k-x{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;margin-left:14px;border:1px solid var(--hair);border-radius:50%;
+  color:var(--ink-2);text-decoration:none;font-size:15px;line-height:1}
+.k-x:hover{color:var(--ink);border-color:var(--sage)}
+.k-xf{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-size:13px;color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--hair);padding-bottom:2px}
+.k-xf:hover{color:var(--ink)}
+.k-plain{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0;margin:var(--s-5,24px) 0 var(--s-5,24px)}
+.k-plain>div{padding:0 26px 0 0;display:grid;gap:9px;align-content:start}
+.k-plain>div+div{padding-left:26px;border-left:1px solid var(--hair)}
+@media (max-width:760px){.k-plain>div+div{padding:20px 0 0;border-left:0;border-top:1px solid var(--hair);margin-top:20px}.k-plain>div{padding-right:0}}
+.k-plain h3{font-family:var(--f-ui);font-size:11.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin:0}
+.k-plain p{font-size:13.5px;line-height:1.6;color:var(--ink-2);margin:0}
+.k-plain p b{color:var(--ink);font-weight:500}
+.k-plain .fine{font-size:12px;color:var(--muted)}
+.k-desk-plain{margin-top:0}
+</style>"""
+
+
+def _pct(v, d=1): return ('+' if v > 0 else '−' if v < 0 else '') + f'{abs(v) * 100:.{d}f}%'
+
+
+def options_plain(sym, a, report_asof):
+    spot = a.get('spot')
+    if not spot: return ''
+    px = (lambda v: f'${v:,.2f}') if sym != 'IBIT' else (lambda v: f'${v:,.2f}')
+    btc = a.get('btc_per_share')
+    inbtc = (lambda v: f' (about ${v * btc:,.0f} Bitcoin)') if (sym == 'IBIT' and btc) else (lambda v: '')
+    out = []
+    em, emf, days = a.get('em_week'), a.get('em_front'), a.get('em_front_days')
+    exp = (a.get('expiries') or [None])[0]
+    if em:
+        out.append(f'<p><b>Expected move.</b> Option prices imply a typical swing of about <b>±{em / spot * 100:.1f}%</b> ({px(em)}) over the next week'
+                   + (f' and ±{emf / spot * 100:.1f}% by the {E(fmt_d(exp))} expiration' if emf and exp else '') +
+                   f'. That is one standard deviation: about two weeks in three stay inside it. On a $10,000 position it is roughly ±${10000 * em / spot:,.0f} in a week.</p>')
+    pw, cw = (a.get('put_wall') or {}).get('strike'), (a.get('call_wall') or {}).get('strike')
+    if pw and cw:
+        out.append(f'<p><b>Where the bets cluster.</b> The most puts are open at <b>{px(pw)}</b>{inbtc(pw)}, {_pct(pw / spot - 1)} from here, and the most calls at <b>{px(cw)}</b>{inbtc(cw)}, {_pct(cw / spot - 1)}. '
+                   'Heavy strikes can slow a move near expiration, but price breaks through them often. Read them as possible speed bumps, not a floor or a ceiling.</p>')
+    fl, gex = a.get('gamma_flip'), a.get('gex')
+    if fl:
+        if spot < fl:
+            g = (f'<p><b>Dealer hedging.</b> {E(sym)} is below the estimated flip at <b>{px(fl)}</b>{inbtc(fl)}. Here, the dealers on the other side of these options tend to '
+                 'sell into drops and buy into rallies, which can make swings bigger and faster than usual until price is back above that level, if dealers are positioned as these estimates assume.</p>')
+        else:
+            g = (f'<p><b>Dealer hedging.</b> {E(sym)} is above the estimated flip at <b>{px(fl)}</b>{inbtc(fl)}. Here, dealers tend to buy dips and sell rips, '
+                 'which usually dampens daily swings, if dealers are positioned as these estimates assume. Below that level the effect reverses.</p>')
+        out.append(g)
+    elif gex is not None:
+        out.append('<p><b>Dealer hedging.</b> ' + ('Estimated dealer positioning is negative across the whole range checked, so hedging would tend to add to moves in either direction.' if gex < 0
+                   else 'Estimated dealer positioning is positive across the range checked, so hedging would tend to calm moves.') + '</p>')
+    pc, prev = a.get('all_pc'), (a.get('prev') or {}).get('all_pc')
+    if pc:
+        lean = ('more puts than calls, which is normal for index funds because investors use puts as insurance' if pc > 1 and sym != 'IBIT'
+                else 'more puts than calls: positioning leans defensive' if pc > 1 else 'more calls than puts: positioning leans bullish')
+        chg = '' if prev is None else (' It is unchanged from the prior session.' if abs(pc - prev) < .005 else
+                                       f' It was {prev:.2f} the prior session, so the balance shifted toward {"puts" if pc > prev else "calls"}.')
+        out.append(f'<p><b>Puts per call: {pc:.2f}.</b> There are {lean}. The change tells you more than the level.{chg}</p>')
+    return (f'<div><h3>{E(sym)} options, in plain terms</h3>' + ''.join(out) +
+            '<p class="fine">For your portfolio: none of this feeds the models or changes any desk’s exposure. It shows how bumpy the next few weeks may be. '
+            'A wider expected move or dealer hedging that adds to swings means the same position can move more, which is when position size matters most.</p></div>')
+
+
+def options_plain_block(O, syms):
+    if not O or not O.get('assets'): return ''
+    cols = ''.join(options_plain(s, O['assets'][s], O.get('asof')) for s in syms if s in O['assets'])
+    return _minus(f'<div class="k-plain" aria-label="What the options data means">{cols}</div>') if cols else ''
+
+
+def desk_plain(desk, R, TR):
+    if not R: return ''
+    expo, sc, th = R['exposure'], R.get('score'), R['thresholds']
+    st = lab(st3(R['regime'], R.get('exposure_map')))
+    trd = (TR or {}).get(desk) or {}
+    dn = (trd.get('down') or [None])[0]; up = (trd.get('up') or [None])[0]
+    tk = 'SPY' if desk == 'stocks' else 'Bitcoin'
+    money_ = (lambda v: f'${v:,.2f}') if desk == 'stocks' else (lambda v: f'${v:,.0f}')
+    cols = []
+    hold = {1.0: 'its full allocation', 0.5: 'half its allocation', 0.0: 'none of it, in T-bills instead'}
+    a = (f'<p>The desk is <b>{E(st)}</b>, so a portfolio following it holds <b>{hold.get(expo, f"{round(expo * 100)}%")}</b> in {"stocks (SPY and QQQ)" if desk == "stocks" else "Bitcoin"}.</p>')
+    if desk == 'stocks':
+        mg = (R.get('macro_gate') or {})
+        a += (f'<p>The score is <b>{sc:+.3f}</b>. Below <b>{th["bear"]:+.2f}</b> the desk would halve its stocks'
+              + (f'; SPY holding near <b>{money_(dn["price"])}</b> for about a week would likely do it' if dn else '') +
+              f'. It goes fully to cash only if the macro group also falls to <b>{mg.get("threshold", th.get("gate")):+.2f}</b> (now {mg.get("value", 0):+.2f}).</p>')
+    else:
+        a += (f'<p>The score is <b>{sc:+.3f}</b>. Above <b>{th["bull"]:+.2f}</b> the desk goes fully in'
+              + (f'; Bitcoin holding near <b>{money_(up["price"])}</b> for about five days would likely do it' if up else '') +
+              f'. Below <b>{th["bear"]:+.2f}</b> it goes to T-bills, unless Bitcoin is in a deep drawdown, when it keeps half.</p>')
+    cols.append('<div><h3>What the call means</h3>' + a + '</div>')
+    an, br = R.get('analog') or {}, R.get('by_regime') or {}
+    if desk == 'stocks' and an.get('dd10') is not None:
+        b = (f'<p>On past days since 2003 with a score like today’s, SPY fell <b>10% or more</b> at some point within six months <b>{an["dd10"]:.0f}%</b> of the time'
+             + (f', against {br["Bearish"]["dd10"]:.0f}% on days the desk was Risk Off' if br.get('Bearish', {}).get('dd10') is not None else '') +
+             f'. The typical three-month return was {an["med63"]:+.1f}%, with a usual range of {an["q10_63"]:+.1f}% to {an["q90_63"]:+.1f}%.</p>'
+             '<p>Read that as the risk you carry while invested, not a forecast: the desk is built to step aside in long declines, not to dodge every 10% dip.</p>')
+        cols.append('<div><h3>The odds behind it</h3>' + b + '</div>')
+    elif desk == 'bitcoin' and an.get('med30') is not None:
+        b = (f'<p>On past days since 2015 with a score like today’s, Bitcoin’s typical 30-day return was <b>{an["med30"]:+.1f}%</b> and it rose {an["pos30"]:.0f}% of the time, '
+             f'with a usual range of <b>{an["q10_30"]:+.1f}% to {an["q90_30"]:+.1f}%</b>. That range is why the desk sizes in halves: being half in limits the damage if the wide downside shows up.</p>')
+        cols.append('<div><h3>The odds behind it</h3>' + b + '</div>')
+    cw = R.get('crash_watch')
+    if desk == 'stocks' and cw:
+        c = (f'<p>Crash watch is at <b>{E(cw.get("status", ""))}</b>: {cw.get("on")} of {cw.get("total")} late-cycle conditions are on, such as a strong 12-month run or the VIX lifting off its low near a market high.</p>'
+             '<p>It is context only. It never changes the desk’s exposure, and these conditions can stay on for long stretches while a rally continues. It is a reason to know your own risk tolerance, not a sell signal.</p>')
+        cols.append('<div><h3>Crash watch, explained</h3>' + c + '</div>')
+    return _minus(f'<section class="sec" id="plain" aria-label="In plain terms"><div class="k-sh"><div><span class="eyebrow">In plain terms</span><h2>What this means for a portfolio</h2></div>'
+            '<p>The desk’s numbers translated for an investor. Educational and hypothetical; not advice for any one person’s portfolio.</p></div>'
+            f'<div class="k-plain k-desk-plain">{"".join(cols)}</div></section>')
+
+
+def _minus(h):
+    return re.sub(r'(?<![\w"=:-])-(?=\d)', '−', h) if h else h   # the site's typographic minus for negative numbers
+
+
+def put_after(s, id_, html_, after_re):
+    s = re.sub(r'<!--pre:' + id_ + r'-->.*?<!--/pre:' + id_ + r'-->', '', s, flags=re.S)
+    if not html_: return s
+    m = re.search(after_re, s, flags=re.S)
+    return s if not m else s[:m.end()] + pre_block(id_, html_) + s[m.end():]
+
+
 def put_block(s, id_, html_, before_re):
     """Insert (or replace) a pre-rendered block right before the first match of before_re."""
     s = re.sub(r'<!--pre:' + id_ + r'-->.*?<!--/pre:' + id_ + r'-->', '', s, flags=re.S)
@@ -1005,8 +1132,15 @@ def retail(s, f, M, B, FL):
     s = s.replace('<link rel="alternate" type="application/rss+xml" title="Kerdos Capital" href="feed.xml">\n', '')
     s = s.replace('</head>', '<link rel="alternate" type="application/rss+xml" title="Kerdos Capital" href="feed.xml">\n</head>', 1)
     s = re.sub(r'\n?<style id="k-mom">.*?</style>', '', s, flags=re.S)
+    s = re.sub(r'\n?<style id="k-plain">.*?</style>', '', s, flags=re.S).replace('</head>', PLAIN_CSS + '\n</head>', 1)
+    O = jload('opts/report.json')
+    syms = {'index.html': ['SPY', 'QQQ', 'IBIT'], 'stocks.html': ['SPY', 'QQQ'], 'bitcoin.html': ['IBIT']}.get(f)
+    if syms:
+        s = put_after(s, 'oxplain', options_plain_block(O, syms), r'<section class="sec ox-wrap"><div class="k-sh">.*?</div></div>|<section class="sec ox-wrap"><div class="ox"[^>]*></div>')
     if f in ('stocks.html', 'bitcoin.html'):
-        s = put_block(s, 'sim', sim_section(f.split('.')[0]), r'<section class="sec ox-wrap"|<footer class="foot pub">')
+        d_ = f.split('.')[0]
+        s = put_block(s, 'plain', desk_plain(d_, M if d_ == 'stocks' else B, TR), r'<!--pre:sim-->|<section class="sec ox-wrap"|<footer class="foot pub">')
+        s = put_block(s, 'sim', sim_section(d_), r'<section class="sec ox-wrap"|<footer class="foot pub">')
     if f == 'index.html':
         s = put_block(s, 'strip', strip_html(M, B, FL), r'<section class="k-hero-home"')
         s = put_block(s, 'today', today_block(M, B, FL, TR, CAT), r'<section class="sec" aria-label="The research desks"')
