@@ -2,7 +2,7 @@
 hypothetical closes. Assumption, stated on the site: the price holds at the level for HOLD sessions while every other
 input stays at today's reading (stocks: the other equity ETFs move by the same percentage; VIX, credit, rates unchanged).
 Writes <out>/triggers.json, and <out>/sim/sim.json (a grid of hypothetical prices, each run through the desk's engine,
-with the group and factor readings the site's scenario simulator starts from) and <out>/sim/tbill.csv.
+with the group and factor readings the site's scenario simulator starts from).
 Context only: it does not change any model."""
 import argparse, importlib.util, json, os, shutil, sys, tempfile, time
 import numpy as np, pandas as pd
@@ -111,9 +111,6 @@ def main():
         try:
             sim['stocks'] = {'asof': out['stocks']['asof'], 'price': round(spy, 2), 'spec': model_spec(E),
                              'grid': grid(fn, 'stocks', E, [round(x, 4) for x in np.arange(0.80, 1.1501, 0.025)], spy, 2)}
-            tb = M['TB3MS'].dropna(); tb.index = tb.index.strftime('%Y-%m')
-            os.makedirs(os.path.join(a.out, 'sim'), exist_ok=True)
-            tb.loc['2002-12':].rename('tb3ms').to_csv(os.path.join(a.out, 'sim', 'tbill.csv'), index_label='month')
         except Exception as e:
             print('stocks grid skipped:', type(e).__name__, e, file=sys.stderr)
         out['stocks']['secs'] = round(time.time() - t0, 1)
