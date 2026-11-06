@@ -213,21 +213,27 @@ td.hl{color:var(--white);font-weight:600}
 <meta name="twitter:image" content="https://kerdoscapital.xyz/og.png?v=20261104">
 <!--/kerdos-head-->
 <style id="k-retail">
-.k-today{border:1px solid var(--hair);border-radius:var(--r-card,6px);background:var(--panel);padding:clamp(18px,3vw,32px);margin:clamp(12px,2vw,24px) 0 0;display:grid;gap:22px}
-.k-today .t-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;align-items:baseline;border-bottom:1px solid var(--hair);padding-bottom:14px}
-.k-today .t-act{font-family:var(--f-serif);font-size:clamp(30px,4.2vw,46px);line-height:1.05;color:var(--ink)}
-.k-today .t-act small{display:block;font-family:var(--f-ui);font-size:14px;color:var(--ink-2);margin-top:8px;line-height:1.5}
-.k-today .t-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px 32px}
-.k-today .t-grid>div{display:grid;gap:8px;align-content:start}
-.k-today .t-st{font-size:15px;color:var(--ink)} .k-today .t-st b{font-weight:500}
-.k-today p,.k-today li{font-size:14px;line-height:1.55;color:var(--ink-2);margin:0}
-.k-today ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.k-strip{display:flex;flex-wrap:wrap;align-items:center;gap:4px 18px;padding:11px 0;border-bottom:1px solid var(--hair);font-family:var(--f-num);font-size:12px;letter-spacing:.02em;color:var(--muted)}
+.k-strip b{color:var(--ink);font-weight:400}
+.k-strip .dot{width:6px;height:6px;border-radius:50%;background:var(--sage);display:inline-block;margin-right:8px;vertical-align:1px}
+.k-strip a{margin-left:auto;color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--hair)}
+.k-strip a:hover{color:var(--ink)}
+@media (max-width:640px){.k-strip{font-size:11.5px}.k-strip .x{display:none}.k-strip a{margin-left:0}}
+.k-today .t-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin-top:var(--s-5,24px)}
+.k-today .t-grid>div{display:grid;gap:8px;align-content:start;padding:0 24px;border-left:1px solid var(--hair)}
+.k-today .t-grid>div:first-child{padding-left:0;border-left:0}
+@media (max-width:900px){.k-today .t-grid{grid-template-columns:1fr 1fr;gap:28px 0}.k-today .t-grid>div:nth-child(odd){padding-left:0;border-left:0}}
+@media (max-width:560px){.k-today .t-grid{grid-template-columns:1fr}.k-today .t-grid>div{padding:20px 0 0;border-left:0;border-top:1px solid var(--hair)}.k-today .t-grid>div:first-child{border-top:0;padding-top:0}}
+.k-today .t-st{font-size:14.5px;color:var(--ink)} .k-today .t-st b{font-weight:500}
+.k-today p,.k-today li{font-size:13.5px;line-height:1.55;color:var(--ink-2);margin:0}
+.k-today ul{list-style:none;margin:0;padding:0;display:grid;gap:7px}
 .k-today li .mono{color:var(--ink);margin-right:6px}
-.k-today .t-tag{font-family:var(--f-ui);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border:1px solid var(--hair);border-radius:99px;padding:1px 8px;margin-left:6px;white-space:nowrap}
-.k-today .t-foot{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;border-top:1px solid var(--hair);padding-top:14px}
-.k-today .t-btn{font-family:var(--f-ui);font-size:13px;color:var(--ink);background:transparent;border:1px solid var(--hair);border-radius:99px;padding:7px 14px;text-decoration:none;cursor:pointer}
-.k-today .t-btn:hover{border-color:var(--sage)}
-.k-today .t-fine{font-size:12px;color:var(--muted);flex:1 1 260px}
+.k-today .t-tag{font-family:var(--f-ui);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-left:6px;white-space:nowrap}
+.k-today .t-foot{display:flex;flex-wrap:wrap;gap:8px 22px;align-items:center;margin-top:var(--s-5,24px);padding-top:14px;border-top:1px solid var(--hair)}
+.k-today .t-btn{font-family:var(--f-ui);font-size:13px;color:var(--ink-2);background:none;border:0;border-bottom:1px solid var(--hair);padding:0 0 2px;text-decoration:none;cursor:pointer}
+.k-today .t-btn:hover{color:var(--ink);border-color:var(--sage)}
+.k-today .t-fine{font-size:12px;color:var(--muted)}
+.k-today .t-foot .t-fine{margin-left:auto}
 .k-calls table{width:100%;border-collapse:collapse;font-size:13.5px}
 .k-calls th{font-family:var(--f-ui);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500;text-align:left;padding:8px 10px;border-bottom:1px solid var(--hair)}
 .k-calls td{padding:9px 10px;border-bottom:1px solid var(--hair);color:var(--ink-2);white-space:nowrap}
