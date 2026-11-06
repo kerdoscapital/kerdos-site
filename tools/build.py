@@ -40,10 +40,12 @@ PAGES = {   # file: (title, description, nav label)
                       'Daily model for the 25 highest-beta Nasdaq-100 stocks, a satellite sleeve outside the flagship portfolio, with a backtest against holding the basket and QQQ.', 'High Beta'),
     'methodology.html': (f'Methodology · {NAME}',
                          'How the Kerdos models work: the inputs they read, how a score becomes a state and a position, how risk is managed, when they update, the signal archive and their limits.', 'Methodology'),
+    'notes.html': (f'Weekly Notes · {NAME}',
+                   'The Kerdos week in plain words: what moved, what the stock and Bitcoin desks did and why, and the data coming next.', 'Notes'),
     'about.html': (f'About · {NAME}',
                    'What Kerdos Capital is, why it publishes its research in the open, how its models are built and run, and what it is not.', 'About'),
 }
-NAV_ORDER = ['index.html', 'flagship.html', 'stocks.html', 'bitcoin.html', 'highbeta.html', 'methodology.html', 'about.html']
+NAV_ORDER = ['index.html', 'flagship.html', 'stocks.html', 'bitcoin.html', 'highbeta.html', 'notes.html', 'methodology.html', 'about.html']
 RETIRED = {'portfolio.html': 'flagship.html'}   # old pages kept as redirects so outside links still work
 MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 E = lambda s: html.escape(str(s), quote=True)
@@ -194,6 +196,7 @@ def fix_page(f, s, img_v):
     s = re.sub(r'<footer class="foot pub">.*?</footer>', lambda m: footer(*FOOT), s, count=1, flags=re.S)
     # the site's web fonts
     s = re.sub(r'<link rel="stylesheet" href="https://fonts\.googleapis\.com/css2\?[^"]*">', f'<link rel="stylesheet" href="{FONTS_CSS}">', s)
+    s = s.replace("String(t).replace('T',' ')", "String(t).replace(/T(?=\\d)/,' ')")   # the old form turned 'UTC' into 'U C'
     return s
 
 
@@ -583,7 +586,7 @@ const csv=t=>{const[h,...r]=t.trim().split(/\r?\n/);const k=h.split(',');return 
 const NM={trend:'Trend',momentum:'Momentum',internals:'Internals',macro:'Macro',volatility:'Volatility & sentiment',calendar:'Calendar',valuation:'Valuation',cycle:'Cycle & seasonality'};
 const wbar=(el,gw)=>{if(!el)return;const e=Object.entries(gw||{}).sort((a,b)=>b[1]-a[1]);if(!e.length){el.innerHTML='';return}
   el.innerHTML=e.map(([k,v])=>`<div><span>${NM[k]||k}</span><i style="width:${(v/e[0][1]*100).toFixed(0)}%"></i><span>${Math.round(v*100)}%</span></div>`).join('')};
-const gen=t=>t?String(t).replace('T',' ').replace(/:\d\d(\.\d+)?Z$/,' UTC').replace(/Z$/,' UTC'):'—';
+const gen=t=>t?String(t).replace(/T(?=\d)/,' ').replace(/:\d\d(\.\d+)?Z$/,' UTC').replace(/Z$/,' UTC'):'—';
 let REP=null;
 Promise.all([J('stocks/report.json'),J('bitcoin/report.json'),J('highbeta/report.json'),J('flagship/report.json')]).then(([M,B,G,F])=>{
   REP={M,B,G,F};
@@ -632,6 +635,301 @@ if('IntersectionObserver' in window&&location.hash!=='#archive'){const io=new In
 '''
 
 
+# ---------------------------------------------------------------- 6. retail layer (Nov 2026)
+# Today panel (action, levels, next data, share, alerts), scored call record, weekly notes page, RSS feed.
+# Inputs, all optional: triggers.json (tools/triggers.py), catalysts.json and weekly/*.json (written by the daily run).
+import csv as _csv
+import glob as _glob
+
+RETAIL_CSS = '''<style id="k-retail">
+.k-today{border:1px solid var(--hair);border-radius:var(--r-card,6px);background:var(--panel);padding:clamp(18px,3vw,32px);margin:clamp(12px,2vw,24px) 0 0;display:grid;gap:22px}
+.k-today .t-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;align-items:baseline;border-bottom:1px solid var(--hair);padding-bottom:14px}
+.k-today .t-act{font-family:var(--f-serif);font-size:clamp(30px,4.2vw,46px);line-height:1.05;color:var(--ink)}
+.k-today .t-act small{display:block;font-family:var(--f-ui);font-size:14px;color:var(--ink-2);margin-top:8px;line-height:1.5}
+.k-today .t-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px 32px}
+.k-today .t-grid>div{display:grid;gap:8px;align-content:start}
+.k-today .t-st{font-size:15px;color:var(--ink)} .k-today .t-st b{font-weight:500}
+.k-today p,.k-today li{font-size:14px;line-height:1.55;color:var(--ink-2);margin:0}
+.k-today ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.k-today li .mono{color:var(--ink);margin-right:6px}
+.k-today .t-tag{font-family:var(--f-ui);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border:1px solid var(--hair);border-radius:99px;padding:1px 8px;margin-left:6px;white-space:nowrap}
+.k-today .t-foot{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;border-top:1px solid var(--hair);padding-top:14px}
+.k-today .t-btn{font-family:var(--f-ui);font-size:13px;color:var(--ink);background:transparent;border:1px solid var(--hair);border-radius:99px;padding:7px 14px;text-decoration:none;cursor:pointer}
+.k-today .t-btn:hover{border-color:var(--sage)}
+.k-today .t-fine{font-size:12px;color:var(--muted);flex:1 1 260px}
+.k-calls table{width:100%;border-collapse:collapse;font-size:13.5px}
+.k-calls th{font-family:var(--f-ui);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500;text-align:left;padding:8px 10px;border-bottom:1px solid var(--hair)}
+.k-calls td{padding:9px 10px;border-bottom:1px solid var(--hair);color:var(--ink-2);white-space:nowrap}
+.k-calls td.n,.k-calls th.n{text-align:right;font-family:var(--f-num)}
+.k-calls .ok{color:var(--sage)} .k-calls .bad{color:#A9705F}
+.k-calls .sum{display:flex;flex-wrap:wrap;gap:8px 28px;margin:16px 0 4px;font-size:14px;color:var(--ink-2)} .k-calls .sum b{color:var(--ink);font-weight:500}
+@media (max-width:640px){.k-calls th:nth-child(4),.k-calls td:nth-child(4),.k-calls th:nth-child(6),.k-calls td:nth-child(6){display:none}.k-calls td,.k-calls th{padding:8px 6px}.k-calls td .label{display:block;font-size:10px}}
+.k-notes article{border-top:1px solid var(--hair);padding:28px 0;display:grid;gap:12px;max-width:72ch}
+.k-notes article h2{font-family:var(--f-serif);font-weight:400;font-size:clamp(26px,3vw,36px);line-height:1.1;margin:0;color:var(--ink)}
+.k-notes article p{font-size:15.5px;line-height:1.65;color:var(--ink-2);margin:0}
+</style>'''
+
+
+def _rows(path):
+    try:
+        with open(p(path), encoding='utf-8') as fh: return list(_csv.DictReader(fh))
+    except Exception: return []
+
+
+def _f(x):
+    try: return float(x)
+    except Exception: return None
+
+
+def calls(path, price_col, mp, asset, min_date=None):
+    """Every change of display state in a desk's history, with the price at the call and the move until the next change."""
+    rows = [r for r in _rows(path) if r.get('regime') and _f(r.get(price_col)) is not None]
+    if min_date: rows = [r for r in rows if r['date'] >= min_date]
+    runs = []
+    for r in rows:
+        s = st3(r['regime'], mp)
+        if not runs or runs[-1]['state'] != s:
+            runs.append({'date': r['date'], 'state': s, 'expo': (mp or {}).get(r['regime'], 0), 'price': _f(r[price_col]), 'asset': asset})
+        runs[-1]['end_date'], runs[-1]['end_price'] = r['date'], _f(r[price_col])
+    expo = {'Bullish': 1.0, 'Neutral': 0.5, 'Bearish': 0.0}
+    out = []
+    for i in range(1, len(runs)):
+        a, b = runs[i - 1], runs[i]
+        b['from'] = a['state']; b['open'] = i == len(runs) - 1
+        if not b['open']:                      # the call stands until the next change: measure to that call's price
+            b['end_date'], b['end_price'] = runs[i + 1]['date'], runs[i + 1]['price']
+        b['move'] = b['end_price'] / b['price'] - 1
+        b['delta'] = expo[b['state']] - expo[a['state']]
+        b['effect'] = b['delta'] * b['move']   # vs leaving the sleeve where it was: + helped, − cost
+        b['helped'] = b['effect'] > 0.0005
+        b['flat'] = abs(b['effect']) <= 0.0005
+        out.append(b)
+    return out
+
+
+def pct_s(v, d=1): return ('+' if v > 0 else '−' if v < 0 else '') + f'{abs(v) * 100:.{d}f}%'
+
+
+def money(v, asset): return usd(v, 0) if asset == 'Bitcoin' else usd(v)
+
+
+def days_between(a, b): return (dt.date.fromisoformat(b[:10]) - dt.date.fromisoformat(a[:10])).days
+
+
+def today_et():
+    try:
+        from zoneinfo import ZoneInfo
+        return dt.datetime.now(ZoneInfo('America/New_York')).date().isoformat()
+    except Exception:
+        return dt.date.today().isoformat()
+
+
+def flagship_action(FL):
+    """What the flagship does at the next close, from the last two rows of flagship/history.csv."""
+    h = _rows('flagship/history.csv')
+    if len(h) < 2 or not FL: return 'No trade', 'The flagship history did not load.'
+    a, b = h[-2], h[-1]; RU = FL.get('rules', {})
+    se, be = RU.get('stocks_exposure') or {}, RU.get('btc_exposure') or {}
+    bits = []
+    def leg(name, old, new, emap, assets):
+        eo, en = emap.get(old, 0) if old else 0, emap.get(new, 0) if new else 0
+        if eo == en: return
+        if en < eo:
+            bits.append(f'{name} desk {lab(st3(old, emap))} → {lab(st3(new, emap))}: sell ' + ('all of ' if en == 0 else f'{round((1 - en / eo) * 100)}% of ') + assets)
+        else:
+            bits.append(f'{name} desk {lab(st3(old, emap))} → {lab(st3(new, emap))}: buy {assets} up to {round(en * 100)}% of the sleeve, using T-bills first')
+    leg('Stocks', a.get('stocks'), b.get('stocks'), se, 'SPY and QQQ')
+    leg('Bitcoin', a.get('bitcoin'), b.get('bitcoin'), be, 'the Bitcoin sleeve')
+    month = a['date'][:7] != b['date'][:7]
+    if month: bits.append('Monthly rebalance: SPY, QQQ, gold and Bitcoin reset to target weights')
+    if not bits: return 'No trade', 'Neither desk changed state, so the portfolio holds as it is.'
+    return ('Trade at the next close', ' · '.join(bits) + '.')
+
+
+def levels_html(TR, M, B):
+    out = []
+    def line(name, d, asset, tick):
+        if not d: return
+        downs, ups = d.get('down') or [], d.get('up') or []
+        expo = d.get('exposure', 0); L = lambda e: lab(st3({1.0: 'Bullish', 0.5: 'Neutral', 0.0: 'Bearish'}.get(e, 'Neutral'), {'Bullish': 1, 'Neutral': .5, 'Bearish': 0}))
+        for x in downs[:1]:
+            out.append(f'<li><span class="mono">{E(tick)} ≤ {money(x["price"], asset)}</span>{E(name)} would likely drop to {E(L(x["exposure"]))} ({round(x["exposure"] * 100)}%) · {pct_s(x["move"] / 100)} from today</li>')
+        for x in ups[:1]:
+            out.append(f'<li><span class="mono">{E(tick)} ≥ {money(x["price"], asset)}</span>{E(name)} would likely rise to {E(L(x["exposure"]))} ({round(x["exposure"] * 100)}%) · {pct_s(x["move"] / 100)} from today</li>')
+        if not downs and expo > 0:
+            out.append(f'<li><span class="mono">{E(tick)}</span>A price drop alone would not cut {E(name)} further; the macro inputs would also have to turn.</li>')
+        if not ups and expo < 1:
+            out.append(f'<li><span class="mono">{E(tick)}</span>A price rise alone would not lift {E(name)}; other inputs would also have to improve.</li>')
+    if TR:
+        line('the stocks desk', TR.get('stocks'), 'stocks', 'SPY')
+        line('the Bitcoin desk', TR.get('bitcoin'), 'Bitcoin', 'BTC')
+    if not out: return ''
+    hold = (TR or {}).get('hold_sessions', 5)
+    return ('<div><span class="label">Levels to watch</span><ul>' + ''.join(out) + '</ul>'
+            f'<p class="t-fine">Found by re-running each desk’s own model on hypothetical closes: the price holds at that level for {hold} sessions while every other input stays where it is today. A guide, not a promise: other inputs move too.</p></div>')
+
+
+def catalysts_html(CAT, today):
+    items = sorted([c for c in (CAT or []) if str(c.get('date', '')) >= today], key=lambda c: (c['date'], c.get('time', '')))[:4]
+    if not items: return ''
+    li = ''.join(f'<li><span class="mono">{E(fmt_d(c["date"])[:-6])}</span>{E(c.get("event", ""))}'
+                 + (f'<span class="t-tag">{E(c["feeds"])}</span>' if c.get('feeds') else '') + '</li>' for c in items)
+    return f'<div><span class="label">Next data that can move the desks</span><ul>{li}</ul></div>'
+
+
+def latest_note():
+    fs = sorted(_glob.glob(p('weekly', '*.json')))
+    for f in reversed(fs):
+        try:
+            n = json.load(open(f, encoding='utf-8'))
+            if n.get('body'): return n
+        except Exception: pass
+    return None
+
+
+def today_block(M, B, FL, TR, CAT):
+    if not (M and B and FL): return ''
+    t = today_et()
+    act, why = flagship_action(FL)
+    inv = round((1 - FL['weights'].get('CASH', 0)) * 100)
+    ss, bs = st_since('stocks/history.csv', M.get('exposure_map')) or M['regime_since'], st_since('bitcoin/history.csv', B.get('exposure_map')) or B['regime_since']
+    sl, bl = lab(st3(M['regime'], M.get('exposure_map'))), lab(st3(B['regime'], B.get('exposure_map')))
+    dsd = lambda s, a: days_between(s, a)
+    st_html = (f'<div><span class="label">Where the model stands</span>'
+               f'<div class="t-st">Flagship <b>{inv}% invested</b></div>'
+               f'<div class="t-st">Stocks desk <b>{E(sl)}</b> · {round(M["exposure"] * 100)}% · {dsd(ss, M["asof"])} days, since {E(fmt_d(ss))}</div>'
+               f'<div class="t-st">Bitcoin desk <b>{E(bl)}</b> · {round(B["exposure"] * 100)}% · {dsd(bs, B["asof"])} days, since {E(fmt_d(bs))}</div>'
+               f'<p>SPY {usd(M["spy"])} ({sg(M["spy_chg"]["d1"])}) · BTC {usd(B.get("price"), 0)} ({sg(B.get("chg1"))})</p></div>')
+    note = latest_note()
+    note_html = (f'<div><span class="label">This week · {E(fmt_d(note["date"]))}</span><p>{E(note["body"][0])}</p>'
+                 f'<p><a href="notes.html" style="color:var(--ink)">Read the weekly note →</a></p></div>') if note else ''
+    share_txt = f'Kerdos {fmt_d(FL["asof"])}: stocks {sl}, Bitcoin {bl}, flagship {inv}% invested.'
+    foot = ('<div class="t-foot"><button class="t-btn" type="button" id="k-share">Share today’s call</button>'
+            f'<a class="t-btn" href="https://twitter.com/intent/tweet?text={E(__import__("urllib.parse").parse.quote(share_txt))}&amp;url={E(__import__("urllib.parse").parse.quote(SITE + "/"))}" target="_blank" rel="noopener">Post on X</a>'
+            '<a class="t-btn" href="feed.xml" type="application/rss+xml">Follow changes (RSS)</a>'
+            '<span class="t-fine">Hypothetical model, not investment advice. Calls are made from the latest close and acted on at the next close.</span></div>'
+            '<script>(()=>{const b=document.getElementById("k-share");if(!b)return;b.addEventListener("click",async()=>{const d={title:"Kerdos Capital",text:'
+            + json.dumps(share_txt) + ',url:location.origin+"/"};try{if(navigator.share){await navigator.share(d);return}await navigator.clipboard.writeText(d.text+" "+d.url);b.textContent="Link copied"}catch(e){}})})()</script>')
+    return (f'<section class="k-today" id="today" aria-label="Today">'
+            f'<div class="t-head"><span class="eyebrow">Today · from the {E(fmt_d(FL["asof"]))} close</span><span class="label">Updated daily by about 10 a.m. ET</span></div>'
+            f'<div class="t-act">{E(act)}.<small>{E(why)}</small></div>'
+            f'<div class="t-grid">{st_html}{levels_html(TR, M, B)}{catalysts_html(CAT, t)}{note_html}</div>{foot}</section>')
+
+
+def calls_table(rows, n=None, live_since=None):
+    rs = sorted(rows, key=lambda r: r['date'], reverse=True)
+    closed = [r for r in rs if not r['open']]
+    if n:   # the latest n from each desk, so a busy desk does not crowd out a quiet one
+        rs = sorted([r for d in {x['asset'] for x in rs} for r in [x for x in rs if x['asset'] == d][:n]], key=lambda r: r['date'], reverse=True)
+    tr = ''
+    for r in rs:
+        bt = live_since and r['date'] < live_since
+        res = ('<span class="label">open</span>' if r['open'] else '<span class="label">flat</span>' if r['flat'] else
+               (f'<span class="ok">helped {pct_s(r["effect"])}</span>' if r['helped'] else f'<span class="bad">cost {pct_s(r["effect"])}</span>'))
+        tr += (f'<tr><td>{E(fmt_d(r["date"]))}{" <span class=label>backtest</span>" if bt else ""}</td><td>{E(r["asset"])}</td>'
+               f'<td>{E(lab(r["from"]))} → <b style="color:var(--ink);font-weight:500">{E(lab(r["state"]))}</b></td>'
+               f'<td class="n">{money(r["price"], r["asset"])}</td><td class="n">{pct_s(r["move"])}</td><td class="n">{days_between(r["date"], r["end_date"])}d</td><td>{res}</td></tr>')
+    def med(xs):
+        xs = sorted(x['effect'] for x in xs); n_ = len(xs)
+        return 0 if not n_ else (xs[n_ // 2] if n_ % 2 else (xs[n_ // 2 - 1] + xs[n_ // 2]) / 2)
+    summ = ''
+    for desk in sorted({r['asset'] for r in closed}, key=lambda d: (not d.startswith('Stocks'), d)):
+        c = [r for r in closed if r['asset'] == desk]; H = [r for r in c if r['helped']]; C = [r for r in c if not r['helped'] and not r['flat']]
+        summ += (f'<div class="sum"><span><b>{E(desk)}</b> · {len(c)} completed calls since {E(c[-1]["date"][:4])}</span>'
+                 f'<span><b>{len(H)}</b> helped · <b>{len(C)}</b> cost · <b>{len(c) - len(H) - len(C)}</b> flat</span>'
+                 f'<span>Typical helped call <b>{pct_s(med(H))}</b> · typical costly call <b>{pct_s(med(C))}</b></span></div>')
+    return (summ + '<div class="tblwrap"><table><thead><tr><th>Date</th><th>Desk</th><th>Change</th><th class="n">Price at call</th>'
+            '<th class="n">Price move until next call</th><th class="n">Lasted</th><th>Effect</th></tr></thead><tbody>' + tr + '</tbody></table></div>')
+
+
+CALLS_NOTE = ('Each call is scored against leaving the sleeve where it was: the change in exposure times the price move until the next call. '
+              'Cutting from 100% to 50% before a 10% fall scores +5%; doing it before a 10% rise scores −5%. Moves under 0.05% count as flat. '
+              'Trend models are usually wrong more often than right and earn their keep on a few large moves, so compare the typical (median) size of each, not only the counts. T-bill interest is left out. '
+              'Rows marked backtest are the current rules run over past data, not calls published at the time.')
+
+
+def all_calls(M, B):
+    return (calls('stocks/history.csv', 'spy', (M or {}).get('exposure_map'), 'Stocks · SPY', '2003-01-01')
+            + calls('bitcoin/history.csv', 'price', (B or {}).get('exposure_map'), 'Bitcoin', '2015-01-01'))
+
+
+def calls_section(M, B, FL, n=4):
+    rows = all_calls(M, B)
+    if not rows: return ''
+    return ('<section class="sec k-calls" id="calls" aria-label="Recent calls, scored"><div class="k-sh"><div><span class="eyebrow">Accountability</span>'
+            '<h2>Recent calls, scored</h2></div><p>Every change of state, the price when it was made, and what the market did before the next change. '
+            '<a href="methodology.html#calls" style="color:var(--ink)">Every call since 2003 →</a></p></div>'
+            + calls_table(rows, n, (FL or {}).get('live_since')) + f'<p class="note">{CALLS_NOTE}</p></section>')
+
+
+def notes_body():
+    fs = sorted(_glob.glob(p('weekly', '*.json')), reverse=True); arts = ''
+    for f in fs:
+        try: n = json.load(open(f, encoding='utf-8'))
+        except Exception: continue
+        arts += (f'<article id="w{E(n["date"])}"><span class="eyebrow">Week to {E(fmt_d(n["date"]))}</span><h2>{E(n.get("title", "Weekly note"))}</h2>'
+                 + ''.join(f'<p>{E(x)}</p>' for x in n.get('body', [])) + '</article>')
+    if not arts: arts = '<p class="note">The first weekly note will appear here.</p>'
+    return ('  <section class="intro"><span class="eyebrow">Weekly notes</span><h1 class="k-display" style="font-size:clamp(44px,6vw,76px);line-height:1;margin:.2em 0">The week in plain words</h1>'
+            '<p style="max-width:60ch;color:var(--ink-2)">Each weekend: what moved, what the desks did and why, and what is coming next. Written from the models’ own reports. Not investment advice.</p></section>\n'
+            f'  <section class="sec k-notes">{arts}</section>')
+
+
+def rfc822(d):
+    return dt.datetime.combine(dt.date.fromisoformat(d[:10]), dt.time(14, 30)).strftime('%a, %d %b %Y %H:%M:%S +0000')
+
+
+def make_feed(M, B, FL):
+    items = []
+    live = (FL or {}).get('live_since') or '2026-10-26'
+    for r in all_calls(M, B):
+        if r['date'] < live: continue
+        items.append((r['date'], f'{r["asset"].split(" ·")[0]} desk: {lab(r["from"])} → {lab(r["state"])}',
+                      f'On the {fmt_d(r["date"])} close the {r["asset"]} desk moved from {lab(r["from"])} to {lab(r["state"])} at {money(r["price"], r["asset"])}. '
+                      'The flagship acts at the next close. Hypothetical model, not investment advice.', f'{SITE}/', f'call-{r["asset"][:3]}-{r["date"]}'))
+    for f in sorted(_glob.glob(p('weekly', '*.json'))):
+        try: n = json.load(open(f, encoding='utf-8'))
+        except Exception: continue
+        items.append((n['date'], 'Weekly note: ' + n.get('title', ''), ' '.join(n.get('body', [])), f'{SITE}/notes.html#w{n["date"]}', f'week-{n["date"]}'))
+    if M:
+        items.append((M['asof'], f'Daily: stocks {lab(st3(M["regime"], M.get("exposure_map")))}, Bitcoin {lab(st3(B["regime"], B.get("exposure_map"))) if B else "—"}',
+                      flagship_action(FL)[0] + '. ' + flagship_action(FL)[1], f'{SITE}/#today', f'daily-{M["asof"]}'))
+    items.sort(key=lambda x: x[0], reverse=True)
+    body = ''.join(f'<item><title>{E(t)}</title><link>{E(l)}</link><guid isPermaLink="false">{E(g)}</guid><pubDate>{rfc822(d)}</pubDate><description>{E(s)}</description></item>\n'
+                   for d, t, s, l, g in items[:40])
+    wr('feed.xml', f'<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel><title>{NAME}</title><link>{SITE}/</link>'
+       f'<description>Daily rules-based regime calls for US stocks and Bitcoin, the flagship model portfolio, and weekly notes. Hypothetical models, not investment advice.</description>'
+       f'<language>en-us</language>\n{body}</channel></rss>\n')
+
+
+def put_block(s, id_, html_, before_re):
+    """Insert (or replace) a pre-rendered block right before the first match of before_re."""
+    s = re.sub(r'<!--pre:' + id_ + r'-->.*?<!--/pre:' + id_ + r'-->', '', s, flags=re.S)
+    if not html_: return s
+    m = re.search(before_re, s)
+    return s if not m else s[:m.start()] + pre_block(id_, html_) + s[m.start():]
+
+
+def retail(s, f, M, B, FL):
+    TR, CAT = jload('triggers.json'), jload('catalysts.json')
+    s = re.sub(r'\n?<style id="k-retail">.*?</style>', '', s, flags=re.S).replace('</head>', RETAIL_CSS + '\n</head>', 1)
+    s = s.replace('<link rel="alternate" type="application/rss+xml" title="Kerdos Capital" href="feed.xml">\n', '')
+    s = s.replace('</head>', '<link rel="alternate" type="application/rss+xml" title="Kerdos Capital" href="feed.xml">\n</head>', 1)
+    if f == 'index.html':
+        s = put_block(s, 'today', today_block(M, B, FL, TR, CAT), r'<section class="k-hero-home"')
+        s = put_block(s, 'calls', calls_section(M, B, FL), r'<section class="sec" id="integrity"')
+    if f == 'flagship.html':
+        s = put_block(s, 'today', today_block(M, B, FL, TR, CAT), r'<section')
+    if f == 'methodology.html':
+        rows = all_calls(M, B)
+        if rows:
+            sec = ('<section class="sec k-calls" id="calls" aria-label="Every call, scored"><div class="k-sh"><div><span class="eyebrow">08 · Call record</span>'
+                   '<h2>Every call, scored</h2></div><p>Every change of state on the stocks desk since 2003 and the Bitcoin desk since 2015.</p></div>'
+                   + calls_table(rows, None, (FL or {}).get('live_since')) + f'<p class="note">{CALLS_NOTE}</p></section>')
+            s = put_block(s, 'calls', sec, r'<section class="sec" id="limits"|<footer class="foot pub">')
+    return s
+
+
 def main():
     M, B, G = jload('stocks/report.json'), jload('bitcoin/report.json'), jload('highbeta/report.json')
     FL = jload('flagship/report.json'); PF = jload('portfolio_backtest.json')
@@ -652,6 +950,8 @@ def main():
             if fp: wr('flagship.html', fp)
         mp = make_shell_page(idx, 'methodology_body.html', METHOD_BODY)
         if mp: wr('methodology.html', mp)
+        npg = make_shell_page(idx, 'notes_body.html', notes_body())
+        if npg: wr('notes.html', npg)
     for f in PAGES:
         if not exists(f): continue
         s = fix_page(f, rd(f), img_v)
@@ -664,7 +964,11 @@ def main():
             s = prerender_loading(s, summary_line('High beta', lab(st3(G['regime'], G.get('exposure_map'))), G['exposure'], f"basket {G['level']:.2f}", G['asof']))
         elif f == 'flagship.html' and FL:
             s = prerender_loading(s, summary_line('Flagship portfolio', f"stocks desk {lab(st3(FL['stocks_regime'], FL.get('rules', {}).get('stocks_exposure')))}, Bitcoin desk {lab(st3(FL.get('btc_regime'), FL.get('rules', {}).get('btc_exposure'))) or '—'}", 1 - FL.get('weights', {}).get('CASH', 0), '60% stocks / 30% Bitcoin / 10% gold target', FL['asof']))
+        try: s = retail(s, f, M, B, FL)
+        except Exception as e: print(f'retail layer skipped on {f}:', type(e).__name__, e)
         wr(f, s)
+    try: make_feed(M, B, FL)
+    except Exception as e: print('feed.xml skipped:', e)
     for old, new in RETIRED.items():
         title = PAGES[new][0]
         wr(old, f'<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<title>{E(title)}</title>\n'

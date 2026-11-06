@@ -1,0 +1,93 @@
+"""Price levels that would change a desk's exposure, found by re-running the desk's own published engine on
+hypothetical closes. Assumption, stated on the site: the price holds at the level for HOLD sessions while every other
+input stays at today's reading (stocks: the other equity ETFs move by the same percentage; VIX, credit, rates unchanged).
+Writes <out>/triggers.json. Context only: it does not change any model."""
+import argparse, importlib.util, json, os, shutil, sys, tempfile, time
+import numpy as np, pandas as pd
+
+HOLD = 5
+EQ = ['SPY', 'QQQ', 'IWM', 'RSP', 'SMH', 'EEM', 'XLY', 'XLP']
+
+
+def mod(path, name):
+    spec = importlib.util.spec_from_file_location(name, path); m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m); return m
+
+
+def stocks_state(E, S, M, r):
+    S2 = S.copy(); t = S2.SPY.last_valid_index(); last = S2.loc[:t].ffill().iloc[-1]
+    days = pd.bdate_range(t + pd.Timedelta(days=1), periods=HOLD)
+    add = pd.DataFrame([last] * HOLD, index=days); add.index.name = 'date'
+    for c in EQ:
+        if c in add: add[c] = last[c] * r
+    if 'spy_vol' in add: add['spy_vol'] = last.get('spy_vol')
+    S2 = pd.concat([S2, add])
+    X = E.assemble(S2, M); f = E.features(X, M); score, grp = E.composite(f); sig, _ = E.regimes(score)
+    reg = E.states(sig, grp['macro'], X.SPY, f._m50, cpi=f._cpi)
+    return E.EXPOSURE[reg.iloc[-1]], reg
+
+
+def btc_state(E, S, G, FX, r):
+    S2 = S.copy(); t = S2.btc.last_valid_index(); last = S2.loc[:t].ffill().iloc[-1]
+    days = pd.date_range(t + pd.Timedelta(days=1), periods=HOLD, freq='D')
+    add = pd.DataFrame([last] * HOLD, index=days); add['btc'] = last['btc'] * r; add.index.name = 'date'
+    S2 = pd.concat([S2, add])
+    X = E.assemble(S2, G, FX); X = X[X.btc.notna()]; f = E.features(X); score, grp = E.composite(f); sig, _ = E.regimes(score)
+    reg = E.states(sig, grp['macro'], X.btc, f._m20w, f._m200w)
+    return E.EXPOSURE[reg.iloc[-1]], reg
+
+
+def levels(fn, spot, base, lo, hi, nd):
+    """Every exposure change reachable by holding a price between lo*spot and hi*spot, nearest first."""
+    res, b = {'down': [], 'up': []}, base
+    while b > 0:
+        r, e = search(fn, lo, 1.0, b, True, cur=1.0 if not res['down'] else res['down'][-1]['r'])
+        if r is None: break
+        res['down'].append({'r': r, 'price': round(spot * r, nd), 'move': round((r - 1) * 100, 1), 'exposure': e}); b = e
+    b = base
+    while b < 1:
+        r, e = search(fn, 1.0, hi, b, False, cur=1.0 if not res['up'] else res['up'][-1]['r'])
+        if r is None: break
+        res['up'].append({'r': r, 'price': round(spot * r, nd), 'move': round((r - 1) * 100, 1), 'exposure': e}); b = e
+    for k in res:
+        for x in res[k]: x.pop('r')
+    return res
+
+
+def search(fn, lo, hi, base, want_lower, cur=1.0, it=13):
+    """Bisection on the price ratio: the ratio nearest cur at which exposure moves below (want_lower) or above base."""
+    ok = lambda e: (e < base) if want_lower else (e > base)
+    e_far, _ = fn(lo if want_lower else hi)
+    if not ok(e_far): return None, None
+    a, b = (lo, cur) if want_lower else (cur, hi)      # want_lower: ok at a, not ok at b
+    for _ in range(it):
+        m = (a + b) / 2; e, _ = fn(m)
+        if want_lower: (a, b) = (m, b) if ok(e) else (a, m)
+        else: (a, b) = (a, m) if ok(e) else (m, b)
+    r = a if want_lower else b
+    return r, fn(r)[0]
+
+
+def main():
+    ap = argparse.ArgumentParser(); ap.add_argument('--stocks-engine'); ap.add_argument('--stocks-dir')
+    ap.add_argument('--btc-engine'); ap.add_argument('--btc-dir'); ap.add_argument('--out', required=True)
+    a = ap.parse_args(); out = {'hold_sessions': HOLD, 'generated': pd.Timestamp.now('UTC').strftime('%Y-%m-%d %H:%M UTC')}
+    tmp = tempfile.mkdtemp()                          # the engines' loaders rewrite their stores: never touch the originals
+    if a.stocks_engine:
+        t0 = time.time(); E = mod(a.stocks_engine, 'mengine')
+        sd = shutil.copytree(a.stocks_dir, os.path.join(tmp, 's')); S, M = E.load(sd)
+        spy = float(S.SPY.dropna().iloc[-1]); fn = lambda r: stocks_state(E, S, M, r); base, reg = fn(1.0)
+        out['stocks'] = {'asof': str(S.SPY.last_valid_index().date()), 'price': round(spy, 2), 'exposure': base,
+                         **levels(fn, spy, base, 0.70, 1.30, 2), 'secs': round(time.time() - t0, 1)}
+    if a.btc_engine:
+        t0 = time.time(); E = mod(a.btc_engine, 'bengine')
+        bd = shutil.copytree(a.btc_dir, os.path.join(tmp, 'b')); S, G, FX = E.load_store(bd)
+        px = float(S.btc.dropna().iloc[-1]); fn = lambda r: btc_state(E, S, G, FX, r); base, reg = fn(1.0)
+        out['bitcoin'] = {'asof': str(S.btc.last_valid_index().date()), 'price': round(px), 'exposure': base,
+                          **levels(fn, px, base, 0.55, 1.60, 0), 'secs': round(time.time() - t0, 1)}
+    shutil.rmtree(tmp, ignore_errors=True)
+    os.makedirs(a.out, exist_ok=True); json.dump(out, open(os.path.join(a.out, 'triggers.json'), 'w'), indent=1)
+    print(json.dumps(out))
+
+
+if __name__ == '__main__':
+    sys.exit(main())

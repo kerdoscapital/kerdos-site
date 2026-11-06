@@ -258,12 +258,40 @@ tr.adopt td:first-child{font-weight:600} tr.rej td{color:var(--muted)} tr.sens t
 <meta name="twitter:description" content="Daily regime model for Bitcoin: trend, momentum and macro signals, with a backtest since 2015.">
 <meta name="twitter:image" content="https://kerdoscapital.xyz/og.png?v=20261104">
 <!--/kerdos-head-->
+<style id="k-retail">
+.k-today{border:1px solid var(--hair);border-radius:var(--r-card,6px);background:var(--panel);padding:clamp(18px,3vw,32px);margin:clamp(12px,2vw,24px) 0 0;display:grid;gap:22px}
+.k-today .t-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;align-items:baseline;border-bottom:1px solid var(--hair);padding-bottom:14px}
+.k-today .t-act{font-family:var(--f-serif);font-size:clamp(30px,4.2vw,46px);line-height:1.05;color:var(--ink)}
+.k-today .t-act small{display:block;font-family:var(--f-ui);font-size:14px;color:var(--ink-2);margin-top:8px;line-height:1.5}
+.k-today .t-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px 32px}
+.k-today .t-grid>div{display:grid;gap:8px;align-content:start}
+.k-today .t-st{font-size:15px;color:var(--ink)} .k-today .t-st b{font-weight:500}
+.k-today p,.k-today li{font-size:14px;line-height:1.55;color:var(--ink-2);margin:0}
+.k-today ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.k-today li .mono{color:var(--ink);margin-right:6px}
+.k-today .t-tag{font-family:var(--f-ui);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border:1px solid var(--hair);border-radius:99px;padding:1px 8px;margin-left:6px;white-space:nowrap}
+.k-today .t-foot{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;border-top:1px solid var(--hair);padding-top:14px}
+.k-today .t-btn{font-family:var(--f-ui);font-size:13px;color:var(--ink);background:transparent;border:1px solid var(--hair);border-radius:99px;padding:7px 14px;text-decoration:none;cursor:pointer}
+.k-today .t-btn:hover{border-color:var(--sage)}
+.k-today .t-fine{font-size:12px;color:var(--muted);flex:1 1 260px}
+.k-calls table{width:100%;border-collapse:collapse;font-size:13.5px}
+.k-calls th{font-family:var(--f-ui);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500;text-align:left;padding:8px 10px;border-bottom:1px solid var(--hair)}
+.k-calls td{padding:9px 10px;border-bottom:1px solid var(--hair);color:var(--ink-2);white-space:nowrap}
+.k-calls td.n,.k-calls th.n{text-align:right;font-family:var(--f-num)}
+.k-calls .ok{color:var(--sage)} .k-calls .bad{color:#A9705F}
+.k-calls .sum{display:flex;flex-wrap:wrap;gap:8px 28px;margin:16px 0 4px;font-size:14px;color:var(--ink-2)} .k-calls .sum b{color:var(--ink);font-weight:500}
+@media (max-width:640px){.k-calls th:nth-child(4),.k-calls td:nth-child(4),.k-calls th:nth-child(6),.k-calls td:nth-child(6){display:none}.k-calls td,.k-calls th{padding:8px 6px}.k-calls td .label{display:block;font-size:10px}}
+.k-notes article{border-top:1px solid var(--hair);padding:28px 0;display:grid;gap:12px;max-width:72ch}
+.k-notes article h2{font-family:var(--f-serif);font-weight:400;font-size:clamp(26px,3vw,36px);line-height:1.1;margin:0;color:var(--ink)}
+.k-notes article p{font-size:15.5px;line-height:1.65;color:var(--ink-2);margin:0}
+</style>
+<link rel="alternate" type="application/rss+xml" title="Kerdos Capital" href="feed.xml">
 </head>
 <body>
 <link rel="stylesheet" href="kerdos.css">
 <script src="kerdos.js"></script>
 <div class="wrap" id="app">
-  <header class="k-nav"><div class="k-bar"><a class="k-word" href="index.html" aria-label="Kerdos Capital, overview"><svg class="k-mono" viewBox="226 116 338 282" aria-hidden="true"><defs><linearGradient id="kgn" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#DCCFAC"/><stop offset="1" stop-color="#8E7F62"/></linearGradient></defs><path d="M318.6 322.0 439.5 165.9H406.8V160.0H479.8V165.9H448.0L327.3 322.0ZM286.6 388.0V382.1H314.1V165.9H286.6V160.0H378.4V165.9H348.1V382.1H377.6V388.0ZM394.9 388.0V382.1H424.7L361.3 269.7L383.7 243.0L466.2 382.1H493.4V388.0Z" fill="url(#kgn)"/><polyline points="238,371 276,349 296,358 352,310 376,325 425,272 444,283 478,215 493,226 516,178" fill="none" stroke="#E7E4DC" stroke-width="3.6" stroke-linejoin="round" stroke-linecap="round"/><circle cx="352" cy="310" r="5" fill="#E7E4DC"/><circle cx="425" cy="272" r="5" fill="#E7E4DC"/><circle cx="478" cy="215" r="5" fill="#E7E4DC"/><path d="M531.0 124.0L534.2 143.8L554.0 147.0L534.2 150.2L531.0 170.0L527.8 150.2L508.0 147.0L527.8 143.8Z" fill="none" stroke="#E7E4DC" stroke-width="2" stroke-linejoin="round"/></svg><span class="k-wt">Kerdos Capital</span></a><div class="k-right"><nav class="k-links" aria-label="Site"><span class="k-ind" aria-hidden="true"></span><a href="index.html">Overview</a><a href="flagship.html">Flagship Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html" aria-current="page">Bitcoin</a><a href="highbeta.html">High Beta</a><a href="methodology.html">Methodology</a><a href="about.html">About</a></nav><button class="k-menu-btn" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 6h12M3 12h12" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"/></svg></button></div></div></header>
+  <header class="k-nav"><div class="k-bar"><a class="k-word" href="index.html" aria-label="Kerdos Capital, overview"><svg class="k-mono" viewBox="226 116 338 282" aria-hidden="true"><defs><linearGradient id="kgn" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#DCCFAC"/><stop offset="1" stop-color="#8E7F62"/></linearGradient></defs><path d="M318.6 322.0 439.5 165.9H406.8V160.0H479.8V165.9H448.0L327.3 322.0ZM286.6 388.0V382.1H314.1V165.9H286.6V160.0H378.4V165.9H348.1V382.1H377.6V388.0ZM394.9 388.0V382.1H424.7L361.3 269.7L383.7 243.0L466.2 382.1H493.4V388.0Z" fill="url(#kgn)"/><polyline points="238,371 276,349 296,358 352,310 376,325 425,272 444,283 478,215 493,226 516,178" fill="none" stroke="#E7E4DC" stroke-width="3.6" stroke-linejoin="round" stroke-linecap="round"/><circle cx="352" cy="310" r="5" fill="#E7E4DC"/><circle cx="425" cy="272" r="5" fill="#E7E4DC"/><circle cx="478" cy="215" r="5" fill="#E7E4DC"/><path d="M531.0 124.0L534.2 143.8L554.0 147.0L534.2 150.2L531.0 170.0L527.8 150.2L508.0 147.0L527.8 143.8Z" fill="none" stroke="#E7E4DC" stroke-width="2" stroke-linejoin="round"/></svg><span class="k-wt">Kerdos Capital</span></a><div class="k-right"><nav class="k-links" aria-label="Site"><span class="k-ind" aria-hidden="true"></span><a href="index.html">Overview</a><a href="flagship.html">Flagship Portfolio</a><a href="stocks.html">Stocks</a><a href="bitcoin.html" aria-current="page">Bitcoin</a><a href="highbeta.html">High Beta</a><a href="notes.html">Notes</a><a href="methodology.html">Methodology</a><a href="about.html">About</a></nav><button class="k-menu-btn" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 6h12M3 12h12" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"/></svg></button></div></div></header>
   <header class="mast sub">
     <div><h1>Bitcoin</h1><div class="label" id="asof">Daily close · loading</div></div>
     <div class="meta" id="fresh"></div>
