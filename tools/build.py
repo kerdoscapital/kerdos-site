@@ -891,7 +891,7 @@ def notes_body():
                  + ''.join(f'<p>{E(x)}</p>' for x in n.get('body', [])) + '</article>')
     if not arts: arts = '<p class="note">The first weekly note will appear here.</p>'
     return ('  <section class="intro"><span class="eyebrow">Weekly notes</span><h1 class="k-display" style="font-size:clamp(44px,6vw,76px);line-height:1;margin:.2em 0">The week in plain words</h1>'
-            '<p style="max-width:60ch;color:var(--ink-2)">Each weekend: what moved, what the desks did and why, and what is coming next. Written from the models’ own reports. Not investment advice.</p></section>\n'
+            '<p style="max-width:60ch;color:var(--ink-2)">Published each Friday after the close: what actually mattered this week, what the desks did and why, and how it bears on the weeks ahead. Written from the models’ own reports. Not investment advice.</p></section>\n'
             f'  <section class="sec k-notes">{arts}</section>')
 
 
