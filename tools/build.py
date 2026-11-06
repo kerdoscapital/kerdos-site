@@ -40,12 +40,14 @@ PAGES = {   # file: (title, description, nav label)
                       'Daily model for the 25 highest-beta Nasdaq-100 stocks, a satellite sleeve outside the flagship portfolio, with a backtest against holding the basket and QQQ.', 'High Beta'),
     'methodology.html': (f'Methodology · {NAME}',
                          'How the Kerdos models work: the inputs they read, how a score becomes a state and a position, how risk is managed, when they update, the signal archive and their limits.', 'Methodology'),
+    'tools.html': (f'Tools · {NAME}',
+                   'Explore the Kerdos models: which way each desk is leaning, a scenario simulator, a day-by-day replay of past markets, and an exposure sandbox. Educational and hypothetical.', 'Tools'),
     'notes.html': (f'Weekly Notes · {NAME}',
                    'The Kerdos week in plain words: what moved, what the stock and Bitcoin desks did and why, and the data coming next.', 'Notes'),
     'about.html': (f'About · {NAME}',
                    'What Kerdos Capital is, why it publishes its research in the open, how its models are built and run, and what it is not.', 'About'),
 }
-NAV_ORDER = ['index.html', 'flagship.html', 'stocks.html', 'bitcoin.html', 'highbeta.html', 'notes.html', 'methodology.html', 'about.html']
+NAV_ORDER = ['index.html', 'flagship.html', 'stocks.html', 'bitcoin.html', 'highbeta.html', 'tools.html', 'notes.html', 'methodology.html', 'about.html']
 RETIRED = {'portfolio.html': 'flagship.html'}   # old pages kept as redirects so outside links still work
 MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 E = lambda s: html.escape(str(s), quote=True)
@@ -128,7 +130,7 @@ def logo_svg(gid, cls='k-mono', lw=2.4, dot=3.8, solid=False, ink='#E7E4DC'):
     return (f'<svg class="{cls}" viewBox="226 116 338 282" aria-hidden="true"><defs><linearGradient id="{gid}" x1="0" y1="0" x2="1" y2="1">'
             f'<stop offset="0" stop-color="#DCCFAC"/><stop offset="1" stop-color="#8E7F62"/></linearGradient></defs>'
             f'<path d="{LOGO_K}" fill="url(#{gid})"/><polyline points="{LOGO_LINE}" fill="none" stroke="{ink}" stroke-width="{lw}" stroke-linejoin="round" stroke-linecap="round"/>'
-            + ''.join(f'<circle cx="{x}" cy="{y}" r="{dot}" fill="{ink}"/>' for x, y in LOGO_DOTS) + star + '</svg>')
+            + ''.join(f'<circle vector-effect="non-scaling-stroke" cx="{x}" cy="{y}" r="{dot}" fill="{ink}"/>' for x, y in LOGO_DOTS) + star + '</svg>')
 
 
 MENU = ('<button class="k-menu-btn" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 18 18" aria-hidden="true">'
@@ -154,7 +156,7 @@ def footer(asof, live_since):
     year = dt.date.today().year
     ls = fmt_d(live_since) if live_since else None
     col = lambda title, links: (f'<div class="kf-col"><span class="label">{title}</span>' + ''.join(f'<a href="{h}"{r}>{t}</a>' for t, h, r in links) + '</div>')
-    research = [(PAGES[f][2], f, '') for f in ['index.html', 'flagship.html', 'stocks.html', 'bitcoin.html', 'highbeta.html'] if exists(f)]
+    research = [(PAGES[f][2], f, '') for f in ['index.html', 'flagship.html', 'stocks.html', 'bitcoin.html', 'highbeta.html', 'tools.html', 'notes.html'] if exists(f)]
     firm = [('Methodology', 'methodology.html', ''), ('Signal archive', 'methodology.html#archive', ''), ('Model limitations', 'methodology.html#limits', ''), ('About', 'about.html', '')]
     live = (f' The flagship portfolio’s live record began at the open on {E(ls)}; every result before that date is a backtest.' if ls else '')
     stamp = f'Models as of the {E(fmt_d(asof))} close' if asof else 'Models update daily'
@@ -919,6 +921,78 @@ def make_feed(M, B, FL):
        f'<language>en-us</language>\n{body}</channel></rss>\n')
 
 
+def _spark(vals, lines, w=300, h=64):
+    vs = [v for v in vals if v is not None]
+    lo, hi = min(vs + [l for l, _ in lines]) - .03, max(vs + [l for l, _ in lines]) + .03
+    X = lambda i: i / max(1, len(vals) - 1) * w; Y = lambda v: (1 - (v - lo) / ((hi - lo) or 1)) * h
+    pts = ' '.join(f'{X(i):.1f},{Y(v):.1f}' for i, v in enumerate(vals) if v is not None)
+    ln = ''.join(f'<line x1="0" x2="{w}" y1="{Y(l):.1f}" y2="{Y(l):.1f}" stroke="#858B90" stroke-width="1" stroke-dasharray="2 3" opacity=".7" vector-effect="non-scaling-stroke"/>' for l, t in lines)
+    last = f'<circle vector-effect="non-scaling-stroke" cx="{X(len(vals) - 1):.1f}" cy="{Y(vals[-1]):.1f}" r="3" fill="#B9A98A"/>' if vals and vals[-1] is not None else ''
+    return (f'<svg viewBox="0 0 {w} {h}" width="100%" height="{h}" preserveAspectRatio="none" aria-hidden="true" style="overflow:visible">{ln}'
+            f'<polyline points="{pts}" fill="none" stroke="#E7E4DC" stroke-width="1.4" vector-effect="non-scaling-stroke"/>{last}</svg>')
+
+
+def momentum_cards(M, B, TR):
+    out = []
+    for name, path, R, cut_lines, link in [
+        ('US stocks', 'stocks/history.csv', M, None, 'stocks.html'), ('Bitcoin', 'bitcoin/history.csv', B, None, 'bitcoin.html')]:
+        if not R: continue
+        rows = [r for r in _rows(path) if _f(r.get('score')) is not None]
+        if len(rows) < 25: continue
+        sc = [_f(r['score']) for r in rows]; now = sc[-1]
+        d1, d5, d20 = now - sc[-2], now - sc[-6], now - sc[-21]
+        th = R['thresholds']; expo = R['exposure']
+        if name == 'US stocks':
+            lines = [(th['bear'], f'{th["bear"]:+.2f} cut to 50%')]
+            near = [(th['bear'], 'the cut line', 'Balanced (50%)' if expo >= .99 else 'Risk On (100%)')]
+        else:
+            lines = [(th['bull'], f'{th["bull"]:+.2f} to 100%'), (th['bear'], f'{th["bear"]:+.2f} to 0%')]
+            near = ([(th['bull'], 'the Risk On line', 'Risk On (100%)')] if expo < .99 else []) + ([(th['bear'], 'the cut line', 'Risk Off, or 50% in a deep drawdown')] if expo > 0 else [])
+        dirn = 'strengthening' if d5 > .02 else 'weakening' if d5 < -.02 else 'holding steady'
+        dist = ''.join(f'<li><span class="mono">{now - l:+.3f}</span>from {E(t)} ({l:+.2f}) → {E(to)}</li>' for l, t, to in near)
+        pace = ''
+        tgt = min(near, key=lambda x: abs(now - x[0])) if near else None
+        if tgt and d5 and (tgt[0] - now) * d5 > 0:
+            n = abs(tgt[0] - now) / abs(d5 / 5)
+            if n < 120: pace = f'<p class="t-fine">At the last five sessions’ pace the score would reach {E(tgt[1])} in about {n:.0f} sessions. Arithmetic, not a forecast: scores rarely move in straight lines.</p>'
+        state = lab(st3(R['regime'], R.get('exposure_map')))
+        cls = lambda v: 'ok' if v > .005 else 'bad' if v < -.005 else ''
+        out.append(f'<div class="km-card"><div class="km-h"><span class="label">{E(name)}</span><a href="{link}">{E(state)} · {round(expo * 100)}%</a></div>'
+                   f'<div class="km-now"><b>{now:+.3f}</b><span>score, {E(dirn)}</span></div>'
+                   f'<div class="km-d"><span>1 day <b class="{cls(d1)}">{d1:+.3f}</b></span><span>5 days <b class="{cls(d5)}">{d5:+.3f}</b></span><span>20 days <b class="{cls(d20)}">{d20:+.3f}</b></span></div>'
+                   f'{_spark(sc[-90:], lines)}<span class="t-fine" style="display:block;margin-top:2px">Last 90 sessions · dashed: ' + ' · '.join(E(t) for _, t in lines) + '</span>'
+                   f'<ul class="km-l">{dist}</ul>{pace}</div>')
+    return ''.join(out)
+
+
+MOM_CSS = """<style id="k-mom">
+.k-mom .km-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:var(--s-5,24px)}
+.k-mom .km-card{display:grid;gap:12px;align-content:start;padding:0 32px 0 0}
+.k-mom .km-card+.km-card{padding:0 0 0 32px;border-left:1px solid var(--hair)}
+@media (max-width:760px){.k-mom .km-grid{grid-template-columns:1fr}.k-mom .km-card+.km-card{padding:24px 0 0;border-left:0;border-top:1px solid var(--hair);margin-top:24px}.k-mom .km-card{padding-right:0}}
+.k-mom .km-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.k-mom .km-h a{font-size:13px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--hair)}
+.k-mom .km-now{display:flex;align-items:baseline;gap:12px}
+.k-mom .km-now b{font-family:var(--f-serif);font-weight:400;font-size:clamp(36px,4vw,48px);line-height:1;color:var(--ink)}
+.k-mom .km-now span{font-size:14px;color:var(--ink-2)}
+.k-mom .km-d{display:flex;flex-wrap:wrap;gap:6px 22px;font-size:12.5px;color:var(--muted)}
+.k-mom .km-d b{font-family:var(--f-num);font-weight:400;color:var(--ink);margin-left:6px}
+.k-mom .km-d b.ok{color:var(--sage)} .k-mom .km-d b.bad{color:#A9705F}
+.k-mom ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.k-mom li{font-size:13.5px;color:var(--ink-2)} .k-mom li .mono{color:var(--ink);margin-right:8px}
+.k-mom .t-fine{font-size:12px;color:var(--muted);margin:0}
+</style>"""
+
+
+def momentum_section(M, B, TR, eyebrow='Regime momentum'):
+    cards = momentum_cards(M, B, TR)
+    if not cards: return ''
+    return (f'<section class="sec k-mom" id="momentum" aria-label="Regime momentum"><div class="k-sh"><div><span class="eyebrow">{E(eyebrow)}</span>'
+            '<h2>Which way the desks are leaning</h2></div><p>How each desk’s score has moved over 1, 5 and 20 sessions, and how far it is from a change in exposure. '
+            'A desk can stay in the same state while its score drifts toward a line; this shows the drift before the call changes. Scores are 5-day smoothed.</p></div>'
+            f'<div class="km-grid">{cards}</div></section>')
+
+
 def put_block(s, id_, html_, before_re):
     """Insert (or replace) a pre-rendered block right before the first match of before_re."""
     s = re.sub(r'<!--pre:' + id_ + r'-->.*?<!--/pre:' + id_ + r'-->', '', s, flags=re.S)
@@ -932,9 +1006,14 @@ def retail(s, f, M, B, FL):
     s = re.sub(r'\n?<style id="k-retail">.*?</style>', '', s, flags=re.S).replace('</head>', RETAIL_CSS + '\n</head>', 1)
     s = s.replace('<link rel="alternate" type="application/rss+xml" title="Kerdos Capital" href="feed.xml">\n', '')
     s = s.replace('</head>', '<link rel="alternate" type="application/rss+xml" title="Kerdos Capital" href="feed.xml">\n</head>', 1)
+    s = re.sub(r'\n?<style id="k-mom">.*?</style>', '', s, flags=re.S)
+    if f in ('index.html', 'tools.html'): s = s.replace('</head>', MOM_CSS + '\n</head>', 1)
+    if f == 'tools.html':
+        s = re.sub(r'<!--pre:momentum-->.*?<!--/pre:momentum-->', lambda m_: pre_block('momentum', momentum_section(M, B, TR, '01 · Regime momentum')), s, flags=re.S)
     if f == 'index.html':
         s = put_block(s, 'strip', strip_html(M, B, FL), r'<section class="k-hero-home"')
         s = put_block(s, 'today', today_block(M, B, FL, TR, CAT), r'<section class="sec" aria-label="The research desks"')
+        s = put_block(s, 'momentum', momentum_section(M, B, TR), r'<section class="sec" aria-label="The research desks"')
         s = put_block(s, 'calls', calls_section(M, B, FL), r'<section class="sec" id="integrity"')
     if f == 'flagship.html':
         s = re.sub(r'<!--pre:today-->.*?<!--/pre:today-->', '', s, flags=re.S)
@@ -947,6 +1026,292 @@ def retail(s, f, M, B, FL):
                    + calls_table(rows, None, (FL or {}).get('live_since')) + f'<p class="note">{CALLS_NOTE}</p></section>')
             s = put_block(s, 'calls', sec, r'<section class="sec" id="limits"|<footer class="foot pub">')
     return s
+
+
+# Body of tools.html: regime momentum (pre-rendered), scenario simulator, historical replay, exposure sandbox.
+TOOLS_BODY = r'''  <section class="intro"><span class="eyebrow">Tools · educational</span><h1 class="k-display" style="font-size:clamp(44px,6vw,76px);line-height:1;margin:.2em 0">Explore the models</h1>
+  <p style="max-width:64ch;color:var(--ink-2)">See which way each desk is leaning, test how the stocks and Bitcoin desks would respond to different conditions, replay how they behaved through past markets, and see what their exposures would mean for a mix of stocks, Bitcoin and cash. Everything here is hypothetical and educational, not investment advice or a recommendation for anyone’s portfolio.</p></section>
+
+  <!--pre:momentum--><!--/pre:momentum-->
+
+  <section class="sec kt" id="sim" aria-label="Scenario simulator">
+    <div class="k-sh"><div><span class="eyebrow">02 · Scenario simulator</span><h2>What would it take?</h2></div>
+    <p>Move a price or an input and see how the desk’s score, and the exposure it implies, would respond. Prices are run through the desk’s own model each morning; other inputs are recomputed here with the model’s published weights.</p></div>
+    <div class="kt-tabs" role="tablist"><button class="on" data-desk="stocks" role="tab">Stocks desk</button><button data-desk="bitcoin" role="tab">Bitcoin desk</button></div>
+    <div class="kt-sim">
+      <div class="kt-ctl" id="sim-ctl"><p class="note">Loading the simulator…</p></div>
+      <div class="kt-out" id="sim-out"></div>
+    </div>
+  </section>
+
+  <section class="sec kt" id="replay" aria-label="Historical replay">
+    <div class="k-sh"><div><span class="eyebrow">03 · Historical replay</span><h2>Replay a market</h2></div>
+    <p>Pick a start date and play it forward to watch the desk react day by day. Before Oct 28, 2026 every day is a <b>reconstructed backtest</b>: today’s rules run over past data. From Oct 28, 2026 the calls were published and archived on the day.</p></div>
+    <div class="kt-row">
+      <div class="kt-tabs" role="tablist"><button class="on" data-rdesk="stocks">Stocks · SPY</button><button data-rdesk="bitcoin">Bitcoin</button></div>
+      <label class="kt-f">Start <input type="month" id="rp-start" value="2020-01"></label>
+      <label class="kt-f">Window <select id="rp-win"><option value="126">6 months</option><option value="252" selected>1 year</option><option value="504">2 years</option></select></label>
+    </div>
+    <div class="kt-row kt-pre" id="rp-pre"></div>
+    <div class="kt-chart"><canvas id="rp-cv" height="360" aria-label="Replay chart"></canvas></div>
+    <div class="kt-row">
+      <button class="kt-btn" id="rp-play">▶ Play</button><button class="kt-btn" id="rp-back">‹ Day</button><button class="kt-btn" id="rp-fwd">Day ›</button>
+      <label class="kt-f">Speed <select id="rp-speed"><option value="120">Slow</option><option value="45" selected>Normal</option><option value="12">Fast</option></select></label>
+      <input type="range" id="rp-pos" min="0" max="100" value="0" aria-label="Replay position" style="flex:1 1 200px">
+    </div>
+    <p class="note" style="margin-top:8px">Shading shows the state: champagne Risk On (100%), grey Balanced (50%), rust Risk Off (0%). The lower line is the score, with its exposure lines dashed.</p>
+    <div class="kt-read" id="rp-read"></div>
+  </section>
+
+  <section class="sec kt" id="sandbox" aria-label="Exposure sandbox">
+    <div class="k-sh"><div><span class="eyebrow">04 · Exposure sandbox</span><h2>Apply the regimes to a mix</h2></div>
+    <p>Enter a hypothetical mix of stocks, Bitcoin and cash. See what the desks’ exposures would do to it today, and how the same mix would have behaved with and without them. An educational illustration, not a recommendation.</p></div>
+    <div class="kt-row">
+      <label class="kt-f">Stocks % <input type="number" id="sb-s" min="0" max="100" step="5" value="60"></label>
+      <label class="kt-f">Stock fund <select id="sb-sym"><option value="spy">SPY</option><option value="qqq">QQQ</option></select></label>
+      <label class="kt-f">Bitcoin % <input type="number" id="sb-b" min="0" max="100" step="5" value="20"></label>
+      <span class="kt-f">Cash % <b id="sb-c">20</b></span>
+      <label class="kt-f">From <select id="sb-from"><option value="2015-01-02">2015</option><option value="2018-01-02">2018</option><option value="2021-10-19" selected>Oct 2021 (US Bitcoin ETFs)</option><option value="2005-01-03">2005 (no Bitcoin)</option></select></label>
+    </div>
+    <div class="kt-grid2"><div id="sb-today"></div><div id="sb-stats"></div></div>
+    <div class="kt-chart"><canvas id="sb-cv" height="300" aria-label="Sandbox chart"></canvas></div>
+    <p class="note">Both lines rebalance to the target mix every day, earn the 3-month T-bill rate on cash, and ignore trading costs and taxes. “With the regimes” scales the stock part by the stocks desk’s exposure and the Bitcoin part by the Bitcoin desk’s, acting at the next close, with the rest in T-bills. Bitcoin before Oct 2021 counts as held directly. Backtested and hypothetical: no one earned these returns.</p>
+  </section>
+
+<style>
+.kt-tabs{display:inline-flex;justify-self:start;width:max-content;gap:0;border:1px solid var(--hair);border-radius:99px;padding:3px;margin:var(--s-5,24px) 0 0}
+.kt-tabs button{font-family:var(--f-ui);font-size:13px;color:var(--ink-2);background:none;border:0;border-radius:99px;padding:6px 14px;cursor:pointer}
+.kt-tabs button.on{background:var(--panel);color:var(--ink);box-shadow:inset 0 0 0 1px var(--hair)}
+.kt-sim{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0;margin-top:22px;border-top:1px solid var(--hair)}
+.kt-ctl{min-width:0;padding:22px 28px 0 0;display:grid;gap:16px;align-content:start}
+.kt-out{min-width:0;padding:22px 0 0 28px;border-left:1px solid var(--hair);display:grid;gap:14px;align-content:start}
+@media (max-width:820px){.kt-sim{grid-template-columns:1fr}.kt-ctl{padding-right:0}.kt-out{padding-left:0;border-left:0;border-top:1px solid var(--hair);margin-top:22px}}
+.kt-in{display:grid;gap:6px;min-width:0}
+.kt-in select{width:100%;max-width:100%;min-width:0}
+.kt-in .h{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 12px;font-size:13.5px;color:var(--ink)}
+.kt-in .h span:last-child{font-family:var(--f-num);color:var(--ink-2);white-space:nowrap}
+.kt-in .h span.moved{color:var(--sage)}
+.kt-in .d{font-size:12px;color:var(--muted);line-height:1.45}
+.kt-in input[type=range]{width:100%;accent-color:#B9A98A}
+.kt-in select,.kt-f input,.kt-f select{font-family:var(--f-num);font-size:13px;background:var(--panel);color:var(--ink);border:1px solid var(--hair);border-radius:4px;padding:6px 8px}
+.kt-big{font-family:var(--f-serif);font-size:clamp(40px,5vw,60px);line-height:1;color:var(--ink)}
+.kt-big small{font-family:var(--f-ui);font-size:14px;color:var(--ink-2);margin-left:10px}
+.kt-gauge{position:relative;height:36px;margin:6px 0 4px}
+.kt-gauge .bar{position:absolute;left:0;right:0;top:16px;height:2px;background:var(--hair)}
+.kt-gauge .ln{position:absolute;top:8px;width:1px;height:18px;background:var(--muted)}
+.kt-gauge .ln span{position:absolute;top:20px;left:50%;transform:translateX(-50%);font-family:var(--f-num);font-size:10.5px;color:var(--muted);white-space:nowrap}
+.kt-gauge .mk{position:absolute;top:11px;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:#B9A98A;box-shadow:0 0 0 3px var(--bg,#111315)}
+.kt-gauge .mk.t{background:var(--bg,#111315);border:1.5px solid var(--ink-2);width:10px;height:10px;margin-left:-5px;top:12px}
+.kt-tbl{width:100%;border-collapse:collapse;font-size:13px}
+.kt-tbl th{font-family:var(--f-ui);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500;text-align:left;padding:6px 8px;border-bottom:1px solid var(--hair)}
+.kt-tbl td{padding:7px 8px;border-bottom:1px solid var(--hair);color:var(--ink-2)}
+.kt-tbl td.n,.kt-tbl th.n{text-align:right;font-family:var(--f-num)}
+.kt-tbl .up{color:var(--sage)} .kt-tbl .dn{color:#A9705F}
+.kt-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;margin-top:18px}
+.kt-f{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2)}
+.kt-f input[type=number]{width:72px}
+.kt-btn{font-family:var(--f-ui);font-size:13px;color:var(--ink);background:none;border:1px solid var(--hair);border-radius:99px;padding:6px 14px;cursor:pointer}
+.kt-btn:hover{border-color:#B9A98A}
+.kt-pre button{font-family:var(--f-ui);font-size:12.5px;color:var(--ink-2);background:none;border:0;border-bottom:1px solid var(--hair);padding:0 0 2px;cursor:pointer}
+.kt-pre button:hover{color:var(--ink);border-color:#B9A98A}
+.kt-chart{margin-top:16px;border-top:1px solid var(--hair);padding-top:12px}
+.kt-chart canvas{width:100%;display:block}
+.kt-read{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px 24px;margin-top:16px;padding-top:14px;border-top:1px solid var(--hair)}
+.kt-read div{display:grid;gap:4px} .kt-read b{font-family:var(--f-num);font-weight:400;color:var(--ink);font-size:15px}
+.kt-badge{grid-column:1/-1;font-size:12.5px;color:var(--ink-2);padding:8px 12px;border-left:2px solid var(--muted)}
+.kt-badge.pub{border-color:#B9A98A;color:var(--ink)}
+.kt-grid2{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:20px;border-top:1px solid var(--hair)}
+.kt-grid2>div{padding:18px 24px 0 0}.kt-grid2>div+div{padding:18px 0 0 24px;border-left:1px solid var(--hair)}
+@media (max-width:820px){.kt-grid2{grid-template-columns:1fr}.kt-grid2>div+div{padding-left:0;border-left:0;border-top:1px solid var(--hair);margin-top:18px}}
+.kt-alloc{display:grid;gap:8px}
+.kt-alloc .r{display:grid;grid-template-columns:110px 1fr 54px;gap:10px;align-items:center;font-size:13px;color:var(--ink-2)}
+.kt-alloc .r i{display:block;height:6px;background:#B9A98A;border-radius:1px} .kt-alloc .r i.c{background:#555B60}
+.kt-alloc .r b{font-family:var(--f-num);font-weight:400;color:var(--ink);text-align:right}
+</style>
+<script>
+(()=>{
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const J=u=>fetch(u).then(r=>{if(!r.ok)throw new Error(u+' '+r.status);return r.json()});
+const T=u=>fetch(u).then(r=>{if(!r.ok)throw new Error(u+' '+r.status);return r.text()});
+const csv=t=>{const[h,...r]=t.trim().split(/\r?\n/);const k=h.split(',');return r.map(x=>{const c=x.split(',');const o={};k.forEach((kk,i)=>o[kk]=c[i]);return o})};
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fd=d=>{const t=new Date(d+'T00:00:00Z');return MON[t.getUTCMonth()]+' '+t.getUTCDate()+', '+t.getUTCFullYear()};
+const pc=(v,d=1)=>(v>0?'+':v<0?'−':'')+Math.abs(v*100).toFixed(d)+'%';
+const sgn=(v,d=2)=>(v>0?'+':v<0?'−':'')+Math.abs(v).toFixed(d);
+const usd=(v,d=2)=>'$'+Number(v).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+const PUBLISHED='2026-10-28';
+const EMAP={stocks:{Bullish:1,Neutral:1,Recovery:1,Correction:.5,Bearish:0},bitcoin:{Bullish:1,Recovery:1,Neutral:.5,Correction:.5,Bearish:0}};
+const LAB=e=>e>=.99?'Risk On':e>0?'Balanced':'Risk Off';
+const COLS={on:'rgba(185,169,138,.16)',bal:'rgba(133,139,144,.26)',off:'rgba(169,112,95,.16)'};
+const cssv=(n,f)=>getComputedStyle(document.documentElement).getPropertyValue(n).trim()||f;
+const INK=cssv('--ink','#E7E4DC'),INK2=cssv('--ink-2','#A3A5A3'),MUT=cssv('--muted','#858B90'),HAIR='rgba(85,91,96,.45)',SAGE='#B9A98A',RUST='#A9705F';
+function canvas(cv){const r=window.devicePixelRatio||1,w=cv.clientWidth,h=+cv.getAttribute('height');cv.width=w*r;cv.height=h*r;cv.style.height=h+'px';const c=cv.getContext('2d');c.setTransform(r,0,0,r,0,0);c.font='11px '+cssv('--f-num','monospace');return [c,w,h]}
+
+// ---------------------------------------------------------------- 2. scenario simulator
+const tanh=Math.tanh;
+const INPUTS={
+ stocks:[
+  {id:'mom',label:'Momentum: 3- and 6-month SPY return',keys:['f_mom63','f_mom126'],type:'range',min:-30,max:30,step:1,unit:'%',
+   to:v=>[tanh(v/100/.06),tanh(v/100*1.6/.08)],from:s=>Math.atanh(Math.max(-.999,Math.min(.999,s[0])))*6,fmt:v=>`${v>0?'+':''}${v.toFixed(0)}% over 3 months`,
+   d:'Sets both momentum readings (the 6-month return is taken as 1.6× the 3-month). Overrides what the price slider implies.'},
+  {id:'infl',label:'Inflation (CPI, year over year)',keys:['f_infl'],type:'select',opts:[['Under 4%',0],['4% to 6%',-.5],['Over 6%',-1]],d:'The model only penalizes inflation above 4%.'},
+  {id:'fed',label:'Fed: change in the 3-month T-bill over 6 months',keys:['f_fed'],type:'select',opts:[['Steady, or cut less than 0.30 pt',0],['Cut 0.30 to 0.75 pt',-.5],['Cut more than 0.75 pt',-1]],d:'Fast cuts read as bearish: historically they have come with slowdowns.'},
+  {id:'curve',label:'Yield curve (10-year minus 3-month)',keys:['f_curve'],type:'select',opts:[['Normal, no recent inversion',0],['Inverted',-.25],['Un-inverted within the last 2 years',-1]],d:'The model reads the un-inversion after an inverted curve as the warning.'},
+  {id:'spread',label:'Corporate credit spreads, change over 3 months',keys:['f_spread'],type:'range',min:-.75,max:.75,step:.05,unit:'pt',
+   to:v=>[tanh(-v/.25)],from:s=>-Math.atanh(Math.max(-.999,Math.min(.999,s[0])))*.25,fmt:v=>`${v>0?'+':''}${v.toFixed(2)} pt (Baa − 10y)`,d:'Widening spreads (positive) are bearish.'},
+  {id:'labor',label:'Unemployment trend (Sahm-style gap)',keys:['f_labor'],type:'select',opts:[['Under 0.3 pt',0],['0.3 to 0.5 pt',-.5],['0.5 pt or more',-1]],d:'A rising jobless rate is the classic recession signal.'},
+  {id:'vol',label:'Realized volatility (21-day, annualized)',keys:['f_rvol'],type:'range',min:6,max:60,step:1,unit:'%',
+   to:v=>[tanh(-(v/100-.17)/.08)],from:s=>(.17-Math.atanh(Math.max(-.999,Math.min(.999,s[0])))*.08)*100,fmt:v=>`${v.toFixed(0)}%`,d:'Calm markets score positive; turbulent ones negative.'}
+ ],
+ bitcoin:[
+  {id:'mom',label:'Momentum: 30- and 90-day Bitcoin return',keys:['f_mom30','f_mom90'],type:'range',min:-50,max:80,step:1,unit:'%',
+   to:v=>[tanh(v/100/.15),tanh(v/100*1.5/.30)],from:s=>Math.atanh(Math.max(-.999,Math.min(.999,s[0])))*15,fmt:v=>`${v>0?'+':''}${v.toFixed(0)}% over 30 days`,
+   d:'Sets both momentum readings (the 90-day return is taken as 1.5× the 30-day). Overrides what the price slider implies.'},
+  {id:'dollar',label:'US dollar (UUP), change over 3 months',keys:['f_dollar'],type:'range',min:-8,max:8,step:.5,unit:'%',
+   to:v=>[tanh(-v/100/.03)],from:s=>-Math.atanh(Math.max(-.999,Math.min(.999,s[0])))*3,fmt:v=>`${v>0?'+':''}${v.toFixed(1)}%`,d:'A falling dollar has been good for Bitcoin.'},
+  {id:'rates',label:'Long Treasuries (TLT), change over 3 months',keys:['f_rates'],type:'range',min:-15,max:15,step:.5,unit:'%',
+   to:v=>[tanh(v/100/.06)],from:s=>Math.atanh(Math.max(-.999,Math.min(.999,s[0])))*6,fmt:v=>`${v>0?'+':''}${v.toFixed(1)}%`,d:'TLT rises when long-term interest rates fall.'},
+  {id:'credit',label:'High-yield credit (HYG), change over 3 months',keys:['f_credit'],type:'range',min:-10,max:6,step:.5,unit:'%',
+   to:v=>[tanh(v/100/.03)],from:s=>Math.atanh(Math.max(-.999,Math.min(.999,s[0])))*3,fmt:v=>`${v>0?'+':''}${v.toFixed(1)}%`,d:'Risk appetite in credit tends to lead crypto.'},
+  {id:'liq',label:'Fed net liquidity, change over 3 months',keys:['f_liq'],type:'range',min:-10,max:10,step:.5,unit:'%',
+   to:v=>[tanh(v/100/.04)],from:s=>Math.atanh(Math.max(-.999,Math.min(.999,s[0])))*4,fmt:v=>`${v>0?'+':''}${v.toFixed(1)}%`,d:'Balance sheet minus the Treasury account and reverse repos.'}
+ ]};
+let SIM=null, sdesk='stocks', S={};
+function groupsOf(spec,f){const g={};for(const k in spec.factors){const v=f[k];if(v==null||isNaN(v))continue;const G=spec.factors[k].group;(g[G]=g[G]||[0,0]);g[G][0]+=v*spec.factors[k].w;g[G][1]+=spec.factors[k].w}
+  const o={};for(const G in g)o[G]=g[G][1]?g[G][0]/g[G][1]:null;return o}
+function scoreOf(spec,g){let n=0,d=0;for(const G in spec.groups){if(g[G]==null)continue;n+=g[G]*spec.groups[G];d+=spec.groups[G]}return d?n/d:null}
+function steady(desk,spec,raw,g,pt){ // the state rules with smoothing and confirmation left out
+  if(raw==null)return null;
+  if(desk==='stocks'){if(raw>=spec.dn)return 1;return (g.macro!=null&&g.macro<=spec.gate)?0:.5}
+  if(raw>spec.up)return 1;if(raw<spec.dn)return pt.deep?.5:0;return .5}
+function simUI(){
+  const D=SIM[sdesk];if(!D){$('#sim-ctl').innerHTML='<p class="note">No scenario data for this desk yet.</p>';$('#sim-out').innerHTML='';return}
+  const G=D.grid,i0=G.findIndex(p=>Math.abs(p.r-1)<1e-6);S={pi:i0,set:{}};
+  const tk=sdesk==='stocks'?'SPY':'BTC',dd=sdesk==='stocks'?2:0;
+  let h=`<div class="kt-in"><div class="h"><span>${tk} price, held for ${SIM.hold_sessions} sessions</span><span id="sim-pv"></span></div>
+    <input type="range" id="sim-p" min="0" max="${G.length-1}" step="1" value="${i0}" aria-label="${tk} price">
+    <div class="d">Each step is a full run of the desk’s model at that price, with every other market input held at today’s reading.</div></div>`;
+  for(const q of INPUTS[sdesk]){
+    const cur=q.keys.map(k=>G[i0].factors[k]);
+    if(q.type==='select'){const near=q.opts.reduce((b,o,j)=>Math.abs(o[1]-(cur[0]??0))<Math.abs(q.opts[b][1]-(cur[0]??0))?j:b,0);
+      h+=`<div class="kt-in"><div class="h"><span>${q.label}</span><span id="v-${q.id}">today</span></div><select id="i-${q.id}">${q.opts.map((o,j)=>`<option value="${j}"${j===near?' selected':''}>${o[0]}${j===near?' (today)':''}</option>`).join('')}</select><div class="d">${q.d}</div></div>`}
+    else{const v0=Math.max(q.min,Math.min(q.max,q.from(cur)));
+      h+=`<div class="kt-in"><div class="h"><span>${q.label}</span><span id="v-${q.id}">${q.fmt(v0)} · today</span></div><input type="range" id="i-${q.id}" min="${q.min}" max="${q.max}" step="${q.step}" value="${v0}"><div class="d">${q.d}</div></div>`}}
+  h+=`<div><button class="kt-btn" id="sim-reset">Reset to today</button></div>`;
+  $('#sim-ctl').innerHTML=h;
+  $('#sim-p').oninput=e=>{S.pi=+e.target.value;simRun()};
+  for(const q of INPUTS[sdesk]){const el=$('#i-'+q.id);el.oninput=()=>{S.set[q.id]=q.type==='select'?q.opts[+el.value][1]:+el.value;
+    const lab=$('#v-'+q.id);lab.textContent=q.type==='select'?'changed':q.fmt(+el.value);lab.classList.add('moved');simRun()}}
+  $('#sim-reset').onclick=simUI;simRun()}
+function simRun(){
+  const D=SIM[sdesk],spec=D.spec,G=D.grid,pt=G[S.pi],t0=G.find(p=>Math.abs(p.r-1)<1e-6)||pt,dd=sdesk==='stocks'?2:0;
+  $('#sim-pv').textContent=`${usd(pt.price,dd)} · ${pt.r===1?'today':pc(pt.r-1)}`;$('#sim-pv').classList.toggle('moved',pt.r!==1);
+  const f={...pt.factors};let touched=false;
+  for(const q of INPUTS[sdesk]){if(!(q.id in S.set))continue;touched=true;const v=S.set[q.id];const s=q.type==='select'?[v]:q.to(v);q.keys.forEach((k,j)=>f[k]=s[Math.min(j,s.length-1)])}
+  const g=touched?groupsOf(spec,f):pt.groups, raw=touched?scoreOf(spec,g):pt.raw;
+  const expo=touched?steady(sdesk,spec,raw,g,pt):pt.exposure, today=t0.exposure;
+  const lo=Math.min(-.6,spec.dn-.15),hi=Math.max(.6,spec.up+.15),X=v=>((Math.max(lo,Math.min(hi,v))-lo)/(hi-lo)*100).toFixed(2)+'%';
+  const how=touched?'Steady-state estimate: these readings held long enough for the model’s 5-day smoothing and 3-day confirmation to catch up. Recovery and rebound rules are left out.'
+    :`Exact: the desk’s own model run with ${pt.r===1?'today’s close':'this close'} held for ${SIM.hold_sessions} sessions and every other input at today’s reading.`;
+  const chg=expo===today?'Same as today':expo<today?`Down from ${Math.round(today*100)}% today`:`Up from ${Math.round(today*100)}% today`;
+  const NM={trend:'Trend',momentum:'Momentum',internals:'Internals',macro:'Macro',volatility:'Volatility',calendar:'Calendar',valuation:'Valuation',cycle:'Cycle'};
+  const rows=Object.keys(spec.groups).map(k=>{const a=t0.groups[k],b=g[k];const d=(b??0)-(a??0);return `<tr><td>${NM[k]||k}</td><td class="n">${Math.round(spec.groups[k]*100)}%</td><td class="n">${a==null?'—':sgn(a)}</td><td class="n ${Math.abs(d)<.005?'':d>0?'up':'dn'}">${b==null?'—':sgn(b)}</td></tr>`}).join('');
+  const pubS=(sdesk==='stocks'?RS:RB)?.score;const smoothNote=(!touched&&pt.smooth!=null?` · smoothed ${sgn(pt.smooth,3)}`:'')+(pubS!=null?` · today’s published score ${sgn(pubS,3)}`:'');
+  $('#sim-out').innerHTML=`<span class="label">Implied exposure</span><div class="kt-big">${Math.round(expo*100)}%<small>${LAB(expo)} · ${chg}</small></div>
+   <div><span class="label">Score ${sgn(raw,3)}${smoothNote}</span><div class="kt-gauge"><div class="bar"></div>
+   <div class="ln" style="left:${X(spec.dn)}"><span>${sgn(spec.dn)} cut</span></div><div class="ln" style="left:${X(spec.up)}"><span>${sgn(spec.up)}${sdesk==='bitcoin'?' full':' bull'}</span></div>
+   <div class="mk t" style="left:${X((sdesk==='stocks'?RS:RB)?.score??t0.raw)}" title="today"></div><div class="mk" style="left:${X(raw)}" title="scenario"></div></div></div>
+   <p class="note" style="margin:0">${how}${sdesk==='stocks'?' Below the cut line the stocks desk goes to 50%, and to 0% only if the macro group is at or below '+spec.gate+'.':' Below the cut line Bitcoin goes to 0%, or holds 50% during a deep drawdown.'}</p>
+   <table class="kt-tbl"><thead><tr><th>Group</th><th class="n">Weight</th><th class="n">Today</th><th class="n">Scenario</th></tr></thead><tbody>${rows}</tbody></table>`}
+$$('[data-desk]').forEach(b=>b.onclick=()=>{$$('[data-desk]').forEach(x=>x.classList.toggle('on',x===b));sdesk=b.dataset.desk;if(SIM)simUI()});
+
+// ---------------------------------------------------------------- data for replay and sandbox
+let HS=null,HB=null,TB={};
+const rate=d=>{const m=d.slice(0,7);let v=TB[m];if(v==null){const ks=Object.keys(TB).filter(k=>k<=m);v=ks.length?TB[ks[ks.length-1]]:0}return v/100/252};
+
+// ---------------------------------------------------------------- 3. replay
+const PRE={stocks:[['GFC · Sep 2008','2008-06'],['Aug 2011','2011-05'],['Q4 2018','2018-08'],['Mar 2020','2020-01'],['Oct 2022','2022-01'],['Apr 2025','2025-01'],['Live record','2026-08']],
+  bitcoin:[['2017 top','2017-09'],['2018 bear','2018-01'],['Mar 2020','2020-01'],['2021 double top','2021-03'],['FTX · Nov 2022','2022-06'],['ETF era','2023-10'],['Live record','2026-06']]};
+let rdesk='stocks',RP={i0:0,n:252,k:0,timer:null};
+function rdata(){const H=rdesk==='stocks'?HS:HB;return H.map(r=>({d:r.date,p:+(rdesk==='stocks'?r.spy:r.price),s:+r.score,e:EMAP[rdesk][r.regime]??null,reg:r.regime}))}
+let RD=[];
+function rpSetup(){RD=rdata();const m=$('#rp-start').value||'2020-01';let i=RD.findIndex(r=>r.d>=m+'-01');if(i<0)i=Math.max(0,RD.length-RP.n);
+  RP.n=+$('#rp-win').value;RP.i0=Math.max(0,Math.min(i,RD.length-2));const mx=Math.min(RP.n,RD.length-1-RP.i0);RP.k=mx;$('#rp-pos').max=mx;$('#rp-pos').value=mx;
+  $('#rp-pre').innerHTML='<span class="label">Jump to</span>'+PRE[rdesk].map(([l,m])=>`<button data-m="${m}">${l}</button>`).join('');
+  $$('#rp-pre button').forEach(b=>b.onclick=()=>{$('#rp-start').value=b.dataset.m;rpStop();rpSetup()});rpDraw()}
+function rpDraw(){const cv=$('#rp-cv');const [c,w,h]=canvas(cv);const n=Math.min(RP.n,RD.length-1-RP.i0),A=RD.slice(RP.i0,RP.i0+n+1),k=RP.k;
+  const L=44,R=10,top=10,ph=Math.round(h*.6),gap=26,sh=h-ph-gap-28;const xs=i=>L+i/(n||1)*(w-L-R);
+  const ps=A.map(a=>Math.log(a.p)),pmin=Math.min(...ps),pmax=Math.max(...ps),py=v=>top+(1-(v-pmin)/((pmax-pmin)||1))*(ph-top);
+  const D=SIM&&SIM[rdesk]?SIM[rdesk].spec:{up:rdesk==='stocks'?.15:.2,dn:rdesk==='stocks'?-.1:-.15};
+  const sv=A.map(a=>a.s).filter(v=>!isNaN(v)),smin=Math.min(-.5,...sv,D.dn-.05),smax=Math.max(.5,...sv,D.up+.05),sy=v=>ph+gap+(1-(v-smin)/(smax-smin))*sh;
+  {let j=0;const col=e=>e==null?null:e>=.99?COLS.on:e>0?COLS.bal:COLS.off;   // one rectangle per run of the same state
+   while(j<=k){let m=j;while(m+1<=k&&A[m+1].e===A[j].e)m++;const cl=col(A[j].e);if(cl){c.fillStyle=cl;c.fillRect(Math.round(xs(j)),top,Math.round(xs(Math.min(m+1,k)))-Math.round(xs(j))+(m+1>k?1:0),ph-top)}j=m+1}}
+  c.strokeStyle=HAIR;c.lineWidth=1;c.beginPath();c.moveTo(L,ph+.5);c.lineTo(w-R,ph+.5);c.stroke();
+  const pub=A.findIndex(a=>a.d>=PUBLISHED);if(pub>=0){c.strokeStyle=SAGE;c.setLineDash([3,3]);c.beginPath();c.moveTo(xs(pub),top);c.lineTo(xs(pub),h-28);c.stroke();c.setLineDash([]);c.fillStyle=SAGE;c.fillText('published from here',Math.min(xs(pub)+4,w-120),top+10)}
+  c.strokeStyle=MUT;c.lineWidth=1;c.beginPath();A.forEach((a,i)=>{const x=xs(i),y=py(Math.log(a.p));i?c.lineTo(x,y):c.moveTo(x,y)});c.globalAlpha=.25;c.stroke();c.globalAlpha=1;
+  c.strokeStyle=INK;c.lineWidth=1.4;c.beginPath();for(let i=0;i<=k;i++){const x=xs(i),y=py(Math.log(A[i].p));i?c.lineTo(x,y):c.moveTo(x,y)}c.stroke();
+  [[D.up,'up'],[D.dn,'cut']].forEach(([v,l],j)=>{c.strokeStyle=MUT;c.setLineDash([2,3]);c.beginPath();c.moveTo(L,sy(v));c.lineTo(w-R,sy(v));c.stroke();c.setLineDash([]);c.fillStyle=MUT;c.fillText(sgn(v),4,sy(v)+(j?10:-2))});
+  c.strokeStyle=SAGE;c.lineWidth=1.3;c.beginPath();let st=false;for(let i=0;i<=k;i++){if(isNaN(A[i].s))continue;const x=xs(i),y=sy(A[i].s);st?c.lineTo(x,y):c.moveTo(x,y);st=true}c.stroke();
+  c.fillStyle=MUT;c.fillText('price (log)',4,top+10);c.fillText('score',4,ph+gap-6);
+  const lab=[0,Math.floor(n/2),n];lab.forEach(i=>{if(!A[i])return;const t=fd(A[i].d);c.fillText(t,Math.max(L,Math.min(xs(i)-c.measureText(t).width/2,w-R-c.measureText(t).width)),h-8)});
+  c.strokeStyle=INK2;c.beginPath();c.moveTo(xs(k)+.5,top);c.lineTo(xs(k)+.5,h-28);c.stroke();
+  // readout: model vs buy and hold from the start of the window
+  let em=1,eb=1;for(let i=1;i<=k;i++){const r=A[i].p/A[i-1].p-1,e=A[i-1].e??1,cr=rate(A[i].d)*(rdesk==='bitcoin'?(Date.parse(A[i].d)-Date.parse(A[i-1].d))/864e5*252/365:1);em*=1+e*r+(1-e)*cr;eb*=1+r}
+  const a=A[k],isPub=a.d>=PUBLISHED;
+  $('#rp-read').innerHTML=`<div class="kt-badge${isPub?' pub':''}">${isPub?'<b>Published call.</b> This state was published and archived on the day.':'<b>Reconstructed backtest.</b> Today’s rules run over past data. No call was published on this date.'}</div>
+   <div><span class="label">Date</span><b>${fd(a.d)}</b></div><div><span class="label">State</span><b>${a.e==null?'—':LAB(a.e)} · ${a.e==null?'—':Math.round(a.e*100)+'%'}</b></div>
+   <div><span class="label">Score</span><b>${isNaN(a.s)?'—':sgn(a.s,3)}</b></div><div><span class="label">${rdesk==='stocks'?'SPY':'BTC'}</span><b>${usd(a.p,rdesk==='stocks'?2:0)}</b></div>
+   <div><span class="label">Model since start</span><b>${pc(em-1)}</b></div><div><span class="label">Buy and hold since start</span><b>${pc(eb-1)}</b></div>`;
+  $('#rp-pos').value=k}
+function rpStop(){clearInterval(RP.timer);RP.timer=null;$('#rp-play').textContent='▶ Play'}
+$('#rp-play').onclick=()=>{if(RP.timer){rpStop();return}const mx=+$('#rp-pos').max;if(RP.k>=mx)RP.k=0;$('#rp-play').textContent='❚❚ Pause';
+  RP.timer=setInterval(()=>{if(RP.k>=+$('#rp-pos').max){rpStop();return}RP.k++;rpDraw()},+$('#rp-speed').value)};
+$('#rp-speed').onchange=()=>{if(RP.timer){rpStop();$('#rp-play').click()}};
+$('#rp-fwd').onclick=()=>{rpStop();RP.k=Math.min(+$('#rp-pos').max,RP.k+1);rpDraw()};$('#rp-back').onclick=()=>{rpStop();RP.k=Math.max(0,RP.k-1);rpDraw()};
+$('#rp-pos').oninput=e=>{rpStop();RP.k=+e.target.value;rpDraw()};$('#rp-start').onchange=()=>{rpStop();rpSetup()};$('#rp-win').onchange=()=>{rpStop();rpSetup()};
+$$('[data-rdesk]').forEach(b=>b.onclick=()=>{$$('[data-rdesk]').forEach(x=>x.classList.toggle('on',x===b));rdesk=b.dataset.rdesk;rpStop();if(HS&&HB){$('#rp-start').value=PRE[rdesk][3][1];rpSetup()}});
+
+// ---------------------------------------------------------------- 6. sandbox
+let RS=null,RB=null;
+function sbRun(){let s=Math.max(0,Math.min(100,+$('#sb-s').value||0)),b=Math.max(0,Math.min(100-s,+$('#sb-b').value||0));$('#sb-b').value=b;const c=100-s-b;$('#sb-c').textContent=c;
+  const sym=$('#sb-sym').value,from=$('#sb-from').value;const ws=s/100,wb=b/100;
+  const se=RS.regime&&RS.exposure!=null?RS.exposure:1,be=RB.exposure!=null?RB.exposure:1;
+  const rows=[[`Stocks (${sym.toUpperCase()})`,ws,ws*se,`× ${Math.round(se*100)}% (${LAB(se)})`],['Bitcoin',wb,wb*be,`× ${Math.round(be*100)}% (${LAB(be)})`]];
+  const cash=1-ws*se-wb*be;
+  $('#sb-today').innerHTML=`<span class="label">Your mix with today’s exposures · ${fd(RS.asof)} close</span><div class="kt-alloc" style="margin-top:12px">`+
+    rows.map(r=>`<div class="r"><span>${r[0]}</span><i style="width:${(r[2]*100).toFixed(1)}%"></i><b>${Math.round(r[2]*100)}%</b></div><div class="d" style="font-size:12px;color:var(--muted);margin:-4px 0 4px 120px">${Math.round(r[1]*100)}% ${r[3]}</div>`).join('')+
+    `<div class="r"><span>T-bills / cash</span><i class="c" style="width:${(cash*100).toFixed(1)}%"></i><b>${Math.round(cash*100)}%</b></div></div>`;
+  // history: stock trading days; Bitcoin price on the same dates
+  const bmap=new Map(HB.map(r=>[r.date,r]));let lastB=null;
+  const D=[];for(const r of HS){if(r.date<from)continue;const br=bmap.get(r.date)||lastB;if(bmap.get(r.date))lastB=bmap.get(r.date);D.push({d:r.date,px:+r[sym],es:EMAP.stocks[r.regime]??1,bp:br?+br.price:null,eb:br?(EMAP.bitcoin[br.regime]??1):1})}
+  const useB=wb>0&&from>='2014-09-17';let e1=1,e2=1,p1=1,p2=1,m1=0,m2=0;const c1=[1],c2=[1];const r1=[],r2=[];
+  for(let i=1;i<D.length;i++){const a=D[i-1],z=D[i],rs=z.px/a.px-1,rb=(useB&&a.bp&&z.bp)?z.bp/a.bp-1:0,cr=rate(z.d);
+    const wB=useB?wb:0,wC=1-ws-wB;const x1=ws*rs+wB*rb+wC*cr;const x2=ws*a.es*rs+wB*a.eb*rb+(1-ws*a.es-wB*a.eb)*cr;
+    e1*=1+x1;e2*=1+x2;p1=Math.max(p1,e1);p2=Math.max(p2,e2);m1=Math.min(m1,e1/p1-1);m2=Math.min(m2,e2/p2-1);c1.push(e1);c2.push(e2);r1.push(x1-cr);r2.push(x2-cr)}
+  const yrs=(Date.parse(D[D.length-1].d)-Date.parse(D[0].d))/(365.25*864e5),cg=e=>Math.pow(e,1/yrs)-1;
+  const sh=r=>{const m=r.reduce((a,b)=>a+b,0)/r.length,v=Math.sqrt(r.reduce((a,b)=>a+(b-m)**2,0)/(r.length-1));return v?m/v*Math.sqrt(252):0};
+  const vol=r=>{const m=r.reduce((a,b)=>a+b,0)/r.length;return Math.sqrt(r.reduce((a,b)=>a+(b-m)**2,0)/(r.length-1)*252)};
+  $('#sb-stats').innerHTML=`<span class="label">${fd(D[0].d)} to ${fd(D[D.length-1].d)} · backtest${!useB&&wb>0?' · no Bitcoin data this far back: its weight sits in cash':''}</span>
+   <table class="kt-tbl" style="margin-top:8px"><thead><tr><th></th><th class="n">Mix held as is</th><th class="n">With the regimes</th></tr></thead><tbody>
+   <tr><td>Per year</td><td class="n">${pc(cg(e1))}</td><td class="n">${pc(cg(e2))}</td></tr><tr><td>Worst drop</td><td class="n">${pc(m1,0)}</td><td class="n">${pc(m2,0)}</td></tr>
+   <tr><td>Volatility</td><td class="n">${(vol(r1)*100).toFixed(1)}%</td><td class="n">${(vol(r2)*100).toFixed(1)}%</td></tr><tr><td>Sharpe</td><td class="n">${sh(r1).toFixed(2)}</td><td class="n">${sh(r2).toFixed(2)}</td></tr>
+   <tr><td>Growth of $10,000</td><td class="n">${usd(10000*e1,0)}</td><td class="n">${usd(10000*e2,0)}</td></tr></tbody></table>`;
+  const cv=$('#sb-cv');const [cx,w,h]=canvas(cv);const L=56,R=10,T=10,B=24,lg=[...c1,...c2].map(Math.log),lo=Math.min(...lg),hi=Math.max(...lg),X=i=>L+i/(c1.length-1)*(w-L-R),Y=v=>T+(1-(Math.log(v)-lo)/((hi-lo)||1))*(h-T-B);
+  cx.strokeStyle=HAIR;[lo,(lo+hi)/2,hi].forEach(v=>{const y=Y(Math.exp(v));cx.beginPath();cx.moveTo(L,y);cx.lineTo(w-R,y);cx.stroke();cx.fillStyle=MUT;cx.fillText(usd(10000*Math.exp(v),0),2,y+4)});
+  [[c1,MUT,'Mix held as is'],[c2,SAGE,'With the regimes']].forEach(([C,col,l],j)=>{cx.strokeStyle=col;cx.lineWidth=1.5;cx.beginPath();C.forEach((v,i)=>{i?cx.lineTo(X(i),Y(v)):cx.moveTo(X(i),Y(v))});cx.stroke();cx.fillStyle=col;cx.fillText(l,L+8+j*130,T+12)});
+  cx.fillStyle=MUT;cx.fillText(fd(D[0].d),L,h-6);const e=fd(D[D.length-1].d);cx.fillText(e,w-R-cx.measureText(e).width,h-6)}
+['#sb-s','#sb-b','#sb-sym','#sb-from'].forEach(s=>$(s).addEventListener('input',()=>{if(HS&&HB)sbRun()}));
+
+// ---------------------------------------------------------------- load
+Promise.all([J('sim/sim.json').catch(()=>null),T('stocks/history.csv'),T('bitcoin/history.csv'),T('sim/tbill.csv').catch(()=>''),J('stocks/report.json'),J('bitcoin/report.json')]).then(([sim,hs,hb,tb,rs,rb])=>{
+  SIM=sim||{};HS=csv(hs);HB=csv(hb);RS=rs;RB=rb;if(tb)csv(tb).forEach(r=>TB[r.month]=+r.tb3ms);
+  if(sim)simUI();else $('#sim-ctl').innerHTML='<p class="note">The scenario data has not been generated yet.</p>';
+  rpSetup();sbRun();
+  let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{rpDraw();sbRun()},150)});
+}).catch(e=>{['#sim-ctl','#rp-read','#sb-today'].forEach(s=>{const el=$(s);if(el)el.innerHTML=`<p class="note">The data did not load (${e.message}). Reload the page to try again.</p>`})});
+})();
+</script>
+'''
 
 
 def main():
@@ -969,6 +1334,8 @@ def main():
             if fp: wr('flagship.html', fp)
         mp = make_shell_page(idx, 'methodology_body.html', METHOD_BODY)
         if mp: wr('methodology.html', mp)
+        tpg = make_shell_page(idx, 'tools_body.html', TOOLS_BODY)
+        if tpg: wr('tools.html', tpg)
         npg = make_shell_page(idx, 'notes_body.html', notes_body())
         if npg: wr('notes.html', npg)
     for f in PAGES:
