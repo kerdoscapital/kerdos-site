@@ -1,15 +1,15 @@
 {
- "asof": "2026-11-07",
- "generated": "2026-11-08 21:08 UTC",
- "price": 75754.0,
- "chg1": 0.0,
- "chg7": -2.2,
- "chg30": -7.3,
- "mtd": -3.2,
- "ytd": -13.4,
+ "asof": "2026-11-10",
+ "generated": "2026-11-11 21:10 UTC",
+ "price": 73709.0,
+ "chg1": -2.0,
+ "chg7": -4.7,
+ "chg30": -11.9,
+ "mtd": -5.8,
+ "ytd": -15.8,
  "regime": "Neutral",
  "regime_since": "2026-10-16",
- "regime_days": 23,
+ "regime_days": 26,
  "prev_regime": "Bullish",
  "signal": "Neutral",
  "exposure": 0.5,
@@ -24,26 +24,26 @@
   "deep_dd": -0.5,
   "deep_release": "signal turns Bullish (v4 latch)",
   "bottom_macro": -0.2,
-  "dd": -39.3,
+  "dd": -41.0,
   "deep": false,
-  "macro": -0.399,
+  "macro": -0.437,
   "above_20w": true,
-  "m20w": 72997.0
+  "m20w": 73570.0
  },
  "v3": {
   "floor": {
    "active": false,
-   "m200w": 67459.0,
+   "m200w": 67747.0,
    "below_200w": false,
-   "ratio": 1.12,
+   "ratio": 1.09,
    "stop": 0.25
   },
   "pi": {
    "active": false,
    "days": 120,
-   "m111": 75949.0,
-   "m350x2": 151519.0,
-   "gap": -49.9,
+   "m111": 76181.0,
+   "m350x2": 151296.0,
+   "gap": -49.6,
    "last_cross": "2021-04-12"
   }
  },
@@ -248,34 +248,34 @@
   },
   {
    "year": 2026,
-   "strategy": -2.7,
-   "buyhold": -13.4,
-   "old": -17.5
+   "strategy": -4.0,
+   "buyhold": -15.8,
+   "old": -18.6
   }
  ],
  "start_years": [
   {
    "start": "2015",
-   "cagr": 94.5,
-   "bh": 58.5,
+   "cagr": 94.1,
+   "bh": 58.1,
    "maxdd": -50.0,
    "bh_dd": -84.0,
    "sharpe": 1.51,
-   "bh_sharpe": 1.0
+   "bh_sharpe": 0.99
   },
   {
    "start": "2018",
-   "cagr": 49.8,
-   "bh": 21.1,
+   "cagr": 49.5,
+   "bh": 20.7,
    "maxdd": -50.0,
    "bh_dd": -81.0,
-   "sharpe": 1.06,
+   "sharpe": 1.05,
    "bh_sharpe": 0.58
   },
   {
    "start": "2021",
-   "cagr": 39.4,
-   "bh": 17.8,
+   "cagr": 39.0,
+   "bh": 17.2,
    "maxdd": -36.0,
    "bh_dd": -77.0,
    "sharpe": 0.93,
@@ -283,29 +283,29 @@
   },
   {
    "start": "2023",
-   "cagr": 43.9,
-   "bh": 48.4,
+   "cagr": 43.3,
+   "bh": 47.3,
    "maxdd": -36.0,
    "bh_dd": -53.0,
-   "sharpe": 1.02,
-   "bh_sharpe": 0.99
+   "sharpe": 1.01,
+   "bh_sharpe": 0.97
   }
  ],
- "score": 0.034,
- "score_raw": 0.006,
- "score_5d_ago": 0.059,
- "score_30d_ago": 0.221,
- "score_pctile": 38,
+ "score": -0.03,
+ "score_raw": -0.095,
+ "score_5d_ago": 0.071,
+ "score_30d_ago": 0.215,
+ "score_pctile": 35,
  "thresholds": {
   "bull": 0.2,
   "bear": -0.15
  },
- "need_bull": 0.166,
- "need_bear": -0.184,
+ "need_bull": 0.23,
+ "need_bear": -0.12,
  "groups": {
-  "trend": 0.319,
-  "momentum": -0.157,
-  "macro": -0.399,
+  "trend": 0.092,
+  "momentum": -0.294,
+  "macro": -0.437,
   "valuation": 0.275,
   "cycle": 0.119
  },
@@ -322,36 +322,36 @@
    "group": "trend",
    "label": "Price vs 200-day MA",
    "weight": 0.09,
-   "signal": 0.34,
-   "reading": "+3.5% vs $73,191",
-   "contribution": 0.03
+   "signal": 0.08,
+   "reading": "+0.8% vs $73,139",
+   "contribution": 0.007
   },
   {
    "key": "f_vs20w",
    "group": "trend",
    "label": "Price vs 20-week MA",
    "weight": 0.06,
-   "signal": 0.36,
-   "reading": "+3.8% vs $72,997",
-   "contribution": 0.022
+   "signal": 0.02,
+   "reading": "+0.2% vs $73,570",
+   "contribution": 0.001
   },
   {
    "key": "f_vs50w",
    "group": "trend",
    "label": "Price vs 50-week MA",
    "weight": 0.075,
-   "signal": -0.0,
-   "reading": "0.0% vs $75,759",
-   "contribution": -0.0
+   "signal": -0.25,
+   "reading": "\u22122.6% vs $75,648",
+   "contribution": -0.019
   },
   {
    "key": "f_slope200",
    "group": "trend",
    "label": "200-day MA slope",
    "weight": 0.045,
-   "signal": 0.31,
-   "reading": "+0.96% over 20 days",
-   "contribution": 0.014
+   "signal": 0.18,
+   "reading": "+0.55% over 20 days",
+   "contribution": 0.008
   },
   {
    "key": "f_cross",
@@ -367,36 +367,36 @@
    "group": "momentum",
    "label": "30-day return",
    "weight": 0.0525,
-   "signal": -0.45,
-   "reading": "\u22127.3%",
-   "contribution": -0.024
+   "signal": -0.66,
+   "reading": "\u221211.9%",
+   "contribution": -0.035
   },
   {
    "key": "f_mom90",
    "group": "momentum",
    "label": "90-day return",
    "weight": 0.0525,
-   "signal": 0.51,
-   "reading": "+16.8%",
-   "contribution": 0.027
+   "signal": 0.49,
+   "reading": "+16.2%",
+   "contribution": 0.026
   },
   {
    "key": "f_rsi",
    "group": "momentum",
    "label": "RSI (14-day)",
    "weight": 0.045,
-   "signal": -0.59,
-   "reading": "RSI 38.2",
-   "contribution": -0.027
+   "signal": -0.78,
+   "reading": "RSI 34.3",
+   "contribution": -0.035
   },
   {
    "key": "f_dollar",
    "group": "macro",
    "label": "US dollar trend (inverted)",
    "weight": 0.084,
-   "signal": -0.85,
-   "reading": "UUP +3.7% in 3 months",
-   "contribution": -0.071
+   "signal": -0.88,
+   "reading": "UUP +4.1% in 3 months",
+   "contribution": -0.074
   },
   {
    "key": "f_credit",
@@ -404,7 +404,7 @@
    "label": "High-yield credit trend",
    "weight": 0.072,
    "signal": -0.67,
-   "reading": "HYG \u22122.4% in 3 months",
+   "reading": "HYG \u22122.5% in 3 months",
    "contribution": -0.048
   },
   {
@@ -412,9 +412,9 @@
    "group": "macro",
    "label": "Long Treasury trend",
    "weight": 0.042,
-   "signal": -0.06,
-   "reading": "TLT \u22120.4% in 3 months",
-   "contribution": -0.002
+   "signal": -0.26,
+   "reading": "TLT \u22121.6% in 3 months",
+   "contribution": -0.011
   },
   {
    "key": "f_liq",
@@ -440,7 +440,7 @@
    "label": "VIX panic (contrarian)",
    "weight": 0.03,
    "signal": 0.0,
-   "reading": "VIX 25.6",
+   "reading": "VIX 19.5",
    "contribution": 0.0
   },
   {
@@ -449,7 +449,7 @@
    "label": "Price vs 200-week MA",
    "weight": 0.0825,
    "signal": 0.5,
-   "reading": "1.12x the 200-week MA (67,459)",
+   "reading": "1.09x the 200-week MA (67,747)",
    "contribution": 0.041
   },
   {
@@ -458,7 +458,7 @@
    "label": "Mayer multiple extremes",
    "weight": 0.0675,
    "signal": 0.0,
-   "reading": "Mayer multiple 1.04",
+   "reading": "Mayer multiple 1.01",
    "contribution": 0.0
   },
   {
@@ -467,7 +467,7 @@
    "label": "4-year cycle phase",
    "weight": 0.065,
    "signal": -0.25,
-   "reading": "397 days since ATH, 39.3% below it",
+   "reading": "400 days since ATH, 41.0% below it",
    "contribution": -0.016
   },
   {
@@ -481,13 +481,13 @@
   }
  ],
  "analog": {
-  "n": 400,
-  "med30": 4.0,
-  "pos30": 56.0,
-  "q10_30": -20.9,
-  "q90_30": 30.5,
-  "med90": 12.3,
-  "pos90": 61.0
+  "n": 465,
+  "med30": 5.2,
+  "pos30": 64.0,
+  "q10_30": -20.3,
+  "q90_30": 33.9,
+  "med90": 22.3,
+  "pos90": 66.0
  },
  "by_regime": {
   "Bearish": {
@@ -499,7 +499,7 @@
   },
   "Bullish": {
    "days": 2237,
-   "med30": 5.4,
+   "med30": 5.3,
    "pos30": 62.0,
    "med90": 19.8,
    "pos90": 71.0
@@ -512,7 +512,7 @@
    "pos90": 63.0
   },
   "Neutral": {
-   "days": 811,
+   "days": 814,
    "med30": 1.3,
    "pos30": 53.0,
    "med90": 9.4,
@@ -531,26 +531,26 @@
   "ath_date": "2025-10-06",
   "cycle_low": 58563.0,
   "cycle_low_date": "2026-06-30",
-  "m20": 79331.0,
-  "m50": 81875.0,
-  "m100": 77175.0,
-  "m200": 73191.0,
-  "m365": 76577.0,
-  "m20w": 72997.0,
-  "m50w": 75759.0,
-  "m200w": 67459.0
+  "m20": 78073.0,
+  "m50": 81368.0,
+  "m100": 77520.0,
+  "m200": 73139.0,
+  "m365": 76332.0,
+  "m20w": 73570.0,
+  "m50w": 75648.0,
+  "m200w": 67747.0
  },
- "vol30": 36.1,
+ "vol30": 36.3,
  "move7": 5.0,
  "move30": 10.4,
  "cycle": {
-  "days_since_ath": 397,
-  "dd": -39.3,
-  "days_since_low": 130,
-  "rally_from_low": 29.4,
-  "days_since_halving": 932,
+  "days_since_ath": 400,
+  "dd": -41.0,
+  "days_since_low": 133,
+  "rally_from_low": 25.9,
+  "days_since_halving": 935,
   "next_halving": "2028-04-15",
-  "days_to_halving": 525,
+  "days_to_halving": 522,
   "cycle_year": 2
  },
  "season": {
@@ -603,66 +603,66 @@
  },
  "corr": {
   "ndx": {
-   "w13": 0.04,
-   "w52": 0.38
+   "w13": -0.03,
+   "w52": 0.37
   },
   "spx": {
-   "w13": -0.1,
-   "w52": 0.34
+   "w13": -0.17,
+   "w52": 0.32
   },
   "gld": {
    "w13": 0.56,
    "w52": 0.21
   },
   "uup": {
-   "w13": -0.34,
+   "w13": -0.33,
    "w52": -0.17
   },
   "tlt": {
-   "w13": -0.12,
-   "w52": -0.11
+   "w13": -0.07,
+   "w52": -0.1
   },
   "hyg": {
-   "w13": -0.11,
+   "w13": -0.12,
    "w52": 0.17
   }
  },
  "macro": {
-  "uup": 29.13,
-  "hyg": 77.23,
-  "tlt": 81.92,
-  "vix": 25.6,
+  "uup": 29.15,
+  "hyg": 77.18,
+  "tlt": 80.88,
+  "vix": 19.5,
   "net_liq": 5.457,
   "gm2_usd": 105.2,
-  "spx": 7377.0,
-  "ndx": 26990.0,
-  "gld": 372.52,
+  "spx": 7521.0,
+  "ndx": 27741.0,
+  "gld": 369.36,
   "us10y": 4.99,
   "real10y": 2.64,
   "wti": 99.6,
-  "dxy": 101.91
+  "dxy": 102.15
  },
  "backtest": {
   "strategy": {
-   "cagr": 0.945,
+   "cagr": 0.941,
    "vol": 0.512,
-   "sharpe": 1.513,
+   "sharpe": 1.51,
    "maxdd": -0.498,
-   "multiple": 2664.14
+   "multiple": 2628.585
   },
   "old": {
-   "cagr": 0.704,
+   "cagr": 0.701,
    "vol": 0.507,
-   "sharpe": 1.262,
+   "sharpe": 1.26,
    "maxdd": -0.603,
-   "multiple": 555.135
+   "multiple": 547.726
   },
   "buyhold": {
-   "cagr": 0.585,
+   "cagr": 0.581,
    "vol": 0.662,
-   "sharpe": 0.998,
+   "sharpe": 0.994,
    "maxdd": -0.838,
-   "multiple": 236.246
+   "multiple": 229.866
   },
   "exposure": 0.702,
   "old_exposure": 0.637,
@@ -671,36 +671,36 @@
   "cash": "3-month T-bill"
  },
  "data_freshness": {
-  "btc": "2026-11-07",
-  "uup": "2026-11-06",
-  "hyg": "2026-11-06",
-  "tlt": "2026-11-06",
-  "vix": "2026-11-06",
-  "spx": "2026-11-06",
+  "btc": "2026-11-10",
+  "uup": "2026-11-10",
+  "hyg": "2026-11-10",
+  "tlt": "2026-11-10",
+  "vix": "2026-11-10",
+  "spx": "2026-11-10",
   "net_liq": "2026-11-05",
   "us_m2": "2026-09-01",
-  "fx": "2026-10-30"
+  "fx": "2026-11-06"
  },
  "notes": [
   {
-   "text": "Bitcoin traded at $75,780 late on Nov 7, 2026, down 2.2% over seven days and 7.4% over 30 days, about $860 above the week's low of $74,921 set on Nov 6, while the Crypto Fear and Greed Index fell to 25, in what the index calls extreme fear.",
-   "source": "CryptoTicker",
-   "url": "https://cryptoticker.io/en/crypto-news-this-week-recap-key-dates-november-2026/"
+   "text": "Bitcoin traded at $73,804 as of 00:00 UTC on Nov 11, 2026, down 2.06% on the day, after briefly touching about $72,700 overnight and trading near $73,500 in the early morning; the report puts near-term support at $72,700-$73,000 and says a recovery needs a reclaim of $74,500-$75,000.",
+   "source": "KuCoin",
+   "url": "https://www.kucoin.com/news/articles/crypto-daily-market-report-november-11-2026"
   },
   {
-   "text": "US spot Bitcoin ETFs saw net outflows of about $1.28 billion over the five sessions from Nov 2 to Nov 6, 2026, the largest being $430.2 million on Nov 5; Nov 6 alone saw $411.9 million leave, led by BlackRock's IBIT at $403.0 million against a $42.8 million inflow to Fidelity's FBTC.",
-   "source": "TFTC",
-   "url": "https://www.tftc.io/bitcoin-etf-flows/november-2026"
+   "text": "US spot Bitcoin ETFs saw net outflows of $201 million on Nov 9, 2026, a third consecutive session of outflows, which together with recent leveraged liquidations points to limited buying support.",
+   "source": "KuCoin",
+   "url": "https://www.kucoin.com/news/articles/crypto-daily-market-report-november-11-2026"
   },
   {
-   "text": "The October employment report released Nov 6, 2026 showed US payrolls up 165,000 and unemployment at 4.1%, after which futures markets priced a 76.8% chance of a Federal Reserve rate hike on Dec 9, up from 66.9% a week earlier.",
-   "source": "CryptoTicker",
-   "url": "https://cryptoticker.io/en/crypto-news-this-week-recap-key-dates-november-2026/"
+   "text": "October CPI released Nov 10, 2026 rose 0.4% on the month against 0.3% expected, with core up 0.3% against 0.2% expected; the two-year Treasury yield rose about 18 basis points to 4.73% and the ten-year approached 5%, strengthening expectations of a further Federal Reserve rate hike.",
+   "source": "KuCoin",
+   "url": "https://www.kucoin.com/news/articles/crypto-daily-market-report-november-11-2026"
   },
   {
-   "text": "Next scheduled US macro releases: October CPI on Tue Nov 10, 2026 at 8:30 AM ET, October PPI on Fri Nov 13, advance retail sales on Tue Nov 17, FOMC minutes on Wed Nov 18 at 2:00 PM ET, and the Q3 GDP second estimate with October PCE inflation on Wed Nov 25.",
-   "source": "FedRateCalc",
-   "url": "https://fedratecalc.com/us-economic-calendar/november-2026/"
+   "text": "Scheduled US releases ahead: October PPI on Fri Nov 13, 2026 at 8:30 AM per the Bureau of Labor Statistics schedule, advance October retail sales on Tue Nov 17, FOMC minutes from the Oct 27-28 meeting on Wed Nov 18 at 2:00 PM ET, and the Q3 GDP second estimate with October PCE inflation on Wed Nov 25.",
+   "source": "Bureau of Labor Statistics",
+   "url": "https://www.bls.gov/schedule/news_release/ppi.htm"
   }
  ]
 }

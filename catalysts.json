@@ -1,11 +1,5 @@
 [
  {
-  "date": "2026-11-10",
-  "time": "08:30",
-  "event": "CPI inflation (October)",
-  "feeds": "Stocks desk input"
- },
- {
   "date": "2026-11-13",
   "time": "08:30",
   "event": "Producer prices (October)",
