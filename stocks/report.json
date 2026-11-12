@@ -1,23 +1,23 @@
 {
- "asof": "2026-11-10",
- "generated": "2026-11-11 21:09 UTC",
- "spy": 749.92,
- "qqq": 674.76,
+ "asof": "2026-11-11",
+ "generated": "2026-11-12 21:07 UTC",
+ "spy": 759.81,
+ "qqq": 690.38,
  "spy_chg": {
-  "d1": -0.4,
-  "d5": -0.6,
-  "d21": -3.6,
-  "ytd": 10.0
+  "d1": 1.3,
+  "d5": -0.9,
+  "d21": -2.3,
+  "ytd": 11.4
  },
  "qqq_chg": {
-  "d1": -0.7,
-  "d5": -1.5,
-  "d21": -9.6,
-  "ytd": 9.8
+  "d1": 2.3,
+  "d5": -0.2,
+  "d21": -7.2,
+  "ytd": 12.4
  },
  "regime": "Neutral",
  "regime_since": "2026-11-09",
- "regime_days": 2,
+ "regime_days": 3,
  "prev_regime": "Bullish",
  "signal": "Neutral",
  "exposure": 1.0,
@@ -37,13 +37,13 @@
   "Bearish": 0.0
  },
  "macro_gate": {
-  "value": -0.183,
+  "value": -0.195,
   "threshold": -0.25,
   "confirmed": false
  },
  "recovery": {
   "threshold": -0.2,
-  "dd": -3.7,
+  "dd": -2.5,
   "above_m50": false,
   "m50_rising": false,
   "active": false,
@@ -55,7 +55,7 @@
   "cpi_max": 0.04,
   "stop": 0.07,
   "low20": 733.0,
-  "off_low": 2.3,
+  "off_low": 3.7,
   "cpi": 3.7,
   "cpi_ok": true,
   "active": false,
@@ -172,21 +172,21 @@
    ]
   }
  ],
- "score": 0.032,
- "score_5d": 0.161,
- "score_21d": 0.289,
- "score_pctile": 26,
+ "score": 0.052,
+ "score_5d": 0.174,
+ "score_21d": 0.284,
+ "score_pctile": 27,
  "thresholds": {
   "bull": 0.15,
   "bear": -0.1,
   "gate": -0.25
  },
  "groups": {
-  "trend": 0.388,
-  "momentum": -0.128,
-  "internals": -0.39,
-  "macro": -0.183,
-  "volatility": 0.008,
+  "trend": 0.568,
+  "momentum": -0.041,
+  "internals": -0.359,
+  "macro": -0.195,
+  "volatility": -0.015,
   "calendar": 0.956
  },
  "group_weights": {
@@ -203,18 +203,18 @@
    "group": "trend",
    "label": "SPY vs 200-day MA",
    "weight": 0.105,
-   "signal": 0.57,
-   "reading": "+2.6% vs $730.99",
-   "contribution": 0.06
+   "signal": 0.75,
+   "reading": "+3.9% vs $731.31",
+   "contribution": 0.079
   },
   {
    "key": "f_vs50",
    "group": "trend",
    "label": "SPY vs 50-day MA",
    "weight": 0.06,
-   "signal": -0.66,
-   "reading": "\u22122.0% vs $765.00",
-   "contribution": -0.039
+   "signal": -0.26,
+   "reading": "\u22120.7% vs $764.96",
+   "contribution": -0.016
   },
   {
    "key": "f_slope",
@@ -222,7 +222,7 @@
    "label": "200-day MA slope",
    "weight": 0.045,
    "signal": 0.78,
-   "reading": "+1.05% over a month",
+   "reading": "+1.03% over a month",
    "contribution": 0.035
   },
   {
@@ -239,62 +239,62 @@
    "group": "trend",
    "label": "Distance from 52-week high",
    "weight": 0.06,
-   "signal": 0.51,
-   "reading": "\u22123.7% from the 52-week high",
-   "contribution": 0.031
+   "signal": 0.71,
+   "reading": "\u22122.5% from the 52-week high",
+   "contribution": 0.042
   },
   {
    "key": "f_mom63",
    "group": "momentum",
    "label": "3-month return",
    "weight": 0.05,
-   "signal": -0.45,
-   "reading": "\u22122.9%",
-   "contribution": -0.023
+   "signal": -0.37,
+   "reading": "\u22122.3%",
+   "contribution": -0.018
   },
   {
    "key": "f_mom126",
    "group": "momentum",
    "label": "6-month return",
    "weight": 0.05,
-   "signal": 0.2,
-   "reading": "+1.6%",
-   "contribution": 0.01
+   "signal": 0.29,
+   "reading": "+2.4%",
+   "contribution": 0.014
   },
   {
    "key": "f_semis",
    "group": "internals",
    "label": "Semiconductors vs S&P (SMH/SPY)",
    "weight": 0.05,
-   "signal": -0.99,
-   "reading": "SMH/SPY \u221214.8% in 3 months",
-   "contribution": -0.049
+   "signal": -0.96,
+   "reading": "SMH/SPY \u221211.9% in 3 months",
+   "contribution": -0.048
   },
   {
    "key": "f_breadth",
    "group": "internals",
    "label": "Equal-weight vs cap-weight (RSP/SPY)",
    "weight": 0.04,
-   "signal": 0.82,
-   "reading": "RSP/SPY +2.9% in 3 months",
-   "contribution": 0.033
+   "signal": 0.73,
+   "reading": "RSP/SPY +2.3% in 3 months",
+   "contribution": 0.029
   },
   {
    "key": "f_credit",
    "group": "internals",
    "label": "High-yield vs Treasuries (HYG/IEF)",
    "weight": 0.04,
-   "signal": -0.37,
-   "reading": "HYG/IEF \u22121.0% in 3 months",
-   "contribution": -0.015
+   "signal": -0.21,
+   "reading": "HYG/IEF \u22120.5% in 3 months",
+   "contribution": -0.009
   },
   {
    "key": "f_cyclic",
    "group": "internals",
    "label": "Discretionary vs staples (XLY/XLP)",
    "weight": 0.03,
-   "signal": -0.67,
-   "reading": "XLY/XLP \u22124.0% in 3 months",
+   "signal": -0.66,
+   "reading": "XLY/XLP \u22123.9% in 3 months",
    "contribution": -0.02
   },
   {
@@ -302,9 +302,9 @@
    "group": "internals",
    "label": "Emerging markets vs S&P (EEM/SPY)",
    "weight": 0.02,
-   "signal": -0.84,
-   "reading": "EEM/SPY \u22126.1% in 3 months",
-   "contribution": -0.017
+   "signal": -0.74,
+   "reading": "EEM/SPY \u22124.7% in 3 months",
+   "contribution": -0.015
   },
   {
    "key": "f_distr",
@@ -356,9 +356,9 @@
    "group": "macro",
    "label": "US dollar trend (UUP, inverted)",
    "weight": 0.0325,
-   "signal": -0.69,
-   "reading": "UUP +3.4% in 3 months",
-   "contribution": -0.022
+   "signal": -0.78,
+   "reading": "UUP +4.2% in 3 months",
+   "contribution": -0.025
   },
   {
    "key": "f_infl",
@@ -374,9 +374,9 @@
    "group": "volatility",
    "label": "Realized volatility (21-day)",
    "weight": 0.045,
-   "signal": -0.53,
-   "reading": "21.7% annualized",
-   "contribution": -0.024
+   "signal": -0.58,
+   "reading": "22.3% annualized",
+   "contribution": -0.026
   },
   {
    "key": "f_vix",
@@ -384,7 +384,7 @@
    "label": "VIX capitulation (contrarian)",
    "weight": 0.03,
    "signal": 0.0,
-   "reading": "VIX 19.5",
+   "reading": "VIX 17.5",
    "contribution": 0.0
   },
   {
@@ -416,13 +416,13 @@
   }
  ],
  "analog": {
-  "n": 606,
-  "med21": 2.5,
-  "med63": 5.7,
-  "pos63": 76.0,
-  "q10_63": -5.9,
-  "q90_63": 11.5,
-  "dd10": 25.0
+  "n": 602,
+  "med21": 2.7,
+  "med63": 5.6,
+  "pos63": 77.0,
+  "q10_63": -6.1,
+  "q90_63": 11.4,
+  "dd10": 24.0
  },
  "by_regime": {
   "Bearish": {
@@ -447,7 +447,7 @@
    "dd10": 15.0
   },
   "Neutral": {
-   "days": 887,
+   "days": 888,
    "med63": 5.3,
    "pos63": 76.0,
    "med126": 6.7,
@@ -464,19 +464,19 @@
  "levels": {
   "ath": 779.09,
   "ath_date": "2026-10-06",
-  "dd": -3.7,
-  "m20": 760.69,
-  "m50": 765.0,
-  "m100": 759.68,
-  "m200": 730.99,
-  "q_m50": 719.39,
-  "q_m200": 681.42,
-  "q_dd": -11.2
+  "dd": -2.5,
+  "m20": 760.2,
+  "m50": 764.96,
+  "m100": 759.84,
+  "m200": 731.31,
+  "q_m50": 719.04,
+  "q_m200": 681.71,
+  "q_dd": -9.1
  },
  "vol": {
-  "rv21": 21.7,
-  "vix": 19.5,
-  "move21": 5.6
+  "rv21": 22.3,
+  "vix": 17.5,
+  "move21": 5.0
  },
  "macro": {
   "tb3": 4.05,
@@ -494,81 +494,81 @@
  "cycle": {
   "pres_year": 2,
   "bull_start": "2022-10-12",
-  "bull_days": 1490,
-  "bull_gain": 110.3
+  "bull_days": 1491,
+  "bull_gain": 113.1
  },
  "backtest": {
   "SPY": {
    "strategy": {
-    "cagr": 0.139,
+    "cagr": 0.1396,
     "vol": 0.1374,
-    "sharpe": 0.8906,
+    "sharpe": 0.8943,
     "maxdd": -0.1941,
-    "multiple": 22.1797
+    "multiple": 22.4737
    },
    "enhanced": {
-    "cagr": 0.1526,
+    "cagr": 0.1532,
     "vol": 0.1562,
-    "sharpe": 0.8774,
+    "sharpe": 0.8807,
     "maxdd": -0.2211,
-    "multiple": 29.4242
+    "multiple": 29.8142
    },
    "old": {
-    "cagr": 0.0884,
+    "cagr": 0.0887,
     "vol": 0.1044,
-    "sharpe": 0.6987,
+    "sharpe": 0.7012,
     "maxdd": -0.1441,
-    "multiple": 7.5207
+    "multiple": 7.5711
    },
    "buyhold": {
-    "cagr": 0.1128,
+    "cagr": 0.1134,
     "vol": 0.1863,
-    "sharpe": 0.5741,
+    "sharpe": 0.5769,
     "maxdd": -0.5542,
-    "multiple": 12.7388
+    "multiple": 12.9076
    },
    "exposure": 0.876,
    "enh_exposure": 1.042,
    "old_exposure": 0.735,
    "trades": 90,
    "old_trades": 131,
-   "years": 23.81
+   "years": 23.813
   },
   "QQQ": {
    "strategy": {
-    "cagr": 0.1806,
+    "cagr": 0.1817,
     "vol": 0.1716,
-    "sharpe": 0.9532,
+    "sharpe": 0.9584,
     "maxdd": -0.2403,
-    "multiple": 52.1042
+    "multiple": 53.3119
    },
    "enhanced": {
-    "cagr": 0.1963,
-    "vol": 0.1984,
-    "sharpe": 0.9158,
+    "cagr": 0.1974,
+    "vol": 0.1985,
+    "sharpe": 0.9204,
     "maxdd": -0.2673,
-    "multiple": 71.3034
+    "multiple": 72.956
    },
    "old": {
-    "cagr": 0.1096,
+    "cagr": 0.1101,
     "vol": 0.139,
-    "sharpe": 0.6936,
+    "sharpe": 0.6969,
     "maxdd": -0.1893,
-    "multiple": 11.8936
+    "multiple": 12.0324
    },
    "buyhold": {
-    "cagr": 0.1578,
+    "cagr": 0.1588,
     "vol": 0.2159,
-    "sharpe": 0.7067,
+    "sharpe": 0.711,
     "maxdd": -0.5321,
-    "multiple": 32.7071
+    "multiple": 33.4651
    },
    "exposure": 0.876,
    "enh_exposure": 1.042,
    "old_exposure": 0.735,
    "trades": 90,
    "old_trades": 131,
-   "years": 23.81
+   "years": 23.813
   }
  },
  "yearly": {
@@ -736,10 +736,10 @@
    },
    {
     "year": 2026,
-    "strategy": 11.6,
-    "enhanced": 11.4,
-    "old": 7.6,
-    "buyhold": 11.6
+    "strategy": 13.1,
+    "enhanced": 12.9,
+    "old": 8.4,
+    "buyhold": 13.1
    }
   ],
   "QQQ": [
@@ -906,10 +906,10 @@
    },
    {
     "year": 2026,
-    "strategy": 10.5,
-    "enhanced": 9.3,
-    "old": 6.0,
-    "buyhold": 10.5
+    "strategy": 13.1,
+    "enhanced": 11.9,
+    "old": 7.3,
+    "buyhold": 13.1
    }
   ]
  },
@@ -917,77 +917,77 @@
   "SPY": [
    {
     "start": "2003",
-    "cagr": 13.9,
+    "cagr": 14.0,
     "bh": 11.3,
     "maxdd": -19.0,
     "bh_dd": -55.0,
     "sharpe": 0.89,
-    "bh_sharpe": 0.57
+    "bh_sharpe": 0.58
    },
    {
     "start": "2010",
-    "cagr": 13.7,
-    "bh": 13.9,
+    "cagr": 13.8,
+    "bh": 14.0,
     "maxdd": -19.0,
     "bh_dd": -34.0,
-    "sharpe": 0.89,
-    "bh_sharpe": 0.76
+    "sharpe": 0.9,
+    "bh_sharpe": 0.77
    },
    {
     "start": "2016",
-    "cagr": 16.6,
-    "bh": 14.6,
+    "cagr": 16.8,
+    "bh": 14.7,
     "maxdd": -19.0,
     "bh_dd": -34.0,
-    "sharpe": 1.0,
+    "sharpe": 1.01,
     "bh_sharpe": 0.73
    },
    {
     "start": "2020",
-    "cagr": 18.5,
-    "bh": 15.1,
+    "cagr": 18.7,
+    "bh": 15.3,
     "maxdd": -19.0,
     "bh_dd": -34.0,
-    "sharpe": 0.99,
-    "bh_sharpe": 0.66
+    "sharpe": 1.01,
+    "bh_sharpe": 0.67
    }
   ],
   "QQQ": [
    {
     "start": "2003",
-    "cagr": 18.1,
-    "bh": 15.8,
+    "cagr": 18.2,
+    "bh": 15.9,
     "maxdd": -24.0,
     "bh_dd": -53.0,
-    "sharpe": 0.95,
+    "sharpe": 0.96,
     "bh_sharpe": 0.71
    },
    {
     "start": "2010",
-    "cagr": 18.0,
-    "bh": 18.2,
+    "cagr": 18.2,
+    "bh": 18.3,
     "maxdd": -24.0,
     "bh_dd": -35.0,
-    "sharpe": 0.96,
+    "sharpe": 0.97,
     "bh_sharpe": 0.84
    },
    {
     "start": "2016",
-    "cagr": 21.5,
-    "bh": 18.7,
+    "cagr": 21.7,
+    "bh": 19.0,
     "maxdd": -24.0,
     "bh_dd": -35.0,
-    "sharpe": 1.03,
-    "bh_sharpe": 0.78
+    "sharpe": 1.04,
+    "bh_sharpe": 0.79
    },
    {
     "start": "2020",
-    "cagr": 23.5,
-    "bh": 19.2,
+    "cagr": 23.9,
+    "bh": 19.6,
     "maxdd": -24.0,
     "bh_dd": -35.0,
-    "sharpe": 1.01,
-    "bh_sharpe": 0.72
+    "sharpe": 1.03,
+    "bh_sharpe": 0.73
    }
   ]
  },
@@ -1001,35 +1001,35 @@
     "label": "VIX lifting off its low while SPY is near its high after a strong year",
     "seen": 8,
     "on": true,
-    "reading": "VIX 19.5 vs 3-month low 14.2 (+37%); last fired 2026-10-21"
+    "reading": "VIX 17.5 vs 3-month low 14.2 (+23%); last fired 2026-10-21"
    },
    {
     "key": "run",
     "label": "12-month gain of 12% or more",
     "seen": 10,
     "on": false,
-    "reading": "SPY +11.8% over 12 months"
+    "reading": "SPY +11.5% over 12 months"
    },
    {
     "key": "ext",
     "label": "SPY 6% or more above its 200-day average",
     "seen": 9,
     "on": false,
-    "reading": "+2.6% vs the 200-day"
+    "reading": "+3.9% vs the 200-day"
    },
    {
     "key": "b50",
     "label": "Close below the 50-day average in the last 10 sessions",
     "seen": 10,
     "on": true,
-    "reading": "8 of the last 10 closes below the 50-day"
+    "reading": "9 of the last 10 closes below the 50-day"
    },
    {
     "key": "b200",
     "label": "Close below the 200-day average",
     "seen": 9,
     "on": false,
-    "reading": "+2.6% vs the 200-day"
+    "reading": "+3.9% vs the 200-day"
    },
    {
     "key": "fed",
@@ -1050,7 +1050,7 @@
     "label": "Narrow leadership: equal-weight trailing by 2% or more over 3 months",
     "seen": 6,
     "on": false,
-    "reading": "RSP/SPY +2.9% in 3 months"
+    "reading": "RSP/SPY +2.3% in 3 months"
    },
    {
     "key": "curve",
@@ -1074,24 +1074,24 @@
      "label": "Under 60% of major risk assets above their 200-day average",
      "seen": 3,
      "on": true,
-     "reading": "44% of 9 assets above their 200-day"
+     "reading": "56% of 9 assets above their 200-day"
     },
     {
      "key": "partfall",
      "label": "That share has fallen 20 points or more in 3 months",
      "seen": 5,
      "on": true,
-     "reading": "\u221233 points in 3 months"
+     "reading": "\u221222 points in 3 months"
     },
     {
      "key": "credithy",
      "label": "Credit proxy (high yield vs Treasuries) in its worst quintile",
      "seen": 2,
-     "on": true,
-     "reading": "HYG/IEF \u22121.0% in 3 months (worst-quintile cut \u22120.9%)"
+     "on": false,
+     "reading": "HYG/IEF \u22120.5% in 3 months (worst-quintile cut \u22120.9%)"
     }
    ],
-   "on": 3,
+   "on": 2,
    "total": 3,
    "episodes": 7,
    "study": "the 7 SPY declines of 10%+ from a running high since Oct 2006",
@@ -1112,7 +1112,7 @@
    "warn": 33.0,
    "warn_days": 363,
    "alarm": 35.0,
-   "alarm_days": 508
+   "alarm_days": 509
   },
   "tested": {
    "spy": {
@@ -1156,11 +1156,11 @@
   "study": "S&P 500 declines of 10%+ since Oct 2006"
  },
  "freshness": {
-  "SPY": "2026-11-10",
-  "QQQ": "2026-11-10",
-  "SMH": "2026-11-10",
-  "HYG": "2026-11-10",
-  "VIX": "2026-11-10",
+  "SPY": "2026-11-11",
+  "QQQ": "2026-11-11",
+  "SMH": "2026-11-11",
+  "HYG": "2026-11-11",
+  "VIX": "2026-11-11",
   "TB3MS": "2026-10",
   "GS10": "2026-10",
   "BAA": "2026-10",
@@ -1170,29 +1170,29 @@
  },
  "notes": [
   {
-   "text": "US stocks rallied on Wednesday, Nov 11, 2026, with the S&P 500 up about 1.5% at midday and the Nasdaq 100 up 2.8%, after CoreWeave reported third-quarter revenue up 168% to $3.7 billion and raised full-year guidance to $13.0-13.3 billion, above the $12.86 billion analysts expected; its shares rose about 21% and Nvidia gained 3.15% in early trading after a two-day slide that erased more than $430 billion of market value.",
-   "source": "TheStreet",
-   "url": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-nov-11-2026"
-  },
-  {
-   "text": "No scheduled federal economic release landed on Nov 11, 2026 (Veterans Day, with the bond market closed); the private CNBC/NRF Retail Monitor put October total retail sales at $561.7 billion, up 0.2% on the month and 3.6% on the year, the smallest monthly gain since November 2025, with no published consensus.",
-   "source": "TheStreet",
-   "url": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-nov-11-2026"
-  },
-  {
-   "text": "October CPI, released Nov 10, 2026, rose 0.4% on the month against 0.3% expected, with core up 0.3% against 0.2% expected; traders moved to price an 84% chance of a 25 basis point Federal Reserve hike in December and a 15% chance of 50 basis points, the 10-year Treasury yield rose to 4.93%, and the S&P 500 closed down 0.38% with the Nasdaq Composite down 0.74% and Nvidia down 5.47% at $168.89.",
+   "text": "Nvidia said on Nov 12, 2026 that Jensen Huang resigned as president, chief executive and director effective immediately, with CFO Colette Kress named interim CEO; the shares fell as much as 13-14% at the open and were down about 4.7% late in the session, and Nvidia still plans to report quarterly results on Nov 17.",
    "source": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/markets/live/stock-market-today-tuesday-november-10-dow-sp-500-nasdaq-inflation-data-cpi-090627830.html"
+   "url": "https://finance.yahoo.com/markets/live/stock-market-today-thursday-november-12-sp-500-nasdaq-dow-nvidia-slides-jensen-huang-resigns-invest-165632931.html"
   },
   {
-   "text": "The October employment report released Nov 6, 2026 put the US unemployment rate at 4.1%, down from 4.2% in September, according to the Federal Reserve Economic Data series UNRATE, which was updated Nov 6 and lists Dec 4, 2026 as the next release.",
-   "source": "FRED, Federal Reserve Bank of St. Louis",
-   "url": "https://fred.stlouisfed.org/series/UNRATE"
+   "text": "Initial jobless claims released Nov 12, 2026 came in at 200,000 for the week ended Nov 7, up 9,000 and above the 195,000 expected, with the four-week average unchanged at 195,250 and continuing claims near 1.7 million.",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/markets/live/stock-market-today-thursday-november-12-sp-500-nasdaq-dow-nvidia-slides-jensen-huang-resigns-invest-165632931.html"
   },
   {
-   "text": "Scheduled US releases ahead: October PPI on Fri Nov 13, 2026 at 8:30 AM per the Bureau of Labor Statistics schedule, advance October retail sales on Tue Nov 17, FOMC minutes from the Oct 27-28 meeting on Wed Nov 18 at 2:00 PM ET, and the Q3 GDP second estimate with October PCE inflation on Wed Nov 25.",
-   "source": "Bureau of Labor Statistics",
-   "url": "https://www.bls.gov/schedule/news_release/ppi.htm"
+   "text": "The 10-year Treasury yield rose about 12 basis points above 5% to 5.12% on Nov 12, 2026 and the 30-year rose 9 basis points to 5.44%, after comments that there were no plans for an immediate end to the Iran war and following Tuesday's hotter-than-expected October CPI report.",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/markets/live/stock-market-today-thursday-november-12-sp-500-nasdaq-dow-nvidia-slides-jensen-huang-resigns-invest-165632931.html"
+  },
+  {
+   "text": "Existing-home sales for October, reported Nov 12, 2026, fell 5.5% from September to a 3.75 million annual pace and were down 8.8% from a year earlier, with the median price at $416,700.",
+   "source": "StockTitan",
+   "url": "https://www.stocktitan.net/articles/stock-market-today-live-november-12-2026"
+  },
+  {
+   "text": "Scheduled US releases ahead: October PPI on Fri Nov 13, 2026 at 8:30 AM ET, advance October retail sales on Tue Nov 17 at 8:30 AM, FOMC minutes from the Oct 27-28 meeting on Wed Nov 18 at 2:00 PM, and the Q3 GDP second estimate with October PCE inflation on Wed Nov 25 at 8:30 AM.",
+   "source": "US economic calendar",
+   "url": "https://fedratecalc.com/us-economic-calendar/november-2026/"
   }
  ]
 }
