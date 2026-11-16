@@ -64,5 +64,11 @@
   "time": "08:30",
   "event": "Retail sales (November)",
   "feeds": "Market event"
+ },
+ {
+  "date": "2026-12-30",
+  "time": "14:00",
+  "event": "Fed meeting minutes",
+  "feeds": "Market event"
  }
 ]
