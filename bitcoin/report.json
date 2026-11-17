@@ -1,15 +1,15 @@
 {
- "asof": "2026-11-14",
- "generated": "2026-11-16 04:21 UTC",
- "price": 64124.0,
- "chg1": -6.0,
- "chg7": -15.4,
- "chg30": -21.9,
- "mtd": -18.0,
- "ytd": -26.7,
+ "asof": "2026-11-15",
+ "generated": "2026-11-17 04:26 UTC",
+ "price": 65315.0,
+ "chg1": 1.9,
+ "chg7": -12.6,
+ "chg30": -19.9,
+ "mtd": -16.5,
+ "ytd": -25.4,
  "regime": "Neutral",
  "regime_since": "2026-10-16",
- "regime_days": 30,
+ "regime_days": 31,
  "prev_regime": "Bullish",
  "signal": "Neutral",
  "exposure": 0.5,
@@ -24,26 +24,26 @@
   "deep_dd": -0.5,
   "deep_release": "signal turns Bullish (v4 latch)",
   "bottom_macro": -0.2,
-  "dd": -48.6,
+  "dd": -47.7,
   "deep": false,
   "macro": -0.357,
   "above_20w": false,
-  "m20w": 73570.0
+  "m20w": 73861.0
  },
  "v3": {
   "floor": {
    "active": false,
-   "m200w": 67747.0,
+   "m200w": 67969.0,
    "below_200w": true,
-   "ratio": 0.95,
+   "ratio": 0.96,
    "stop": 0.25
   },
   "pi": {
    "active": false,
    "days": 120,
-   "m111": 76351.0,
-   "m350x2": 150804.0,
-   "gap": -49.4,
+   "m111": 76366.0,
+   "m350x2": 150660.0,
+   "gap": -49.3,
    "last_cross": "2021-04-12"
   }
  },
@@ -248,16 +248,16 @@
   },
   {
    "year": 2026,
-   "strategy": -10.4,
-   "buyhold": -26.7,
-   "old": -24.0
+   "strategy": -9.6,
+   "buyhold": -25.4,
+   "old": -23.3
   }
  ],
  "start_years": [
   {
    "start": "2015",
-   "cagr": 92.9,
-   "bh": 56.2,
+   "cagr": 93.0,
+   "bh": 56.4,
    "maxdd": -50.0,
    "bh_dd": -84.0,
    "sharpe": 1.5,
@@ -265,8 +265,8 @@
   },
   {
    "start": "2018",
-   "cagr": 48.3,
-   "bh": 18.8,
+   "cagr": 48.4,
+   "bh": 19.0,
    "maxdd": -50.0,
    "bh_dd": -81.0,
    "sharpe": 1.04,
@@ -274,37 +274,37 @@
   },
   {
    "start": "2021",
-   "cagr": 37.3,
-   "bh": 14.4,
+   "cagr": 37.5,
+   "bh": 14.8,
    "maxdd": -36.0,
    "bh_dd": -77.0,
    "sharpe": 0.9,
-   "bh_sharpe": 0.46
+   "bh_sharpe": 0.47
   },
   {
    "start": "2023",
-   "cagr": 40.7,
-   "bh": 41.9,
+   "cagr": 41.0,
+   "bh": 42.6,
    "maxdd": -36.0,
    "bh_dd": -53.0,
-   "sharpe": 0.96,
-   "bh_sharpe": 0.89
+   "sharpe": 0.97,
+   "bh_sharpe": 0.9
   }
  ],
- "score": -0.177,
- "score_raw": -0.265,
- "score_5d_ago": 0.003,
- "score_30d_ago": 0.2,
- "score_pctile": 25,
+ "score": -0.204,
+ "score_raw": -0.257,
+ "score_5d_ago": -0.03,
+ "score_30d_ago": 0.197,
+ "score_pctile": 24,
  "thresholds": {
   "bull": 0.2,
   "bear": -0.15
  },
- "need_bull": 0.377,
- "need_bear": 0.027,
+ "need_bull": 0.404,
+ "need_bear": 0.054,
  "groups": {
-  "trend": -0.547,
-  "momentum": -0.59,
+  "trend": -0.519,
+  "momentum": -0.589,
   "macro": -0.357,
   "valuation": 0.55,
   "cycle": 0.119
@@ -322,36 +322,36 @@
    "group": "trend",
    "label": "Price vs 200-day MA",
    "weight": 0.09,
-   "signal": -0.84,
-   "reading": "\u221212.1% vs $72,979",
-   "contribution": -0.075
+   "signal": -0.78,
+   "reading": "\u221210.4% vs $72,927",
+   "contribution": -0.07
   },
   {
    "key": "f_vs20w",
    "group": "trend",
    "label": "Price vs 20-week MA",
    "weight": 0.06,
-   "signal": -0.86,
-   "reading": "\u221212.8% vs $73,570",
-   "contribution": -0.051
+   "signal": -0.82,
+   "reading": "\u221211.6% vs $73,861",
+   "contribution": -0.049
   },
   {
    "key": "f_vs50w",
    "group": "trend",
    "label": "Price vs 50-week MA",
    "weight": 0.075,
-   "signal": -0.9,
-   "reading": "\u221215.0% vs $75,402",
-   "contribution": -0.068
+   "signal": -0.87,
+   "reading": "\u221213.3% vs $75,330",
+   "contribution": -0.065
   },
   {
    "key": "f_slope200",
    "group": "trend",
    "label": "200-day MA slope",
    "weight": 0.045,
-   "signal": 0.01,
-   "reading": "+0.04% over 20 days",
-   "contribution": 0.001
+   "signal": -0.03,
+   "reading": "\u22120.09% over 20 days",
+   "contribution": -0.001
   },
   {
    "key": "f_cross",
@@ -367,18 +367,18 @@
    "group": "momentum",
    "label": "30-day return",
    "weight": 0.0525,
-   "signal": -0.9,
-   "reading": "\u221221.9%",
-   "contribution": -0.047
+   "signal": -0.87,
+   "reading": "\u221219.9%",
+   "contribution": -0.046
   },
   {
    "key": "f_mom90",
    "group": "momentum",
    "label": "90-day return",
    "weight": 0.0525,
-   "signal": 0.07,
-   "reading": "+2.1%",
-   "contribution": 0.004
+   "signal": 0.04,
+   "reading": "+1.3%",
+   "contribution": 0.002
   },
   {
    "key": "f_rsi",
@@ -386,7 +386,7 @@
    "label": "RSI (14-day)",
    "weight": 0.045,
    "signal": -1.0,
-   "reading": "RSI 20.0",
+   "reading": "RSI 24.5",
    "contribution": -0.045
   },
   {
@@ -449,7 +449,7 @@
    "label": "Price vs 200-week MA",
    "weight": 0.0825,
    "signal": 1.0,
-   "reading": "0.95x the 200-week MA (67,747)",
+   "reading": "0.96x the 200-week MA (67,969)",
    "contribution": 0.083
   },
   {
@@ -458,7 +458,7 @@
    "label": "Mayer multiple extremes",
    "weight": 0.0675,
    "signal": 0.0,
-   "reading": "Mayer multiple 0.88",
+   "reading": "Mayer multiple 0.9",
    "contribution": 0.0
   },
   {
@@ -467,7 +467,7 @@
    "label": "4-year cycle phase",
    "weight": 0.065,
    "signal": -0.25,
-   "reading": "404 days since ATH, 48.6% below it",
+   "reading": "405 days since ATH, 47.7% below it",
    "contribution": -0.016
   },
   {
@@ -481,20 +481,20 @@
   }
  ],
  "analog": {
-  "n": 501,
-  "med30": 3.4,
-  "pos30": 61.0,
-  "q10_30": -19.3,
-  "q90_30": 32.3,
-  "med90": 21.9,
-  "pos90": 64.0
+  "n": 505,
+  "med30": 4.3,
+  "pos30": 62.0,
+  "q10_30": -18.5,
+  "q90_30": 32.1,
+  "med90": 19.1,
+  "pos90": 65.0
  },
  "by_regime": {
   "Bearish": {
    "days": 645,
    "med30": -2.4,
    "pos30": 41.0,
-   "med90": -13.7,
+   "med90": -13.6,
    "pos90": 25.0
   },
   "Bullish": {
@@ -512,8 +512,8 @@
    "pos90": 63.0
   },
   "Neutral": {
-   "days": 818,
-   "med30": 1.3,
+   "days": 819,
+   "med30": 1.2,
    "pos30": 53.0,
    "med90": 9.4,
    "pos90": 57.0
@@ -531,26 +531,26 @@
   "ath_date": "2025-10-06",
   "cycle_low": 58563.0,
   "cycle_low_date": "2026-06-30",
-  "m20": 75795.0,
-  "m50": 80140.0,
-  "m100": 77733.0,
-  "m200": 72979.0,
-  "m365": 75999.0,
-  "m20w": 73570.0,
-  "m50w": 75402.0,
-  "m200w": 67747.0
+  "m20": 75061.0,
+  "m50": 79758.0,
+  "m100": 77737.0,
+  "m200": 72927.0,
+  "m365": 75916.0,
+  "m20w": 73861.0,
+  "m50w": 75330.0,
+  "m200w": 67969.0
  },
- "vol30": 43.3,
- "move7": 6.0,
- "move30": 12.4,
+ "vol30": 44.3,
+ "move7": 6.1,
+ "move30": 12.7,
  "cycle": {
-  "days_since_ath": 404,
-  "dd": -48.6,
-  "days_since_low": 137,
-  "rally_from_low": 9.5,
-  "days_since_halving": 939,
+  "days_since_ath": 405,
+  "dd": -47.7,
+  "days_since_low": 138,
+  "rally_from_low": 11.5,
+  "days_since_halving": 940,
   "next_halving": "2028-04-15",
-  "days_to_halving": 518,
+  "days_to_halving": 517,
   "cycle_year": 2
  },
  "season": {
@@ -603,24 +603,24 @@
  },
  "corr": {
   "ndx": {
-   "w13": 0.02,
+   "w13": 0.03,
    "w52": 0.3
   },
   "spx": {
-   "w13": -0.2,
+   "w13": -0.21,
    "w52": 0.25
   },
   "gld": {
-   "w13": 0.23,
+   "w13": 0.26,
    "w52": 0.24
   },
   "uup": {
-   "w13": 0.03,
-   "w52": -0.17
+   "w13": -0.0,
+   "w52": -0.18
   },
   "tlt": {
-   "w13": 0.15,
-   "w52": -0.02
+   "w13": 0.17,
+   "w52": -0.01
   },
   "hyg": {
    "w13": -0.29,
@@ -644,34 +644,34 @@
  },
  "backtest": {
   "strategy": {
-   "cagr": 0.929,
+   "cagr": 0.93,
    "vol": 0.512,
-   "sharpe": 1.498,
+   "sharpe": 1.499,
    "maxdd": -0.498,
-   "multiple": 2454.475
+   "multiple": 2477.401
   },
   "old": {
-   "cagr": 0.691,
+   "cagr": 0.692,
    "vol": 0.507,
-   "sharpe": 1.247,
+   "sharpe": 1.249,
    "maxdd": -0.603,
-   "multiple": 511.447
+   "multiple": 516.224
   },
   "buyhold": {
-   "cagr": 0.562,
+   "cagr": 0.564,
    "vol": 0.662,
-   "sharpe": 0.976,
+   "sharpe": 0.978,
    "maxdd": -0.838,
-   "multiple": 199.976
+   "multiple": 203.689
   },
   "exposure": 0.702,
-  "old_exposure": 0.637,
+  "old_exposure": 0.636,
   "trades": 98,
   "old_trades": 71,
   "cash": "3-month T-bill"
  },
  "data_freshness": {
-  "btc": "2026-11-14",
+  "btc": "2026-11-15",
   "uup": "2026-11-13",
   "hyg": "2026-11-13",
   "tlt": "2026-11-13",
@@ -683,27 +683,27 @@
  },
  "notes": [
   {
-   "text": "Bitcoin fell through the weekend of Nov 14-15, 2026, dropping below $66,000 and then $65,000 on Saturday afternoon and reaching an overnight low of $61,946 on Coinbase between 2 and 3 a.m. CET on Sunday Nov 15 before climbing back above $65,000 within the hour.",
+   "text": "Bitcoin traded near $64,600 on Monday Nov 16, 2026, about $64,784 at 15:06 UTC on CoinGecko (up 0.4% over 24 hours) and $64,574 at 15:09 UTC on Yahoo Finance, down 1.13% from the $65,315 UTC-midnight level, after following the Nasdaq lower through the US morning.",
    "source": "CryptoTicker",
-   "url": "https://cryptoticker.io/en/bitcoin-price-overnight-low-weekly-close-november-15-2026/"
+   "url": "https://cryptoticker.io/en/crypto-news-nasdaq-drops-2-percent-nvidia-bitcoin-november-16-2026/"
   },
   {
-   "text": "At about $64,800 on Sunday morning Nov 15, 2026, Bitcoin was down roughly 3.4% over 24 hours on CoinGecko (daily high $67,442, daily low $62,081), and the week that opened at $74,757 was tracking a 13.4% loss; Ether fell 4.4% to about $1,815 and Solana fell 6%.",
-   "source": "CryptoTicker / CoinGecko",
-   "url": "https://cryptoticker.io/en/bitcoin-price-overnight-low-weekly-close-november-15-2026/"
+   "text": "The Crypto Fear and Greed Index read 10 on Monday Nov 16, 2026, unchanged from the previous day and deep in extreme-fear territory, while the Nasdaq Composite fell about 1.98% to 24,639 and the S&P 500 fell 1.24% to 7,468 as of 15:09 UTC.",
+   "source": "CryptoTicker / Yahoo Finance",
+   "url": "https://cryptoticker.io/en/crypto-news-nasdaq-drops-2-percent-nvidia-bitcoin-november-16-2026/"
   },
   {
-   "text": "The drop left a CME gap of roughly $3,400, just over 5%, between the Friday Nov 13, 2026 close of about $68,200 and the weekend lows.",
+   "text": "Bitcoin fell to about $62,000 over the weekend of Nov 14-15, 2026, and the daily-return correlation between Bitcoin and the Nasdaq Composite now runs 0.67 over 30 trading days and 0.50 over 90 trading days.",
    "source": "CryptoTicker",
-   "url": "https://cryptoticker.io/en/bitcoin-price-overnight-low-weekly-close-november-15-2026/"
+   "url": "https://cryptoticker.io/en/crypto-news-nasdaq-drops-2-percent-nvidia-bitcoin-november-16-2026/"
   },
   {
-   "text": "US spot Bitcoin ETFs recorded a $185 million net outflow on Friday Nov 13, 2026, a seventh consecutive day of outflows, with BlackRock's IBIT accounting for about $144 million; IBIT's own outflow streak has run 11 consecutive trading days.",
-   "source": "KuCoin News",
-   "url": "https://www.kucoin.com/news/flash/us-spot-bitcoin-etfs-see-235m-net-outflows-over-two-weeks-blackrock-s-ibit-faces-11-day-exit"
+   "text": "US spot Bitcoin ETFs recorded a $185.5 million net outflow on Friday Nov 13, 2026 (IBIT -$143.5M, FBTC -$41.9M), following a $284.0 million outflow on Nov 12; nine of the first ten November trading days saw net outflows, totalling about $2.3 billion for the month so far.",
+   "source": "TFTC",
+   "url": "https://www.tftc.io/bitcoin-etf-flows/november-2026"
   },
   {
-   "text": "The scheduled US macro events for the week of Nov 16-20, 2026 are the Empire State manufacturing index and remarks from Fed Chair Kevin Warsh on Monday Nov 16, October retail sales and industrial production on Tuesday Nov 17, the FOMC minutes on Wednesday Nov 18, and final University of Michigan consumer sentiment on Friday Nov 20.",
+   "text": "The remaining scheduled US macro events for the week of Nov 16-20, 2026 are October retail sales and October industrial production on Tuesday Nov 17, the FOMC meeting minutes at 19:00 UTC on Wednesday Nov 18, and final University of Michigan consumer sentiment for November on Friday Nov 20 (the preliminary reading was 51.0).",
    "source": "Thrive in Markets",
    "url": "https://thriveinmarkets.com/calendar/2026-11-16/"
   }
