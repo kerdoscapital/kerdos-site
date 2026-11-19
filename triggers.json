@@ -1,6 +1,6 @@
 {
  "hold_sessions": 5,
- "generated": "2026-11-18 22:19 UTC",
+ "generated": "2026-11-19 04:30 UTC",
  "stocks": {
   "asof": "2026-11-18",
   "price": 730.33,
@@ -13,20 +13,20 @@
     "exposure": 1.0
    }
   ],
-  "secs": 3.8
+  "secs": 4.1
  },
  "bitcoin": {
-  "asof": "2026-11-16",
-  "price": 64833,
+  "asof": "2026-11-17",
+  "price": 64881,
   "exposure": 0.5,
   "down": [
    {
     "price": 48622.0,
-    "move": -25.0,
+    "move": -25.1,
     "exposure": 0.0
    }
   ],
   "up": [],
-  "secs": 9.7
+  "secs": 13.5
  }
 }
