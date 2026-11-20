@@ -60,6 +60,18 @@
   "feeds": "Market event"
  },
  {
+  "date": "2026-12-23",
+  "time": "08:30",
+  "event": "PCE inflation (November)",
+  "feeds": "Market event"
+ },
+ {
+  "date": "2026-12-23",
+  "time": "08:30",
+  "event": "GDP, third estimate (Q3)",
+  "feeds": "Market event"
+ },
+ {
   "date": "2026-12-30",
   "time": "14:00",
   "event": "Fed meeting minutes",
