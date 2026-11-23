@@ -60,6 +60,12 @@
   "feeds": "Market event"
  },
  {
+  "date": "2026-12-17",
+  "time": "08:30",
+  "event": "Import and export prices (November)",
+  "feeds": "Market event"
+ },
+ {
   "date": "2026-12-23",
   "time": "08:30",
   "event": "PCE inflation (November)",
