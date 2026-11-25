@@ -1,15 +1,15 @@
 {
- "asof": "2026-11-22",
- "generated": "2026-11-24 04:21 UTC",
- "price": 61118.0,
- "chg1": 1.7,
- "chg7": -6.4,
- "chg30": -24.6,
- "mtd": -21.9,
- "ytd": -30.2,
+ "asof": "2026-11-23",
+ "generated": "2026-11-25 04:21 UTC",
+ "price": 61200.0,
+ "chg1": 0.1,
+ "chg7": -5.6,
+ "chg30": -24.2,
+ "mtd": -21.8,
+ "ytd": -30.1,
  "regime": "Correction",
  "regime_since": "2026-11-16",
- "regime_days": 7,
+ "regime_days": 8,
  "prev_regime": "Neutral",
  "signal": "Bearish",
  "exposure": 0.5,
@@ -26,7 +26,7 @@
   "bottom_macro": -0.2,
   "dd": -51.0,
   "deep": true,
-  "macro": -0.218,
+  "macro": -0.329,
   "above_20w": false,
   "m20w": 73738.0
  },
@@ -41,8 +41,8 @@
   "pi": {
    "active": false,
    "days": 120,
-   "m111": 76272.0,
-   "m350x2": 149530.0,
+   "m111": 76246.0,
+   "m350x2": 149361.0,
    "gap": -49.0,
    "last_cross": "2021-04-12"
   }
@@ -249,7 +249,7 @@
   {
    "year": 2026,
    "strategy": -12.4,
-   "buyhold": -30.2,
+   "buyhold": -30.1,
    "old": -23.6
   }
  ],
@@ -291,21 +291,21 @@
    "bh_sharpe": 0.86
   }
  ],
- "score": -0.291,
- "score_raw": -0.294,
- "score_5d_ago": -0.242,
- "score_30d_ago": 0.171,
- "score_pctile": 19,
+ "score": -0.303,
+ "score_raw": -0.328,
+ "score_5d_ago": -0.261,
+ "score_30d_ago": 0.16,
+ "score_pctile": 18,
  "thresholds": {
   "bull": 0.2,
   "bear": -0.15
  },
- "need_bull": 0.491,
- "need_bear": 0.141,
+ "need_bull": 0.503,
+ "need_bear": 0.153,
  "groups": {
-  "trend": -0.653,
-  "momentum": -0.848,
-  "macro": -0.218,
+  "trend": -0.657,
+  "momentum": -0.843,
+  "macro": -0.329,
   "valuation": 0.55,
   "cycle": 0.119
  },
@@ -323,7 +323,7 @@
    "label": "Price vs 200-day MA",
    "weight": 0.09,
    "signal": -0.91,
-   "reading": "\u221215.5% vs $72,330",
+   "reading": "\u221215.3% vs $72,236",
    "contribution": -0.082
   },
   {
@@ -332,7 +332,7 @@
    "label": "Price vs 20-week MA",
    "weight": 0.06,
    "signal": -0.94,
-   "reading": "\u221217.1% vs $73,738",
+   "reading": "\u221217.0% vs $73,738",
    "contribution": -0.056
   },
   {
@@ -341,7 +341,7 @@
    "label": "Price vs 50-week MA",
    "weight": 0.075,
    "signal": -0.95,
-   "reading": "\u221218.3% vs $74,765",
+   "reading": "\u221218.1% vs $74,681",
    "contribution": -0.071
   },
   {
@@ -349,9 +349,9 @@
    "group": "trend",
    "label": "200-day MA slope",
    "weight": 0.045,
-   "signal": -0.36,
-   "reading": "\u22121.13% over 20 days",
-   "contribution": -0.016
+   "signal": -0.4,
+   "reading": "\u22121.26% over 20 days",
+   "contribution": -0.018
   },
   {
    "key": "f_cross",
@@ -367,8 +367,8 @@
    "group": "momentum",
    "label": "30-day return",
    "weight": 0.0525,
-   "signal": -0.93,
-   "reading": "\u221224.6%",
+   "signal": -0.92,
+   "reading": "\u221224.2%",
    "contribution": -0.049
   },
   {
@@ -376,8 +376,8 @@
    "group": "momentum",
    "label": "90-day return",
    "weight": 0.0525,
-   "signal": -0.64,
-   "reading": "\u221222.6%",
+   "signal": -0.63,
+   "reading": "\u221222.1%",
    "contribution": -0.033
   },
   {
@@ -386,7 +386,7 @@
    "label": "RSI (14-day)",
    "weight": 0.045,
    "signal": -1.0,
-   "reading": "RSI 26.6",
+   "reading": "RSI 27.0",
    "contribution": -0.045
   },
   {
@@ -394,27 +394,27 @@
    "group": "macro",
    "label": "US dollar trend (inverted)",
    "weight": 0.084,
-   "signal": -0.89,
-   "reading": "UUP +4.3% in 3 months",
-   "contribution": -0.075
+   "signal": -0.91,
+   "reading": "UUP +4.6% in 3 months",
+   "contribution": -0.076
   },
   {
    "key": "f_credit",
    "group": "macro",
    "label": "High-yield credit trend",
    "weight": 0.072,
-   "signal": -0.73,
-   "reading": "HYG \u22122.8% in 3 months",
-   "contribution": -0.053
+   "signal": -0.72,
+   "reading": "HYG \u22122.7% in 3 months",
+   "contribution": -0.052
   },
   {
    "key": "f_rates",
    "group": "macro",
    "label": "Long Treasury trend",
    "weight": 0.042,
-   "signal": 0.04,
-   "reading": "TLT +0.2% in 3 months",
-   "contribution": 0.002
+   "signal": -0.02,
+   "reading": "TLT \u22120.1% in 3 months",
+   "contribution": -0.001
   },
   {
    "key": "f_liq",
@@ -439,9 +439,9 @@
    "group": "macro",
    "label": "VIX panic (contrarian)",
    "weight": 0.03,
-   "signal": 1.0,
-   "reading": "VIX 35.9",
-   "contribution": 0.03
+   "signal": 0.0,
+   "reading": "VIX 26.6",
+   "contribution": 0.0
   },
   {
    "key": "f_200w",
@@ -458,7 +458,7 @@
    "label": "Mayer multiple extremes",
    "weight": 0.0675,
    "signal": 0.0,
-   "reading": "Mayer multiple 0.84",
+   "reading": "Mayer multiple 0.85",
    "contribution": 0.0
   },
   {
@@ -467,7 +467,7 @@
    "label": "4-year cycle phase",
    "weight": 0.065,
    "signal": -0.25,
-   "reading": "412 days since ATH, 51.0% below it",
+   "reading": "413 days since ATH, 51.0% below it",
    "contribution": -0.016
   },
   {
@@ -481,13 +481,13 @@
   }
  ],
  "analog": {
-  "n": 537,
-  "med30": 1.6,
-  "pos30": 56.0,
-  "q10_30": -16.4,
-  "q90_30": 25.3,
-  "med90": 5.3,
-  "pos90": 56.0
+  "n": 561,
+  "med30": 1.2,
+  "pos30": 54.0,
+  "q10_30": -16.3,
+  "q90_30": 24.0,
+  "med90": 4.1,
+  "pos90": 55.0
  },
  "by_regime": {
   "Bearish": {
@@ -505,7 +505,7 @@
    "pos90": 71.0
   },
   "Correction": {
-   "days": 483,
+   "days": 484,
    "med30": 4.7,
    "pos30": 64.0,
    "med90": 16.6,
@@ -513,8 +513,8 @@
   },
   "Neutral": {
    "days": 819,
-   "med30": 1.0,
-   "pos30": 53.0,
+   "med30": 0.9,
+   "pos30": 52.0,
    "med90": 9.4,
    "pos90": 57.0
   },
@@ -522,7 +522,7 @@
    "days": 160,
    "med30": 6.9,
    "pos30": 64.0,
-   "med90": 16.5,
+   "med90": 16.3,
    "pos90": 59.0
   }
  },
@@ -531,26 +531,26 @@
   "ath_date": "2025-10-06",
   "cycle_low": 58563.0,
   "cycle_low_date": "2026-06-30",
-  "m20": 69323.0,
-  "m50": 76665.0,
-  "m100": 77613.0,
-  "m200": 72330.0,
-  "m365": 75389.0,
+  "m20": 68517.0,
+  "m50": 76159.0,
+  "m100": 77595.0,
+  "m200": 72236.0,
+  "m365": 75319.0,
   "m20w": 73738.0,
-  "m50w": 74765.0,
+  "m50w": 74681.0,
   "m200w": 68161.0
  },
- "vol30": 47.3,
- "move7": 6.5,
- "move30": 13.5,
+ "vol30": 47.4,
+ "move7": 6.6,
+ "move30": 13.6,
  "cycle": {
-  "days_since_ath": 412,
+  "days_since_ath": 413,
   "dd": -51.0,
-  "days_since_low": 145,
-  "rally_from_low": 4.4,
-  "days_since_halving": 947,
+  "days_since_low": 146,
+  "rally_from_low": 4.5,
+  "days_since_halving": 948,
   "next_halving": "2028-04-15",
-  "days_to_halving": 510,
+  "days_to_halving": 509,
   "cycle_year": 2
  },
  "season": {
@@ -603,44 +603,44 @@
  },
  "corr": {
   "ndx": {
-   "w13": 0.54,
-   "w52": 0.38
+   "w13": 0.59,
+   "w52": 0.4
   },
   "spx": {
-   "w13": 0.54,
-   "w52": 0.35
+   "w13": 0.6,
+   "w52": 0.37
   },
   "gld": {
-   "w13": 0.66,
-   "w52": 0.31
+   "w13": 0.69,
+   "w52": 0.32
   },
   "uup": {
-   "w13": -0.11,
-   "w52": -0.17
+   "w13": -0.02,
+   "w52": -0.16
   },
   "tlt": {
-   "w13": -0.18,
-   "w52": -0.12
+   "w13": -0.17,
+   "w52": -0.11
   },
   "hyg": {
-   "w13": 0.04,
-   "w52": 0.22
+   "w13": 0.08,
+   "w52": 0.23
   }
  },
  "macro": {
-  "uup": 29.62,
-  "hyg": 76.33,
-  "tlt": 81.45,
-  "vix": 35.9,
+  "uup": 29.78,
+  "hyg": 76.52,
+  "tlt": 81.69,
+  "vix": 26.6,
   "net_liq": 5.508,
   "gm2_usd": 105.2,
-  "spx": 6910.0,
-  "ndx": 25029.0,
-  "gld": 322.87,
+  "spx": 7237.0,
+  "ndx": 26746.0,
+  "gld": 333.02,
   "us10y": 4.99,
   "real10y": 2.64,
   "wti": 89.5,
-  "dxy": 103.36
+  "dxy": 103.75
  },
  "backtest": {
   "strategy": {
@@ -648,64 +648,64 @@
    "vol": 0.511,
    "sharpe": 1.492,
    "maxdd": -0.498,
-   "multiple": 2398.818
+   "multiple": 2400.556
   },
   "old": {
    "cagr": 0.69,
    "vol": 0.506,
    "sharpe": 1.247,
    "maxdd": -0.603,
-   "multiple": 514.434
+   "multiple": 514.491
   },
   "buyhold": {
    "cagr": 0.554,
    "vol": 0.662,
    "sharpe": 0.969,
    "maxdd": -0.838,
-   "multiple": 190.601
+   "multiple": 190.856
   },
-  "exposure": 0.702,
-  "old_exposure": 0.636,
+  "exposure": 0.701,
+  "old_exposure": 0.635,
   "trades": 98,
   "old_trades": 72,
   "cash": "3-month T-bill"
  },
  "data_freshness": {
-  "btc": "2026-11-22",
-  "uup": "2026-11-20",
-  "hyg": "2026-11-20",
-  "tlt": "2026-11-20",
-  "vix": "2026-11-20",
-  "spx": "2026-11-20",
+  "btc": "2026-11-23",
+  "uup": "2026-11-23",
+  "hyg": "2026-11-23",
+  "tlt": "2026-11-23",
+  "vix": "2026-11-23",
+  "spx": "2026-11-23",
   "net_liq": "2026-11-19",
   "us_m2": "2026-09-01",
-  "fx": "2026-11-13"
+  "fx": "2026-11-20"
  },
  "notes": [
   {
-   "text": "Bitcoin was roughly flat at about $61,200 on Monday Nov 23, 2026 while the Nasdaq Composite rose 6.51% and the S&P 500 rose 4.74%, leaving crypto out of Wall Street's rally; Ethereum was near $1,719 and Solana rose about 2.8% to $72.57.",
-   "source": "The Motley Fool",
-   "url": "https://www.fool.com/coverage/stock-market-today/2026/11/23/crypto-market-today-nov-23-bitcoin-sits-out-wall-street-s-historic-rally-as-usd1-8-billion-etf-exodus-weighs-on-prices/"
+   "text": "Bitcoin pulled back below $60,000 on Tuesday Nov 24, 2026, trading near $59,800 and down 5.8% over 24 hours, while Ether fell 6% and XRP and Solana each fell 10%, as the previous day's stock rally failed to carry crypto.",
+   "source": "CoinDesk",
+   "url": "https://www.coindesk.com/tech/2026/11/24/live-updates-bitcoin-pulls-back-to-usd60-000-as-stock-rally-fails-to-budge-crypto"
   },
   {
-   "text": "US spot Bitcoin ETFs recorded approximately $1.8 billion of net outflows in the week before Nov 23, 2026, and Bitcoin was down about 5.9% over the prior seven days.",
-   "source": "The Motley Fool",
-   "url": "https://www.fool.com/coverage/stock-market-today/2026/11/23/crypto-market-today-nov-23-bitcoin-sits-out-wall-street-s-historic-rally-as-usd1-8-billion-etf-exodus-weighs-on-prices/"
+   "text": "US spot Bitcoin ETFs recorded $569.74 million of net withdrawals on Nov 23, 2026 according to SoSoValue, a fifth consecutive session of outflows, with Fidelity's FBTC the lone gainer at $13.29 million.",
+   "source": "CoinGape",
+   "url": "https://coingape.com/markets/bitcoin-price-drops-to-60k-as-nvidia-rally-fades-and-etfs-shed-570m-whats-next/"
   },
   {
-   "text": "Bitcoin ETF share prices bounced on Monday Nov 23, 2026, with BlackRock's IBIT up 4.85% and Fidelity's FBTC up about 5.1%, after the prior week's decline took Bitcoin to a two-year low near $55,000.",
-   "source": "The Motley Fool",
-   "url": "https://www.fool.com/coverage/stock-market-today/2026/11/23/crypto-market-today-nov-23-bitcoin-sits-out-wall-street-s-historic-rally-as-usd1-8-billion-etf-exodus-weighs-on-prices/"
+   "text": "Strategy (MSTR) fell 7% to $78.50 on Nov 24, 2026, touching $77.89 intraday, its lowest level since early 2024.",
+   "source": "CoinDesk",
+   "url": "https://www.coindesk.com/tech/2026/11/24/live-updates-bitcoin-pulls-back-to-usd60-000-as-stock-rally-fails-to-budge-crypto"
   },
   {
-   "text": "October core PCE inflation and the second estimate of Q3 GDP are both due Wednesday Nov 25, 2026, with the Cleveland Fed nowcast projecting +0.3% month-over-month core and a y/y rate near 3.2%; initial jobless claims also move to Wednesday.",
-   "source": "Yardeni QuickTakes",
-   "url": "https://www.yardeniquicktakes.com/economic-week-ahead-november-23-27/"
+   "text": "Glassnode said on Nov 24, 2026 that a close below the June low of $58,500 suggests Bitcoin could fall toward its realized price of $53,200, while Swan Bitcoin put Bitcoin about 15% below its 200-day moving average just above $71,000.",
+   "source": "CoinDesk",
+   "url": "https://www.coindesk.com/tech/2026/11/24/live-updates-bitcoin-pulls-back-to-usd60-000-as-stock-rally-fails-to-budge-crypto"
   },
   {
-   "text": "US markets are closed Thursday Nov 26, 2026 for Thanksgiving and close early on Friday Nov 27, leaving S&P Global's flash November PMIs on Monday and the ADP weekly employment reading on Tuesday as the week's other US data.",
-   "source": "Yardeni QuickTakes",
-   "url": "https://www.yardeniquicktakes.com/economic-week-ahead-november-23-27/"
+   "text": "CoinGlass data cited on Nov 24, 2026 showed 134,080 traders liquidated over the prior 24 hours for $826.18 million, of which Bitcoin positions were nearly $349 million; Bitcoin's weekend low of $55,254 was its lowest in about two years.",
+   "source": "CoinGape",
+   "url": "https://coingape.com/markets/bitcoin-price-drops-to-60k-as-nvidia-rally-fades-and-etfs-shed-570m-whats-next/"
   }
  ]
 }
