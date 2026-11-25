@@ -88,5 +88,17 @@
   "time": "14:00",
   "event": "Fed meeting minutes",
   "feeds": "Market event"
+ },
+ {
+  "date": "2027-01-05",
+  "time": "10:00",
+  "event": "Job openings (November)",
+  "feeds": "Market event"
+ },
+ {
+  "date": "2027-01-08",
+  "time": "08:30",
+  "event": "Jobs report (December)",
+  "feeds": "Stocks desk input"
  }
 ]
