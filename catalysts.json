@@ -1,23 +1,5 @@
 [
  {
-  "date": "2026-11-25",
-  "time": "08:30",
-  "event": "GDP, second estimate (Q3)",
-  "feeds": "Market event"
- },
- {
-  "date": "2026-11-25",
-  "time": "08:30",
-  "event": "PCE inflation (October)",
-  "feeds": "Market event"
- },
- {
-  "date": "2026-11-25",
-  "time": "14:00",
-  "event": "Fed Beige Book",
-  "feeds": "Market event"
- },
- {
   "date": "2026-12-01",
   "time": "10:00",
   "event": "Job openings (October)",
